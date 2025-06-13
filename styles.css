@@ -1,0 +1,80 @@
+/* CSS đơn giản và hiệu quả để ẩn progress bar và thời lượng video */
+
+/* Ẩn progress bar khi extension bật */
+body.youtube-progress-hidden .ytp-progress-bar-container {
+  display: none !important;
+}
+
+body.youtube-progress-hidden .ytp-progress-bar {
+  display: none !important;
+}
+
+body.youtube-progress-hidden .ytp-scrubber-container {
+  display: none !important;
+}
+
+body.youtube-progress-hidden .ytp-hover-progress {
+  display: none !important;
+}
+
+body.youtube-progress-hidden .ytp-load-progress {
+  display: none !important;
+}
+
+body.youtube-progress-hidden .ytp-play-progress {
+  display: none !important;
+}
+
+/* Ẩn thời lượng video khi extension bật */
+body.youtube-duration-hidden .ytp-time-display {
+  display: none !important;
+}
+
+body.youtube-duration-hidden .ytp-time-current {
+  display: none !important;
+}
+
+body.youtube-duration-hidden .ytp-time-separator {
+  display: none !important;
+}
+
+body.youtube-duration-hidden .ytp-time-duration {
+  display: none !important;
+}
+
+/* Ẩn thời lượng trong thumbnail và info */
+body.youtube-duration-hidden .ytd-thumbnail-overlay-time-status-renderer {
+  display: none !important;
+}
+
+body.youtube-duration-hidden .badge-style-type-simple {
+  display: none !important;
+}
+
+body.youtube-duration-hidden .ytp-bound-time-left,
+body.youtube-duration-hidden .ytp-bound-time-right {
+  display: none !important;
+}
+
+/* Đảm bảo volume controls luôn hiển thị */
+.ytp-volume-panel {
+  display: block !important;
+  visibility: visible !important;
+}
+
+.ytp-mute-button {
+  display: block !important;
+  visibility: visible !important;
+}
+
+.ytp-volume-slider {
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Đảm bảo các controls khác hoạt động */
+.ytp-left-controls,
+.ytp-right-controls {
+  display: flex !important;
+  visibility: visible !important;
+}

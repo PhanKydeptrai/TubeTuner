@@ -1,0 +1,46 @@
+# Chrome Extension .gitignore
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Log files
+*.log
+
+# Node modules (if any)
+node_modules/
+npm-debug.log*
+
+# Development files
+test-*.js
+*-test.js
+*.backup
+*.bak
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Chrome extension packaging
+*.crx
+*.pem
+package/
+dist/
+
+# Temporary development files
+temp/
+tmp/
+dev/
