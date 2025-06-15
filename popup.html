@@ -27,6 +27,29 @@
             margin: 5px 0 0 0;
         }
         
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        
+        .lang-option {
+            display: inline-block;
+            padding: 3px 8px;
+            margin: 0 3px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            color: #666;
+            font-weight: bold;
+        }
+        
+        .lang-option.active {
+            background-color: #4285f4;
+            color: white;
+        }
+        
         .toggle-container {
             display: flex;
             align-items: center;
@@ -127,6 +150,10 @@
 <body>    <div class="header">
         <h1 class="title">YouTube Hider Extension</h1>
         <p class="subtitle">Ẩn thanh tiến trình & thời lượng</p>
+        <div class="language-selector">
+            <span class="lang-option" id="lang-vi">VI</span>
+            <span class="lang-option" id="lang-en">EN</span>
+        </div>
     </div><div class="toggle-container">
         <span class="toggle-label">Ẩn thanh tiến trình</span>
         <div class="toggle-switch" id="toggleSwitch">
@@ -147,18 +174,11 @@
             <div class="toggle-slider"></div>
         </div>
     </div>
-    
-    <div class="status enabled" id="status">
+      <div class="status enabled" id="status">
         Đang hoạt động
     </div>    <div class="info">
         Extension sẽ ẩn thanh tiến trình và/hoặc thời lượng video trên YouTube nhưng giữ nguyên các chức năng điều khiển khác như âm lượng, play/pause.
-        <br><br>
-        <!-- <strong>Tự động refresh:</strong> Tự động làm mới trang khi bật/tắt extension để áp dụng thay đổi ngay lập tức. -->
     </div>
-    
-    <!-- <div class="refresh-note">
-        * Extension hoạt động tốt nhất khi có auto-refresh
-    </div> -->
     
     <div class="important-note">
         <strong>Lưu ý quan trọng:</strong> Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.
