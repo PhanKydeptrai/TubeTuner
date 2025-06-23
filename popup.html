@@ -31,6 +31,8 @@
             display: flex;
             justify-content: center;
             margin-top: 8px;
+            position: relative;
+            z-index: 10;
         }
         
         .lang-option {
@@ -43,11 +45,27 @@
             background-color: #f1f1f1;
             color: #666;
             font-weight: bold;
+            position: relative;
+            z-index: 10;
+            pointer-events: auto !important;
+            user-select: none;
+            border: none;
+            outline: none;
+            box-shadow: none;
         }
         
         .lang-option.active {
             background-color: #4285f4;
             color: white;
+        }
+        
+        /* Thêm hover effect để giúp người dùng nhận biết phần tử có thể click */
+        .lang-option:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .lang-option.active:hover {
+            background-color: #3367d6;
         }
         
         .toggle-container {
@@ -140,19 +158,14 @@
             background-color: #ffebee;
             border-radius: 4px;
         }
-        
-        /* Tạm thời ẩn tính năng auto-refresh */
-        #autoRefreshContainer {
-            display: none;
-        }
     </style>
 </head>
 <body>    <div class="header">
         <h1 class="title">YouTube Hider Extension</h1>
         <p class="subtitle">Ẩn thanh tiến trình & thời lượng</p>
         <div class="language-selector">
-            <span class="lang-option" id="lang-vi">VI</span>
-            <span class="lang-option" id="lang-en">EN</span>
+            <button class="lang-option" id="lang-vi" onclick="changeLanguage('vi')">VI</button>
+            <button class="lang-option" id="lang-en" onclick="changeLanguage('en')">EN</button>
         </div>
     </div><div class="toggle-container">
         <span class="toggle-label">Ẩn thanh tiến trình</span>
@@ -164,13 +177,6 @@
     <div class="toggle-container">
         <span class="toggle-label">Ẩn thời lượng video</span>
         <div class="toggle-switch" id="durationSwitch">
-            <div class="toggle-slider"></div>
-        </div>
-    </div>
-    
-    <div class="toggle-container" id="autoRefreshContainer">
-        <span class="toggle-label">Tự động refresh</span>
-        <div class="toggle-switch" id="autoRefreshSwitch">
             <div class="toggle-slider"></div>
         </div>
     </div>

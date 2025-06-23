@@ -76,25 +76,15 @@
             toggleProgressBar(isProgressHidden);
             console.log('Progress bar toggled to:', isProgressHidden);
             
-            // Nếu có auto-refresh, không cần phản hồi ngay vì trang sẽ được refresh
-            if (request.autoRefresh) {
-                console.log('Auto-refresh is enabled, page will be refreshed');
-                sendResponse({ success: true, willRefresh: true });
-            } else {
-                sendResponse({ success: true, willRefresh: false });
-            }
+            // Luôn phản hồi thành công, không phụ thuộc vào auto-refresh
+            sendResponse({ success: true, willRefresh: false });
         } else if (request.action === 'toggleDuration') {
             isDurationHidden = request.enabled;
             toggleDuration(isDurationHidden);
             console.log('Duration toggled to:', isDurationHidden);
             
-            // Nếu có auto-refresh, không cần phản hồi ngay vì trang sẽ được refresh
-            if (request.autoRefresh) {
-                console.log('Auto-refresh is enabled, page will be refreshed');
-                sendResponse({ success: true, willRefresh: true });
-            } else {
-                sendResponse({ success: true, willRefresh: false });
-            }
+            // Luôn phản hồi thành công, không phụ thuộc vào auto-refresh
+            sendResponse({ success: true, willRefresh: false });
         } else if (request.action === 'getStatus') {
             sendResponse({ 
                 progressHidden: isProgressHidden,
