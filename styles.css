@@ -78,3 +78,115 @@ body.youtube-duration-hidden .ytp-bound-time-right {
   display: flex !important;
   visibility: visible !important;
 }
+
+/* Ẩn phần Shorts của YouTube khi extension bật */
+/* Ẩn mục Shorts trong thanh điều hướng bên trái */
+body.youtube-shorts-hidden ytd-guide-entry-renderer a[title="Shorts"],
+body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[title="Shorts"],
+body.youtube-shorts-hidden ytd-guide-entry-renderer a[href="/shorts"],
+body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[href="/shorts"] {
+  display: none !important;
+}
+
+/* Ẩn nút Shorts trên thanh điều hướng */
+body.youtube-shorts-hidden ytd-guide-section-renderer ytd-guide-entry-renderer a[href="/shorts"] {
+  display: none !important;
+}
+
+/* Ẩn các khu vực Shorts trong trang chủ */
+body.youtube-shorts-hidden ytd-rich-section-renderer ytd-rich-shelf-renderer[is-shorts] {
+  display: none !important;
+}
+
+body.youtube-shorts-hidden ytd-reel-shelf-renderer {
+  display: none !important;
+}
+
+/* Ẩn các video item chứa shorts */
+body.youtube-shorts-hidden ytd-rich-grid-media[is-short] {
+  display: none !important;
+}
+
+body.youtube-shorts-hidden ytd-thumbnail[is-short] {
+  display: none !important;
+}
+
+/* Ẩn các thẻ chứa shorts */
+body.youtube-shorts-hidden ytd-grid-video-renderer a[href*="/shorts/"] {
+  display: none !important;
+}
+
+body.youtube-shorts-hidden ytd-compact-video-renderer a[href*="/shorts/"] {
+  display: none !important;
+}
+
+body.youtube-shorts-hidden ytd-video-renderer a[href*="/shorts/"] {
+  display: none !important;
+}
+
+body.youtube-shorts-hidden ytd-rich-item-renderer a[href*="/shorts/"] {
+  display: none !important;
+}
+
+/* Ẩn khu vực "Shorts" trong trang chủ */
+body.youtube-shorts-hidden [is-shorts="true"] {
+  display: none !important;
+}
+
+/* Ẩn section chứa shorts */
+body.youtube-shorts-hidden ytd-rich-section-renderer:nth-child(2) {
+  display: none !important;
+}
+
+/* Ẩn tab Shorts trong kênh */
+body.youtube-shorts-hidden tp-yt-paper-tab[tab-id="shorts"] {
+  display: none !important;
+}
+
+/* Ẩn các shorts trong trang kênh */
+body.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer a[href*="/shorts/"] {
+  display: none !important;
+}
+
+/* Thêm CSS để ẩn các video shorts trong kết quả tìm kiếm */
+body.youtube-shorts-hidden ytd-video-renderer a[href*="/shorts/"] {
+  display: none !important;
+}
+
+/* Ẩn các shorts trong playlist */
+body.youtube-shorts-hidden ytd-playlist-panel-video-renderer a[href*="/shorts/"] {
+  display: none !important;
+}
+
+/* Ẩn các container chứa shorts - sử dụng JavaScript để xử lý thay vì :has() */
+body.youtube-shorts-hidden ytd-rich-section-renderer.ytd-shorts-section,
+body.youtube-shorts-hidden ytd-shelf-renderer.ytd-shorts-section {
+  display: none !important;
+}
+
+/* Ẩn các thành phần liên quan đến shorts */
+body.youtube-shorts-hidden ytd-shorts,
+body.youtube-shorts-hidden ytd-shorts-shelf-renderer,
+body.youtube-shorts-hidden ytd-reel-shelf-renderer,
+body.youtube-shorts-hidden ytd-shorts-compact-video-renderer,
+body.youtube-shorts-hidden ytd-shorts-video-renderer {
+  display: none !important;
+}
+
+/* Ẩn các container shorts trên trang chủ */
+body.youtube-shorts-hidden ytd-rich-shelf-renderer[is-shorts],
+body.youtube-shorts-hidden ytd-rich-shelf-renderer[is-shorts="true"] {
+  display: none !important;
+}
+
+/* Ẩn các shorts trong phần đề xuất */
+body.youtube-shorts-hidden ytd-compact-video-renderer[is-short],
+body.youtube-shorts-hidden ytd-compact-video-renderer[is-short="true"] {
+  display: none !important;
+}
+
+/* Ẩn các shorts trong trang kênh */
+body.youtube-shorts-hidden ytd-grid-video-renderer[is-short],
+body.youtube-shorts-hidden ytd-grid-video-renderer[is-short="true"] {
+  display: none !important;
+}
