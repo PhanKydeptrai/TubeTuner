@@ -6,15 +6,15 @@ Extension Chrome đơn giản để ẩn thanh tiến trình (progress bar), th�
 
 ## Tính năng
 
-✅ **Ẩn thanh tiến trình video** - Loại bỏ thanh progress bar khi xem video
-✅ **Ẩn thời lượng video** - Ẩn thông tin thời gian hiện tại/tổng thời lượng video
-✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube
-✅ **Giữ nguyên điều khiển âm lượng** - Vẫn có thể tăng/giảm âm lượng bình thường  
-✅ **Giữ nguyên các nút điều khiển** - Play/pause, fullscreen, settings, subtitles...
-✅ **Bật/tắt riêng biệt** - Toggle độc lập cho thanh tiến trình, thời lượng và Shorts
-✅ **Tự động refresh** - Tự động làm mới trang để áp dụng thay đổi ngay lập tức
-✅ **Tự động áp dụng** - Hoạt động với tất cả video YouTube
-✅ **Không ảnh hưởng hiệu suất** - Extension nhẹ và tối ưu
+✅ **Ẩn thanh tiến trình video** - Loại bỏ thanh progress bar khi xem video <br>
+✅ **Ẩn thời lượng video** - Ẩn thông tin thời gian hiện tại/tổng thời lượng video <br>
+✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube <br>
+✅ **Giữ nguyên điều khiển âm lượng** - Vẫn có thể tăng/giảm âm lượng bình thường <br>
+✅ **Giữ nguyên các nút điều khiển** - Play/pause, fullscreen, settings, subtitles... <br>
+✅ **Bật/tắt riêng biệt** - Toggle độc lập cho thanh tiến trình, thời lượng và Shorts <br>
+✅ **Tự động refresh** - Tự động làm mới trang để áp dụng thay đổi ngay lập tức <br>
+✅ **Tự động áp dụng** - Hoạt động với tất cả video YouTube <br>
+✅ **Không ảnh hưởng hiệu suất** - Extension nhẹ và tối ưu <br>
 
 ## 🌟 Tính năng mới: Ẩn Shorts 🌟
 
