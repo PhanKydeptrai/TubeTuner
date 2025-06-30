@@ -6,15 +6,15 @@ A simple Chrome extension to hide the progress bar, video duration, and/or Short
 
 ## Features
 
-✅ **Hide video progress bar** - Remove the progress bar when watching videos
-✅ **Hide video duration** - Hide current time/total duration information
-✅ **Hide Shorts** - Completely hide Shorts videos and Shorts section on YouTube
-✅ **Preserve volume controls** - Still able to adjust volume normally
-✅ **Preserve control buttons** - Play/pause, fullscreen, settings, subtitles...
-✅ **Independent toggles** - Separate toggles for progress bar, duration, and Shorts
-✅ **Auto refresh** - Automatically refresh the page to apply changes immediately
-✅ **Auto apply** - Works with all YouTube videos
-✅ **No performance impact** - Lightweight and optimized extension
+✅ **Hide video progress bar** - Remove the progress bar when watching videos <br>
+✅ **Hide video duration** - Hide current time/total duration information <br>
+✅ **Hide Shorts** - Completely hide Shorts videos and Shorts section on YouTube <br>
+✅ **Preserve volume controls** - Still able to adjust volume normally <br>
+✅ **Preserve control buttons** - Play/pause, fullscreen, settings, subtitles... <br>
+✅ **Independent toggles** - Separate toggles for progress bar, duration, and Shorts <br>
+✅ **Auto refresh** - Automatically refresh the page to apply changes immediately <br>
+✅ **Auto apply** - Works with all YouTube videos <br>
+✅ **No performance impact** - Lightweight and optimized extension <br>
 
 ## 🌟 New Feature: Hide Shorts 🌟
 
