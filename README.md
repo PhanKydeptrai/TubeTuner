@@ -1,17 +1,32 @@
 # YouTube Progress Bar & Duration Hider Extension
 
-Extension Chrome đơn giản để ẩn thanh tiến trình (progress bar) và/hoặc thời lượng video trên YouTube khi xem video, nhưng vẫn giữ nguyên tất cả các chức năng điều khiển khác.
+[English](README_EN.md) | Tiếng Việt
+
+Extension Chrome đơn giản để ẩn thanh tiến trình (progress bar), thời lượng video và/hoặc phần Shorts trên YouTube khi xem video, nhưng vẫn giữ nguyên tất cả các chức năng điều khiển khác.
 
 ## Tính năng
 
 ✅ **Ẩn thanh tiến trình video** - Loại bỏ thanh progress bar khi xem video
 ✅ **Ẩn thời lượng video** - Ẩn thông tin thời gian hiện tại/tổng thời lượng video
+✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube
 ✅ **Giữ nguyên điều khiển âm lượng** - Vẫn có thể tăng/giảm âm lượng bình thường  
 ✅ **Giữ nguyên các nút điều khiển** - Play/pause, fullscreen, settings, subtitles...
-✅ **Bật/tắt riêng biệt** - Toggle độc lập cho thanh tiến trình và thời lượng
+✅ **Bật/tắt riêng biệt** - Toggle độc lập cho thanh tiến trình, thời lượng và Shorts
 ✅ **Tự động refresh** - Tự động làm mới trang để áp dụng thay đổi ngay lập tức
 ✅ **Tự động áp dụng** - Hoạt động với tất cả video YouTube
 ✅ **Không ảnh hưởng hiệu suất** - Extension nhẹ và tối ưu
+
+## 🌟 Tính năng mới: Ẩn Shorts 🌟
+
+> **Mới!** Giờ đây bạn có thể ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube! 
+> 
+> Tính năng này giúp bạn:
+> - Loại bỏ phần Shorts khỏi trang chủ YouTube
+> - Ẩn nút Shorts trên thanh điều hướng
+> - Ẩn các video Shorts trong trang kênh và kết quả tìm kiếm
+> - Tập trung vào nội dung video thông thường
+>
+> Chỉ cần bật toggle "Ẩn Shorts" trong popup của extension!
 
 ## Cách cài đặt
 
@@ -34,14 +49,16 @@ Extension Chrome đơn giản để ẩn thanh tiến trình (progress bar) và/
 3. **Toggle switches** để bật/tắt các tính năng:
    - **Ẩn thanh tiến trình**: Ẩn/hiện progress bar
    - **Ẩn thời lượng video**: Ẩn/hiện thông tin thời gian
+   - **Ẩn Shorts** *(MỚI)*: Ẩn/hiện các video và mục Shorts
    - **Tự động refresh**: Tự động làm mới trang khi thay đổi
 4. Extension sẽ tự động áp dụng thay đổi (nếu bật auto-refresh)
 
 ## Trạng thái Extension
 
 - 🟢 **Đang ẩn: thanh tiến trình** - Chỉ thanh tiến trình bị ẩn
-- 🟢 **Đang ẩn: thời lượng** - Chỉ thời lượng video bị ẩn  
-- 🟢 **Đang ẩn: thanh tiến trình, thời lượng** - Cả hai đều bị ẩn
+- 🟢 **Đang ẩn: thời lượng** - Chỉ thời lượng video bị ẩn
+- 🟢 **Đang ẩn: shorts** - Chỉ phần Shorts bị ẩn *(Tính năng mới!)*
+- 🟢 **Đang ẩn: nhiều tính năng** - Kết hợp nhiều tính năng ẩn cùng lúc
 - 🟡 **Đã tắt tất cả** - Hiển thị bình thường
 
 ## Lưu ý
@@ -61,7 +78,7 @@ YoutubeDisableProgessBar/
 ├── content.js         # Script chạy trên trang YouTube  
 ├── popup.html         # Giao diện popup
 ├── popup.js           # Logic popup
-├── styles.css         # CSS để ẩn progress bar và thời lượng
+├── styles.css         # CSS để ẩn progress bar, thời lượng và shorts
 ├── icons/             # Thư mục chứa icons (đã có đầy đủ)
 │   ├── icon16.png     # Icon 16x16px
 │   ├── icon32.png     # Icon 32x32px  
@@ -79,7 +96,7 @@ YoutubeDisableProgessBar/
 - Reload extension trong trang chrome://extensions/
 - Làm mới trang YouTube
 
-**Thanh tiến trình hoặc thời lượng vẫn hiển thị:**
+**Thanh tiến trình, thời lượng hoặc Shorts vẫn hiển thị:**
 - Click icon extension và kiểm tra trạng thái các toggle
 - Đảm bảo đã bật tính năng tương ứng
 - Thử bật auto-refresh và toggle lại
@@ -88,6 +105,11 @@ YoutubeDisableProgessBar/
 **Auto-refresh không hoạt động:**
 - Kiểm tra quyền "tabs" trong manifest.json
 - Reload extension và thử lại
+
+**Shorts không bị ẩn hoàn toàn:**
+- YouTube thường xuyên cập nhật giao diện, nên một số phần tử Shorts mới có thể không bị ẩn
+- Làm mới trang và kiểm tra lại
+- Nếu vẫn còn Shorts, hãy báo cáo để cập nhật CSS
 
 ## Phát triển thêm
 
@@ -99,3 +121,4 @@ Extension này có thể được mở rộng với các tính năng:
 - Ẩn thumbnail duration trên trang chủ
 - Timer tự động bật/tắt theo thời gian
 - Sync settings với Chrome account
+- Tùy chọn ẩn các phần khác của YouTube (như Trending, Subscriptions)
