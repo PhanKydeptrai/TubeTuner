@@ -34,28 +34,32 @@ function updateLanguageUI() {
         document.querySelectorAll('.toggle-label')[0].textContent = translations[currentLang].hideProgressBar;
         document.querySelectorAll('.toggle-label')[1].textContent = translations[currentLang].hideDuration;
         document.querySelectorAll('.toggle-label')[2].textContent = translations[currentLang].hideShorts;
-        if (document.querySelectorAll('.toggle-label')[3]) {
-            document.querySelectorAll('.toggle-label')[3].textContent = translations[currentLang].autoRefresh;
-        }
         
         // Update info sections
-        document.querySelector('.info').innerHTML = translations[currentLang].extensionInfo;
+        document.querySelector('.info-content').innerHTML = `
+            ${translations[currentLang].extensionInfo}
+            <ul class="feature-list">
+                <li class="feature-item">${translations[currentLang].progressBar}</li>
+                <li class="feature-item">${translations[currentLang].duration}</li>
+                <li class="feature-item">${translations[currentLang].shorts}</li>
+            </ul>
+            <p style="margin-top: 8px;">${translations[currentLang].controlsInfo}</p>
+        `;
+        
+        // Update info title
+        document.querySelector('.info-title').textContent = translations[currentLang].infoTitle;
         
         // Update important note
-        document.querySelector('.important-note').innerHTML = 
-            '<strong>' + translations[currentLang].importantNote.split(':')[0] + ':</strong> ' + 
-            translations[currentLang].importantNote.split(':')[1];
-        
-        // Update status based on current state if toggleSwitch is defined
-        if (toggleSwitch && durationSwitch && shortsSwitch) {
-            updateUI(
-                toggleSwitch.classList.contains('active'), 
-                durationSwitch.classList.contains('active'),
-                shortsSwitch.classList.contains('active')
-            );
-        } else {
-            console.log('Toggle switches not available yet for status update');
+        const importantNote = document.querySelector('.important-note');
+        if (importantNote) {
+            importantNote.innerHTML = `
+                <strong>${translations[currentLang].importantNote.split(':')[0]}</strong>
+                ${translations[currentLang].importantNote.split(':')[1]}
+            `;
         }
+        
+        // Update status based on current state
+        updateStatusUI();
     } else {
         console.error('Language buttons not found in updateLanguageUI!');
     }
@@ -63,30 +67,51 @@ function updateLanguageUI() {
 
 // Hàm global để cập nhật UI dựa trên trạng thái
 function updateUI(progressHidden, durationHidden, shortsHidden) {
-    if (!toggleSwitch || !durationSwitch || !shortsSwitch || !status) {
-        console.error('Toggle switches or status element not defined yet');
+    if (!toggleSwitch || !durationSwitch || !shortsSwitch) {
+        console.error('Toggle switches not defined yet');
         return;
     }
     
-    // Update progress bar toggle
+    // Update progress bar toggle - sử dụng setAttribute thay vì toggleAttribute
     if (progressHidden) {
-        toggleSwitch.classList.add('active');
+        toggleSwitch.setAttribute('active', '');
     } else {
-        toggleSwitch.classList.remove('active');
+        toggleSwitch.removeAttribute('active');
     }
     
     // Update duration toggle
     if (durationHidden) {
-        durationSwitch.classList.add('active');
+        durationSwitch.setAttribute('active', '');
     } else {
-        durationSwitch.classList.remove('active');
+        durationSwitch.removeAttribute('active');
     }
     
     // Update shorts toggle
     if (shortsHidden) {
-        shortsSwitch.classList.add('active');
+        shortsSwitch.setAttribute('active', '');
     } else {
-        shortsSwitch.classList.remove('active');
+        shortsSwitch.removeAttribute('active');
+    }
+    
+    // Update status
+    updateStatusUI(progressHidden, durationHidden, shortsHidden);
+}
+
+// Function to update status UI
+function updateStatusUI(progressHidden, durationHidden, shortsHidden) {
+    if (!status) return;
+    
+    // If parameters not provided, get current state from switches
+    if (progressHidden === undefined && toggleSwitch) {
+        progressHidden = toggleSwitch.hasAttribute('active');
+    }
+    
+    if (durationHidden === undefined && durationSwitch) {
+        durationHidden = durationSwitch.hasAttribute('active');
+    }
+    
+    if (shortsHidden === undefined && shortsSwitch) {
+        shortsHidden = shortsSwitch.hasAttribute('active');
     }
     
     // Update status
@@ -96,20 +121,51 @@ function updateUI(progressHidden, durationHidden, shortsHidden) {
         if (durationHidden) features.push(translations[currentLang].duration);
         if (shortsHidden) features.push(translations[currentLang].shorts);
         
-        status.textContent = `${translations[currentLang].hidingFeatures}: ${features.join(', ')}`;
+        const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
+        statusBadge.setAttribute('variant', 'success');
+        statusBadge.textContent = `${translations[currentLang].hidingFeatures}: ${features.join(', ')}`;
+        
+        if (!status.contains(statusBadge)) {
+            status.innerHTML = '';
+            status.appendChild(statusBadge);
+        }
+        
         status.className = 'status enabled';
     } else {
-        status.textContent = translations[currentLang].allDisabled;
+        const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
+        statusBadge.setAttribute('variant', 'warning');
+        statusBadge.textContent = translations[currentLang].allDisabled;
+        
+        if (!status.contains(statusBadge)) {
+            status.innerHTML = '';
+            status.appendChild(statusBadge);
+        }
+        
         status.className = 'status disabled';
     }
 }
 
+// Hàm để áp dụng theme từ localStorage hoặc system preference
+function applyInitialTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        console.log('Applying saved theme:', savedTheme);
+        document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    } else {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        console.log('Applying system theme preference:', prefersDark ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', prefersDark);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Áp dụng theme trước khi khởi tạo các component
+    applyInitialTheme();
+    
     // Initialize global variables
     toggleSwitch = document.getElementById('toggleSwitch');
     durationSwitch = document.getElementById('durationSwitch');
     shortsSwitch = document.getElementById('shortsSwitch');
-    const autoRefreshSwitch = document.getElementById('autoRefreshSwitch');
     status = document.getElementById('status');
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
@@ -127,49 +183,46 @@ document.addEventListener('DOMContentLoaded', function() {
     // Translation object
     translations = {
         vi: {
-            title: 'YouTube Hider Extension',
+            title: 'YouTube Hider',
             subtitle: 'Ẩn thanh tiến trình & thời lượng',
             hideProgressBar: 'Ẩn thanh tiến trình',
             hideDuration: 'Ẩn thời lượng video',
             hideShorts: 'Ẩn Shorts',
-            autoRefresh: 'Tự động refresh',
             statusActive: 'Đang hoạt động',
             hidingFeatures: 'Đang ẩn',
             progressBar: 'thanh tiến trình',
             duration: 'thời lượng',
             shorts: 'shorts',
             allDisabled: 'Đã tắt tất cả',
-            extensionInfo: 'Extension sẽ ẩn thanh tiến trình, thời lượng video và/hoặc Shorts trên YouTube nhưng giữ nguyên các chức năng điều khiển khác như âm lượng, play/pause.',
-            autoRefreshInfo: 'Tự động refresh: Tự động làm mới trang khi bật/tắt extension để áp dụng thay đổi ngay lập tức.',
-            bestWithAutoRefresh: 'Extension hoạt động tốt nhất khi có auto-refresh',
+            infoTitle: 'Giới thiệu',
+            extensionInfo: 'Extension giúp bạn tập trung vào nội dung video mà không bị phân tâm bởi:',
+            controlsInfo: 'Tất cả các chức năng điều khiển khác như âm lượng, play/pause vẫn hoạt động bình thường.',
             importantNote: 'Lưu ý quan trọng: Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.'
         },
         en: {
-            title: 'YouTube Hider Extension',
+            title: 'YouTube Hider',
             subtitle: 'Hide progress bar & duration',
             hideProgressBar: 'Hide progress bar',
             hideDuration: 'Hide video duration',
             hideShorts: 'Hide Shorts',
-            autoRefresh: 'Auto refresh',
             statusActive: 'Active',
             hidingFeatures: 'Hiding',
             progressBar: 'progress bar',
             duration: 'duration',
             shorts: 'shorts',
             allDisabled: 'All features disabled',
-            extensionInfo: 'This extension hides the progress bar, video duration and/or Shorts on YouTube while preserving other controls like volume and play/pause buttons.',
-            autoRefreshInfo: 'Auto refresh: Automatically refreshes the page when toggling the extension to apply changes immediately.',
-            bestWithAutoRefresh: 'Extension works best with auto-refresh enabled',
+            infoTitle: 'Introduction',
+            extensionInfo: 'This extension helps you focus on video content without distractions from:',
+            controlsInfo: 'All other control features like volume and play/pause buttons still work normally.',
             importantNote: 'Important note: For the best experience, enable the extension before visiting YouTube.'
         }
     };
     
     // Lấy trạng thái hiện tại
-    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'autoRefreshEnabled', 'language'], function(result) {
+    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'language', 'theme'], function(result) {
         const isEnabled = result.progressBarHidden !== false; // Mặc định là true
         const durationHidden = result.durationHidden !== false; // Mặc định là true
         const shortsHidden = result.shortsHidden === true; // Mặc định là false
-        const autoRefreshEnabled = result.autoRefreshEnabled !== false; // Mặc định là true
         
         // Set language
         if (result.language) {
@@ -179,27 +232,29 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('No saved language preference, using default:', currentLang);
         }
         
+        // Đồng bộ theme từ storage với localStorage
+        if (result.theme) {
+            localStorage.setItem('theme', result.theme);
+            document.documentElement.classList.toggle('dark', result.theme === 'dark');
+            console.log('Synced theme from storage:', result.theme);
+        }
+        
         updateLanguageUI();
         updateUI(isEnabled, durationHidden, shortsHidden);
-        
-        if (autoRefreshSwitch) {
-            updateAutoRefreshUI(autoRefreshEnabled);
-        }
     });
     
     // Xử lý click toggle extension
     if (toggleSwitch) {
-        toggleSwitch.addEventListener('click', function() {
-            const currentlyActive = toggleSwitch.classList.contains('active');
-            const newState = !currentlyActive;
+        toggleSwitch.addEventListener('change', function(e) {
+            const newState = e.detail.active;
+            
+            // Lưu trạng thái
+            chrome.storage.sync.set({ progressBarHidden: newState });
             
             // Cập nhật UI
             chrome.storage.sync.get(['durationHidden', 'shortsHidden'], function(result) {
                 updateUI(newState, result.durationHidden !== false, result.shortsHidden === true);
             });
-            
-            // Lưu trạng thái
-            chrome.storage.sync.set({ progressBarHidden: newState });
             
             handleToggleChange('toggleProgressBar', newState);
         });
@@ -207,17 +262,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Xử lý click toggle duration
     if (durationSwitch) {
-        durationSwitch.addEventListener('click', function() {
-            const currentlyActive = durationSwitch.classList.contains('active');
-            const newState = !currentlyActive;
+        durationSwitch.addEventListener('change', function(e) {
+            const newState = e.detail.active;
+            
+            // Lưu trạng thái
+            chrome.storage.sync.set({ durationHidden: newState });
             
             // Cập nhật UI
             chrome.storage.sync.get(['progressBarHidden', 'shortsHidden'], function(result) {
                 updateUI(result.progressBarHidden !== false, newState, result.shortsHidden === true);
             });
-            
-            // Lưu trạng thái
-            chrome.storage.sync.set({ durationHidden: newState });
             
             handleToggleChange('toggleDuration', newState);
         });
@@ -225,75 +279,46 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Xử lý click toggle shorts
     if (shortsSwitch) {
-        shortsSwitch.addEventListener('click', function() {
-            const currentlyActive = shortsSwitch.classList.contains('active');
-            const newState = !currentlyActive;
+        shortsSwitch.addEventListener('change', function(e) {
+            const newState = e.detail.active;
+            
+            // Lưu trạng thái
+            chrome.storage.sync.set({ shortsHidden: newState });
             
             // Cập nhật UI
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden'], function(result) {
                 updateUI(result.progressBarHidden !== false, result.durationHidden !== false, newState);
             });
             
-            // Lưu trạng thái
-            chrome.storage.sync.set({ shortsHidden: newState });
-            
             handleToggleChange('toggleShorts', newState);
         });
     }
     
-    // Xử lý click toggle auto-refresh (nếu có)
-    if (autoRefreshSwitch) {
-        autoRefreshSwitch.addEventListener('click', function() {
-            const currentlyActive = autoRefreshSwitch.classList.contains('active');
-            const newState = !currentlyActive;
-            
-            // Cập nhật UI
-            updateAutoRefreshUI(newState);
-            
-            // Lưu trạng thái
-            chrome.storage.sync.set({ autoRefreshEnabled: newState });
-        });
-    }
-    
-    function handleToggleChange(action, enabled) {
-        // Gửi message đến content script
-        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-            if (tabs[0] && (tabs[0].url.includes('youtube.com'))) {
-                chrome.tabs.sendMessage(tabs[0].id, {
-                    action: action,
-                    enabled: enabled,
-                    autoRefresh: false // Luôn đặt autoRefresh thành false
-                }, function(response) {
-                    if (chrome.runtime.lastError) {
-                        console.log('Content script chưa sẵn sàng, extension sẽ hoạt động khi tải lại trang.');
-                    }
-                });
-            }
-        });
-    }
-    
-    function updateAutoRefreshUI(isEnabled) {
-        if (autoRefreshSwitch) {
-            if (isEnabled) {
-                autoRefreshSwitch.classList.add('active');
-            } else {
-                autoRefreshSwitch.classList.remove('active');
-            }
-        }
-    }
-    
-    // Thêm sự kiện click cho nút ngôn ngữ nếu cần (mặc dù đã có onclick trong HTML)
+    // Thêm sự kiện click cho nút ngôn ngữ
     if (langVi) {
-        langVi.addEventListener('click', function(e) {
-            console.log('VI button clicked via event listener');
+        langVi.addEventListener('click', function() {
             changeLanguage('vi');
         });
     }
     
     if (langEn) {
-        langEn.addEventListener('click', function(e) {
-            console.log('EN button clicked via event listener');
+        langEn.addEventListener('click', function() {
             changeLanguage('en');
+        });
+    }
+    
+    // Hàm xử lý thay đổi toggle
+    function handleToggleChange(action, enabled) {
+        console.log(`${action} changed to:`, enabled);
+        
+        // Gửi thông điệp tới content script
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    action: action,
+                    enabled: enabled
+                });
+            }
         });
     }
 });

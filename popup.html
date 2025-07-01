@@ -2,202 +2,466 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <style>        body {
-            width: 280px;
-            padding: 15px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    <style>
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --popover: 0 0% 100%;
+            --popover-foreground: 222.2 84% 4.9%;
+            --primary: 221.2 83.2% 53.3%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96.1%;
+            --secondary-foreground: 222.2 47.4% 11.2%;
+            --muted: 210 40% 96.1%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --accent: 210 40% 96.1%;
+            --accent-foreground: 222.2 47.4% 11.2%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 214.3 31.8% 91.4%;
+            --input: 214.3 31.8% 91.4%;
+            --ring: 222.2 84% 4.9%;
+            --radius: 0.5rem;
+        }
+        
+        .dark {
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+            --card: 222.2 84% 4.9%;
+            --card-foreground: 210 40% 98%;
+            --popover: 222.2 84% 4.9%;
+            --popover-foreground: 210 40% 98%;
+            --primary: 217.2 91.2% 59.8%;
+            --primary-foreground: 222.2 47.4% 11.2%;
+            --secondary: 217.2 32.6% 17.5%;
+            --secondary-foreground: 210 40% 98%;
+            --muted: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+            --accent: 217.2 32.6% 17.5%;
+            --accent-foreground: 210 40% 98%;
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 217.2 32.6% 17.5%;
+            --input: 217.2 32.6% 17.5%;
+            --ring: 212.7 26.8% 83.9%;
+        }
+        
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border-color: hsl(var(--border));
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                transform: translateY(15px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        body {
+            width: 340px;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            transition: background-color 0.2s, color 0.2s;
+            line-height: 1.5;
         }
         
         .header {
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid hsl(var(--border));
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .title-container {
+            display: flex;
+            flex-direction: column;
         }
         
         .title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a1a1a;
+            font-size: 20px;
+            font-weight: 700;
+            color: hsl(var(--foreground));
             margin: 0;
+            letter-spacing: -0.025em;
         }
         
         .subtitle {
-            font-size: 12px;
-            color: #666;
-            margin: 5px 0 0 0;
+            font-size: 13px;
+            color: hsl(var(--muted-foreground));
+            margin: 4px 0 0 0;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
         }
         
         .language-selector {
             display: flex;
-            justify-content: center;
-            margin-top: 8px;
-            position: relative;
-            z-index: 10;
+            gap: 4px;
         }
         
         .lang-option {
-            display: inline-block;
-            padding: 3px 8px;
-            margin: 0 3px;
-            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 10px;
+            border-radius: 6px;
             font-size: 12px;
+            font-weight: 600;
             cursor: pointer;
-            background-color: #f1f1f1;
-            color: #666;
-            font-weight: bold;
-            position: relative;
-            z-index: 10;
-            pointer-events: auto !important;
-            user-select: none;
+            background-color: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
             border: none;
-            outline: none;
-            box-shadow: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lang-option::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: inherit;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.3s ease;
+        }
+        
+        .lang-option:active::after {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 1;
+            transition: transform 0s, opacity 0.1s;
         }
         
         .lang-option.active {
-            background-color: #4285f4;
-            color: white;
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
-        /* Thêm hover effect để giúp người dùng nhận biết phần tử có thể click */
-        .lang-option:hover {
-            background-color: #e0e0e0;
-        }
-        
-        .lang-option.active:hover {
-            background-color: #3367d6;
+        .lang-option:hover:not(.active) {
+            background-color: hsl(var(--accent));
+            transform: translateY(-1px);
         }
         
         .toggle-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            padding: 14px 18px;
+            background-color: hsl(var(--card));
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border));
+            margin-bottom: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+            animation-delay: calc(var(--animation-order) * 0.1s);
+        }
+        
+        .toggle-container:nth-child(1) {
+            --animation-order: 1;
+        }
+        
+        .toggle-container:nth-child(2) {
+            --animation-order: 2;
+        }
+        
+        .toggle-container:nth-child(3) {
+            --animation-order: 3;
+        }
+        
+        .toggle-container:hover {
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px) translateX(2px);
         }
         
         .toggle-label {
             font-size: 14px;
-            color: #333;
+            color: hsl(var(--foreground));
             font-weight: 500;
-        }
-        
-        .toggle-switch {
-            position: relative;
-            width: 50px;
-            height: 24px;
-            background: #ccc;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .toggle-switch.active {
-            background: #4CAF50;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 10px;
-            transition: transform 0.3s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        .toggle-switch.active .toggle-slider {
-            transform: translateX(26px);
         }
         
         .status {
-            text-align: center;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 14px 16px;
+            border-radius: var(--radius);
             font-size: 13px;
             font-weight: 500;
+            margin-top: 16px;
+            text-align: center;
+            background-color: hsl(var(--secondary));
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+            animation-delay: 0.4s;
         }
         
         .status.enabled {
-            background: #e8f5e8;
-            color: #2e7d32;
+            background-color: hsl(142, 76%, 36%, 0.1);
+            color: hsl(142, 76%, 36%);
         }
         
         .status.disabled {
-            background: #ffeaa7;
-            color: #d68910;
+            background-color: hsl(48, 96%, 53%, 0.1);
+            color: hsl(38, 92%, 50%);
         }
         
         .info {
-            font-size: 12px;
-            color: #666;
-            text-align: center;
-            margin-top: 15px;
-            line-height: 1.4;
+            font-size: 13px;
+            color: hsl(var(--muted-foreground));
+            margin-top: 20px;
+            line-height: 1.6;
+            padding: 0 4px;
         }
         
-        .refresh-note {
-            font-size: 11px;
-            color: #999;
-            text-align: center;
-            margin-top: 10px;
-            font-style: italic;
+        .info-card {
+            background-color: hsl(221.2, 83.2%, 53.3%, 0.08);
+            border: 1px solid hsl(221.2, 83.2%, 53.3%, 0.3);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding-left: 44px;
+            animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+            animation-delay: 0.5s;
+        }
+        
+        .info-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+            transform: translateY(-1px);
+        }
+        
+        .info-card::before {
+            content: "ℹ️";
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            font-size: 18px;
+            line-height: 1;
+        }
+        
+        .info-title {
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .info-content {
+            color: hsl(var(--foreground));
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 0 0;
+        }
+        
+        .feature-item {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 4px;
+            font-size: 13px;
+            color: hsl(var(--foreground));
+        }
+        
+        .feature-item::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: hsl(142, 76%, 36%);
+            font-weight: bold;
+        }
+        
+        .dark .info-card {
+            background-color: hsl(217.2, 91.2%, 59.8%, 0.1);
+            border-color: hsl(217.2, 91.2%, 59.8%, 0.3);
         }
         
         .important-note {
-            font-size: 12px;
-            color: #d32f2f;
-            text-align: center;
-            margin-top: 12px;
-            padding: 8px;
-            border: 1px solid #ffcdd2;
-            background-color: #ffebee;
-            border-radius: 4px;
+            font-size: 13px;
+            padding: 14px;
+            border-radius: var(--radius);
+            margin-top: 20px;
+            border: 2px solid hsl(0, 84.2%, 60.2%, 0.5);
+            background-color: hsl(0, 84.2%, 60.2%, 0.08);
+            color: hsl(var(--accent-foreground));
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            line-height: 1.6;
+            position: relative;
+            padding-left: 42px;
+            transform: translateZ(0);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+            animation-delay: 0.6s;
+        }
+        
+        .important-note:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .important-note::before {
+            content: "!";
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-color: hsl(0, 84.2%, 60.2%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            animation: pulseAnimation 2s infinite;
+        }
+        
+        @keyframes pulseAnimation {
+            0% {
+                transform: translateY(-50%) scale(1);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                transform: translateY(-50%) scale(1.1);
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            }
+            100% {
+                transform: translateY(-50%) scale(1);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+        }
+        
+        .important-note strong {
+            color: hsl(0, 84.2%, 60.2%);
+            font-weight: 700;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .dark .important-note {
+            border-color: hsl(0, 62.8%, 30.6%, 0.7);
+            background-color: hsl(0, 62.8%, 30.6%, 0.15);
+        }
+        
+        .dark .important-note::before {
+            background-color: hsl(0, 62.8%, 40%);
+        }
+        
+        .dark .important-note strong {
+            color: hsl(0, 62.8%, 60%);
         }
     </style>
 </head>
-<body>    <div class="header">
-        <h1 class="title">YouTube Hider Extension</h1>
-        <p class="subtitle">Ẩn thanh tiến trình & thời lượng</p>
-        <div class="language-selector">
-            <button class="lang-option" id="lang-vi" onclick="changeLanguage('vi')">VI</button>
-            <button class="lang-option" id="lang-en" onclick="changeLanguage('en')">EN</button>
+<body>
+    <div class="header">
+        <div class="title-container">
+            <h1 class="title">YouTube Hider</h1>
+            <p class="subtitle">Ẩn thanh tiến trình & thời lượng</p>
         </div>
-    </div><div class="toggle-container">
-        <span class="toggle-label">Ẩn thanh tiến trình</span>
-        <div class="toggle-switch" id="toggleSwitch">
-            <div class="toggle-slider"></div>
-        </div>
-    </div>
-    
-    <div class="toggle-container">
-        <span class="toggle-label">Ẩn thời lượng video</span>
-        <div class="toggle-switch" id="durationSwitch">
-            <div class="toggle-slider"></div>
+        <div class="controls">
+            <div class="language-selector">
+                <button class="lang-option" id="lang-vi">VI</button>
+                <button class="lang-option" id="lang-en">EN</button>
+            </div>
+            <theme-toggle></theme-toggle>
         </div>
     </div>
+
+    <ui-card>
+        <card-content>
+            <div class="toggle-container">
+                <span class="toggle-label">Ẩn thanh tiến trình</span>
+                <ui-switch id="toggleSwitch"></ui-switch>
+            </div>
+            
+            <div class="toggle-container">
+                <span class="toggle-label">Ẩn thời lượng video</span>
+                <ui-switch id="durationSwitch"></ui-switch>
+            </div>
+            
+            <div class="toggle-container">
+                <span class="toggle-label">Ẩn Shorts</span>
+                <ui-switch id="shortsSwitch"></ui-switch>
+            </div>
+        </card-content>
+    </ui-card>
     
-    <div class="toggle-container">
-        <span class="toggle-label">Ẩn Shorts</span>
-        <div class="toggle-switch" id="shortsSwitch">
-            <div class="toggle-slider"></div>
-        </div>
+    <div class="status enabled" id="status">
+        <ui-badge variant="success">Đang hoạt động</ui-badge>
     </div>
     
-      <div class="status enabled" id="status">
-        Đang hoạt động
-    </div>    <div class="info">
-        Extension sẽ ẩn thanh tiến trình và/hoặc thời lượng video trên YouTube nhưng giữ nguyên các chức năng điều khiển khác như âm lượng, play/pause.
+    <div class="info-card">
+        <div class="info-title">Giới thiệu</div>
+        <div class="info-content">
+            Extension giúp bạn tập trung vào nội dung video mà không bị phân tâm bởi:
+            <ul class="feature-list">
+                <li class="feature-item">Thanh tiến trình video</li>
+                <li class="feature-item">Thời lượng video</li>
+                <li class="feature-item">Nội dung Shorts</li>
+            </ul>
+            <p style="margin-top: 8px;">Tất cả các chức năng điều khiển khác như âm lượng, play/pause vẫn hoạt động bình thường.</p>
+        </div>
     </div>
     
     <div class="important-note">
-        <strong>Lưu ý quan trọng:</strong> Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.
+        <strong>Lưu ý quan trọng</strong>
+        Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.
     </div>
 
+    <script src="components/ui/theme-toggle.js"></script>
+    <script src="components/ui/switch.js"></script>
+    <script src="components/ui/badge.js"></script>
+    <script src="components/ui/card.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>
