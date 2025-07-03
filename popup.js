@@ -159,9 +159,38 @@ function applyInitialTheme() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Áp dụng theme trước khi khởi tạo các component
-    applyInitialTheme();
+    // Khởi tạo theme theo cài đặt trước đó hoặc theme của hệ thống
+    initializeTheme();
+
+    // Khởi tạo ngôn ngữ theo cài đặt trước đó
+    initializeLanguage();
+
+    // Xử lý các toggle switch
+    initializeSwitches();
+
+    // Handle collapsible sections
+    document.querySelectorAll('.ext-section-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const section = header.parentElement;
+            section.classList.toggle('open');
+        });
+    });
+
+    // Theme toggle button
+    document.querySelector('.theme-toggle').addEventListener('click', function() {
+        document.documentElement.classList.toggle('dark');
+        saveThemeSetting(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Language selection
+    document.getElementById('lang-vi').addEventListener('click', function() {
+        setLanguage('vi');
+    });
     
+    document.getElementById('lang-en').addEventListener('click', function() {
+        setLanguage('en');
+    });
+
     // Initialize global variables
     toggleSwitch = document.getElementById('toggleSwitch');
     durationSwitch = document.getElementById('durationSwitch');
@@ -322,3 +351,166 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Initialize theme based on saved settings or system preference
+function initializeTheme() {
+    chrome.storage.sync.get('theme', function(data) {
+        const savedTheme = data.theme || 'auto';
+        
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            // Auto mode - use system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+        }
+    });
+}
+
+// Save theme setting
+function saveThemeSetting(theme) {
+    chrome.storage.sync.set({ theme: theme });
+}
+
+// Initialize language
+function initializeLanguage() {
+    chrome.storage.sync.get('language', function(data) {
+        const savedLanguage = data.language || 'vi';
+        setLanguage(savedLanguage, false);
+    });
+}
+
+// Set language and update UI
+function setLanguage(lang, save = true) {
+    // Remove active class from all language buttons
+    document.querySelectorAll('.ext-lang-button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Add active class to selected language button
+    document.getElementById(`lang-${lang}`).classList.add('active');
+    
+    const translations = {
+        'vi': {
+            'title': 'YouTube Hider',
+            'subtitle': 'Ẩn thanh tiến trình & thời lượng',
+            'hideProgressBar': 'Ẩn thanh tiến trình',
+            'hideDuration': 'Ẩn thời lượng video',
+            'hideShorts': 'Ẩn Shorts',
+            'active': 'Đang hoạt động',
+            'inactive': 'Đã tắt',
+            'infoTitle': 'Giới thiệu',
+            'infoContent': 'Extension giúp bạn tập trung vào nội dung video mà không bị phân tâm bởi:',
+            'featureProgress': 'Thanh tiến trình video',
+            'featureDuration': 'Thời lượng video',
+            'featureShorts': 'Nội dung Shorts',
+            'infoExtra': 'Tất cả các chức năng điều khiển khác như âm lượng, play/pause vẫn hoạt động bình thường.',
+            'noticeTitle': 'Lưu ý quan trọng',
+            'noticeDesc': 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.',
+            'videoControlsTitle': 'Điều khiển video'
+        },
+        'en': {
+            'title': 'YouTube Hider',
+            'subtitle': 'Hide progress bar & duration',
+            'hideProgressBar': 'Hide progress bar',
+            'hideDuration': 'Hide video duration',
+            'hideShorts': 'Hide Shorts',
+            'active': 'Active',
+            'inactive': 'Inactive',
+            'infoTitle': 'Introduction',
+            'infoContent': 'This extension helps you focus on video content without distractions from:',
+            'featureProgress': 'Video progress bar',
+            'featureDuration': 'Video duration',
+            'featureShorts': 'Shorts content',
+            'infoExtra': 'All other control functions such as volume, play/pause still work normally.',
+            'noticeTitle': 'Important Notice',
+            'noticeDesc': 'For the best experience, please enable the extension before visiting YouTube.',
+            'videoControlsTitle': 'Video Controls'
+        }
+    };
+    
+    // Update UI text based on selected language
+    const t = translations[lang];
+    document.querySelector('.ext-title').textContent = t.title;
+    document.querySelector('.ext-subtitle').textContent = t.subtitle;
+    document.querySelectorAll('.ext-control-label')[0].textContent = t.hideProgressBar;
+    document.querySelectorAll('.ext-control-label')[1].textContent = t.hideDuration;
+    document.querySelectorAll('.ext-control-label')[2].textContent = t.hideShorts;
+    document.querySelector('#status').textContent = t.active;
+    document.querySelector('.ext-info-title').textContent = t.infoTitle;
+    document.querySelector('.ext-info-content').firstChild.textContent = t.infoContent;
+    document.querySelectorAll('.ext-feature-item')[0].textContent = t.featureProgress;
+    document.querySelectorAll('.ext-feature-item')[1].textContent = t.featureDuration;
+    document.querySelectorAll('.ext-feature-item')[2].textContent = t.featureShorts;
+    document.querySelector('.ext-info-content p').textContent = t.infoExtra;
+    document.querySelector('.ext-notice-title').textContent = t.noticeTitle;
+    document.querySelector('.ext-notice-description').textContent = t.noticeDesc;
+    document.querySelector('.ext-section-title').textContent = t.videoControlsTitle;
+
+    // Save language preference if needed
+    if (save) {
+        chrome.storage.sync.set({ language: lang });
+    }
+}
+
+// Initialize switches based on saved settings
+function initializeSwitches() {
+    const switches = [
+        { id: 'progressSwitch', setting: 'hideProgressBar', default: true },
+        { id: 'durationSwitch', setting: 'hideDuration', default: true },
+        { id: 'shortsSwitch', setting: 'hideShorts', default: false }
+    ];
+    
+    // Get all settings at once
+    chrome.storage.sync.get(['hideProgressBar', 'hideDuration', 'hideShorts'], function(data) {
+        switches.forEach(switchItem => {
+            const switchElement = document.getElementById(switchItem.id);
+            const isEnabled = data[switchItem.setting] !== undefined ? data[switchItem.setting] : switchItem.default;
+            
+            if (switchElement) {
+                switchElement.checked = isEnabled;
+                
+                // Add event listener
+                switchElement.addEventListener('change', function() {
+                    const setting = {};
+                    setting[switchItem.setting] = this.checked;
+                    chrome.storage.sync.set(setting);
+                    
+                    // Update status message
+                    updateStatus();
+                    
+                    // Send message to content script to update immediately if on YouTube
+                    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                        if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
+                            chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' });
+                        }
+                    });
+                });
+            }
+        });
+        
+        // Initial status update
+        updateStatus();
+    });
+}
+
+// Update status message based on current settings
+function updateStatus() {
+    chrome.storage.sync.get(['hideProgressBar', 'hideDuration', 'hideShorts'], function(data) {
+        const anyFeatureEnabled = data.hideProgressBar || data.hideDuration || data.hideShorts;
+        const statusElement = document.getElementById('status');
+        
+        if (anyFeatureEnabled) {
+            statusElement.className = 'ext-status enabled';
+            statusElement.textContent = document.getElementById('lang-vi').classList.contains('active') ? 
+                'Đang hoạt động' : 'Active';
+        } else {
+            statusElement.className = 'ext-status disabled';
+            statusElement.textContent = document.getElementById('lang-vi').classList.contains('active') ? 
+                'Đã tắt' : 'Inactive';
+        }
+    });
+}

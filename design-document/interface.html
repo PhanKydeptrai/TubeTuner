@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Controller Extension</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="demo.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: 'var(--background)',
+            foreground: 'var(--foreground)',
+            card: 'var(--card)',
+            'card-foreground': 'var(--card-foreground)',
+            popover: 'var(--popover)',
+            'popover-foreground': 'var(--popover-foreground)',
+            primary: 'var(--primary)',
+            'primary-foreground': 'var(--primary-foreground)',
+            secondary: 'var(--secondary)',
+            'secondary-foreground': 'var(--secondary-foreground)',
+            muted: 'var(--muted)',
+            'muted-foreground': 'var(--muted-foreground)',
+            accent: 'var(--accent)',
+            'accent-foreground': 'var(--accent-foreground)',
+            destructive: 'var(--destructive)',
+            'destructive-foreground': 'var(--destructive-foreground)',
+            border: 'var(--border)',
+            input: 'var(--input)',
+            ring: 'var(--ring)',
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          },
+          fontFamily: {
+            sans: 'var(--font-sans)',
+            serif: 'var(--font-serif)',
+            mono: 'var(--font-mono)',
+          },
+          boxShadow: {
+            '2xs': 'var(--shadow-2xs)',
+            'xs': 'var(--shadow-xs)',
+            'sm': 'var(--shadow-sm)',
+            'DEFAULT': 'var(--shadow)',
+            'md': 'var(--shadow-md)',
+            'lg': 'var(--shadow-lg)',
+            'xl': 'var(--shadow-xl)',
+            '2xl': 'var(--shadow-2xl)',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-foreground font-sans antialiased">
+  <div class="w-80 min-h-96 bg-background">
+    <!-- Header Component -->
+    <header class="bg-primary text-primary-foreground">
+      <div class="px-4 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="flex items-center justify-center w-8 h-8 bg-primary-foreground/20 rounded-md">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary-foreground">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-base font-semibold leading-tight">YouTube Controller</h1>
+              <p class="text-xs opacity-90 leading-tight">Customize your experience</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-1">
+            <button class="inline-flex items-center justify-center w-6 h-6 bg-primary-foreground/20 hover:bg-primary-foreground/30 rounded-md transition-colors theme-toggle" aria-label="Toggle theme">
+              <svg class="moon-icon w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="p-3 space-y-3">
+      <!-- Notice Card -->
+      <div class="bg-card border border-border rounded-md p-3 shadow-sm">
+        <div class="flex items-start space-x-2">
+          <div class="flex-shrink-0 w-4 h-4 text-accent mt-0.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-sm font-medium text-card-foreground mb-1">Important Notice</h3>
+            <p class="text-xs text-muted-foreground">Enable extension before visiting YouTube for best experience.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collapsible Sections -->
+      <div class="space-y-2">
+        <!-- Content & Feed Section -->
+        <div class="bg-card border border-border rounded-md shadow-sm overflow-hidden">
+          <button class="w-full px-3 py-2 flex items-center justify-between bg-card hover:bg-muted/50 transition-colors" onclick="toggleSection('content-feed')">
+            <div class="flex items-center space-x-2">
+              <div class="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </div>
+              <h2 class="text-sm font-medium text-card-foreground">Content & Feed</h2>
+            </div>
+            <svg id="content-feed-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground transform transition-transform">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div id="content-feed" class="border-t border-border">
+            <div class="p-3 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Home Feed</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="homeFeedSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Video Sidebar</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="videoSidebarSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Recommended</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="recommendationsSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Shorts</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="shortsSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Comments</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="commentsSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Playlist</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="playlistSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Mixes</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="mixesSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interface Elements Section -->
+        <div class="bg-card border border-border rounded-md shadow-sm overflow-hidden">
+          <button class="w-full px-3 py-2 flex items-center justify-between bg-card hover:bg-muted/50 transition-colors" onclick="toggleSection('interface-elements')">
+            <div class="flex items-center space-x-2">
+              <div class="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="3" y1="9" x2="21" y2="9"></line>
+                  <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+              </div>
+              <h2 class="text-sm font-medium text-card-foreground">Interface Elements</h2>
+            </div>
+            <svg id="interface-elements-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground transform transition-transform">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div id="interface-elements" class="border-t border-border hidden">
+            <div class="p-3 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Top Header</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="topHeaderSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Notifications</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="notificationsSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Explore, Trending</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="exploreSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Subscriptions</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="subscriptionsSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide More from YouTube</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="moreFromYTSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Profile Photos</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="profilePhotosSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Controls Section -->
+        <div class="bg-card border border-border rounded-md shadow-sm overflow-hidden">
+          <button class="w-full px-3 py-2 flex items-center justify-between bg-card hover:bg-muted/50 transition-colors" onclick="toggleSection('video-controls')">
+            <div class="flex items-center space-x-2">
+              <div class="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                  <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                </svg>
+              </div>
+              <h2 class="text-sm font-medium text-card-foreground">Video Controls</h2>
+            </div>
+            <svg id="video-controls-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground transform transition-transform">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div id="video-controls" class="border-t border-border hidden">
+            <div class="p-3 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Live Chat</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="liveChatSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide End Screen Feed</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="endScreenFeedSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide End Screen Cards</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="endCardsSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Video Info</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="videoInfoSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Progress Bar</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="progressSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Video Duration</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="durationSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Disable Autoplay</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="disableAutoplaySwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Disable Annotations</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="disableAnnotationsSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Other Features Section -->
+        <div class="bg-card border border-border rounded-md shadow-sm overflow-hidden">
+          <button class="w-full px-3 py-2 flex items-center justify-between bg-card hover:bg-muted/50 transition-colors" onclick="toggleSection('other-features')">
+            <div class="flex items-center space-x-2">
+              <div class="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+              </div>
+              <h2 class="text-sm font-medium text-card-foreground">Other Features</h2>
+            </div>
+            <svg id="other-features-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground transform transition-transform">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div id="other-features" class="border-t border-border hidden">
+            <div class="p-3 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Fundraiser</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="fundraiserSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Merch, Tickets, Offers</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="merchSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-card-foreground">Hide Inapt Search Results</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="inaptSearchSwitch" class="sr-only peer">
+                  <div class="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ring/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle functionality
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    // Section toggle functionality
+    function toggleSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      const chevron = document.getElementById(sectionId + '-chevron');
+      
+      if (section.classList.contains('hidden')) {
+        section.classList.remove('hidden');
+        chevron.classList.add('rotate-180');
+      } else {
+        section.classList.add('hidden');
+        chevron.classList.remove('rotate-180');
+      }
+    }
+
+    // Initialize theme toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      const themeToggle = document.querySelector('.theme-toggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+      }
+
+      // Set first section (Content & Feed) as open by default
+      document.getElementById('content-feed').classList.remove('hidden');
+      document.getElementById('content-feed-chevron').classList.add('rotate-180');
+    });
+  </script>
+</body>
+</html> 
