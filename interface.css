@@ -350,10 +350,18 @@ body {
 }
 
 .interface-icon {
-  background-color: #4285F4;
+  background-color: transparent;
 }
 
 .video-icon {
+  background-color: transparent;
+}
+
+.content-icon {
+  background-color: transparent;
+}
+
+.other-icon {
   background-color: transparent;
 }
 

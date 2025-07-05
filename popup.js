@@ -1,7 +1,7 @@
 // YouTube Progress Bar Hider Popup Script
 let currentLang = 'vi'; // Default language is Vietnamese
 let translations = {}; // Khai báo toàn cục để truy cập từ bên ngoài DOMContentLoaded
-let toggleSwitch, durationSwitch, shortsSwitch, status; // Global variables để có thể truy cập từ bên ngoài
+let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, status; // Global variables để có thể truy cập từ bên ngoài
 
 // Hàm global để xử lý click trực tiếp từ HTML
 function changeLanguage(lang) {
@@ -13,6 +13,40 @@ function changeLanguage(lang) {
         updateLanguageUI();
     }
 }
+
+// Debug function to verify toggle state persistence
+function verifyToggleStates() {
+    console.log('🔍 Verifying toggle states...');
+
+    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden'], function(result) {
+        const storedStates = {
+            progressBarHidden: result.progressBarHidden !== false,
+            durationHidden: result.durationHidden !== false,
+            shortsHidden: result.shortsHidden === true,
+            homeFeedHidden: result.homeFeedHidden === true
+        };
+
+        const uiStates = {
+            progressBarHidden: toggleSwitch ? toggleSwitch.checked : 'N/A',
+            durationHidden: durationSwitch ? durationSwitch.checked : 'N/A',
+            shortsHidden: shortsSwitch ? shortsSwitch.checked : 'N/A',
+            homeFeedHidden: homeFeedSwitch ? homeFeedSwitch.checked : 'N/A'
+        };
+
+        console.log('📊 Stored states:', storedStates);
+        console.log('📊 UI states:', uiStates);
+
+        // Check for mismatches
+        Object.keys(storedStates).forEach(key => {
+            if (storedStates[key] !== uiStates[key] && uiStates[key] !== 'N/A') {
+                console.warn(`⚠️ Mismatch for ${key}: stored=${storedStates[key]}, UI=${uiStates[key]}`);
+            }
+        });
+    });
+}
+
+// Expose debug function globally
+window.verifyToggleStates = verifyToggleStates;
 
 // Hàm global để cập nhật UI
 function updateLanguageUI() {
@@ -66,60 +100,82 @@ function updateLanguageUI() {
 }
 
 // Hàm global để cập nhật UI dựa trên trạng thái
-function updateUI(progressHidden, durationHidden, shortsHidden) {
-    if (!toggleSwitch || !durationSwitch || !shortsSwitch) {
-        console.error('Toggle switches not defined yet');
+function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden) {
+    console.log('🔄 updateUI called with:', {
+        progressHidden,
+        durationHidden,
+        shortsHidden,
+        homeFeedHidden
+    });
+
+    if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch) {
+        console.error('❌ Toggle switches not defined yet:', {
+            toggleSwitch: !!toggleSwitch,
+            durationSwitch: !!durationSwitch,
+            shortsSwitch: !!shortsSwitch,
+            homeFeedSwitch: !!homeFeedSwitch
+        });
         return;
     }
-    
-    // Update progress bar toggle - sử dụng setAttribute thay vì toggleAttribute
-    if (progressHidden) {
-        toggleSwitch.setAttribute('active', '');
-    } else {
-        toggleSwitch.removeAttribute('active');
-    }
-    
+
+    // Update progress bar toggle - sử dụng checked property cho checkbox
+    toggleSwitch.checked = progressHidden;
+    console.log('✅ Progress bar toggle set to:', progressHidden);
+
     // Update duration toggle
-    if (durationHidden) {
-        durationSwitch.setAttribute('active', '');
-    } else {
-        durationSwitch.removeAttribute('active');
-    }
-    
+    durationSwitch.checked = durationHidden;
+    console.log('✅ Duration toggle set to:', durationHidden);
+
     // Update shorts toggle
-    if (shortsHidden) {
-        shortsSwitch.setAttribute('active', '');
-    } else {
-        shortsSwitch.removeAttribute('active');
-    }
-    
+    shortsSwitch.checked = shortsHidden;
+    console.log('✅ Shorts toggle set to:', shortsHidden);
+
+    // Update home feed toggle with extra verification
+    homeFeedSwitch.checked = homeFeedHidden;
+    console.log('✅ Home feed toggle set to:', homeFeedHidden);
+
+    // Verify the state was actually set
+    setTimeout(() => {
+        const actualState = homeFeedSwitch.checked;
+        console.log('🔍 Home feed toggle verification - Expected:', homeFeedHidden, 'Actual:', actualState);
+        if (actualState !== homeFeedHidden) {
+            console.warn('⚠️ Home feed toggle state mismatch, retrying...');
+            homeFeedSwitch.checked = homeFeedHidden;
+        }
+    }, 50);
+
     // Update status
-    updateStatusUI(progressHidden, durationHidden, shortsHidden);
+    updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden);
 }
 
 // Function to update status UI
-function updateStatusUI(progressHidden, durationHidden, shortsHidden) {
+function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden) {
     if (!status) return;
-    
+
     // If parameters not provided, get current state from switches
     if (progressHidden === undefined && toggleSwitch) {
-        progressHidden = toggleSwitch.hasAttribute('active');
+        progressHidden = toggleSwitch.checked;
     }
-    
+
     if (durationHidden === undefined && durationSwitch) {
-        durationHidden = durationSwitch.hasAttribute('active');
+        durationHidden = durationSwitch.checked;
     }
-    
+
     if (shortsHidden === undefined && shortsSwitch) {
-        shortsHidden = shortsSwitch.hasAttribute('active');
+        shortsHidden = shortsSwitch.checked;
+    }
+
+    if (homeFeedHidden === undefined && homeFeedSwitch) {
+        homeFeedHidden = homeFeedSwitch.checked;
     }
     
     // Update status
-    if (progressHidden || durationHidden || shortsHidden) {
+    if (progressHidden || durationHidden || shortsHidden || homeFeedHidden) {
         const features = [];
         if (progressHidden) features.push(translations[currentLang].progressBar);
         if (durationHidden) features.push(translations[currentLang].duration);
         if (shortsHidden) features.push(translations[currentLang].shorts);
+        if (homeFeedHidden) features.push(translations[currentLang].homeFeed);
         
         const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', 'success');
@@ -192,9 +248,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Initialize global variables
-    toggleSwitch = document.getElementById('toggleSwitch');
+    toggleSwitch = document.getElementById('progressSwitch');
     durationSwitch = document.getElementById('durationSwitch');
     shortsSwitch = document.getElementById('shortsSwitch');
+    homeFeedSwitch = document.getElementById('homeFeedSwitch');
     status = document.getElementById('status');
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
@@ -204,6 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleSwitch,
         durationSwitch,
         shortsSwitch,
+        homeFeedSwitch,
         status,
         langVi,
         langEn
@@ -247,12 +305,46 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // Lấy trạng thái hiện tại
-    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'language', 'theme'], function(result) {
+    // Lấy trạng thái hiện tại với improved error handling và timing
+    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'language', 'theme'], function(result) {
         const isEnabled = result.progressBarHidden !== false; // Mặc định là true
         const durationHidden = result.durationHidden !== false; // Mặc định là true
         const shortsHidden = result.shortsHidden === true; // Mặc định là false
-        
+        const homeFeedHidden = result.homeFeedHidden === true; // Mặc định là false
+
+        console.log('🔍 Loading stored states:', {
+            progressBarHidden: isEnabled,
+            durationHidden: durationHidden,
+            shortsHidden: shortsHidden,
+            homeFeedHidden: homeFeedHidden,
+            rawHomeFeedHidden: result.homeFeedHidden
+        });
+
+        // Verify DOM elements are available before updating UI
+        if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch) {
+            console.error('❌ DOM elements not ready, retrying in 100ms...');
+            setTimeout(() => {
+                // Re-initialize DOM elements
+                toggleSwitch = document.getElementById('progressSwitch');
+                durationSwitch = document.getElementById('durationSwitch');
+                shortsSwitch = document.getElementById('shortsSwitch');
+                homeFeedSwitch = document.getElementById('homeFeedSwitch');
+                status = document.getElementById('status');
+
+                console.log('🔄 Retrying UI update with elements:', {
+                    toggleSwitch: !!toggleSwitch,
+                    durationSwitch: !!durationSwitch,
+                    shortsSwitch: !!shortsSwitch,
+                    homeFeedSwitch: !!homeFeedSwitch
+                });
+
+                updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden);
+            }, 100);
+        } else {
+            console.log('✅ DOM elements ready, updating UI immediately');
+            updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden);
+        }
+
         // Set language
         if (result.language) {
             currentLang = result.language;
@@ -260,31 +352,32 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.log('No saved language preference, using default:', currentLang);
         }
-        
+
         // Đồng bộ theme từ storage với localStorage
         if (result.theme) {
             localStorage.setItem('theme', result.theme);
             document.documentElement.classList.toggle('dark', result.theme === 'dark');
             console.log('Synced theme from storage:', result.theme);
         }
-        
+
         updateLanguageUI();
-        updateUI(isEnabled, durationHidden, shortsHidden);
     });
     
     // Xử lý click toggle extension
     if (toggleSwitch) {
         toggleSwitch.addEventListener('change', function(e) {
-            const newState = e.detail.active;
-            
+            const newState = e.target.checked;
+
             // Lưu trạng thái
             chrome.storage.sync.set({ progressBarHidden: newState });
-            
+
             // Cập nhật UI
-            chrome.storage.sync.get(['durationHidden', 'shortsHidden'], function(result) {
-                updateUI(newState, result.durationHidden !== false, result.shortsHidden === true);
+            chrome.storage.sync.get(['durationHidden', 'shortsHidden', 'homeFeedHidden'], function(result) {
+                const currentHomeFeedHidden = result.homeFeedHidden === true;
+                updateUI(newState, result.durationHidden !== false, result.shortsHidden === true, currentHomeFeedHidden);
+                console.log('🔄 Updated UI after progress bar toggle, homeFeedHidden:', currentHomeFeedHidden);
             });
-            
+
             handleToggleChange('toggleProgressBar', newState);
         });
     }
@@ -292,16 +385,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Xử lý click toggle duration
     if (durationSwitch) {
         durationSwitch.addEventListener('change', function(e) {
-            const newState = e.detail.active;
-            
+            const newState = e.target.checked;
+
             // Lưu trạng thái
             chrome.storage.sync.set({ durationHidden: newState });
-            
+
             // Cập nhật UI
-            chrome.storage.sync.get(['progressBarHidden', 'shortsHidden'], function(result) {
-                updateUI(result.progressBarHidden !== false, newState, result.shortsHidden === true);
+            chrome.storage.sync.get(['progressBarHidden', 'shortsHidden', 'homeFeedHidden'], function(result) {
+                const currentHomeFeedHidden = result.homeFeedHidden === true;
+                updateUI(result.progressBarHidden !== false, newState, result.shortsHidden === true, currentHomeFeedHidden);
+                console.log('🔄 Updated UI after duration toggle, homeFeedHidden:', currentHomeFeedHidden);
             });
-            
+
             handleToggleChange('toggleDuration', newState);
         });
     }
@@ -309,17 +404,40 @@ document.addEventListener('DOMContentLoaded', function() {
     // Xử lý click toggle shorts
     if (shortsSwitch) {
         shortsSwitch.addEventListener('change', function(e) {
-            const newState = e.detail.active;
-            
+            const newState = e.target.checked;
+
             // Lưu trạng thái
             chrome.storage.sync.set({ shortsHidden: newState });
-            
+
             // Cập nhật UI
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden'], function(result) {
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, newState);
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'homeFeedHidden'], function(result) {
+                const currentHomeFeedHidden = result.homeFeedHidden === true;
+                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, newState, currentHomeFeedHidden);
+                console.log('🔄 Updated UI after shorts toggle, homeFeedHidden:', currentHomeFeedHidden);
             });
-            
+
             handleToggleChange('toggleShorts', newState);
+        });
+    }
+
+    // Xử lý click toggle home feed
+    if (homeFeedSwitch) {
+        homeFeedSwitch.addEventListener('change', function(e) {
+            const newState = e.target.checked;
+            console.log('🏠 Home Feed toggle changed to:', newState);
+
+            // Lưu trạng thái
+            chrome.storage.sync.set({ homeFeedHidden: newState }, function() {
+                console.log('✅ Home Feed state saved to storage:', newState);
+            });
+
+            // Cập nhật UI ngay lập tức với trạng thái mới
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden'], function(result) {
+                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, newState);
+                console.log('🔄 Updated UI after home feed toggle, newState:', newState);
+            });
+
+            handleToggleChange('toggleHomeFeed', newState);
         });
     }
     
@@ -396,49 +514,160 @@ function setLanguage(lang, save = true) {
     const translations = {
         'vi': {
             'title': 'YouTube Hider',
-            'subtitle': 'Ẩn thanh tiến trình & thời lượng',
+            'subtitle': 'Ẩn các phần tử YouTube không mong muốn',
+            // Content & Feed Controls
+            'contentFeedControlsTitle': 'Content & Feed Controls',
+            'hideHomeFeed': 'Ẩn trang chủ',
+            'hideVideoSidebar': 'Ẩn thanh bên video',
+            'hideRecommendedVideos': 'Ẩn video đề xuất',
+            'hideShorts': 'Ẩn Shorts',
+            'hideComments': 'Ẩn phần bình luận',
+            'hidePlaylistPanel': 'Ẩn panel playlist',
+            'hideMixes': 'Ẩn Mixes',
+            // Interface Elements
+            'interfaceElementsTitle': 'Interface Elements',
+            'hideTopHeader': 'Ẩn thanh điều hướng trên',
+            'hideNotificationsBell': 'Ẩn chuông thông báo',
+            'hideExploreTrending': 'Ẩn tab Khám phá & Thịnh hành',
+            'hideSubscriptionsTab': 'Ẩn tab Đăng ký',
+            'hideMoreFromYouTube': 'Ẩn "Thêm từ YouTube"',
+            'hideProfilePhotos': 'Ẩn ảnh đại diện',
+            // Video Controls
+            'videoControlsTitle': 'Video Controls',
             'hideProgressBar': 'Ẩn thanh tiến trình',
             'hideDuration': 'Ẩn thời lượng video',
-            'hideShorts': 'Ẩn Shorts',
+            'hideLiveChat': 'Ẩn chat trực tiếp',
+            'hideEndScreenRecommendations': 'Ẩn đề xuất cuối video',
+            'hideEndScreenCards': 'Ẩn thẻ cuối video',
+            'hideVideoInfoPanel': 'Ẩn panel thông tin video',
+            'disableAutoplay': 'Tắt tự động phát',
+            'disableAnnotations': 'Tắt chú thích video',
+            // Other Features
+            'otherFeaturesTitle': 'Other Features',
+            'hideFundraiserBanners': 'Ẩn banner gây quỹ',
+            'hideMerchandise': 'Ẩn hàng hóa/vé/ưu đãi',
+            'hideInappropriateSearch': 'Ẩn kết quả tìm kiếm không phù hợp',
+            // General
             'active': 'Đang hoạt động',
             'inactive': 'Đã tắt',
             'infoTitle': 'Giới thiệu',
             'infoContent': 'Extension giúp bạn tập trung vào nội dung video mà không bị phân tâm bởi:',
-            'featureProgress': 'Thanh tiến trình video',
-            'featureDuration': 'Thời lượng video',
-            'featureShorts': 'Nội dung Shorts',
-            'infoExtra': 'Tất cả các chức năng điều khiển khác như âm lượng, play/pause vẫn hoạt động bình thường.',
+            'featureProgress': 'Các phần tử giao diện không cần thiết',
+            'featureDuration': 'Nội dung đề xuất và quảng cáo',
+            'featureShorts': 'Các tính năng gây xao nhãng',
+            'homeFeed': 'Trang chủ',
+            'infoExtra': 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với hơn 20 tùy chọn ẩn/hiện.',
             'noticeTitle': 'Lưu ý quan trọng',
-            'noticeDesc': 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.',
-            'videoControlsTitle': 'Điều khiển video'
+            'noticeDesc': 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.'
         },
         'en': {
             'title': 'YouTube Hider',
-            'subtitle': 'Hide progress bar & duration',
+            'subtitle': 'Hide unwanted YouTube elements',
+            // Content & Feed Controls
+            'contentFeedControlsTitle': 'Content & Feed Controls',
+            'hideHomeFeed': 'Hide Home Feed',
+            'hideVideoSidebar': 'Hide Video Sidebar',
+            'hideRecommendedVideos': 'Hide Recommended Videos',
+            'hideShorts': 'Hide Shorts',
+            'hideComments': 'Hide Comments Section',
+            'hidePlaylistPanel': 'Hide Playlist Panel',
+            'hideMixes': 'Hide Mixes',
+            // Interface Elements
+            'interfaceElementsTitle': 'Interface Elements',
+            'hideTopHeader': 'Hide Top Header/Navigation Bar',
+            'hideNotificationsBell': 'Hide Notifications Bell',
+            'hideExploreTrending': 'Hide Explore & Trending Tabs',
+            'hideSubscriptionsTab': 'Hide Subscriptions Tab',
+            'hideMoreFromYouTube': 'Hide "More from YouTube" Section',
+            'hideProfilePhotos': 'Hide Profile Photos/Avatars',
+            // Video Controls
+            'videoControlsTitle': 'Video Controls',
             'hideProgressBar': 'Hide progress bar',
             'hideDuration': 'Hide video duration',
-            'hideShorts': 'Hide Shorts',
+            'hideLiveChat': 'Hide Live Chat',
+            'hideEndScreenRecommendations': 'Hide End Screen Recommendations',
+            'hideEndScreenCards': 'Hide End Screen Cards/Annotations',
+            'hideVideoInfoPanel': 'Hide Video Info Panel',
+            'disableAutoplay': 'Disable Autoplay',
+            'disableAnnotations': 'Disable Video Annotations',
+            // Other Features
+            'otherFeaturesTitle': 'Other Features',
+            'hideFundraiserBanners': 'Hide Fundraiser Banners',
+            'hideMerchandise': 'Hide Merchandise/Tickets/Offers',
+            'hideInappropriateSearch': 'Hide Inappropriate Search Results',
+            // General
             'active': 'Active',
             'inactive': 'Inactive',
             'infoTitle': 'Introduction',
             'infoContent': 'This extension helps you focus on video content without distractions from:',
-            'featureProgress': 'Video progress bar',
-            'featureDuration': 'Video duration',
-            'featureShorts': 'Shorts content',
-            'infoExtra': 'All other control functions such as volume, play/pause still work normally.',
+            'featureProgress': 'Unnecessary interface elements',
+            'featureDuration': 'Recommended content and ads',
+            'featureShorts': 'Distracting features',
+            'homeFeed': 'Home Feed',
+            'infoExtra': 'Customize your YouTube experience with over 20 hide/show options.',
             'noticeTitle': 'Important Notice',
-            'noticeDesc': 'For the best experience, please enable the extension before visiting YouTube.',
-            'videoControlsTitle': 'Video Controls'
+            'noticeDesc': 'For the best experience, please enable the extension before visiting YouTube.'
         }
     };
     
     // Update UI text based on selected language
     const t = translations[lang];
+
+    // Header
     document.querySelector('.ext-title').textContent = t.title;
     document.querySelector('.ext-subtitle').textContent = t.subtitle;
-    document.querySelectorAll('.ext-control-label')[0].textContent = t.hideProgressBar;
-    document.querySelectorAll('.ext-control-label')[1].textContent = t.hideDuration;
-    document.querySelectorAll('.ext-control-label')[2].textContent = t.hideShorts;
+
+    // Section titles
+    const sectionTitles = document.querySelectorAll('.ext-section-title');
+    if (sectionTitles[0]) sectionTitles[0].textContent = t.contentFeedControlsTitle;
+    if (sectionTitles[1]) sectionTitles[1].textContent = t.interfaceElementsTitle;
+    if (sectionTitles[2]) sectionTitles[2].textContent = t.videoControlsTitle;
+    if (sectionTitles[3]) sectionTitles[3].textContent = t.otherFeaturesTitle;
+
+    // Control labels - using a mapping approach for better maintainability
+    const labelMappings = [
+        // Content & Feed Controls
+        { id: 'homeFeedSwitch', text: t.hideHomeFeed },
+        { id: 'videoSidebarSwitch', text: t.hideVideoSidebar },
+        { id: 'recommendedVideosSwitch', text: t.hideRecommendedVideos },
+        { id: 'shortsSwitch', text: t.hideShorts },
+        { id: 'commentsSwitch', text: t.hideComments },
+        { id: 'playlistPanelSwitch', text: t.hidePlaylistPanel },
+        { id: 'mixesSwitch', text: t.hideMixes },
+        // Interface Elements
+        { id: 'topHeaderSwitch', text: t.hideTopHeader },
+        { id: 'notificationsBellSwitch', text: t.hideNotificationsBell },
+        { id: 'exploreTrendingSwitch', text: t.hideExploreTrending },
+        { id: 'subscriptionsTabSwitch', text: t.hideSubscriptionsTab },
+        { id: 'moreFromYouTubeSwitch', text: t.hideMoreFromYouTube },
+        { id: 'profilePhotosSwitch', text: t.hideProfilePhotos },
+        // Video Controls
+        { id: 'progressSwitch', text: t.hideProgressBar },
+        { id: 'durationSwitch', text: t.hideDuration },
+        { id: 'liveChatSwitch', text: t.hideLiveChat },
+        { id: 'endScreenRecommendationsSwitch', text: t.hideEndScreenRecommendations },
+        { id: 'endScreenCardsSwitch', text: t.hideEndScreenCards },
+        { id: 'videoInfoPanelSwitch', text: t.hideVideoInfoPanel },
+        { id: 'disableAutoplaySwitch', text: t.disableAutoplay },
+        { id: 'disableAnnotationsSwitch', text: t.disableAnnotations },
+        // Other Features
+        { id: 'fundraiserBannersSwitch', text: t.hideFundraiserBanners },
+        { id: 'merchandiseSwitch', text: t.hideMerchandise },
+        { id: 'inappropriateSearchSwitch', text: t.hideInappropriateSearch }
+    ];
+
+    // Update all control labels
+    labelMappings.forEach(mapping => {
+        const switchElement = document.getElementById(mapping.id);
+        if (switchElement) {
+            const label = switchElement.closest('.ext-control-item')?.querySelector('.ext-control-label');
+            if (label) {
+                label.textContent = mapping.text;
+            }
+        }
+    });
+
+    // Other UI elements
     document.querySelector('#status').textContent = t.active;
     document.querySelector('.ext-info-title').textContent = t.infoTitle;
     document.querySelector('.ext-info-content').firstChild.textContent = t.infoContent;
@@ -448,7 +677,6 @@ function setLanguage(lang, save = true) {
     document.querySelector('.ext-info-content p').textContent = t.infoExtra;
     document.querySelector('.ext-notice-title').textContent = t.noticeTitle;
     document.querySelector('.ext-notice-description').textContent = t.noticeDesc;
-    document.querySelector('.ext-section-title').textContent = t.videoControlsTitle;
 
     // Save language preference if needed
     if (save) {

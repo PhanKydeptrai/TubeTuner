@@ -155,114 +155,172 @@ body.youtube-duration-hidden .ytp-bound-time-right {
   visibility: visible !important;
 }
 
-/* Ẩn phần Shorts của YouTube khi extension bật */
-/* Ẩn mục Shorts trong thanh điều hướng bên trái */
+/* ===== COMPREHENSIVE YOUTUBE SHORTS HIDING ===== */
+
+/* 1. SIDEBAR NAVIGATION - Hide Shorts button/link completely */
 body.youtube-shorts-hidden ytd-guide-entry-renderer a[title="Shorts"],
+body.youtube-shorts-hidden ytd-guide-entry-renderer a[title*="Shorts"],
+body.youtube-shorts-hidden ytd-guide-entry-renderer a[title*="shorts"],
 body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[title="Shorts"],
+body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[title*="Shorts"],
+body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[title*="shorts"],
 body.youtube-shorts-hidden ytd-guide-entry-renderer a[href="/shorts"],
-body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[href="/shorts"] {
+body.youtube-shorts-hidden ytd-guide-entry-renderer a[href*="/shorts"],
+body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[href="/shorts"],
+body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[href*="/shorts"] {
   display: none !important;
 }
 
-/* Ẩn nút Shorts trên thanh điều hướng */
-body.youtube-shorts-hidden ytd-guide-section-renderer ytd-guide-entry-renderer a[href="/shorts"] {
+/* Hide entire guide entry containers that contain Shorts */
+body.youtube-shorts-hidden ytd-guide-entry-renderer[shorts-hidden="true"],
+body.youtube-shorts-hidden ytd-mini-guide-entry-renderer[shorts-hidden="true"] {
   display: none !important;
 }
 
-/* Ẩn các khu vực Shorts trong trang chủ */
-body.youtube-shorts-hidden ytd-rich-section-renderer ytd-rich-shelf-renderer[is-shorts] {
+/* Additional sidebar hiding */
+body.youtube-shorts-hidden ytd-guide-section-renderer ytd-guide-entry-renderer a[href="/shorts"],
+body.youtube-shorts-hidden ytd-guide-section-renderer ytd-guide-entry-renderer a[href*="/shorts"] {
   display: none !important;
 }
 
-body.youtube-shorts-hidden ytd-reel-shelf-renderer {
+/* 2. HOMEPAGE SHORTS SECTIONS - Hide entire Shorts areas */
+body.youtube-shorts-hidden ytd-rich-section-renderer ytd-rich-shelf-renderer[is-shorts],
+body.youtube-shorts-hidden ytd-rich-section-renderer[shorts-section="true"],
+body.youtube-shorts-hidden ytd-shelf-renderer[shorts-section="true"] {
   display: none !important;
 }
 
-/* Ẩn các video item chứa shorts */
-body.youtube-shorts-hidden ytd-rich-grid-media[is-short] {
+body.youtube-shorts-hidden ytd-reel-shelf-renderer,
+body.youtube-shorts-hidden ytd-shorts-shelf-renderer,
+body.youtube-shorts-hidden ytd-shorts {
   display: none !important;
 }
 
-body.youtube-shorts-hidden ytd-thumbnail[is-short] {
+/* 3. INDIVIDUAL SHORTS VIDEOS - Hide all video containers with Shorts */
+body.youtube-shorts-hidden ytd-rich-grid-media[is-short="true"],
+body.youtube-shorts-hidden ytd-rich-grid-media[shorts-video="true"] {
   display: none !important;
 }
 
-/* Ẩn các thẻ chứa shorts */
-body.youtube-shorts-hidden ytd-grid-video-renderer a[href*="/shorts/"] {
+body.youtube-shorts-hidden ytd-thumbnail[is-short="true"],
+body.youtube-shorts-hidden ytd-thumbnail[shorts-video="true"] {
   display: none !important;
 }
 
-body.youtube-shorts-hidden ytd-compact-video-renderer a[href*="/shorts/"] {
+/* Hide video renderers containing Shorts */
+body.youtube-shorts-hidden ytd-grid-video-renderer[is-short="true"],
+body.youtube-shorts-hidden ytd-compact-video-renderer[is-short="true"],
+body.youtube-shorts-hidden ytd-video-renderer[is-short="true"],
+body.youtube-shorts-hidden ytd-rich-item-renderer[is-short="true"] {
   display: none !important;
 }
 
-body.youtube-shorts-hidden ytd-video-renderer a[href*="/shorts/"] {
+/* 4. URL-BASED HIDING - Hide any element linking to Shorts */
+/* Hide containers that contain Shorts links */
+body.youtube-shorts-hidden ytd-grid-video-renderer:has(a[href*="/shorts/"]),
+body.youtube-shorts-hidden ytd-compact-video-renderer:has(a[href*="/shorts/"]),
+body.youtube-shorts-hidden ytd-video-renderer:has(a[href*="/shorts/"]),
+body.youtube-shorts-hidden ytd-rich-item-renderer:has(a[href*="/shorts/"]),
+body.youtube-shorts-hidden ytd-rich-grid-media:has(a[href*="/shorts/"]) {
   display: none !important;
 }
 
+/* Fallback: Hide the links themselves */
+body.youtube-shorts-hidden a[href*="/shorts/"] {
+  display: none !important;
+}
+
+/* Hide specific video containers with Shorts links */
+body.youtube-shorts-hidden ytd-grid-video-renderer a[href*="/shorts/"],
+body.youtube-shorts-hidden ytd-compact-video-renderer a[href*="/shorts/"],
+body.youtube-shorts-hidden ytd-video-renderer a[href*="/shorts/"],
 body.youtube-shorts-hidden ytd-rich-item-renderer a[href*="/shorts/"] {
   display: none !important;
 }
 
-/* Ẩn khu vực "Shorts" trong trang chủ */
-body.youtube-shorts-hidden [is-shorts="true"] {
+/* 5. CHANNEL PAGES - Hide Shorts tabs and content */
+body.youtube-shorts-hidden tp-yt-paper-tab[tab-id="shorts"],
+body.youtube-shorts-hidden yt-tab-shape[tab-title*="Shorts"],
+body.youtube-shorts-hidden yt-tab-shape[tab-title*="shorts"] {
   display: none !important;
 }
 
-/* Ẩn section chứa shorts */
-body.youtube-shorts-hidden ytd-rich-section-renderer:nth-child(2) {
-  display: none !important;
-}
-
-/* Ẩn tab Shorts trong kênh */
-body.youtube-shorts-hidden tp-yt-paper-tab[tab-id="shorts"] {
-  display: none !important;
-}
-
-/* Ẩn các shorts trong trang kênh */
+/* Hide Shorts in channel video grids */
+body.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer:has(a[href*="/shorts/"]),
 body.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer a[href*="/shorts/"] {
   display: none !important;
 }
 
-/* Thêm CSS để ẩn các video shorts trong kết quả tìm kiếm */
-body.youtube-shorts-hidden ytd-video-renderer a[href*="/shorts/"] {
+/* 6. SEARCH RESULTS - Hide Shorts in search */
+body.youtube-shorts-hidden ytd-search ytd-video-renderer:has(a[href*="/shorts/"]),
+body.youtube-shorts-hidden ytd-search ytd-video-renderer a[href*="/shorts/"],
+body.youtube-shorts-hidden ytd-item-section-renderer ytd-video-renderer:has(a[href*="/shorts/"]) {
   display: none !important;
 }
 
-/* Ẩn các shorts trong playlist */
+/* 7. PLAYLISTS AND OTHER AREAS */
+body.youtube-shorts-hidden ytd-playlist-panel-video-renderer:has(a[href*="/shorts/"]),
 body.youtube-shorts-hidden ytd-playlist-panel-video-renderer a[href*="/shorts/"] {
   display: none !important;
 }
 
-/* Ẩn các container chứa shorts - sử dụng JavaScript để xử lý thay vì :has() */
+/* 8. GENERAL SHORTS SECTIONS */
+body.youtube-shorts-hidden [is-shorts="true"],
+body.youtube-shorts-hidden [shorts-section="true"] {
+  display: none !important;
+}
+
+/* 9. JAVASCRIPT-MARKED ELEMENTS */
 body.youtube-shorts-hidden ytd-rich-section-renderer.ytd-shorts-section,
 body.youtube-shorts-hidden ytd-shelf-renderer.ytd-shorts-section {
   display: none !important;
 }
 
-/* Ẩn các thành phần liên quan đến shorts */
+/* 10. ALL SHORTS COMPONENTS */
 body.youtube-shorts-hidden ytd-shorts,
 body.youtube-shorts-hidden ytd-shorts-shelf-renderer,
 body.youtube-shorts-hidden ytd-reel-shelf-renderer,
 body.youtube-shorts-hidden ytd-shorts-compact-video-renderer,
-body.youtube-shorts-hidden ytd-shorts-video-renderer {
+body.youtube-shorts-hidden ytd-shorts-video-renderer,
+body.youtube-shorts-hidden ytd-reel-item-renderer {
   display: none !important;
 }
 
-/* Ẩn các container shorts trên trang chủ */
-body.youtube-shorts-hidden ytd-rich-shelf-renderer[is-shorts],
-body.youtube-shorts-hidden ytd-rich-shelf-renderer[is-shorts="true"] {
+/* 11. ATTRIBUTE-BASED HIDING - Only specific YouTube elements */
+body.youtube-shorts-hidden ytd-guide-entry-renderer[aria-label*="Shorts"],
+body.youtube-shorts-hidden ytd-mini-guide-entry-renderer[aria-label*="Shorts"],
+body.youtube-shorts-hidden ytd-guide-entry-renderer[title*="Shorts"],
+body.youtube-shorts-hidden ytd-mini-guide-entry-renderer[title*="Shorts"],
+body.youtube-shorts-hidden tp-yt-paper-tab[aria-label*="Shorts"],
+body.youtube-shorts-hidden yt-tab-shape[aria-label*="Shorts"] {
   display: none !important;
 }
 
-/* Ẩn các shorts trong phần đề xuất */
-body.youtube-shorts-hidden ytd-compact-video-renderer[is-short],
-body.youtube-shorts-hidden ytd-compact-video-renderer[is-short="true"] {
+/* 12. MOBILE AND RESPONSIVE */
+body.youtube-shorts-hidden ytm-shorts-lockup-view-model,
+body.youtube-shorts-hidden ytm-reel-item-renderer,
+body.youtube-shorts-hidden ytm-shorts-shelf-renderer {
   display: none !important;
 }
 
-/* Ẩn các shorts trong trang kênh */
-body.youtube-shorts-hidden ytd-grid-video-renderer[is-short],
-body.youtube-shorts-hidden ytd-grid-video-renderer[is-short="true"] {
+/* 13. JAVASCRIPT-MARKED ELEMENTS - Elements marked by JavaScript */
+body.youtube-shorts-hidden [shorts-link="true"],
+body.youtube-shorts-hidden [shorts-element="true"],
+body.youtube-shorts-hidden [shorts-component="true"],
+body.youtube-shorts-hidden [shorts-tab="true"] {
   display: none !important;
-} 
+}
+
+/* 14. SPECIFIC FALLBACK RULES - Only target actual Shorts elements */
+body.youtube-shorts-hidden [class*="shorts-"]:not([class*="shortcut"]):not([class*="shorthand"]),
+body.youtube-shorts-hidden [id*="shorts-"]:not([id*="shortcut"]):not([id*="shorthand"]) {
+  display: none !important;
+}
+
+/* ===== SIMPLE YOUTUBE HOME FEED HIDING ===== */
+
+/* Hide only the main content area on home page - simple and effective */
+body.youtube-home-feed-hidden ytd-browse[page-subtype="home"] #primary {
+  display: none !important;
+}
+
