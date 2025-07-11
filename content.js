@@ -6,6 +6,8 @@
     let isDurationHidden = true;
     let isShortsHidden = false;
     let isHomeFeedHidden = false;
+    let isVideoSidebarHidden = false;
+    let isCommentsHidden = false;
     
     // Hàm đơn giản để toggle progress bar
     function toggleProgressBar(hide) {
@@ -101,6 +103,52 @@
         }
     }
 
+    // Hàm toggle Video Sidebar
+    function toggleVideoSidebar(hide) {
+        console.log('📺 Toggle video sidebar:', hide);
+
+        if (hide) {
+            document.body.classList.add('youtube-video-sidebar-hidden');
+            // Add data attribute to help with CSS targeting
+            document.body.setAttribute('data-video-sidebar-hidden', 'true');
+            console.log('✅ Added class youtube-video-sidebar-hidden');
+            applyVideoSidebarFixes();
+
+            // Debug: kiểm tra ngay sau khi áp dụng
+            setTimeout(() => {
+                debugVideoSidebarStatus();
+            }, 500);
+        } else {
+            document.body.classList.remove('youtube-video-sidebar-hidden');
+            document.body.removeAttribute('data-video-sidebar-hidden');
+            console.log('❌ Removed class youtube-video-sidebar-hidden');
+            restoreVideoSidebar();
+        }
+    }
+
+    // Hàm toggle Comments Section
+    function toggleComments(hide) {
+        console.log('💬 Toggle comments section:', hide);
+
+        if (hide) {
+            document.body.classList.add('youtube-comments-hidden');
+            // Add data attribute to help with CSS targeting
+            document.body.setAttribute('data-comments-hidden', 'true');
+            console.log('✅ Added class youtube-comments-hidden');
+            applyCommentsFixes();
+
+            // Debug: kiểm tra ngay sau khi áp dụng
+            setTimeout(() => {
+                debugCommentsStatus();
+            }, 500);
+        } else {
+            document.body.classList.remove('youtube-comments-hidden');
+            document.body.removeAttribute('data-comments-hidden');
+            console.log('❌ Removed class youtube-comments-hidden');
+            restoreComments();
+        }
+    }
+
     // Hàm khôi phục Home Feed khi tắt tính năng
     function restoreHomeFeed() {
         console.log('🔄 Restoring Home Feed visibility...');
@@ -109,6 +157,26 @@
         // No need for complex DOM manipulation
 
         console.log('✅ Home Feed visibility restored via CSS');
+    }
+
+    // Hàm khôi phục Video Sidebar khi tắt tính năng
+    function restoreVideoSidebar() {
+        console.log('🔄 Restoring Video Sidebar visibility...');
+
+        // Simple approach: CSS will handle showing content when class is removed
+        // No need for complex DOM manipulation
+
+        console.log('✅ Video Sidebar visibility restored via CSS');
+    }
+
+    // Hàm khôi phục Comments khi tắt tính năng
+    function restoreComments() {
+        console.log('🔄 Restoring Comments visibility...');
+
+        // Simple approach: CSS will handle showing content when class is removed
+        // No need for complex DOM manipulation
+
+        console.log('✅ Comments visibility restored via CSS');
     }
 
     // Simple Home Feed hiding function
@@ -124,6 +192,36 @@
         // The CSS rule is sufficient and won't interfere with sidebar navigation
 
         console.log('✅ Home Feed hiding applied via CSS');
+    }
+
+    // Simple Video Sidebar hiding function
+    function applyVideoSidebarFixes() {
+        if (!isVideoSidebarHidden) return;
+
+        console.log('📺 Applying simple Video Sidebar hiding...');
+
+        // Simple approach: just hide the secondary column on video watch pages
+        // CSS will handle the rest with: body.youtube-video-sidebar-hidden ytd-watch-flexy #secondary
+
+        // No need for complex DOM manipulation or marking elements
+        // The CSS rule is sufficient and will hide all sidebar content
+
+        console.log('✅ Video Sidebar hiding applied via CSS');
+    }
+
+    // Simple Comments hiding function
+    function applyCommentsFixes() {
+        if (!isCommentsHidden) return;
+
+        console.log('💬 Applying simple Comments hiding...');
+
+        // Simple approach: just hide the comments section on video watch pages
+        // CSS will handle the rest with: body.youtube-comments-hidden ytd-comments
+
+        // No need for complex DOM manipulation or marking elements
+        // The CSS rule is sufficient and will hide all comments content
+
+        console.log('✅ Comments hiding applied via CSS');
     }
 
     // Hàm debug để kiểm tra trạng thái Home Feed
@@ -148,6 +246,56 @@
             primaryHidden,
             sidebarVisible,
             isHomeFeedHidden
+        };
+    }
+
+    // Hàm debug để kiểm tra trạng thái Video Sidebar
+    function debugVideoSidebarStatus() {
+        const bodyHasClass = document.body.classList.contains('youtube-video-sidebar-hidden');
+        const bodyHasAttribute = document.body.hasAttribute('data-video-sidebar-hidden');
+        const secondaryElement = document.querySelector('ytd-watch-flexy #secondary');
+        const secondaryHidden = secondaryElement ? window.getComputedStyle(secondaryElement).display === 'none' : false;
+        const isWatchPage = window.location.pathname.includes('/watch');
+
+        console.log('🔍 Debug Video Sidebar Status (Simple):');
+        console.log('   Body has class:', bodyHasClass);
+        console.log('   Body has data attribute:', bodyHasAttribute);
+        console.log('   Secondary content hidden:', secondaryHidden);
+        console.log('   Is watch page:', isWatchPage);
+        console.log('   isVideoSidebarHidden variable:', isVideoSidebarHidden);
+        console.log('   Current page:', window.location.pathname);
+
+        return {
+            bodyHasClass,
+            bodyHasAttribute,
+            secondaryHidden,
+            isWatchPage,
+            isVideoSidebarHidden
+        };
+    }
+
+    // Hàm debug để kiểm tra trạng thái Comments
+    function debugCommentsStatus() {
+        const bodyHasClass = document.body.classList.contains('youtube-comments-hidden');
+        const bodyHasAttribute = document.body.hasAttribute('data-comments-hidden');
+        const commentsElement = document.querySelector('ytd-comments');
+        const commentsHidden = commentsElement ? window.getComputedStyle(commentsElement).display === 'none' : false;
+        const isWatchPage = window.location.pathname.includes('/watch');
+
+        console.log('🔍 Debug Comments Status (Simple):');
+        console.log('   Body has class:', bodyHasClass);
+        console.log('   Body has data attribute:', bodyHasAttribute);
+        console.log('   Comments content hidden:', commentsHidden);
+        console.log('   Is watch page:', isWatchPage);
+        console.log('   isCommentsHidden variable:', isCommentsHidden);
+        console.log('   Current page:', window.location.pathname);
+
+        return {
+            bodyHasClass,
+            bodyHasAttribute,
+            commentsHidden,
+            isWatchPage,
+            isCommentsHidden
         };
     }
 
@@ -181,7 +329,13 @@
         isShortsHidden: () => isShortsHidden,
         debugHomeFeedStatus,
         toggleHomeFeed,
-        isHomeFeedHidden: () => isHomeFeedHidden
+        isHomeFeedHidden: () => isHomeFeedHidden,
+        debugVideoSidebarStatus,
+        toggleVideoSidebar,
+        isVideoSidebarHidden: () => isVideoSidebarHidden,
+        debugCommentsStatus,
+        toggleComments,
+        isCommentsHidden: () => isCommentsHidden
     };
     
     // Comprehensive Shorts hiding function
@@ -353,23 +507,29 @@
         console.log('YouTube Progress Bar & Duration Hider initialized');
         
         // Lấy trạng thái từ storage
-        chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'autoRefreshEnabled'], (result) => {
+        chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'autoRefreshEnabled'], (result) => {
             isProgressHidden = result.progressBarHidden !== false;
             isDurationHidden = result.durationHidden !== false;
             isShortsHidden = result.shortsHidden === true;
             isHomeFeedHidden = result.homeFeedHidden === true;
+            isVideoSidebarHidden = result.videoSidebarHidden === true;
+            isCommentsHidden = result.commentsHidden === true;
             console.log('Progress bar hidden:', isProgressHidden);
             console.log('Duration hidden:', isDurationHidden);
             console.log('Shorts hidden:', isShortsHidden);
             console.log('Home Feed hidden:', isHomeFeedHidden);
+            console.log('Video Sidebar hidden:', isVideoSidebarHidden);
+            console.log('Comments hidden:', isCommentsHidden);
             console.log('Auto-refresh enabled:', result.autoRefreshEnabled !== false);
-            
+
             // Áp dụng ngay
             setTimeout(() => {
                 toggleProgressBar(isProgressHidden);
                 toggleDuration(isDurationHidden);
                 toggleShorts(isShortsHidden);
                 toggleHomeFeed(isHomeFeedHidden);
+                toggleVideoSidebar(isVideoSidebarHidden);
+                toggleComments(isCommentsHidden);
             }, 1000);
         });
         
@@ -391,6 +551,12 @@
                     }
                     if (isHomeFeedHidden) {
                         toggleHomeFeed(true);
+                    }
+                    if (isVideoSidebarHidden) {
+                        toggleVideoSidebar(true);
+                    }
+                    if (isCommentsHidden) {
+                        toggleComments(true);
                     }
                 }, 2000);
             }
@@ -454,12 +620,50 @@
 
             sendResponse({ success: true, willRefresh: false });
 
+        } else if (request.action === 'toggleVideoSidebar') {
+            console.log('📺 Processing toggleVideoSidebar request, enabled:', request.enabled);
+            isVideoSidebarHidden = request.enabled;
+            toggleVideoSidebar(isVideoSidebarHidden);
+            console.log('✅ Video Sidebar toggled to:', isVideoSidebarHidden);
+
+            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
+            setTimeout(() => {
+                const bodyHasClass = document.body.classList.contains('youtube-video-sidebar-hidden');
+                console.log('🔍 Body class check after toggle:', bodyHasClass);
+
+                // Kiểm tra số lượng sidebar elements
+                const sidebarCount = document.querySelectorAll('ytd-watch-flexy #secondary').length;
+                console.log('📊 Found sidebar elements:', sidebarCount);
+            }, 100);
+
+            sendResponse({ success: true, willRefresh: false });
+
+        } else if (request.action === 'toggleComments') {
+            console.log('💬 Processing toggleComments request, enabled:', request.enabled);
+            isCommentsHidden = request.enabled;
+            toggleComments(isCommentsHidden);
+            console.log('✅ Comments toggled to:', isCommentsHidden);
+
+            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
+            setTimeout(() => {
+                const bodyHasClass = document.body.classList.contains('youtube-comments-hidden');
+                console.log('🔍 Body class check after toggle:', bodyHasClass);
+
+                // Kiểm tra số lượng comments elements
+                const commentsCount = document.querySelectorAll('ytd-comments').length;
+                console.log('📊 Found comments elements:', commentsCount);
+            }, 100);
+
+            sendResponse({ success: true, willRefresh: false });
+
         } else if (request.action === 'getStatus') {
             sendResponse({
                 progressHidden: isProgressHidden,
                 durationHidden: isDurationHidden,
                 shortsHidden: isShortsHidden,
-                homeFeedHidden: isHomeFeedHidden
+                homeFeedHidden: isHomeFeedHidden,
+                videoSidebarHidden: isVideoSidebarHidden,
+                commentsHidden: isCommentsHidden
             });
         }
 
@@ -489,6 +693,12 @@
             }
             if (isHomeFeedHidden) {
                 toggleHomeFeed(true);
+            }
+            if (isVideoSidebarHidden) {
+                toggleVideoSidebar(true);
+            }
+            if (isCommentsHidden) {
+                toggleComments(true);
             }
         }, 2000);
     });

@@ -324,3 +324,187 @@ body.youtube-home-feed-hidden ytd-browse[page-subtype="home"] #primary {
   display: none !important;
 }
 
+/* ===== YOUTUBE VIDEO SIDEBAR HIDING ===== */
+
+/* Hide the entire secondary column on video watch pages */
+body.youtube-video-sidebar-hidden ytd-watch-flexy #secondary {
+  display: none !important;
+}
+
+/* Hide secondary column in different YouTube layouts */
+body.youtube-video-sidebar-hidden ytd-watch-flexy #secondary-inner {
+  display: none !important;
+}
+
+/* Hide related videos panel */
+body.youtube-video-sidebar-hidden ytd-watch-next-secondary-results-renderer {
+  display: none !important;
+}
+
+/* Hide video recommendations sidebar */
+body.youtube-video-sidebar-hidden ytd-compact-video-renderer {
+  display: none !important;
+}
+
+/* Hide autoplay toggle and related elements in sidebar */
+body.youtube-video-sidebar-hidden ytd-compact-autoplay-renderer {
+  display: none !important;
+}
+
+/* Hide playlist panel in sidebar */
+body.youtube-video-sidebar-hidden ytd-playlist-panel-renderer {
+  display: none !important;
+}
+
+/* Hide live chat panel when in sidebar */
+body.youtube-video-sidebar-hidden ytd-live-chat-frame {
+  display: none !important;
+}
+
+/* Hide engagement panels (comments, etc.) when in sidebar */
+body.youtube-video-sidebar-hidden ytd-engagement-panel-section-list-renderer {
+  display: none !important;
+}
+
+/* Hide merch shelf in sidebar */
+body.youtube-video-sidebar-hidden ytd-merch-shelf-renderer {
+  display: none !important;
+}
+
+/* Hide donation shelf in sidebar */
+body.youtube-video-sidebar-hidden ytd-donation-shelf-renderer {
+  display: none !important;
+}
+
+/* Hide ticket shelf in sidebar */
+body.youtube-video-sidebar-hidden ytd-ticket-shelf-renderer {
+  display: none !important;
+}
+
+/* Hide any secondary content containers */
+body.youtube-video-sidebar-hidden #related,
+body.youtube-video-sidebar-hidden #watch-sidebar,
+body.youtube-video-sidebar-hidden .watch-sidebar {
+  display: none !important;
+}
+
+/* Ensure main video content takes full width when sidebar is hidden */
+body.youtube-video-sidebar-hidden ytd-watch-flexy #primary {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* Adjust theater mode layout when sidebar is hidden */
+body.youtube-video-sidebar-hidden ytd-watch-flexy[theater] #primary {
+  width: 100% !important;
+}
+
+/* Hide sidebar in mobile/responsive layouts */
+body.youtube-video-sidebar-hidden ytm-watch ytm-item-section-renderer[data-content-type="related"] {
+  display: none !important;
+}
+
+/* Hide sidebar recommendations in mobile */
+body.youtube-video-sidebar-hidden ytm-compact-video-renderer {
+  display: none !important;
+}
+
+/* ===== YOUTUBE COMMENTS SECTION HIDING ===== */
+
+/* Hide the main comments section container */
+body.youtube-comments-hidden ytd-comments {
+  display: none !important;
+}
+
+/* Hide comments section in different layouts */
+body.youtube-comments-hidden ytd-comments-header-renderer {
+  display: none !important;
+}
+
+/* Hide individual comment threads */
+body.youtube-comments-hidden ytd-comment-thread-renderer {
+  display: none !important;
+}
+
+/* Hide comment replies */
+body.youtube-comments-hidden ytd-comment-replies-renderer {
+  display: none !important;
+}
+
+/* Hide comment input/compose area */
+body.youtube-comments-hidden ytd-comment-simplebox-renderer {
+  display: none !important;
+}
+
+/* Hide comments continuation (load more comments) */
+body.youtube-comments-hidden ytd-continuation-item-renderer {
+  display: none !important;
+}
+
+/* Hide comments section header */
+body.youtube-comments-hidden #comments-header {
+  display: none !important;
+}
+
+/* Hide comments count and sort options */
+body.youtube-comments-hidden ytd-comments-header-renderer {
+  display: none !important;
+}
+
+/* Hide comment engagement panels */
+body.youtube-comments-hidden ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"] {
+  display: none !important;
+}
+
+/* Hide comments in engagement panels */
+body.youtube-comments-hidden ytd-engagement-panel-section-list-renderer ytd-comments {
+  display: none !important;
+}
+
+/* Hide comment action buttons area */
+body.youtube-comments-hidden ytd-comment-action-buttons-renderer {
+  display: none !important;
+}
+
+/* Hide pinned comments */
+body.youtube-comments-hidden ytd-pinned-comment-badge-renderer {
+  display: none !important;
+}
+
+/* Hide comments section in mobile layout */
+body.youtube-comments-hidden ytm-comment-section-renderer {
+  display: none !important;
+}
+
+/* Hide mobile comment threads */
+body.youtube-comments-hidden ytm-comment-thread-renderer {
+  display: none !important;
+}
+
+/* Hide mobile comment input */
+body.youtube-comments-hidden ytm-comment-simplebox-renderer {
+  display: none !important;
+}
+
+/* Hide comments in item section renderer */
+body.youtube-comments-hidden ytd-item-section-renderer[section-identifier="comment-item-section"] {
+  display: none !important;
+}
+
+/* Hide any element with comments-related IDs */
+body.youtube-comments-hidden #comments,
+body.youtube-comments-hidden #comment-teaser,
+body.youtube-comments-hidden #comments-button {
+  display: none !important;
+}
+
+/* Hide comments teaser/preview */
+body.youtube-comments-hidden ytd-comment-teaser-renderer {
+  display: none !important;
+}
+
+/* Hide live chat comments (if in comments area) */
+body.youtube-comments-hidden ytd-live-chat-frame[src*="live_chat"] {
+  display: none !important;
+}
+

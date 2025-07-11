@@ -1,7 +1,7 @@
 // YouTube Progress Bar Hider Popup Script
 let currentLang = 'vi'; // Default language is Vietnamese
 let translations = {}; // Khai báo toàn cục để truy cập từ bên ngoài DOMContentLoaded
-let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, status; // Global variables để có thể truy cập từ bên ngoài
+let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, status; // Global variables để có thể truy cập từ bên ngoài
 
 // Hàm global để xử lý click trực tiếp từ HTML
 function changeLanguage(lang) {
@@ -18,19 +18,23 @@ function changeLanguage(lang) {
 function verifyToggleStates() {
     console.log('🔍 Verifying toggle states...');
 
-    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden'], function(result) {
+    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden'], function(result) {
         const storedStates = {
             progressBarHidden: result.progressBarHidden !== false,
             durationHidden: result.durationHidden !== false,
             shortsHidden: result.shortsHidden === true,
-            homeFeedHidden: result.homeFeedHidden === true
+            homeFeedHidden: result.homeFeedHidden === true,
+            videoSidebarHidden: result.videoSidebarHidden === true,
+            commentsHidden: result.commentsHidden === true
         };
 
         const uiStates = {
             progressBarHidden: toggleSwitch ? toggleSwitch.checked : 'N/A',
             durationHidden: durationSwitch ? durationSwitch.checked : 'N/A',
             shortsHidden: shortsSwitch ? shortsSwitch.checked : 'N/A',
-            homeFeedHidden: homeFeedSwitch ? homeFeedSwitch.checked : 'N/A'
+            homeFeedHidden: homeFeedSwitch ? homeFeedSwitch.checked : 'N/A',
+            videoSidebarHidden: videoSidebarSwitch ? videoSidebarSwitch.checked : 'N/A',
+            commentsHidden: commentsSwitch ? commentsSwitch.checked : 'N/A'
         };
 
         console.log('📊 Stored states:', storedStates);
@@ -100,20 +104,24 @@ function updateLanguageUI() {
 }
 
 // Hàm global để cập nhật UI dựa trên trạng thái
-function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden) {
+function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden) {
     console.log('🔄 updateUI called with:', {
         progressHidden,
         durationHidden,
         shortsHidden,
-        homeFeedHidden
+        homeFeedHidden,
+        videoSidebarHidden,
+        commentsHidden
     });
 
-    if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch) {
+    if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch) {
         console.error('❌ Toggle switches not defined yet:', {
             toggleSwitch: !!toggleSwitch,
             durationSwitch: !!durationSwitch,
             shortsSwitch: !!shortsSwitch,
-            homeFeedSwitch: !!homeFeedSwitch
+            homeFeedSwitch: !!homeFeedSwitch,
+            videoSidebarSwitch: !!videoSidebarSwitch,
+            commentsSwitch: !!commentsSwitch
         });
         return;
     }
@@ -134,22 +142,42 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden) 
     homeFeedSwitch.checked = homeFeedHidden;
     console.log('✅ Home feed toggle set to:', homeFeedHidden);
 
+    // Update video sidebar toggle
+    videoSidebarSwitch.checked = videoSidebarHidden;
+    console.log('✅ Video sidebar toggle set to:', videoSidebarHidden);
+
+    // Update comments toggle
+    commentsSwitch.checked = commentsHidden;
+    console.log('✅ Comments toggle set to:', commentsHidden);
+
     // Verify the state was actually set
     setTimeout(() => {
-        const actualState = homeFeedSwitch.checked;
-        console.log('🔍 Home feed toggle verification - Expected:', homeFeedHidden, 'Actual:', actualState);
-        if (actualState !== homeFeedHidden) {
+        const actualHomeFeedState = homeFeedSwitch.checked;
+        const actualVideoSidebarState = videoSidebarSwitch.checked;
+        const actualCommentsState = commentsSwitch.checked;
+        console.log('🔍 Home feed toggle verification - Expected:', homeFeedHidden, 'Actual:', actualHomeFeedState);
+        console.log('🔍 Video sidebar toggle verification - Expected:', videoSidebarHidden, 'Actual:', actualVideoSidebarState);
+        console.log('🔍 Comments toggle verification - Expected:', commentsHidden, 'Actual:', actualCommentsState);
+        if (actualHomeFeedState !== homeFeedHidden) {
             console.warn('⚠️ Home feed toggle state mismatch, retrying...');
             homeFeedSwitch.checked = homeFeedHidden;
+        }
+        if (actualVideoSidebarState !== videoSidebarHidden) {
+            console.warn('⚠️ Video sidebar toggle state mismatch, retrying...');
+            videoSidebarSwitch.checked = videoSidebarHidden;
+        }
+        if (actualCommentsState !== commentsHidden) {
+            console.warn('⚠️ Comments toggle state mismatch, retrying...');
+            commentsSwitch.checked = commentsHidden;
         }
     }, 50);
 
     // Update status
-    updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden);
+    updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden);
 }
 
 // Function to update status UI
-function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden) {
+function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden) {
     if (!status) return;
 
     // If parameters not provided, get current state from switches
@@ -168,14 +196,24 @@ function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHi
     if (homeFeedHidden === undefined && homeFeedSwitch) {
         homeFeedHidden = homeFeedSwitch.checked;
     }
+
+    if (videoSidebarHidden === undefined && videoSidebarSwitch) {
+        videoSidebarHidden = videoSidebarSwitch.checked;
+    }
+
+    if (commentsHidden === undefined && commentsSwitch) {
+        commentsHidden = commentsSwitch.checked;
+    }
     
     // Update status
-    if (progressHidden || durationHidden || shortsHidden || homeFeedHidden) {
+    if (progressHidden || durationHidden || shortsHidden || homeFeedHidden || videoSidebarHidden || commentsHidden) {
         const features = [];
         if (progressHidden) features.push(translations[currentLang].progressBar);
         if (durationHidden) features.push(translations[currentLang].duration);
         if (shortsHidden) features.push(translations[currentLang].shorts);
         if (homeFeedHidden) features.push(translations[currentLang].homeFeed);
+        if (videoSidebarHidden) features.push(translations[currentLang].videoSidebar || 'video sidebar');
+        if (commentsHidden) features.push(translations[currentLang].comments || 'comments');
         
         const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', 'success');
@@ -252,6 +290,8 @@ document.addEventListener('DOMContentLoaded', function() {
     durationSwitch = document.getElementById('durationSwitch');
     shortsSwitch = document.getElementById('shortsSwitch');
     homeFeedSwitch = document.getElementById('homeFeedSwitch');
+    videoSidebarSwitch = document.getElementById('videoSidebarSwitch');
+    commentsSwitch = document.getElementById('commentsSwitch');
     status = document.getElementById('status');
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
@@ -262,6 +302,8 @@ document.addEventListener('DOMContentLoaded', function() {
         durationSwitch,
         shortsSwitch,
         homeFeedSwitch,
+        videoSidebarSwitch,
+        commentsSwitch,
         status,
         langVi,
         langEn
@@ -280,6 +322,8 @@ document.addEventListener('DOMContentLoaded', function() {
             progressBar: 'thanh tiến trình',
             duration: 'thời lượng',
             shorts: 'shorts',
+            homeFeed: 'trang chủ',
+            videoSidebar: 'thanh bên video',
             allDisabled: 'Đã tắt tất cả',
             infoTitle: 'Giới thiệu',
             extensionInfo: 'Extension giúp bạn tập trung vào nội dung video mà không bị phân tâm bởi:',
@@ -297,6 +341,8 @@ document.addEventListener('DOMContentLoaded', function() {
             progressBar: 'progress bar',
             duration: 'duration',
             shorts: 'shorts',
+            homeFeed: 'home feed',
+            videoSidebar: 'video sidebar',
             allDisabled: 'All features disabled',
             infoTitle: 'Introduction',
             extensionInfo: 'This extension helps you focus on video content without distractions from:',
@@ -306,22 +352,28 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     // Lấy trạng thái hiện tại với improved error handling và timing
-    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'language', 'theme'], function(result) {
+    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'language', 'theme'], function(result) {
         const isEnabled = result.progressBarHidden !== false; // Mặc định là true
         const durationHidden = result.durationHidden !== false; // Mặc định là true
         const shortsHidden = result.shortsHidden === true; // Mặc định là false
         const homeFeedHidden = result.homeFeedHidden === true; // Mặc định là false
+        const videoSidebarHidden = result.videoSidebarHidden === true; // Mặc định là false
+        const commentsHidden = result.commentsHidden === true; // Mặc định là false
 
         console.log('🔍 Loading stored states:', {
             progressBarHidden: isEnabled,
             durationHidden: durationHidden,
             shortsHidden: shortsHidden,
             homeFeedHidden: homeFeedHidden,
-            rawHomeFeedHidden: result.homeFeedHidden
+            videoSidebarHidden: videoSidebarHidden,
+            commentsHidden: commentsHidden,
+            rawHomeFeedHidden: result.homeFeedHidden,
+            rawVideoSidebarHidden: result.videoSidebarHidden,
+            rawCommentsHidden: result.commentsHidden
         });
 
         // Verify DOM elements are available before updating UI
-        if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch) {
+        if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch) {
             console.error('❌ DOM elements not ready, retrying in 100ms...');
             setTimeout(() => {
                 // Re-initialize DOM elements
@@ -329,20 +381,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 durationSwitch = document.getElementById('durationSwitch');
                 shortsSwitch = document.getElementById('shortsSwitch');
                 homeFeedSwitch = document.getElementById('homeFeedSwitch');
+                videoSidebarSwitch = document.getElementById('videoSidebarSwitch');
+                commentsSwitch = document.getElementById('commentsSwitch');
                 status = document.getElementById('status');
 
                 console.log('🔄 Retrying UI update with elements:', {
                     toggleSwitch: !!toggleSwitch,
                     durationSwitch: !!durationSwitch,
                     shortsSwitch: !!shortsSwitch,
-                    homeFeedSwitch: !!homeFeedSwitch
+                    homeFeedSwitch: !!homeFeedSwitch,
+                    videoSidebarSwitch: !!videoSidebarSwitch,
+                    commentsSwitch: !!commentsSwitch
                 });
 
-                updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden);
+                updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden);
             }, 100);
         } else {
             console.log('✅ DOM elements ready, updating UI immediately');
-            updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden);
+            updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden);
         }
 
         // Set language
@@ -372,10 +428,12 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ progressBarHidden: newState });
 
             // Cập nhật UI
-            chrome.storage.sync.get(['durationHidden', 'shortsHidden', 'homeFeedHidden'], function(result) {
+            chrome.storage.sync.get(['durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden'], function(result) {
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
-                updateUI(newState, result.durationHidden !== false, result.shortsHidden === true, currentHomeFeedHidden);
-                console.log('🔄 Updated UI after progress bar toggle, homeFeedHidden:', currentHomeFeedHidden);
+                const currentVideoSidebarHidden = result.videoSidebarHidden === true;
+                const currentCommentsHidden = result.commentsHidden === true;
+                updateUI(newState, result.durationHidden !== false, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden);
+                console.log('🔄 Updated UI after progress bar toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
             });
 
             handleToggleChange('toggleProgressBar', newState);
@@ -391,10 +449,12 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ durationHidden: newState });
 
             // Cập nhật UI
-            chrome.storage.sync.get(['progressBarHidden', 'shortsHidden', 'homeFeedHidden'], function(result) {
+            chrome.storage.sync.get(['progressBarHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden'], function(result) {
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
-                updateUI(result.progressBarHidden !== false, newState, result.shortsHidden === true, currentHomeFeedHidden);
-                console.log('🔄 Updated UI after duration toggle, homeFeedHidden:', currentHomeFeedHidden);
+                const currentVideoSidebarHidden = result.videoSidebarHidden === true;
+                const currentCommentsHidden = result.commentsHidden === true;
+                updateUI(result.progressBarHidden !== false, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden);
+                console.log('🔄 Updated UI after duration toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
             });
 
             handleToggleChange('toggleDuration', newState);
@@ -410,10 +470,12 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ shortsHidden: newState });
 
             // Cập nhật UI
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'homeFeedHidden'], function(result) {
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden'], function(result) {
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, newState, currentHomeFeedHidden);
-                console.log('🔄 Updated UI after shorts toggle, homeFeedHidden:', currentHomeFeedHidden);
+                const currentVideoSidebarHidden = result.videoSidebarHidden === true;
+                const currentCommentsHidden = result.commentsHidden === true;
+                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, newState, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden);
+                console.log('🔄 Updated UI after shorts toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
             });
 
             handleToggleChange('toggleShorts', newState);
@@ -432,15 +494,57 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             // Cập nhật UI ngay lập tức với trạng thái mới
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden'], function(result) {
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, newState);
-                console.log('🔄 Updated UI after home feed toggle, newState:', newState);
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'videoSidebarHidden', 'commentsHidden'], function(result) {
+                const currentVideoSidebarHidden = result.videoSidebarHidden === true;
+                const currentCommentsHidden = result.commentsHidden === true;
+                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, newState, currentVideoSidebarHidden, currentCommentsHidden);
+                console.log('🔄 Updated UI after home feed toggle, newState:', newState, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
             });
 
             handleToggleChange('toggleHomeFeed', newState);
         });
     }
-    
+
+    // Xử lý click toggle video sidebar
+    if (videoSidebarSwitch) {
+        videoSidebarSwitch.addEventListener('change', function(e) {
+            const newState = e.target.checked;
+            console.log('📺 Video Sidebar toggle changed to:', newState);
+
+            // Lưu trạng thái
+            chrome.storage.sync.set({ videoSidebarHidden: newState }, function() {
+                console.log('✅ Video Sidebar state saved to storage:', newState);
+            });
+
+            // Cập nhật UI ngay lập tức với trạng thái mới
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'commentsHidden'], function(result) {
+                const currentCommentsHidden = result.commentsHidden === true;
+                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, result.homeFeedHidden === true, newState, currentCommentsHidden);
+                console.log('🔄 Updated UI after video sidebar toggle, newState:', newState, 'commentsHidden:', currentCommentsHidden);
+            });
+
+            handleToggleChange('toggleVideoSidebar', newState);
+        });
+    }
+
+    // Xử lý click toggle comments
+    if (commentsSwitch) {
+        commentsSwitch.addEventListener('change', function(e) {
+            const newState = e.target.checked;
+
+            // Lưu trạng thái
+            chrome.storage.sync.set({ commentsHidden: newState });
+
+            // Cập nhật UI ngay lập tức với trạng thái mới
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden'], function(result) {
+                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, newState);
+                console.log('🔄 Updated UI after comments toggle, newState:', newState);
+            });
+
+            handleToggleChange('toggleComments', newState);
+        });
+    }
+
     // Thêm sự kiện click cho nút ngôn ngữ
     if (langVi) {
         langVi.addEventListener('click', function() {
@@ -519,7 +623,6 @@ function setLanguage(lang, save = true) {
             'contentFeedControlsTitle': 'Content & Feed Controls',
             'hideHomeFeed': 'Ẩn trang chủ',
             'hideVideoSidebar': 'Ẩn thanh bên video',
-            'hideRecommendedVideos': 'Ẩn video đề xuất',
             'hideShorts': 'Ẩn Shorts',
             'hideComments': 'Ẩn phần bình luận',
             'hidePlaylistPanel': 'Ẩn panel playlist',
@@ -567,7 +670,6 @@ function setLanguage(lang, save = true) {
             'contentFeedControlsTitle': 'Content & Feed Controls',
             'hideHomeFeed': 'Hide Home Feed',
             'hideVideoSidebar': 'Hide Video Sidebar',
-            'hideRecommendedVideos': 'Hide Recommended Videos',
             'hideShorts': 'Hide Shorts',
             'hideComments': 'Hide Comments Section',
             'hidePlaylistPanel': 'Hide Playlist Panel',
@@ -629,7 +731,6 @@ function setLanguage(lang, save = true) {
         // Content & Feed Controls
         { id: 'homeFeedSwitch', text: t.hideHomeFeed },
         { id: 'videoSidebarSwitch', text: t.hideVideoSidebar },
-        { id: 'recommendedVideosSwitch', text: t.hideRecommendedVideos },
         { id: 'shortsSwitch', text: t.hideShorts },
         { id: 'commentsSwitch', text: t.hideComments },
         { id: 'playlistPanelSwitch', text: t.hidePlaylistPanel },
