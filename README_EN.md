@@ -1,34 +1,51 @@
-# YouTube Progress Bar & Duration Hider Extension
+# YouTube Hider - Customize YouTube Interface
 
 English | [Tiếng Việt](README.md)
 
-A simple Chrome extension to hide the progress bar, video duration, and/or Shorts section on YouTube while watching videos, while preserving all other control functions.
+A comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with over 20 different hide/show options.
 
-## Features
+## Main Features
 
+### 🎬 Content & Feed Controls
 ✅ **Hide video progress bar** - Remove the progress bar when watching videos <br>
 ✅ **Hide video duration** - Hide current time/total duration information <br>
 ✅ **Hide Shorts** - Completely hide Shorts videos and Shorts section on YouTube <br>
-✅ **Preserve volume controls** - Still able to adjust volume normally <br>
-✅ **Preserve control buttons** - Play/pause, fullscreen, settings, subtitles... <br>
-✅ **Independent toggles** - Separate toggles for progress bar, duration, and Shorts <br>
-✅ **Modern UI** - shadcn-style interface, beautiful and easy to use <br>
-✅ **Dark mode** - Support for dark mode, automatically follows system or manual selection <br>
-✅ **Auto apply** - Works with all YouTube videos <br>
+✅ **Hide Home Feed** - Hide YouTube homepage to avoid distractions <br>
+✅ **Hide Video Sidebar** - Hide recommended video list on the side <br>
+
+### 🎛️ Interface Elements
+✅ **Hide Comments** - Hide video comments section <br>
+✅ **Hide Notifications Bell** - Hide notification bell <br>
+✅ **Hide Top Header** - Hide top header bar <br>
+✅ **Hide Explore & Trending** - Hide Explore and Trending tabs <br>
+✅ **Hide More from YouTube** - Hide "More from YouTube" section <br>
+
+### 🎥 Video Controls
+✅ **Hide End Screen Cards** - Hide end screen cards <br>
+✅ **Hide Video Controls** - Hide video control buttons <br>
+
+### 🔧 Other Features
+✅ **Hide Fundraiser Banners** - Hide fundraising banners <br>
+✅ **Hide Merchandise/Tickets** - Hide merchandise/ticket ads <br>
+✅ **Export/Import Settings** - Backup and share configurations <br>
+✅ **Modern UI** - Beautiful interface with 4 collapsible sections <br>
+✅ **Dark mode** - Support for dark mode, automatically follows system <br>
+✅ **Multi-language** - Support for Vietnamese and English <br>
+✅ **Independent toggles** - Separate toggle for each feature <br>
 ✅ **No performance impact** - Lightweight and optimized extension <br>
 
-## 🌟 New Feature: Dark Mode & Modern UI 🌟
+## 🌟 Modern Interface with 4 Collapsible Sections 🌟
 
-> **New!** The extension now has a modern interface with Dark Mode!
-> 
-> New features include:
-> - Modern user interface in shadcn style
-> - Dark Mode that automatically follows system or can be customized
-> - Easy light/dark theme toggle button
-> - Modern UI components (Switch, Card, Badge)
-> - Persistent user theme preferences
+> **New!** Extension interface is organized into 4 main sections:
 >
-> Just click the theme toggle button in the top right corner of the popup!
+> 1. **Content & Feed Controls** - Control content and feeds
+> 2. **Interface Elements** - Interface elements
+> 3. **Video Controls** - Video controls
+> 4. **Other Features** - Other features
+>
+> Each section can be collapsed/expanded and remembers your state!
+>
+> **Export/Import Settings Feature:** Backup your configuration as JSON files to share or restore later.
 
 ## Installation
 
@@ -48,19 +65,27 @@ A simple Chrome extension to hide the progress bar, video duration, and/or Short
 
 1. **Open YouTube** and play any video
 2. **Click on the extension icon** in the toolbar
-3. **Toggle switches** to enable/disable features:
-   - **Hide progress bar**: Show/hide the progress bar
-   - **Hide video duration**: Show/hide time information
-   - **Hide Shorts**: Show/hide Shorts videos and section
-4. **Toggle theme**:
-   - Click the sun/moon button in the top right corner to switch between Light and Dark mode
-5. The extension will automatically apply changes
+3. **Explore 4 main sections**:
+   - **Content & Feed Controls**: Hide/show progress bar, duration, Shorts, Home Feed, Video Sidebar
+   - **Interface Elements**: Hide/show Comments, Notifications Bell, Top Header, Explore & Trending
+   - **Video Controls**: Hide/show End Screen Cards, Video Controls
+   - **Other Features**: Hide/show Fundraiser Banners, Merchandise, and other features
+4. **Toggle switches** to enable/disable each feature individually
+5. **Toggle theme**: Click the sun/moon button at the top to switch Light/Dark mode
+6. **Export/Import Settings**: Use buttons in "Other Features" section to backup/restore configurations
+7. Extension will automatically apply changes and remember section states
 
 ## Extension Status
 
 - 🟢 **Hiding: progress bar** - Only the progress bar is hidden
 - 🟢 **Hiding: duration** - Only the video duration is hidden
 - 🟢 **Hiding: shorts** - Only the Shorts section is hidden
+- 🟢 **Hiding: home feed** - Only the home page is hidden
+- 🟢 **Hiding: video sidebar** - Only the video sidebar is hidden
+- 🟢 **Hiding: comments** - Only the comments section is hidden
+- 🟢 **Hiding: notifications bell** - Only the notification bell is hidden
+- 🟢 **Hiding: top header** - Only the top header is hidden
+- 🟢 **Hiding: explore & trending** - Only Explore & Trending tabs are hidden
 - 🟢 **Hiding: multiple features** - Combination of multiple hidden features
 - 🟡 **All disabled** - Normal display
 
@@ -70,8 +95,10 @@ A simple Chrome extension to hide the progress bar, video duration, and/or Short
 - YouTube keyboard shortcuts still work normally (Space, M, F, ←, →, ↑, ↓)
 - Settings are automatically saved and applied to all YouTube tabs
 - Each feature can be toggled independently as needed
-- If you encounter issues, try refreshing the YouTube page or disabling/enabling the extension
+- Section collapsed/expanded states are remembered
 - Theme preferences (light/dark) are saved and applied for every time you open the extension
+- Exported settings files are in JSON format and can be shared with others
+- If you encounter issues, try refreshing the YouTube page or disabling/enabling the extension
 
 ## File Structure
 
@@ -81,18 +108,9 @@ YoutubeDisableProgessBar/
 ├── content.js            # Script running on YouTube page
 ├── popup.html            # Popup interface
 ├── popup.js              # Popup logic
-├── styles.css            # CSS to hide progress bar, duration, and shorts
-├── components/           # Folder containing UI components
-│   └── ui/               # Modern UI components
-│       ├── badge.js      # Badge component
-│       ├── card.js       # Card component
-│       ├── switch.js     # Switch component
-│       └── theme-toggle.js # Theme Toggle component
-├── src/                  # Source directory
-│   └── input.css         # Input CSS for Tailwind
-├── tailwind.config.js    # Tailwind CSS configuration
-├── postcss.config.js     # PostCSS configuration
-├── build.js              # Build script
+├── styles.css            # CSS to hide YouTube elements
+├── interface.css         # CSS for popup interface
+
 ├── icons/                # Folder containing icons (complete set)
 │   ├── icon16.png        # Icon 16x16px
 │   ├── icon32.png        # Icon 32x32px  
@@ -108,29 +126,31 @@ YoutubeDisableProgessBar/
 - Reload the extension in chrome://extensions/
 - Refresh the YouTube page
 
-**Progress bar, duration, or Shorts still showing:**
-- Click the extension icon and check the status of the toggles
+**Hidden features still showing:**
+- Click the extension icon and check toggle status in each section
 - Make sure the corresponding feature is enabled
 - Refresh the page and try again
 - Check the Console for any errors
 
-**Dark mode not working correctly:**
+**Sections not collapsing/expanding:**
 - Check if localStorage is being cleared
 - Try clearing browser cache
 - Reload the extension and try again
 
-**Language buttons not working:**
-- Check for JavaScript errors in the Console
-- Reload the extension and try again
+**Export/Import settings not working:**
+- Ensure file has valid JSON format
+- Check file size (maximum 5MB)
+- Check Console for JavaScript errors
 
 ## Future Development
 
 This extension can be expanded with features like:
-- Hide/show other controls (like like/dislike buttons, comments)
-- Custom shortcut keys
+- Custom shortcut keys for each feature
 - Whitelist/blacklist channels
 - Additional color themes
 - Hide thumbnail duration on the homepage
 - Timer to automatically enable/disable based on time
 - Sync settings with Chrome account
-- Option to hide other parts of YouTube (like Trending, Subscriptions)
+- Option to hide other parts of YouTube
+- Named configuration profiles
+- Share profiles via URL or QR code

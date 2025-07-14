@@ -61,7 +61,7 @@
             </div>
 
             <!-- Content & Feed Controls Section -->
-            <div class="ext-collapsible-section open">
+            <div class="ext-collapsible-section">
                 <div class="ext-section-header">
                     <div class="ext-section-icon content-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -106,20 +106,15 @@
                             <label for="shortsSwitch" class="ext-switch-label"></label>
                         </div>
                     </div>
+
                     <div class="ext-control-item">
-                        <span class="ext-control-label">Ẩn panel playlist</span>
+                        <span class="ext-control-label">Ẩn kênh</span>
                         <div class="ext-switch">
-                            <input type="checkbox" id="playlistPanelSwitch" class="ext-switch-input">
-                            <label for="playlistPanelSwitch" class="ext-switch-label"></label>
+                            <input type="checkbox" id="hideChannelSwitch" class="ext-switch-input">
+                            <label for="hideChannelSwitch" class="ext-switch-label"></label>
                         </div>
                     </div>
-                    <div class="ext-control-item">
-                        <span class="ext-control-label">Ẩn Mixes</span>
-                        <div class="ext-switch">
-                            <input type="checkbox" id="mixesSwitch" class="ext-switch-input">
-                            <label for="mixesSwitch" class="ext-switch-label"></label>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 
@@ -162,13 +157,6 @@
                         </div>
                     </div>
                     <div class="ext-control-item">
-                        <span class="ext-control-label">Ẩn tab Đăng ký</span>
-                        <div class="ext-switch">
-                            <input type="checkbox" id="subscriptionsTabSwitch" class="ext-switch-input">
-                            <label for="subscriptionsTabSwitch" class="ext-switch-label"></label>
-                        </div>
-                    </div>
-                    <div class="ext-control-item">
                         <span class="ext-control-label">Ẩn "Thêm từ YouTube"</span>
                         <div class="ext-switch">
                             <input type="checkbox" id="moreFromYouTubeSwitch" class="ext-switch-input">
@@ -176,10 +164,10 @@
                         </div>
                     </div>
                     <div class="ext-control-item">
-                        <span class="ext-control-label">Ẩn ảnh đại diện</span>
+                        <span class="ext-control-label">Ẩn thanh nút bấm</span>
                         <div class="ext-switch">
-                            <input type="checkbox" id="profilePhotosSwitch" class="ext-switch-input">
-                            <label for="profilePhotosSwitch" class="ext-switch-label"></label>
+                            <input type="checkbox" id="buttonsBarSwitch" class="ext-switch-input">
+                            <label for="buttonsBarSwitch" class="ext-switch-label"></label>
                         </div>
                     </div>
                 </div>
@@ -216,20 +204,6 @@
                         </div>
                     </div>
                     <div class="ext-control-item">
-                        <span class="ext-control-label">Ẩn chat trực tiếp</span>
-                        <div class="ext-switch">
-                            <input type="checkbox" id="liveChatSwitch" class="ext-switch-input">
-                            <label for="liveChatSwitch" class="ext-switch-label"></label>
-                        </div>
-                    </div>
-                    <div class="ext-control-item">
-                        <span class="ext-control-label">Ẩn đề xuất cuối video</span>
-                        <div class="ext-switch">
-                            <input type="checkbox" id="endScreenRecommendationsSwitch" class="ext-switch-input">
-                            <label for="endScreenRecommendationsSwitch" class="ext-switch-label"></label>
-                        </div>
-                    </div>
-                    <div class="ext-control-item">
                         <span class="ext-control-label">Ẩn thẻ cuối video</span>
                         <div class="ext-switch">
                             <input type="checkbox" id="endScreenCardsSwitch" class="ext-switch-input">
@@ -237,73 +211,58 @@
                         </div>
                     </div>
                     <div class="ext-control-item">
-                        <span class="ext-control-label">Ẩn panel thông tin video</span>
+                        <span class="ext-control-label">Ẩn mô tả video</span>
                         <div class="ext-switch">
-                            <input type="checkbox" id="videoInfoPanelSwitch" class="ext-switch-input">
-                            <label for="videoInfoPanelSwitch" class="ext-switch-label"></label>
+                            <input type="checkbox" id="hideDescriptionSwitch" class="ext-switch-input">
+                            <label for="hideDescriptionSwitch" class="ext-switch-label"></label>
                         </div>
                     </div>
-                    <div class="ext-control-item">
-                        <span class="ext-control-label">Tắt tự động phát</span>
-                        <div class="ext-switch">
-                            <input type="checkbox" id="disableAutoplaySwitch" class="ext-switch-input">
-                            <label for="disableAutoplaySwitch" class="ext-switch-label"></label>
-                        </div>
-                    </div>
-                    <div class="ext-control-item">
-                        <span class="ext-control-label">Tắt chú thích video</span>
-                        <div class="ext-switch">
-                            <input type="checkbox" id="disableAnnotationsSwitch" class="ext-switch-input">
-                            <label for="disableAnnotationsSwitch" class="ext-switch-label"></label>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 
-            <!-- Other Features Section -->
-            <div class="ext-collapsible-section">
-                <div class="ext-section-header">
-                    <div class="ext-section-icon other-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 20h9"></path>
-                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                        </svg>
-                    </div>
-                    <h2 class="ext-section-title">Other Features</h2>
-                    <div class="ext-section-chevron">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </div>
-                </div>
-                <div class="ext-section-content">
-                    <div class="ext-control-item">
-                        <span class="ext-control-label">Ẩn banner gây quỹ</span>
-                        <div class="ext-switch">
-                            <input type="checkbox" id="fundraiserBannersSwitch" class="ext-switch-input">
-                            <label for="fundraiserBannersSwitch" class="ext-switch-label"></label>
-                        </div>
-                    </div>
-                    <div class="ext-control-item">
-                        <span class="ext-control-label">Ẩn hàng hóa/vé/ưu đãi</span>
-                        <div class="ext-switch">
-                            <input type="checkbox" id="merchandiseSwitch" class="ext-switch-input">
-                            <label for="merchandiseSwitch" class="ext-switch-label"></label>
-                        </div>
-                    </div>
-                    <div class="ext-control-item">
-                        <span class="ext-control-label">Ẩn kết quả tìm kiếm không phù hợp</span>
-                        <div class="ext-switch">
-                            <input type="checkbox" id="inappropriateSearchSwitch" class="ext-switch-input">
-                            <label for="inappropriateSearchSwitch" class="ext-switch-label"></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
             <!-- Status indicator -->
             <div class="ext-status enabled" id="status">
                 Đang hoạt động
+            </div>
+
+            <!-- Settings Export/Import Section -->
+            <div class="ext-settings-section">
+                <div class="ext-settings-header">
+                    <div class="ext-settings-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14,2 14,8 20,8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10,9 9,9 8,9"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="ext-settings-title">Quản lý cài đặt</h3>
+                </div>
+                <div class="ext-settings-content">
+                    <div class="ext-settings-buttons">
+                        <button class="ext-btn ext-btn-export" id="exportSettingsBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>Xuất cài đặt</span>
+                        </button>
+                        <button class="ext-btn ext-btn-import" id="importSettingsBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <span>Nhập cài đặt</span>
+                        </button>
+                    </div>
+                    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                </div>
             </div>
 
             <!-- Info card -->
@@ -322,19 +281,6 @@
         </div>
     </div>
 
-    <script src="components/ui/theme-toggle.js"></script>
-    <script src="components/ui/switch.js"></script>
-    <script src="components/ui/badge.js"></script>
-    <script src="components/ui/card.js"></script>
     <script src="popup.js"></script>
-    <script>
-        // Handle collapsible sections
-        document.querySelectorAll('.ext-section-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const section = header.parentElement;
-                section.classList.toggle('open');
-            });
-        });
-    </script>
 </body>
 </html>

@@ -745,6 +745,15 @@ button:focus,
   max-height: 500px;
 }
 
+/* Initialize sections without animation on first load */
+.ext-collapsible-section.open.no-animation .ext-section-content {
+  transition: none;
+}
+
+.ext-collapsible-section.open.no-animation .ext-section-chevron {
+  transition: none;
+}
+
 /* Control item */
 .ext-control-item {
   display: flex;
@@ -886,4 +895,215 @@ button:focus,
 
 .dark .ext-notice-title {
   color: #e57373;
-} 
+}
+
+/* Settings Export/Import Section */
+.ext-settings-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  transition: all 0.2s ease;
+}
+
+.ext-settings-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.ext-settings-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--icon-blue), var(--icon-purple));
+  border-radius: 6px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.ext-settings-title {
+  font-size: var(--font-size-section);
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--foreground);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+.ext-settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.ext-settings-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.ext-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--foreground);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  min-height: 36px;
+  flex: 1;
+  justify-content: center;
+}
+
+.ext-btn:hover {
+  background: var(--muted);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.ext-btn:active {
+  transform: translateY(0);
+}
+
+.ext-btn-export {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border-color: #4CAF50;
+}
+
+.ext-btn-export:hover {
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+  border-color: #45a049;
+}
+
+.ext-btn-import {
+  background: linear-gradient(135deg, var(--primary-blue), #1557b0);
+  color: white;
+  border-color: var(--primary-blue);
+}
+
+.ext-btn-import:hover {
+  background: linear-gradient(135deg, #1557b0, #0f4494);
+  border-color: #1557b0;
+}
+
+.ext-btn svg {
+  flex-shrink: 0;
+}
+
+/* Dark mode styles for settings section */
+.dark .ext-settings-section {
+  background: rgba(169, 149, 201, 0.1);
+  border-color: rgba(169, 149, 201, 0.3);
+}
+
+.dark .ext-settings-title {
+  color: #e0d4f7;
+}
+
+.dark .ext-btn {
+  background: rgba(169, 149, 201, 0.15);
+  border-color: rgba(169, 149, 201, 0.3);
+  color: #e0d4f7;
+}
+
+.dark .ext-btn:hover {
+  background: rgba(169, 149, 201, 0.25);
+  border-color: rgba(169, 149, 201, 0.5);
+}
+
+/* Notification styles */
+.ext-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 6px;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  z-index: 1000;
+  animation: slideDown 0.3s ease-out;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ext-notification-success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.ext-notification-error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.ext-notification-info {
+  background: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Dark mode notification styles */
+.dark .ext-notification-success {
+  background: rgba(76, 175, 80, 0.2);
+  color: #81c784;
+  border-color: rgba(76, 175, 80, 0.4);
+}
+
+.dark .ext-notification-error {
+  background: rgba(244, 67, 54, 0.2);
+  color: #e57373;
+  border-color: rgba(244, 67, 54, 0.4);
+}
+
+.dark .ext-notification-info {
+  background: rgba(33, 150, 243, 0.2);
+  color: #64b5f6;
+  border-color: rgba(33, 150, 243, 0.4);
+}
+
+/* Loading animation */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Disabled button state */
+.ext-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
