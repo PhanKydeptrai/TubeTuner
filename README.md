@@ -2,31 +2,31 @@
 
 [English](README_EN.md) | Tiếng Việt
 
-Extension Chrome toàn diện để tùy chỉnh giao diện YouTube theo ý muốn của bạn. Ẩn các phần tử gây xao nhãng và tập trung vào nội dung video với hơn 20 tùy chọn ẩn/hiện khác nhau.
+Extension Chrome toàn diện để tùy chỉnh giao diện YouTube theo ý muốn của bạn. Ẩn các phần tử gây xao nhãng và tập trung vào nội dung video với 14 tùy chọn ẩn/hiện khác nhau.
 
 ## Tính năng chính
 
 ### 🎬 Điều khiển nội dung & feed
-✅ **Ẩn thanh tiến trình video** - Loại bỏ thanh progress bar khi xem video <br>
-✅ **Ẩn thời lượng video** - Ẩn thông tin thời gian hiện tại/tổng thời lượng video <br>
-✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube <br>
 ✅ **Ẩn Home Feed** - Ẩn trang chủ YouTube để tránh xao nhãng <br>
 ✅ **Ẩn Video Sidebar** - Ẩn danh sách video đề xuất bên cạnh <br>
+✅ **Ẩn Comments** - Ẩn phần bình luận video <br>
+✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube <br>
+✅ **Ẩn Channel** - Ẩn thông tin kênh <br>
 
 ### 🎛️ Điều khiển giao diện
-✅ **Ẩn Comments** - Ẩn phần bình luận video <br>
-✅ **Ẩn Notifications Bell** - Ẩn chuông thông báo <br>
 ✅ **Ẩn Top Header** - Ẩn thanh header trên cùng <br>
+✅ **Ẩn Notifications Bell** - Ẩn chuông thông báo <br>
 ✅ **Ẩn Explore & Trending** - Ẩn các tab Khám phá và Thịnh hành <br>
 ✅ **Ẩn More from YouTube** - Ẩn phần "Thêm từ YouTube" <br>
+✅ **Ẩn Buttons Bar** - Ẩn thanh nút bấm <br>
 
 ### 🎥 Điều khiển video
+✅ **Ẩn thanh tiến trình video** - Loại bỏ thanh progress bar khi xem video <br>
+✅ **Ẩn thời lượng video** - Ẩn thông tin thời gian hiện tại/tổng thời lượng video <br>
 ✅ **Ẩn End Screen Cards** - Ẩn thẻ cuối video <br>
-✅ **Ẩn Video Controls** - Ẩn các nút điều khiển video <br>
+✅ **Ẩn Description** - Ẩn mô tả video <br>
 
 ### 🔧 Tính năng khác
-✅ **Ẩn Fundraiser Banners** - Ẩn banner gây quỹ <br>
-✅ **Ẩn Merchandise/Tickets** - Ẩn quảng cáo hàng hóa/vé <br>
 ✅ **Xuất/Nhập cài đặt** - Sao lưu và chia sẻ cấu hình <br>
 ✅ **Giao diện hiện đại** - UI đẹp mắt với 4 section có thể thu gọn <br>
 ✅ **Dark mode** - Hỗ trợ chế độ tối, tự động theo hệ thống <br>
@@ -66,10 +66,10 @@ Extension Chrome toàn diện để tùy chỉnh giao diện YouTube theo ý mu�
 1. **Mở YouTube** và phát một video bất kỳ
 2. **Click vào icon extension** trên thanh toolbar
 3. **Khám phá 4 section chính**:
-   - **Content & Feed Controls**: Ẩn/hiện thanh tiến trình, thời lượng, Shorts, Home Feed, Video Sidebar
-   - **Interface Elements**: Ẩn/hiện Comments, Notifications Bell, Top Header, Explore & Trending
-   - **Video Controls**: Ẩn/hiện End Screen Cards, Video Controls
-   - **Other Features**: Ẩn/hiện Fundraiser Banners, Merchandise, và các tính năng khác
+   - **Content & Feed Controls**: Ẩn/hiện Home Feed, Video Sidebar, Comments, Shorts, Channel
+   - **Interface Elements**: Ẩn/hiện Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar
+   - **Video Controls**: Ẩn/hiện Progress Bar, Duration, End Screen Cards, Description
+   - **Other Features**: Xuất/Nhập cài đặt và các tính năng khác
 4. **Toggle switches** để bật/tắt từng tính năng riêng biệt
 5. **Chuyển đổi theme**: Nhấp vào nút sun/moon ở góc trên để chuyển Light/Dark mode
 6. **Xuất/Nhập cài đặt**: Sử dụng các nút trong phần "Other Features" để sao lưu/khôi phục cấu hình
@@ -77,15 +77,20 @@ Extension Chrome toàn diện để tùy chỉnh giao diện YouTube theo ý mu�
 
 ## Trạng thái Extension
 
-- 🟢 **Đang ẩn: thanh tiến trình** - Chỉ thanh tiến trình bị ẩn
-- 🟢 **Đang ẩn: thời lượng** - Chỉ thời lượng video bị ẩn
-- 🟢 **Đang ẩn: shorts** - Chỉ phần Shorts bị ẩn
 - 🟢 **Đang ẩn: home feed** - Chỉ trang chủ bị ẩn
 - 🟢 **Đang ẩn: video sidebar** - Chỉ sidebar video bị ẩn
 - 🟢 **Đang ẩn: comments** - Chỉ phần bình luận bị ẩn
-- 🟢 **Đang ẩn: notifications bell** - Chỉ chuông thông báo bị ẩn
+- 🟢 **Đang ẩn: shorts** - Chỉ phần Shorts bị ẩn
+- 🟢 **Đang ẩn: channel** - Chỉ thông tin kênh bị ẩn
 - 🟢 **Đang ẩn: top header** - Chỉ header trên cùng bị ẩn
+- 🟢 **Đang ẩn: notifications bell** - Chỉ chuông thông báo bị ẩn
 - 🟢 **Đang ẩn: explore & trending** - Chỉ tab Khám phá & Thịnh hành bị ẩn
+- 🟢 **Đang ẩn: more from youtube** - Chỉ phần "Thêm từ YouTube" bị ẩn
+- 🟢 **Đang ẩn: buttons bar** - Chỉ thanh nút bấm bị ẩn
+- 🟢 **Đang ẩn: thanh tiến trình** - Chỉ thanh tiến trình bị ẩn
+- 🟢 **Đang ẩn: thời lượng** - Chỉ thời lượng video bị ẩn
+- 🟢 **Đang ẩn: end screen cards** - Chỉ thẻ cuối video bị ẩn
+- 🟢 **Đang ẩn: description** - Chỉ mô tả video bị ẩn
 - 🟢 **Đang ẩn: nhiều tính năng** - Kết hợp nhiều tính năng ẩn cùng lúc
 - 🟡 **Đã tắt tất cả** - Hiển thị bình thường
 

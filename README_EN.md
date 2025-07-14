@@ -2,31 +2,31 @@
 
 English | [Tiếng Việt](README.md)
 
-A comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with over 20 different hide/show options.
+A comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 14 different hide/show options.
 
 ## Main Features
 
 ### 🎬 Content & Feed Controls
-✅ **Hide video progress bar** - Remove the progress bar when watching videos <br>
-✅ **Hide video duration** - Hide current time/total duration information <br>
-✅ **Hide Shorts** - Completely hide Shorts videos and Shorts section on YouTube <br>
 ✅ **Hide Home Feed** - Hide YouTube homepage to avoid distractions <br>
 ✅ **Hide Video Sidebar** - Hide recommended video list on the side <br>
+✅ **Hide Comments** - Hide video comments section <br>
+✅ **Hide Shorts** - Completely hide Shorts videos and Shorts section on YouTube <br>
+✅ **Hide Channel** - Hide channel information <br>
 
 ### 🎛️ Interface Elements
-✅ **Hide Comments** - Hide video comments section <br>
-✅ **Hide Notifications Bell** - Hide notification bell <br>
 ✅ **Hide Top Header** - Hide top header bar <br>
+✅ **Hide Notifications Bell** - Hide notification bell <br>
 ✅ **Hide Explore & Trending** - Hide Explore and Trending tabs <br>
 ✅ **Hide More from YouTube** - Hide "More from YouTube" section <br>
+✅ **Hide Buttons Bar** - Hide buttons bar <br>
 
 ### 🎥 Video Controls
+✅ **Hide video progress bar** - Remove the progress bar when watching videos <br>
+✅ **Hide video duration** - Hide current time/total duration information <br>
 ✅ **Hide End Screen Cards** - Hide end screen cards <br>
-✅ **Hide Video Controls** - Hide video control buttons <br>
+✅ **Hide Description** - Hide video description <br>
 
 ### 🔧 Other Features
-✅ **Hide Fundraiser Banners** - Hide fundraising banners <br>
-✅ **Hide Merchandise/Tickets** - Hide merchandise/ticket ads <br>
 ✅ **Export/Import Settings** - Backup and share configurations <br>
 ✅ **Modern UI** - Beautiful interface with 4 collapsible sections <br>
 ✅ **Dark mode** - Support for dark mode, automatically follows system <br>
@@ -66,10 +66,10 @@ A comprehensive Chrome extension to customize your YouTube interface according t
 1. **Open YouTube** and play any video
 2. **Click on the extension icon** in the toolbar
 3. **Explore 4 main sections**:
-   - **Content & Feed Controls**: Hide/show progress bar, duration, Shorts, Home Feed, Video Sidebar
-   - **Interface Elements**: Hide/show Comments, Notifications Bell, Top Header, Explore & Trending
-   - **Video Controls**: Hide/show End Screen Cards, Video Controls
-   - **Other Features**: Hide/show Fundraiser Banners, Merchandise, and other features
+   - **Content & Feed Controls**: Hide/show Home Feed, Video Sidebar, Comments, Shorts, Channel
+   - **Interface Elements**: Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar
+   - **Video Controls**: Hide/show Progress Bar, Duration, End Screen Cards, Description
+   - **Other Features**: Export/Import settings and other features
 4. **Toggle switches** to enable/disable each feature individually
 5. **Toggle theme**: Click the sun/moon button at the top to switch Light/Dark mode
 6. **Export/Import Settings**: Use buttons in "Other Features" section to backup/restore configurations
@@ -77,15 +77,20 @@ A comprehensive Chrome extension to customize your YouTube interface according t
 
 ## Extension Status
 
-- 🟢 **Hiding: progress bar** - Only the progress bar is hidden
-- 🟢 **Hiding: duration** - Only the video duration is hidden
-- 🟢 **Hiding: shorts** - Only the Shorts section is hidden
 - 🟢 **Hiding: home feed** - Only the home page is hidden
 - 🟢 **Hiding: video sidebar** - Only the video sidebar is hidden
 - 🟢 **Hiding: comments** - Only the comments section is hidden
-- 🟢 **Hiding: notifications bell** - Only the notification bell is hidden
+- 🟢 **Hiding: shorts** - Only the Shorts section is hidden
+- 🟢 **Hiding: channel** - Only the channel information is hidden
 - 🟢 **Hiding: top header** - Only the top header is hidden
+- 🟢 **Hiding: notifications bell** - Only the notification bell is hidden
 - 🟢 **Hiding: explore & trending** - Only Explore & Trending tabs are hidden
+- 🟢 **Hiding: more from youtube** - Only "More from YouTube" section is hidden
+- 🟢 **Hiding: buttons bar** - Only the buttons bar is hidden
+- 🟢 **Hiding: progress bar** - Only the progress bar is hidden
+- 🟢 **Hiding: duration** - Only the video duration is hidden
+- 🟢 **Hiding: end screen cards** - Only the end screen cards are hidden
+- 🟢 **Hiding: description** - Only the video description is hidden
 - 🟢 **Hiding: multiple features** - Combination of multiple hidden features
 - 🟡 **All disabled** - Normal display
 
