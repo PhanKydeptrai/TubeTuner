@@ -9,6 +9,7 @@ Thumbs.db
 # IDE files
 .vscode/
 .idea/
+.cursor
 *.swp
 *.swo
 
@@ -44,3 +45,4 @@ dist/
 temp/
 tmp/
 dev/
+.github/chatmodes/beastmode.chatmode.md

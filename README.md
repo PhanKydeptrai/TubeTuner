@@ -1,34 +1,51 @@
-# YouTube Progress Bar & Duration Hider Extension
+# YouTube Hider - Tùy Chỉnh Giao Diện YouTube
 
 [English](README_EN.md) | Tiếng Việt
 
-Extension Chrome đơn giản để ẩn thanh tiến trình (progress bar), thời lượng video và/hoặc phần Shorts trên YouTube khi xem video, nhưng vẫn giữ nguyên tất cả các chức năng điều khiển khác.
+Extension Chrome toàn diện để tùy chỉnh giao diện YouTube theo ý muốn của bạn. Ẩn các phần tử gây xao nhãng và tập trung vào nội dung video với 14 tùy chọn ẩn/hiện khác nhau.
 
-## Tính năng
+## Tính năng chính
 
+### 🎬 Điều khiển nội dung & feed
+✅ **Ẩn Home Feed** - Ẩn trang chủ YouTube để tránh xao nhãng <br>
+✅ **Ẩn Video Sidebar** - Ẩn danh sách video đề xuất bên cạnh <br>
+✅ **Ẩn Comments** - Ẩn phần bình luận video <br>
+✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube <br>
+✅ **Ẩn Channel** - Ẩn thông tin kênh <br>
+
+### 🎛️ Điều khiển giao diện
+✅ **Ẩn Top Header** - Ẩn thanh header trên cùng <br>
+✅ **Ẩn Notifications Bell** - Ẩn chuông thông báo <br>
+✅ **Ẩn Explore & Trending** - Ẩn các tab Khám phá và Thịnh hành <br>
+✅ **Ẩn More from YouTube** - Ẩn phần "Thêm từ YouTube" <br>
+✅ **Ẩn Buttons Bar** - Ẩn thanh nút bấm <br>
+
+### 🎥 Điều khiển video
 ✅ **Ẩn thanh tiến trình video** - Loại bỏ thanh progress bar khi xem video <br>
 ✅ **Ẩn thời lượng video** - Ẩn thông tin thời gian hiện tại/tổng thời lượng video <br>
-✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube <br>
-✅ **Giữ nguyên điều khiển âm lượng** - Vẫn có thể tăng/giảm âm lượng bình thường <br>
-✅ **Giữ nguyên các nút điều khiển** - Play/pause, fullscreen, settings, subtitles... <br>
-✅ **Bật/tắt riêng biệt** - Toggle độc lập cho thanh tiến trình, thời lượng và Shorts <br>
-✅ **Giao diện hiện đại** - UI theo phong cách shadcn, đẹp mắt và dễ sử dụng <br>
-✅ **Dark mode** - Hỗ trợ chế độ tối, tự động theo hệ thống hoặc tùy chọn thủ công <br>
-✅ **Tự động áp dụng** - Hoạt động với tất cả video YouTube <br>
+✅ **Ẩn End Screen Cards** - Ẩn thẻ cuối video <br>
+✅ **Ẩn Description** - Ẩn mô tả video <br>
+
+### 🔧 Tính năng khác
+✅ **Xuất/Nhập cài đặt** - Sao lưu và chia sẻ cấu hình <br>
+✅ **Giao diện hiện đại** - UI đẹp mắt với 4 section có thể thu gọn <br>
+✅ **Dark mode** - Hỗ trợ chế độ tối, tự động theo hệ thống <br>
+✅ **Đa ngôn ngữ** - Hỗ trợ tiếng Việt và tiếng Anh <br>
+✅ **Bật/tắt riêng biệt** - Toggle độc lập cho từng tính năng <br>
 ✅ **Không ảnh hưởng hiệu suất** - Extension nhẹ và tối ưu <br>
 
-## 🌟 Tính năng mới: Dark Mode & UI Hiện Đại 🌟
+## 🌟 Giao diện hiện đại với 4 section có thể thu gọn 🌟
 
-> **Mới!** Extension giờ đây có giao diện hiện đại với Dark Mode!
-> 
-> Các tính năng mới bao gồm:
-> - Giao diện người dùng hiện đại theo phong cách shadcn
-> - Chế độ Dark Mode tự động theo hệ thống hoặc tùy chỉnh
-> - Nút chuyển đổi theme sáng/tối dễ dàng
-> - Các component UI hiện đại (Switch, Card, Badge)
-> - Lưu trữ tùy chọn theme người dùng
+> **Mới!** Extension có giao diện được tổ chức thành 4 phần chính:
 >
-> Chỉ cần nhấp vào nút chuyển đổi theme ở góc trên bên phải popup!
+> 1. **Content & Feed Controls** - Điều khiển nội dung và feed
+> 2. **Interface Elements** - Các phần tử giao diện
+> 3. **Video Controls** - Điều khiển video
+> 4. **Other Features** - Tính năng khác
+>
+> Mỗi section có thể thu gọn/mở rộng và ghi nhớ trạng thái của bạn!
+>
+> **Tính năng xuất/nhập cài đặt:** Sao lưu cấu hình của bạn thành file JSON để chia sẻ hoặc khôi phục sau này.
 
 ## Cách cài đặt
 
@@ -48,19 +65,32 @@ Extension Chrome đơn giản để ẩn thanh tiến trình (progress bar), th�
 
 1. **Mở YouTube** và phát một video bất kỳ
 2. **Click vào icon extension** trên thanh toolbar
-3. **Toggle switches** để bật/tắt các tính năng:
-   - **Ẩn thanh tiến trình**: Ẩn/hiện progress bar
-   - **Ẩn thời lượng video**: Ẩn/hiện thông tin thời gian
-   - **Ẩn Shorts**: Ẩn/hiện các video và mục Shorts
-4. **Chuyển đổi theme**:
-   - Nhấp vào nút sun/moon ở góc trên bên phải để chuyển đổi giữa Light và Dark mode
-5. Extension sẽ tự động áp dụng thay đổi
+3. **Khám phá 4 section chính**:
+   - **Content & Feed Controls**: Ẩn/hiện Home Feed, Video Sidebar, Comments, Shorts, Channel
+   - **Interface Elements**: Ẩn/hiện Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar
+   - **Video Controls**: Ẩn/hiện Progress Bar, Duration, End Screen Cards, Description
+   - **Other Features**: Xuất/Nhập cài đặt và các tính năng khác
+4. **Toggle switches** để bật/tắt từng tính năng riêng biệt
+5. **Chuyển đổi theme**: Nhấp vào nút sun/moon ở góc trên để chuyển Light/Dark mode
+6. **Xuất/Nhập cài đặt**: Sử dụng các nút trong phần "Other Features" để sao lưu/khôi phục cấu hình
+7. Extension sẽ tự động áp dụng thay đổi và ghi nhớ trạng thái section
 
 ## Trạng thái Extension
 
+- 🟢 **Đang ẩn: home feed** - Chỉ trang chủ bị ẩn
+- 🟢 **Đang ẩn: video sidebar** - Chỉ sidebar video bị ẩn
+- 🟢 **Đang ẩn: comments** - Chỉ phần bình luận bị ẩn
+- 🟢 **Đang ẩn: shorts** - Chỉ phần Shorts bị ẩn
+- 🟢 **Đang ẩn: channel** - Chỉ thông tin kênh bị ẩn
+- 🟢 **Đang ẩn: top header** - Chỉ header trên cùng bị ẩn
+- 🟢 **Đang ẩn: notifications bell** - Chỉ chuông thông báo bị ẩn
+- 🟢 **Đang ẩn: explore & trending** - Chỉ tab Khám phá & Thịnh hành bị ẩn
+- 🟢 **Đang ẩn: more from youtube** - Chỉ phần "Thêm từ YouTube" bị ẩn
+- 🟢 **Đang ẩn: buttons bar** - Chỉ thanh nút bấm bị ẩn
 - 🟢 **Đang ẩn: thanh tiến trình** - Chỉ thanh tiến trình bị ẩn
 - 🟢 **Đang ẩn: thời lượng** - Chỉ thời lượng video bị ẩn
-- 🟢 **Đang ẩn: shorts** - Chỉ phần Shorts bị ẩn
+- 🟢 **Đang ẩn: end screen cards** - Chỉ thẻ cuối video bị ẩn
+- 🟢 **Đang ẩn: description** - Chỉ mô tả video bị ẩn
 - 🟢 **Đang ẩn: nhiều tính năng** - Kết hợp nhiều tính năng ẩn cùng lúc
 - 🟡 **Đã tắt tất cả** - Hiển thị bình thường
 
@@ -70,8 +100,10 @@ Extension Chrome đơn giản để ẩn thanh tiến trình (progress bar), th�
 - Các phím tắt YouTube vẫn hoạt động bình thường (Space, M, F, ←, →, ↑, ↓)
 - Settings được lưu tự động và áp dụng cho tất cả tab YouTube
 - Có thể bật/tắt riêng biệt từng tính năng theo nhu cầu
-- Nếu gặp vấn đề, hãy thử làm mới trang YouTube hoặc tắt/bật lại extension
+- Trạng thái thu gọn/mở rộng của các section được ghi nhớ
 - Tùy chọn theme (sáng/tối) được lưu và áp dụng cho mọi lần mở extension
+- File xuất cài đặt có định dạng JSON và có thể chia sẻ với người khác
+- Nếu gặp vấn đề, hãy thử làm mới trang YouTube hoặc tắt/bật lại extension
 
 ## Cấu trúc file
 
@@ -81,18 +113,9 @@ YoutubeDisableProgessBar/
 ├── content.js            # Script chạy trên trang YouTube  
 ├── popup.html            # Giao diện popup
 ├── popup.js              # Logic popup
-├── styles.css            # CSS để ẩn progress bar, thời lượng và shorts
-├── components/           # Thư mục chứa các component UI
-│   └── ui/               # Các component UI hiện đại
-│       ├── badge.js      # Component Badge
-│       ├── card.js       # Component Card
-│       ├── switch.js     # Component Switch
-│       └── theme-toggle.js # Component Theme Toggle
-├── src/                  # Thư mục source
-│   └── input.css         # CSS đầu vào cho Tailwind
-├── tailwind.config.js    # Cấu hình Tailwind CSS
-├── postcss.config.js     # Cấu hình PostCSS
-├── build.js              # Script build
+├── styles.css            # CSS để ẩn các phần tử YouTube
+├── interface.css         # CSS cho giao diện popup
+
 ├── icons/                # Thư mục chứa icons (đã có đầy đủ)
 │   ├── icon16.png        # Icon 16x16px
 │   ├── icon32.png        # Icon 32x32px  
@@ -108,29 +131,31 @@ YoutubeDisableProgessBar/
 - Reload extension trong trang chrome://extensions/
 - Làm mới trang YouTube
 
-**Thanh tiến trình, thời lượng hoặc Shorts vẫn hiển thị:**
-- Click icon extension và kiểm tra trạng thái các toggle
+**Các tính năng ẩn vẫn hiển thị:**
+- Click icon extension và kiểm tra trạng thái các toggle trong từng section
 - Đảm bảo đã bật tính năng tương ứng
 - Làm mới trang và thử lại
 - Kiểm tra Console để xem có lỗi không
 
-**Dark mode không hoạt động đúng:**
+**Section không thu gọn/mở rộng:**
 - Kiểm tra xem localStorage có bị xóa không
 - Thử xóa cache của trình duyệt
 - Reload extension và thử lại
 
-**Nút ngôn ngữ không hoạt động:**
-- Kiểm tra xem có lỗi JavaScript trong Console không
-- Reload extension và thử lại
+**Xuất/Nhập cài đặt không hoạt động:**
+- Đảm bảo file có định dạng JSON hợp lệ
+- Kiểm tra kích thước file (tối đa 5MB)
+- Kiểm tra Console để xem có lỗi JavaScript không
 
 ## Phát triển thêm
 
 Extension này có thể được mở rộng với các tính năng:
-- Ẩn/hiện các controls khác (như nút like/dislike, comments)
-- Shortcut keys tùy chỉnh
+- Shortcut keys tùy chỉnh cho từng tính năng
 - Whitelist/blacklist channels
 - Thêm nhiều theme màu sắc khác nhau
 - Ẩn thumbnail duration trên trang chủ
 - Timer tự động bật/tắt theo thời gian
 - Sync settings với Chrome account
-- Tùy chọn ẩn các phần khác của YouTube (như Trending, Subscriptions)
+- Tùy chọn ẩn các phần khác của YouTube
+- Profile cài đặt có tên tùy chỉnh
+- Chia sẻ profile qua URL hoặc QR code
