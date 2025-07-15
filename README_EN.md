@@ -46,7 +46,7 @@ A comprehensive Chrome extension to customize your YouTube interface according t
 >
 > **Export/Import Settings Feature:** Backup your configuration as JSON files to share or restore later.
 
-## Installation
+## 🛠 Installation
 
 1. **Open Chrome and go to Extensions page:**
    - Type `chrome://extensions/` in the address bar
