@@ -1,26 +1,30 @@
-// YouTube Progress Bar Hider - Phiên bản đơn giản và hiệu quả
+// YouTube UI Tweaker - Content Script
 (function() {
     'use strict';
 
-    let isProgressHidden = true;
-    let isDurationHidden = true;
-    let isShortsHidden = false;
-    let isHomeFeedHidden = false;
-    let isVideoSidebarHidden = false;
-    let isCommentsHidden = false;
-    let isNotificationsBellHidden = false;
-    let isTopHeaderHidden = false;
-    let isExploreTrendingHidden = false;
-    let isEndScreenCardsHidden = false;
-    let isMoreFromYouTubeHidden = false;
-    let isHideChannelHidden = false;
-    let isButtonsBarHidden = false;
-    let isHideDescriptionHidden = false;
+    // State variables
+    let settings = {
+        progressBarHidden: true,
+        durationHidden: true,
+        shortsHidden: false,
+        homeFeedHidden: false,
+        videoSidebarHidden: false,
+        commentsHidden: false,
+        notificationsBellHidden: false,
+        topHeaderHidden: false,
+        exploreTrendingHidden: false,
+        endScreenCardsHidden: false,
+        moreFromYouTubeHidden: false,
+        hideChannelHidden: false,
+        buttonsBarHidden: false,
+        hideDescriptionHidden: false
+    };
     
     // Hàm đơn giản để toggle progress bar
     function toggleProgressBar(hide) {
         console.log('Toggle progress bar:', hide);
-        
+        settings.progressBarHidden = hide;
+
         if (hide) {
             document.body.classList.add('youtube-progress-hidden');
             console.log('Added class youtube-progress-hidden');
@@ -29,11 +33,12 @@
             console.log('Removed class youtube-progress-hidden');
         }
     }
-    
+
     // Hàm toggle duration/thời lượng video
     function toggleDuration(hide) {
         console.log('Toggle duration:', hide);
-        
+        settings.durationHidden = hide;
+
         if (hide) {
             document.body.classList.add('youtube-duration-hidden');
             console.log('Added class youtube-duration-hidden');
@@ -46,16 +51,12 @@
     // Hàm toggle Shorts
     function toggleShorts(hide) {
         console.log('🎬 Toggle shorts:', hide);
+        settings.shortsHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-shorts-hidden');
             console.log('✅ Added class youtube-shorts-hidden');
             applyShortsFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugShortsStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-shorts-hidden');
             console.log('❌ Removed class youtube-shorts-hidden');
@@ -91,18 +92,13 @@
     // Hàm toggle Home Feed
     function toggleHomeFeed(hide) {
         console.log('🏠 Toggle home feed:', hide);
+        settings.homeFeedHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-home-feed-hidden');
-            // Add data attribute to help with CSS targeting
             document.body.setAttribute('data-home-feed-hidden', 'true');
             console.log('✅ Added class youtube-home-feed-hidden');
             applyHomeFeedFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugHomeFeedStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-home-feed-hidden');
             document.body.removeAttribute('data-home-feed-hidden');
@@ -114,18 +110,13 @@
     // Hàm toggle Video Sidebar
     function toggleVideoSidebar(hide) {
         console.log('📺 Toggle video sidebar:', hide);
+        settings.videoSidebarHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-video-sidebar-hidden');
-            // Add data attribute to help with CSS targeting
             document.body.setAttribute('data-video-sidebar-hidden', 'true');
             console.log('✅ Added class youtube-video-sidebar-hidden');
             applyVideoSidebarFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugVideoSidebarStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-video-sidebar-hidden');
             document.body.removeAttribute('data-video-sidebar-hidden');
@@ -137,18 +128,13 @@
     // Hàm toggle Comments Section
     function toggleComments(hide) {
         console.log('💬 Toggle comments section:', hide);
+        settings.commentsHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-comments-hidden');
-            // Add data attribute to help with CSS targeting
             document.body.setAttribute('data-comments-hidden', 'true');
             console.log('✅ Added class youtube-comments-hidden');
             applyCommentsFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugCommentsStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-comments-hidden');
             document.body.removeAttribute('data-comments-hidden');
@@ -160,18 +146,13 @@
     // Hàm toggle Notifications Bell
     function toggleNotificationsBell(hide) {
         console.log('🔔 Toggle notifications bell:', hide);
+        settings.notificationsBellHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-notifications-bell-hidden');
-            // Add data attribute to help with CSS targeting
             document.body.setAttribute('data-notifications-bell-hidden', 'true');
             console.log('✅ Added class youtube-notifications-bell-hidden');
             applyNotificationsBellFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugNotificationsBellStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-notifications-bell-hidden');
             document.body.removeAttribute('data-notifications-bell-hidden');
@@ -183,18 +164,13 @@
     // Hàm toggle Top Header/Navigation Bar
     function toggleTopHeader(hide) {
         console.log('🎯 Toggle top header:', hide);
+        settings.topHeaderHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-top-header-hidden');
-            // Add data attribute to help with CSS targeting
             document.body.setAttribute('data-top-header-hidden', 'true');
             console.log('✅ Added class youtube-top-header-hidden');
             applyTopHeaderFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugTopHeaderStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-top-header-hidden');
             document.body.removeAttribute('data-top-header-hidden');
@@ -206,18 +182,13 @@
     // Hàm toggle Explore & Trending Tabs
     function toggleExploreTrending(hide) {
         console.log('🔍 Toggle explore trending:', hide);
+        settings.exploreTrendingHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-explore-trending-hidden');
-            // Add data attribute to help with CSS targeting
             document.body.setAttribute('data-explore-trending-hidden', 'true');
             console.log('✅ Added class youtube-explore-trending-hidden');
             applyExploreTrendingFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugExploreTrendingStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-explore-trending-hidden');
             document.body.removeAttribute('data-explore-trending-hidden');
@@ -229,18 +200,13 @@
     // Hàm toggle End Screen Cards/Annotations
     function toggleEndScreenCards(hide) {
         console.log('🎬 Toggle end screen cards:', hide);
+        settings.endScreenCardsHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-end-screen-cards-hidden');
-            // Add data attribute to help with CSS targeting
             document.body.setAttribute('data-end-screen-cards-hidden', 'true');
             console.log('✅ Added class youtube-end-screen-cards-hidden');
             applyEndScreenCardsFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugEndScreenCardsStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-end-screen-cards-hidden');
             document.body.removeAttribute('data-end-screen-cards-hidden');
@@ -252,16 +218,12 @@
     // Hàm toggle More from YouTube Section
     function toggleMoreFromYouTube(hide) {
         console.log('📺 Toggle more from YouTube:', hide);
+        settings.moreFromYouTubeHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-more-from-youtube-hidden');
             console.log('✅ Added class youtube-more-from-youtube-hidden');
             applyMoreFromYouTubeFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugMoreFromYouTubeStatus();
-            }, 1000);
         } else {
             document.body.classList.remove('youtube-more-from-youtube-hidden');
             console.log('❌ Removed class youtube-more-from-youtube-hidden');
@@ -272,16 +234,12 @@
     // Hàm toggle Hide Channel
     function toggleHideChannel(hide) {
         console.log('📺 Toggle hide channel:', hide);
+        settings.hideChannelHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-hide-channel-hidden');
             console.log('✅ Added class youtube-hide-channel-hidden');
             applyHideChannelFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugHideChannelStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-hide-channel-hidden');
             console.log('❌ Removed class youtube-hide-channel-hidden');
@@ -292,16 +250,12 @@
     // Hàm toggle Buttons Bar
     function toggleButtonsBar(hide) {
         console.log('🔘 Toggle buttons bar:', hide);
+        settings.buttonsBarHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-buttons-bar-hidden');
             console.log('✅ Added class youtube-buttons-bar-hidden');
             applyButtonsBarFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugButtonsBarStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-buttons-bar-hidden');
             console.log('❌ Removed class youtube-buttons-bar-hidden');
@@ -312,16 +266,12 @@
     // Hàm toggle Hide Description
     function toggleHideDescription(hide) {
         console.log('📝 Toggle hide description:', hide);
+        settings.hideDescriptionHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-hide-description-hidden');
             console.log('✅ Added class youtube-hide-description-hidden');
             applyHideDescriptionFixes();
-
-            // Debug: kiểm tra ngay sau khi áp dụng
-            setTimeout(() => {
-                debugHideDescriptionStatus();
-            }, 500);
         } else {
             document.body.classList.remove('youtube-hide-description-hidden');
             console.log('❌ Removed class youtube-hide-description-hidden');
@@ -467,7 +417,7 @@
         console.log('   Body has data attribute:', bodyHasAttribute);
         console.log('   Comments content hidden:', commentsHidden);
         console.log('   Is watch page:', isWatchPage);
-        console.log('   isCommentsHidden variable:', isCommentsHidden);
+        console.log('   commentsHidden variable:', settings.commentsHidden);
         console.log('   Current page:', window.location.pathname);
 
         return {
@@ -475,7 +425,7 @@
             bodyHasAttribute,
             commentsHidden,
             isWatchPage,
-            isCommentsHidden
+            commentsHidden: settings.commentsHidden
         };
     }
 
@@ -513,14 +463,14 @@
         console.log('   Body has class:', bodyHasClass);
         console.log('   Body has data attribute:', bodyHasAttribute);
         console.log('   Notifications bell hidden:', notificationsBellHidden);
-        console.log('   isNotificationsBellHidden variable:', isNotificationsBellHidden);
+        console.log('   notificationsBellHidden variable:', settings.notificationsBellHidden);
         console.log('   Current page:', window.location.pathname);
 
         return {
             bodyHasClass,
             bodyHasAttribute,
             notificationsBellHidden,
-            isNotificationsBellHidden
+            notificationsBellHidden: settings.notificationsBellHidden
         };
     }
 
@@ -1324,53 +1274,44 @@
     
     // Khởi tạo extension
     function initialize() {
-        console.log('YouTube Progress Bar & Duration Hider initialized');
-        
+        console.log('YouTube UI Tweaker initialized');
+
         // Lấy trạng thái từ storage
-        chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'autoRefreshEnabled'], (result) => {
-            isProgressHidden = result.progressBarHidden !== false;
-            isDurationHidden = result.durationHidden !== false;
-            isShortsHidden = result.shortsHidden === true;
-            isHomeFeedHidden = result.homeFeedHidden === true;
-            isVideoSidebarHidden = result.videoSidebarHidden === true;
-            isCommentsHidden = result.commentsHidden === true;
-            isNotificationsBellHidden = result.notificationsBellHidden === true;
-            isTopHeaderHidden = result.topHeaderHidden === true;
-            isExploreTrendingHidden = result.exploreTrendingHidden === true;
-            isEndScreenCardsHidden = result.endScreenCardsHidden === true;
-            isMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-            isHideChannelHidden = result.hideChannelHidden === true;
-            isButtonsBarHidden = result.buttonsBarHidden === true;
-            isHideDescriptionHidden = result.hideDescriptionHidden === true;
-            console.log('Progress bar hidden:', isProgressHidden);
-            console.log('Duration hidden:', isDurationHidden);
-            console.log('Shorts hidden:', isShortsHidden);
-            console.log('Home Feed hidden:', isHomeFeedHidden);
-            console.log('Video Sidebar hidden:', isVideoSidebarHidden);
-            console.log('Comments hidden:', isCommentsHidden);
-            console.log('Notifications Bell hidden:', isNotificationsBellHidden);
-            console.log('Top Header hidden:', isTopHeaderHidden);
-            console.log('Explore Trending hidden:', isExploreTrendingHidden);
-            console.log('End Screen Cards hidden:', isEndScreenCardsHidden);
-            console.log('More from YouTube hidden:', isMoreFromYouTubeHidden);
-            console.log('Auto-refresh enabled:', result.autoRefreshEnabled !== false);
+        chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden'], (result) => {
+            // Cập nhật settings object
+            settings.progressBarHidden = result.progressBarHidden !== false;
+            settings.durationHidden = result.durationHidden !== false;
+            settings.shortsHidden = result.shortsHidden === true;
+            settings.homeFeedHidden = result.homeFeedHidden === true;
+            settings.videoSidebarHidden = result.videoSidebarHidden === true;
+            settings.commentsHidden = result.commentsHidden === true;
+            settings.notificationsBellHidden = result.notificationsBellHidden === true;
+            settings.topHeaderHidden = result.topHeaderHidden === true;
+            settings.exploreTrendingHidden = result.exploreTrendingHidden === true;
+            settings.endScreenCardsHidden = result.endScreenCardsHidden === true;
+            settings.moreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
+            settings.hideChannelHidden = result.hideChannelHidden === true;
+            settings.buttonsBarHidden = result.buttonsBarHidden === true;
+            settings.hideDescriptionHidden = result.hideDescriptionHidden === true;
+
+            console.log('Settings loaded:', settings);
 
             // Áp dụng ngay
             setTimeout(() => {
-                toggleProgressBar(isProgressHidden);
-                toggleDuration(isDurationHidden);
-                toggleShorts(isShortsHidden);
-                toggleHomeFeed(isHomeFeedHidden);
-                toggleVideoSidebar(isVideoSidebarHidden);
-                toggleComments(isCommentsHidden);
-                toggleNotificationsBell(isNotificationsBellHidden);
-                toggleTopHeader(isTopHeaderHidden);
-                toggleExploreTrending(isExploreTrendingHidden);
-                toggleEndScreenCards(isEndScreenCardsHidden);
-                toggleMoreFromYouTube(isMoreFromYouTubeHidden);
-                toggleHideChannel(isHideChannelHidden);
-                toggleButtonsBar(isButtonsBarHidden);
-                toggleHideDescription(isHideDescriptionHidden);
+                toggleProgressBar(settings.progressBarHidden);
+                toggleDuration(settings.durationHidden);
+                toggleShorts(settings.shortsHidden);
+                toggleHomeFeed(settings.homeFeedHidden);
+                toggleVideoSidebar(settings.videoSidebarHidden);
+                toggleComments(settings.commentsHidden);
+                toggleNotificationsBell(settings.notificationsBellHidden);
+                toggleTopHeader(settings.topHeaderHidden);
+                toggleExploreTrending(settings.exploreTrendingHidden);
+                toggleEndScreenCards(settings.endScreenCardsHidden);
+                toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
+                toggleHideChannel(settings.hideChannelHidden);
+                toggleButtonsBar(settings.buttonsBarHidden);
+                toggleHideDescription(settings.hideDescriptionHidden);
             }, 1000);
         });
         
@@ -1381,39 +1322,21 @@
                 currentUrl = location.href;
                 console.log('URL changed, reapplying extension');
                 setTimeout(() => {
-                    if (isProgressHidden) {
-                        toggleProgressBar(true);
-                    }
-                    if (isDurationHidden) {
-                        toggleDuration(true);
-                    }
-                    if (isShortsHidden) {
-                        toggleShorts(true);
-                    }
-                    if (isHomeFeedHidden) {
-                        toggleHomeFeed(true);
-                    }
-                    if (isVideoSidebarHidden) {
-                        toggleVideoSidebar(true);
-                    }
-                    if (isCommentsHidden) {
-                        toggleComments(true);
-                    }
-                    if (isNotificationsBellHidden) {
-                        toggleNotificationsBell(true);
-                    }
-                    if (isTopHeaderHidden) {
-                        toggleTopHeader(true);
-                    }
-                    if (isExploreTrendingHidden) {
-                        toggleExploreTrending(true);
-                    }
-                    if (isEndScreenCardsHidden) {
-                        toggleEndScreenCards(true);
-                    }
-                    if (isMoreFromYouTubeHidden) {
-                        toggleMoreFromYouTube(true);
-                    }
+                    // Áp dụng lại tất cả settings
+                    if (settings.progressBarHidden) toggleProgressBar(true);
+                    if (settings.durationHidden) toggleDuration(true);
+                    if (settings.shortsHidden) toggleShorts(true);
+                    if (settings.homeFeedHidden) toggleHomeFeed(true);
+                    if (settings.videoSidebarHidden) toggleVideoSidebar(true);
+                    if (settings.commentsHidden) toggleComments(true);
+                    if (settings.notificationsBellHidden) toggleNotificationsBell(true);
+                    if (settings.topHeaderHidden) toggleTopHeader(true);
+                    if (settings.exploreTrendingHidden) toggleExploreTrending(true);
+                    if (settings.endScreenCardsHidden) toggleEndScreenCards(true);
+                    if (settings.moreFromYouTubeHidden) toggleMoreFromYouTube(true);
+                    if (settings.hideChannelHidden) toggleHideChannel(true);
+                    if (settings.buttonsBarHidden) toggleButtonsBar(true);
+                    if (settings.hideDescriptionHidden) toggleHideDescription(true);
                 }, 2000);
             }
         });
@@ -1425,224 +1348,93 @@
     }
     
     // Lắng nghe message từ popup
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
         console.log('🔔 Received message:', request);
 
         if (request.action === 'toggleProgressBar') {
-            isProgressHidden = request.enabled;
-            toggleProgressBar(isProgressHidden);
-            console.log('✅ Progress bar toggled to:', isProgressHidden);
+            toggleProgressBar(request.enabled);
+            console.log('✅ Progress bar toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleDuration') {
-            isDurationHidden = request.enabled;
-            toggleDuration(isDurationHidden);
-            console.log('✅ Duration toggled to:', isDurationHidden);
+            toggleDuration(request.enabled);
+            console.log('✅ Duration toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleShorts') {
             console.log('🎬 Processing toggleShorts request, enabled:', request.enabled);
-            isShortsHidden = request.enabled;
-            toggleShorts(isShortsHidden);
-            console.log('✅ Shorts toggled to:', isShortsHidden);
-
-            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
-            setTimeout(() => {
-                const bodyHasClass = document.body.classList.contains('youtube-shorts-hidden');
-                console.log('🔍 Body class check after toggle:', bodyHasClass);
-
-                // Kiểm tra số lượng shorts videos
-                const shortsCount = document.querySelectorAll('a[href*="/shorts/"]').length;
-                console.log('📊 Found shorts videos:', shortsCount);
-            }, 100);
-
+            toggleShorts(request.enabled);
+            console.log('✅ Shorts toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleHomeFeed') {
             console.log('🏠 Processing toggleHomeFeed request, enabled:', request.enabled);
-            isHomeFeedHidden = request.enabled;
-            toggleHomeFeed(isHomeFeedHidden);
-            console.log('✅ Home Feed toggled to:', isHomeFeedHidden);
-
-            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
-            setTimeout(() => {
-                const bodyHasClass = document.body.classList.contains('youtube-home-feed-hidden');
-                console.log('🔍 Body class check after toggle:', bodyHasClass);
-
-                // Kiểm tra số lượng home feed elements
-                const homeFeedCount = document.querySelectorAll('[home-feed-content="true"]').length;
-                console.log('📊 Found home feed elements:', homeFeedCount);
-            }, 100);
-
+            toggleHomeFeed(request.enabled);
+            console.log('✅ Home Feed toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleVideoSidebar') {
             console.log('📺 Processing toggleVideoSidebar request, enabled:', request.enabled);
-            isVideoSidebarHidden = request.enabled;
-            toggleVideoSidebar(isVideoSidebarHidden);
-            console.log('✅ Video Sidebar toggled to:', isVideoSidebarHidden);
-
-            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
-            setTimeout(() => {
-                const bodyHasClass = document.body.classList.contains('youtube-video-sidebar-hidden');
-                console.log('🔍 Body class check after toggle:', bodyHasClass);
-
-                // Kiểm tra số lượng sidebar elements
-                const sidebarCount = document.querySelectorAll('ytd-watch-flexy #secondary').length;
-                console.log('📊 Found sidebar elements:', sidebarCount);
-            }, 100);
-
+            toggleVideoSidebar(request.enabled);
+            console.log('✅ Video Sidebar toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleComments') {
             console.log('💬 Processing toggleComments request, enabled:', request.enabled);
-            isCommentsHidden = request.enabled;
-            toggleComments(isCommentsHidden);
-            console.log('✅ Comments toggled to:', isCommentsHidden);
-
-            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
-            setTimeout(() => {
-                const bodyHasClass = document.body.classList.contains('youtube-comments-hidden');
-                console.log('🔍 Body class check after toggle:', bodyHasClass);
-
-                // Kiểm tra số lượng comments elements
-                const commentsCount = document.querySelectorAll('ytd-comments').length;
-                console.log('📊 Found comments elements:', commentsCount);
-            }, 100);
-
+            toggleComments(request.enabled);
+            console.log('✅ Comments toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleNotificationsBell') {
             console.log('🔔 Processing toggleNotificationsBell request, enabled:', request.enabled);
-            isNotificationsBellHidden = request.enabled;
-            toggleNotificationsBell(isNotificationsBellHidden);
-            console.log('✅ Notifications Bell toggled to:', isNotificationsBellHidden);
-
-            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
-            setTimeout(() => {
-                const bodyHasClass = document.body.classList.contains('youtube-notifications-bell-hidden');
-                console.log('🔍 Body class check after toggle:', bodyHasClass);
-
-                // Kiểm tra số lượng notifications bell elements
-                const notificationsBellCount = document.querySelectorAll('[notifications-bell-element="true"]').length;
-                console.log('📊 Found notifications bell elements:', notificationsBellCount);
-            }, 100);
-
+            toggleNotificationsBell(request.enabled);
+            console.log('✅ Notifications Bell toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleTopHeader') {
             console.log('🎯 Processing toggleTopHeader request, enabled:', request.enabled);
-            isTopHeaderHidden = request.enabled;
-            toggleTopHeader(isTopHeaderHidden);
-            console.log('✅ Top Header toggled to:', isTopHeaderHidden);
-
-            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
-            setTimeout(() => {
-                const bodyHasClass = document.body.classList.contains('youtube-top-header-hidden');
-                console.log('🔍 Body class check after toggle:', bodyHasClass);
-
-                // Kiểm tra số lượng top header elements
-                const topHeaderCount = document.querySelectorAll('[top-header-element="true"]').length;
-                console.log('📊 Found top header elements:', topHeaderCount);
-            }, 100);
-
+            toggleTopHeader(request.enabled);
+            console.log('✅ Top Header toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleExploreTrending') {
             console.log('🔍 Processing toggleExploreTrending request, enabled:', request.enabled);
-            isExploreTrendingHidden = request.enabled;
-            toggleExploreTrending(isExploreTrendingHidden);
-            console.log('✅ Explore Trending toggled to:', isExploreTrendingHidden);
-
-            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
-            setTimeout(() => {
-                const bodyHasClass = document.body.classList.contains('youtube-explore-trending-hidden');
-                console.log('🔍 Body class check after toggle:', bodyHasClass);
-
-                // Kiểm tra số lượng explore trending elements
-                const exploreTrendingCount = document.querySelectorAll('[explore-trending-element="true"]').length;
-                console.log('📊 Found explore trending elements:', exploreTrendingCount);
-            }, 100);
-
+            toggleExploreTrending(request.enabled);
+            console.log('✅ Explore Trending toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleEndScreenCards') {
             console.log('🎬 Processing toggleEndScreenCards request, enabled:', request.enabled);
-            isEndScreenCardsHidden = request.enabled;
-            toggleEndScreenCards(isEndScreenCardsHidden);
-            console.log('✅ End Screen Cards toggled to:', isEndScreenCardsHidden);
-
-            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
-            setTimeout(() => {
-                const bodyHasClass = document.body.classList.contains('youtube-end-screen-cards-hidden');
-                console.log('🔍 Body class check after toggle:', bodyHasClass);
-
-                // Kiểm tra số lượng end screen cards elements
-                const endScreenCardsCount = document.querySelectorAll('[end-screen-element="true"], [card-element="true"]').length;
-                console.log('📊 Found end screen cards elements:', endScreenCardsCount);
-            }, 100);
-
+            toggleEndScreenCards(request.enabled);
+            console.log('✅ End Screen Cards toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleMoreFromYouTube') {
             console.log('📺 Processing toggleMoreFromYouTube request, enabled:', request.enabled);
-            isMoreFromYouTubeHidden = request.enabled;
-            toggleMoreFromYouTube(isMoreFromYouTubeHidden);
-            console.log('✅ More from YouTube toggled to:', isMoreFromYouTubeHidden);
-
-            // Thêm delay nhỏ để đảm bảo CSS được áp dụng
-            setTimeout(() => {
-                const bodyHasClass = document.body.classList.contains('youtube-more-from-youtube-hidden');
-                console.log('🔍 Body class check after toggle:', bodyHasClass);
-
-                // Kiểm tra số lượng more from YouTube elements
-                const moreFromYouTubeCount = document.querySelectorAll('.youtube-more-from-hidden').length;
-                console.log('📊 Found more from YouTube elements:', moreFromYouTubeCount);
-            }, 100);
-
+            toggleMoreFromYouTube(request.enabled);
+            console.log('✅ More from YouTube toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleHideChannel') {
             console.log('📺 Processing toggleHideChannel request, enabled:', request.enabled);
-            isHideChannelHidden = request.enabled;
-            toggleHideChannel(isHideChannelHidden);
-            console.log('✅ Hide Channel toggled to:', isHideChannelHidden);
-
+            toggleHideChannel(request.enabled);
+            console.log('✅ Hide Channel toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleButtonsBar') {
             console.log('🔘 Processing toggleButtonsBar request, enabled:', request.enabled);
-            isButtonsBarHidden = request.enabled;
-            toggleButtonsBar(isButtonsBarHidden);
-            console.log('✅ Buttons Bar toggled to:', isButtonsBarHidden);
-
+            toggleButtonsBar(request.enabled);
+            console.log('✅ Buttons Bar toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleHideDescription') {
             console.log('📝 Processing toggleHideDescription request, enabled:', request.enabled);
-            isHideDescriptionHidden = request.enabled;
-            toggleHideDescription(isHideDescriptionHidden);
-            console.log('✅ Hide Description toggled to:', isHideDescriptionHidden);
-
+            toggleHideDescription(request.enabled);
+            console.log('✅ Hide Description toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'getStatus') {
-            sendResponse({
-                progressHidden: isProgressHidden,
-                durationHidden: isDurationHidden,
-                shortsHidden: isShortsHidden,
-                homeFeedHidden: isHomeFeedHidden,
-                videoSidebarHidden: isVideoSidebarHidden,
-                commentsHidden: isCommentsHidden,
-                notificationsBellHidden: isNotificationsBellHidden,
-                topHeaderHidden: isTopHeaderHidden,
-                exploreTrendingHidden: isExploreTrendingHidden,
-                endScreenCardsHidden: isEndScreenCardsHidden,
-                moreFromYouTubeHidden: isMoreFromYouTubeHidden,
-                hideChannelHidden: isHideChannelHidden,
-                buttonsBarHidden: isButtonsBarHidden,
-                hideDescriptionHidden: isHideDescriptionHidden
-            });
+            sendResponse(settings);
         }
 
         // Return true để giữ message channel mở cho async response
@@ -1660,48 +1452,20 @@
     window.addEventListener('load', () => {
         setTimeout(() => {
             console.log('Window loaded, reapplying extension');
-            if (isProgressHidden) {
-                toggleProgressBar(true);
-            }
-            if (isDurationHidden) {
-                toggleDuration(true);
-            }
-            if (isShortsHidden) {
-                toggleShorts(true);
-            }
-            if (isHomeFeedHidden) {
-                toggleHomeFeed(true);
-            }
-            if (isVideoSidebarHidden) {
-                toggleVideoSidebar(true);
-            }
-            if (isCommentsHidden) {
-                toggleComments(true);
-            }
-            if (isNotificationsBellHidden) {
-                toggleNotificationsBell(true);
-            }
-            if (isTopHeaderHidden) {
-                toggleTopHeader(true);
-            }
-            if (isExploreTrendingHidden) {
-                toggleExploreTrending(true);
-            }
-            if (isEndScreenCardsHidden) {
-                toggleEndScreenCards(true);
-            }
-            if (isMoreFromYouTubeHidden) {
-                toggleMoreFromYouTube(true);
-            }
-            if (isHideChannelHidden) {
-                toggleHideChannel(true);
-            }
-            if (isButtonsBarHidden) {
-                toggleButtonsBar(true);
-            }
-            if (isHideDescriptionHidden) {
-                toggleHideDescription(true);
-            }
+            if (settings.progressBarHidden) toggleProgressBar(true);
+            if (settings.durationHidden) toggleDuration(true);
+            if (settings.shortsHidden) toggleShorts(true);
+            if (settings.homeFeedHidden) toggleHomeFeed(true);
+            if (settings.videoSidebarHidden) toggleVideoSidebar(true);
+            if (settings.commentsHidden) toggleComments(true);
+            if (settings.notificationsBellHidden) toggleNotificationsBell(true);
+            if (settings.topHeaderHidden) toggleTopHeader(true);
+            if (settings.exploreTrendingHidden) toggleExploreTrending(true);
+            if (settings.endScreenCardsHidden) toggleEndScreenCards(true);
+            if (settings.moreFromYouTubeHidden) toggleMoreFromYouTube(true);
+            if (settings.hideChannelHidden) toggleHideChannel(true);
+            if (settings.buttonsBarHidden) toggleButtonsBar(true);
+            if (settings.hideDescriptionHidden) toggleHideDescription(true);
         }, 2000);
     });
 
