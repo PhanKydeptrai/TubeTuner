@@ -1008,7 +1008,7 @@ function setLanguage(lang, save = true) {
     
     const translations = {
         'vi': {
-            'title': 'YouTube Hider',
+            'title': 'YouTube UI Tweaker',
             'subtitle': 'Ẩn các phần tử YouTube không mong muốn',
             // Content & Feed Controls
             'contentFeedControlsTitle': 'Content & Feed Controls',
@@ -1046,7 +1046,7 @@ function setLanguage(lang, save = true) {
             'noticeDesc': 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.'
         },
         'en': {
-            'title': 'YouTube Hider',
+            'title': 'YouTube UI Tweaker',
             'subtitle': 'Hide unwanted YouTube elements',
             // Content & Feed Controls
             'contentFeedControlsTitle': 'Content & Feed Controls',
@@ -1308,7 +1308,7 @@ function exportSettings() {
         const settingsExport = {
             metadata: {
                 exportDate: new Date().toISOString(),
-                extensionName: "YouTube Progress Bar & Duration Hider",
+                extensionName: "YouTube UI Tweaker",
                 version: "1.2",
                 exportedBy: "YouTube Extension Settings Export",
                 settingsCount: Object.keys(allSettings).length
@@ -1356,7 +1356,7 @@ function createBackupBeforeImport(callback) {
         const backup = {
             metadata: {
                 backupDate: new Date().toISOString(),
-                extensionName: "YouTube Progress Bar & Duration Hider",
+                extensionName: "YouTube UI Tweaker",
                 version: "1.2",
                 backupType: "Auto backup before import"
             },

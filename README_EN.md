@@ -1,4 +1,4 @@
-# YouTube UI Tweaker
+# YouTube UI Tweaker - Customize YouTube Interface
 
 English | [Tiếng Việt](README.md)
 
@@ -28,20 +28,19 @@ A comprehensive Chrome extension to customize your YouTube interface according t
 
 ### 🔧 Other Features
 ✅ **Export/Import Settings** - Backup and share configurations <br>
-✅ **Modern UI** - Beautiful interface with 4 collapsible sections <br>
+✅ **Modern UI** - Beautiful interface with 3 collapsible sections <br>
 ✅ **Dark mode** - Support for dark mode, automatically follows system <br>
 ✅ **Multi-language** - Support for Vietnamese and English <br>
 ✅ **Independent toggles** - Separate toggle for each feature <br>
 ✅ **No performance impact** - Lightweight and optimized extension <br>
 
-## 🌟 Modern Interface with 4 Collapsible Sections 🌟
+## 🌟 Modern Interface with 3 Collapsible Sections 🌟
 
-> **New!** Extension interface is organized into 4 main sections:
+> **New!** Extension interface is organized into 3 main sections:
 >
 > 1. **Content & Feed Controls** - Control content and feeds
 > 2. **Interface Elements** - Interface elements
 > 3. **Video Controls** - Video controls
-> 4. **Other Features** - Other features
 >
 > Each section can be collapsed/expanded and remembers your state!
 >
@@ -65,14 +64,13 @@ A comprehensive Chrome extension to customize your YouTube interface according t
 
 1. **Open YouTube** and play any video
 2. **Click on the extension icon** in the toolbar
-3. **Explore 4 main sections**:
+3. **Explore 3 main sections**:
    - **Content & Feed Controls**: Hide/show Home Feed, Video Sidebar, Comments, Shorts, Channel
    - **Interface Elements**: Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar
    - **Video Controls**: Hide/show Progress Bar, Duration, End Screen Cards, Description
-   - **Other Features**: Export/Import settings and other features
 4. **Toggle switches** to enable/disable each feature individually
 5. **Toggle theme**: Click the sun/moon button at the top to switch Light/Dark mode
-6. **Export/Import Settings**: Use buttons in "Other Features" section to backup/restore configurations
+6. **Export/Import Settings**: Use buttons in settings section to backup/restore configurations
 7. Extension will automatically apply changes and remember section states
 
 ## Extension Status
@@ -117,7 +115,6 @@ YoutubeDisableProgessBar/
 ├── interface.css         # CSS for popup interface
 ├── README.md             # Vietnamese readme file
 ├── README_EN.md          # English readme file (this file)
-├── IMPLEMENTATION_SUMMARY.md # Implementation summary and changes
 └── icons/                # Folder containing icons (complete set)
     ├── icon16.png        # Icon 16x16px
     ├── icon32.png        # Icon 32x32px
@@ -147,16 +144,3 @@ YoutubeDisableProgessBar/
 - Ensure file has valid JSON format
 - Check file size (maximum 5MB)
 - Check Console for JavaScript errors
-
-## Future Development
-
-This extension can be expanded with features like:
-- Custom shortcut keys for each feature
-- Whitelist/blacklist channels
-- Additional color themes
-- Hide thumbnail duration on the homepage
-- Timer to automatically enable/disable based on time
-- Sync settings with Chrome account
-- Option to hide other parts of YouTube
-- Named configuration profiles
-- Share profiles via URL or QR code
