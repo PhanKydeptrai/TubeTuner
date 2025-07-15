@@ -1041,7 +1041,7 @@ function setLanguage(lang, save = true) {
             'featureDuration': 'Nội dung đề xuất và quảng cáo',
             'featureShorts': 'Các tính năng gây xao nhãng',
             'homeFeed': 'Trang chủ',
-            'infoExtra': 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với hơn 20 tùy chọn ẩn/hiện.',
+            'infoExtra': 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với 14 tùy chọn ẩn/hiện.',
             'noticeTitle': 'Lưu ý quan trọng',
             'noticeDesc': 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.'
         },
@@ -1079,7 +1079,7 @@ function setLanguage(lang, save = true) {
             'featureDuration': 'Recommended content and ads',
             'featureShorts': 'Distracting features',
             'homeFeed': 'Home Feed',
-            'infoExtra': 'Customize your YouTube experience with over 20 hide/show options.',
+            'infoExtra': 'Customize your YouTube experience with 14 hide/show options.',
             'noticeTitle': 'Important Notice',
             'noticeDesc': 'For the best experience, please enable the extension before visiting YouTube.'
         }

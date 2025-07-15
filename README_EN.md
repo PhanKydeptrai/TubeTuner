@@ -1,4 +1,4 @@
-# YouTube Hider - Customize YouTube Interface
+# YouTube UI Tweaker
 
 English | [Tiếng Việt](README.md)
 
@@ -115,13 +115,14 @@ YoutubeDisableProgessBar/
 ├── popup.js              # Popup logic
 ├── styles.css            # CSS to hide YouTube elements
 ├── interface.css         # CSS for popup interface
-
-├── icons/                # Folder containing icons (complete set)
-│   ├── icon16.png        # Icon 16x16px
-│   ├── icon32.png        # Icon 32x32px  
-│   ├── icon48.png        # Icon 48x48px
-│   └── icon128.png       # Icon 128x128px
-└── README.md             # This readme file
+├── README.md             # Vietnamese readme file
+├── README_EN.md          # English readme file (this file)
+├── IMPLEMENTATION_SUMMARY.md # Implementation summary and changes
+└── icons/                # Folder containing icons (complete set)
+    ├── icon16.png        # Icon 16x16px
+    ├── icon32.png        # Icon 32x32px
+    ├── icon48.png        # Icon 48x48px
+    └── icon128.png       # Icon 128x128px
 ```
 
 ## Troubleshooting
