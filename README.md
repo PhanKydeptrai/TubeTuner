@@ -46,7 +46,7 @@ Extension Chrome toàn diện để tùy chỉnh giao diện YouTube theo ý mu�
 >
 > **Tính năng xuất/nhập cài đặt:** Sao lưu cấu hình của bạn thành file JSON để chia sẻ hoặc khôi phục sau này.
 
-## Cách cài đặt
+## 🛠 Cách cài đặt
 
 1. **Mở Chrome và vào trang Extensions:**
    - Gõ `chrome://extensions/` vào thanh địa chỉ
