@@ -1,4 +1,4 @@
-# YouTube Hider - Tùy Chỉnh Giao Diện YouTube
+# YouTube UI Tweaker - Tùy Chỉnh Giao Diện YouTube
 
 [English](README_EN.md) | Tiếng Việt
 
@@ -110,18 +110,19 @@ Extension Chrome toàn diện để tùy chỉnh giao diện YouTube theo ý mu�
 ```
 YoutubeDisableProgessBar/
 ├── manifest.json         # Cấu hình extension
-├── content.js            # Script chạy trên trang YouTube  
+├── content.js            # Script chạy trên trang YouTube
 ├── popup.html            # Giao diện popup
 ├── popup.js              # Logic popup
 ├── styles.css            # CSS để ẩn các phần tử YouTube
 ├── interface.css         # CSS cho giao diện popup
-
-├── icons/                # Thư mục chứa icons (đã có đầy đủ)
-│   ├── icon16.png        # Icon 16x16px
-│   ├── icon32.png        # Icon 32x32px  
-│   ├── icon48.png        # Icon 48x48px
-│   └── icon128.png       # Icon 128x128px
-└── README.md             # File hướng dẫn này
+├── README.md             # File hướng dẫn tiếng Việt
+├── README_EN.md          # File hướng dẫn tiếng Anh
+├── IMPLEMENTATION_SUMMARY.md # Tóm tắt triển khai và thay đổi
+└── icons/                # Thư mục chứa icons (đã có đầy đủ)
+    ├── icon16.png        # Icon 16x16px
+    ├── icon32.png        # Icon 32x32px
+    ├── icon48.png        # Icon 48x48px
+    └── icon128.png       # Icon 128x128px
 ```
 
 ## Troubleshooting
