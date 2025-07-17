@@ -1,4 +1,4 @@
-# YouTube UI Tweaker - Customize YouTube Interface
+# TubeTuner - UI tweaker for Youtube
 
 English | [Tiếng Việt](README.md)
 
@@ -57,7 +57,7 @@ A comprehensive Chrome extension to customize your YouTube interface according t
 
 3. **Load extension:**
    - Click "Load unpacked"
-   - Select this `YoutubeDisableProgessBar` folder
+   - Select this `TubeTuner` folder
    - The extension will be installed and appear in the list
 
 ## How to Use
@@ -106,13 +106,14 @@ A comprehensive Chrome extension to customize your YouTube interface according t
 ## File Structure
 
 ```
-YoutubeDisableProgessBar/
+TubeTuner/
 ├── manifest.json         # Extension configuration
 ├── content.js            # Script running on YouTube page
 ├── popup.html            # Popup interface
 ├── popup.js              # Popup logic
 ├── styles.css            # CSS to hide YouTube elements
 ├── interface.css         # CSS for popup interface
+├── LICENSE               # MIT License
 ├── README.md             # Vietnamese readme file
 ├── README_EN.md          # English readme file (this file)
 └── icons/                # Folder containing icons (complete set)
