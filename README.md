@@ -1,4 +1,4 @@
-# YouTube UI Tweaker - Tùy Chỉnh Giao Diện YouTube
+# TubeTuner - Công Cụ Tùy Chỉnh Giao Diện YouTube
 
 [English](README_EN.md) | Tiếng Việt
 
@@ -57,7 +57,7 @@ Extension Chrome toàn diện để tùy chỉnh giao diện YouTube theo ý mu�
 
 3. **Load extension:**
    - Click "Load unpacked"
-   - Chọn thư mục `YoutubeDisableProgessBar` này
+   - Chọn thư mục `TubeTuner` này
    - Extension sẽ được cài đặt và xuất hiện trong danh sách
 
 ## Cách sử dụng
@@ -106,13 +106,14 @@ Extension Chrome toàn diện để tùy chỉnh giao diện YouTube theo ý mu�
 ## Cấu trúc file
 
 ```
-YoutubeDisableProgessBar/
+TubeTuner/
 ├── manifest.json         # Cấu hình extension
 ├── content.js            # Script chạy trên trang YouTube
 ├── popup.html            # Giao diện popup
 ├── popup.js              # Logic popup
 ├── styles.css            # CSS để ẩn các phần tử YouTube
 ├── interface.css         # CSS cho giao diện popup
+├── LICENSE               # Giấy phép MIT
 ├── README.md             # File hướng dẫn tiếng Việt
 ├── README_EN.md          # File hướng dẫn tiếng Anh
 └── icons/                # Thư mục chứa icons (đã có đầy đủ)
