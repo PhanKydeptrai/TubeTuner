@@ -440,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Translation object
     translations = {
         vi: {
-            title: 'YouTube Hider',
+            title: 'TubeTuner',
             subtitle: 'Ẩn thanh tiến trình & thời lượng',
             hideProgressBar: 'Ẩn thanh tiến trình',
             hideDuration: 'Ẩn thời lượng video',
@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
             noSettingsToExport: 'Không có cài đặt nào để xuất!'
         },
         en: {
-            title: 'YouTube Hider',
+            title: 'TubeTuner',
             subtitle: 'Hide progress bar & duration',
             hideProgressBar: 'Hide progress bar',
             hideDuration: 'Hide video duration',
@@ -1008,7 +1008,7 @@ function setLanguage(lang, save = true) {
     
     const translations = {
         'vi': {
-            'title': 'YouTube UI Tweaker',
+            'title': 'TubeTuner',
             'subtitle': 'Ẩn các phần tử YouTube không mong muốn',
             // Content & Feed Controls
             'contentFeedControlsTitle': 'Content & Feed Controls',
@@ -1046,7 +1046,7 @@ function setLanguage(lang, save = true) {
             'noticeDesc': 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.'
         },
         'en': {
-            'title': 'YouTube UI Tweaker',
+            'title': 'TubeTuner',
             'subtitle': 'Hide unwanted YouTube elements',
             // Content & Feed Controls
             'contentFeedControlsTitle': 'Content & Feed Controls',
@@ -1308,9 +1308,9 @@ function exportSettings() {
         const settingsExport = {
             metadata: {
                 exportDate: new Date().toISOString(),
-                extensionName: "YouTube UI Tweaker",
+                extensionName: "TubeTuner",
                 version: "1.2",
-                exportedBy: "YouTube Extension Settings Export",
+                exportedBy: "TubeTuner Settings Export",
                 settingsCount: Object.keys(allSettings).length
             },
             settings: allSettings
@@ -1356,7 +1356,7 @@ function createBackupBeforeImport(callback) {
         const backup = {
             metadata: {
                 backupDate: new Date().toISOString(),
-                extensionName: "YouTube UI Tweaker",
+                extensionName: "TubeTuner",
                 version: "1.2",
                 backupType: "Auto backup before import"
             },

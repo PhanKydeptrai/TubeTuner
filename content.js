@@ -1,4 +1,4 @@
-// YouTube UI Tweaker - Content Script
+// TubeTuner - Content Script
 (function() {
     'use strict';
 
@@ -1274,7 +1274,7 @@
     
     // Khởi tạo extension
     function initialize() {
-        console.log('YouTube UI Tweaker initialized');
+        console.log('TubeTuner initialized');
 
         // Lấy trạng thái từ storage
         chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden'], (result) => {
