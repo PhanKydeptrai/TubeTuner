@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "TubeTuner",
-  "version": "1.2",
+  "version": "0.2",
   "description": "Tùy chỉnh giao diện YouTube với 14 tùy chọn ẩn/hiện: thanh tiến trình, thời lượng, Shorts, trang chủ, bình luận và nhiều hơn nữa",
   "icons": {
     "16": "icons/icon16.png",
