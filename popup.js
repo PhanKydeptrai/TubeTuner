@@ -20,8 +20,8 @@ function verifyToggleStates() {
 
     chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden'], function(result) {
         const storedStates = {
-            progressBarHidden: result.progressBarHidden !== false,
-            durationHidden: result.durationHidden !== false,
+            progressBarHidden: result.progressBarHidden === true,
+            durationHidden: result.durationHidden === true,
             shortsHidden: result.shortsHidden === true,
             homeFeedHidden: result.homeFeedHidden === true,
             videoSidebarHidden: result.videoSidebarHidden === true,
@@ -513,8 +513,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Lấy trạng thái hiện tại với improved error handling và timing
     chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'language', 'theme', 'sectionStates'], function(result) {
-        const isEnabled = result.progressBarHidden !== false; // Mặc định là true
-        const durationHidden = result.durationHidden !== false; // Mặc định là true
+        const isEnabled = result.progressBarHidden === true; // Mặc định là false
+        const durationHidden = result.durationHidden === true; // Mặc định là false
         const shortsHidden = result.shortsHidden === true; // Mặc định là false
         const homeFeedHidden = result.homeFeedHidden === true; // Mặc định là false
         const videoSidebarHidden = result.videoSidebarHidden === true; // Mặc định là false
@@ -621,7 +621,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(newState, result.durationHidden !== false, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
+                updateUI(newState, result.durationHidden === true, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
                 console.log('🔄 Updated UI after progress bar toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
             });
 
@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(result.progressBarHidden !== false, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
+                updateUI(result.progressBarHidden === true, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
                 console.log('🔄 Updated UI after duration toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
             });
 
@@ -673,7 +673,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, newState, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, newState, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
                 console.log('🔄 Updated UI after shorts toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
             });
 
@@ -701,7 +701,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, newState, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, newState, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
                 console.log('🔄 Updated UI after home feed toggle, newState:', newState, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
             });
 
@@ -728,7 +728,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, result.homeFeedHidden === true, newState, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, newState, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
                 console.log('🔄 Updated UI after video sidebar toggle, newState:', newState, 'commentsHidden:', currentCommentsHidden);
             });
 
@@ -749,7 +749,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
                 const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, newState, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, newState, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden);
                 console.log('🔄 Updated UI after comments toggle, newState:', newState);
             });
 
@@ -767,7 +767,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Cập nhật UI ngay lập tức với trạng thái mới
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'topHeaderHidden', 'exploreTrendingHidden'], function(result) {
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, newState, result.topHeaderHidden === true, result.exploreTrendingHidden === true);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, newState, result.topHeaderHidden === true, result.exploreTrendingHidden === true);
                 console.log('🔄 Updated UI after notifications bell toggle, newState:', newState);
             });
 
@@ -785,7 +785,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Cập nhật UI ngay lập tức với trạng thái mới
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'exploreTrendingHidden'], function(result) {
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, newState, result.exploreTrendingHidden === true);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, newState, result.exploreTrendingHidden === true);
                 console.log('🔄 Updated UI after top header toggle, newState:', newState);
             });
 
@@ -803,7 +803,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Cập nhật UI ngay lập tức với trạng thái mới
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'endScreenCardsHidden'], function(result) {
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, newState, result.endScreenCardsHidden === true);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, newState, result.endScreenCardsHidden === true);
                 console.log('🔄 Updated UI after explore trending toggle, newState:', newState);
             });
 
@@ -821,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Cập nhật UI ngay lập tức với trạng thái mới
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'moreFromYouTubeHidden'], function(result) {
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreTrendingHidden === true, newState, result.moreFromYouTubeHidden === true);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreTrendingHidden === true, newState, result.moreFromYouTubeHidden === true);
                 console.log('🔄 Updated UI after end screen cards toggle, newState:', newState);
             });
 
@@ -839,7 +839,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Cập nhật UI ngay lập tức với trạng thái mới
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden'], function(result) {
-                updateUI(result.progressBarHidden !== false, result.durationHidden !== false, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreTrendingHidden === true, result.endScreenCardsHidden === true, newState);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreTrendingHidden === true, result.endScreenCardsHidden === true, newState);
                 console.log('🔄 Updated UI after more from YouTube toggle, newState:', newState);
             });
 

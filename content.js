@@ -4,8 +4,8 @@
 
     // State variables
     let settings = {
-        progressBarHidden: true,
-        durationHidden: true,
+        progressBarHidden: false,
+        durationHidden: false,
         shortsHidden: false,
         homeFeedHidden: false,
         videoSidebarHidden: false,
@@ -1279,8 +1279,8 @@
         // Lấy trạng thái từ storage
         chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden'], (result) => {
             // Cập nhật settings object
-            settings.progressBarHidden = result.progressBarHidden !== false;
-            settings.durationHidden = result.durationHidden !== false;
+            settings.progressBarHidden = result.progressBarHidden === true;
+            settings.durationHidden = result.durationHidden === true;
             settings.shortsHidden = result.shortsHidden === true;
             settings.homeFeedHidden = result.homeFeedHidden === true;
             settings.videoSidebarHidden = result.videoSidebarHidden === true;
