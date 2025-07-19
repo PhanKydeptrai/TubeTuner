@@ -896,18 +896,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Hàm xử lý thay đổi toggle
+    // Hàm xử lý thay đổi toggle với đồng bộ đa tab
     function handleToggleChange(action, enabled) {
         console.log(`${action} changed to:`, enabled);
-        
-        // Gửi thông điệp tới content script
+
+        // Gửi thông điệp tới tab hiện tại ngay lập tức
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
                 chrome.tabs.sendMessage(tabs[0].id, {
                     action: action,
                     enabled: enabled
+                }).catch(error => {
+                    console.log('⚠️ Could not send message to current tab:', error.message);
                 });
             }
+        });
+
+        // Gửi thông điệp tới background script để đồng bộ với tất cả tab khác
+        chrome.runtime.sendMessage({
+            action: 'syncToAllTabs',
+            toggleAction: action,
+            enabled: enabled
+        }).catch(error => {
+            console.log('⚠️ Could not send sync message to background:', error.message);
         });
     }
 
@@ -1252,7 +1263,9 @@ function initializeSwitches() {
                     // Send message to content script to update immediately if on YouTube
                     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                         if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
-                            chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' });
+                            chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(error => {
+                                console.log('⚠️ Could not send update message to current tab:', error.message);
+                            });
                         }
                     });
                 });
@@ -1492,7 +1505,9 @@ function importSettings(file) {
                 // Send message to content script to update immediately if on YouTube
                 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                     if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
-                        chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' });
+                        chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(error => {
+                            console.log('⚠️ Could not send update message to current tab:', error.message);
+                        });
                     }
                 });
 

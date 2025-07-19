@@ -1347,10 +1347,152 @@
         });
     }
     
-    // Lắng nghe message từ popup
+    // Listen for storage changes to sync across tabs
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+        if (namespace !== 'sync') return;
+
+        console.log('🔄 Storage changed in this tab, applying changes:', changes);
+
+        // Apply changes immediately
+        for (const [key, change] of Object.entries(changes)) {
+            const newValue = change.newValue;
+
+            switch (key) {
+                case 'progressBarHidden':
+                    settings.progressBarHidden = newValue === true;
+                    toggleProgressBar(settings.progressBarHidden);
+                    break;
+                case 'durationHidden':
+                    settings.durationHidden = newValue === true;
+                    toggleDuration(settings.durationHidden);
+                    break;
+                case 'shortsHidden':
+                    settings.shortsHidden = newValue === true;
+                    toggleShorts(settings.shortsHidden);
+                    break;
+                case 'homeFeedHidden':
+                    settings.homeFeedHidden = newValue === true;
+                    toggleHomeFeed(settings.homeFeedHidden);
+                    break;
+                case 'videoSidebarHidden':
+                    settings.videoSidebarHidden = newValue === true;
+                    toggleVideoSidebar(settings.videoSidebarHidden);
+                    break;
+                case 'commentsHidden':
+                    settings.commentsHidden = newValue === true;
+                    toggleComments(settings.commentsHidden);
+                    break;
+                case 'notificationsBellHidden':
+                    settings.notificationsBellHidden = newValue === true;
+                    toggleNotificationsBell(settings.notificationsBellHidden);
+                    break;
+                case 'topHeaderHidden':
+                    settings.topHeaderHidden = newValue === true;
+                    toggleTopHeader(settings.topHeaderHidden);
+                    break;
+                case 'exploreTrendingHidden':
+                    settings.exploreTrendingHidden = newValue === true;
+                    toggleExploreTrending(settings.exploreTrendingHidden);
+                    break;
+                case 'endScreenCardsHidden':
+                    settings.endScreenCardsHidden = newValue === true;
+                    toggleEndScreenCards(settings.endScreenCardsHidden);
+                    break;
+                case 'moreFromYouTubeHidden':
+                    settings.moreFromYouTubeHidden = newValue === true;
+                    toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
+                    break;
+                case 'hideChannelHidden':
+                    settings.hideChannelHidden = newValue === true;
+                    toggleHideChannel(settings.hideChannelHidden);
+                    break;
+                case 'buttonsBarHidden':
+                    settings.buttonsBarHidden = newValue === true;
+                    toggleButtonsBar(settings.buttonsBarHidden);
+                    break;
+                case 'hideDescriptionHidden':
+                    settings.hideDescriptionHidden = newValue === true;
+                    toggleHideDescription(settings.hideDescriptionHidden);
+                    break;
+            }
+        }
+    });
+
+    // Lắng nghe message từ popup và background script
     chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
         console.log('🔔 Received message:', request);
 
+        // Handle sync messages from background script
+        if (request.action === 'syncSettings') {
+            console.log('🔄 Syncing settings from background script:', request.changes);
+
+            // Apply all changed settings
+            for (const [key, value] of Object.entries(request.changes)) {
+                switch (key) {
+                    case 'progressBarHidden':
+                        settings.progressBarHidden = value === true;
+                        toggleProgressBar(settings.progressBarHidden);
+                        break;
+                    case 'durationHidden':
+                        settings.durationHidden = value === true;
+                        toggleDuration(settings.durationHidden);
+                        break;
+                    case 'shortsHidden':
+                        settings.shortsHidden = value === true;
+                        toggleShorts(settings.shortsHidden);
+                        break;
+                    case 'homeFeedHidden':
+                        settings.homeFeedHidden = value === true;
+                        toggleHomeFeed(settings.homeFeedHidden);
+                        break;
+                    case 'videoSidebarHidden':
+                        settings.videoSidebarHidden = value === true;
+                        toggleVideoSidebar(settings.videoSidebarHidden);
+                        break;
+                    case 'commentsHidden':
+                        settings.commentsHidden = value === true;
+                        toggleComments(settings.commentsHidden);
+                        break;
+                    case 'notificationsBellHidden':
+                        settings.notificationsBellHidden = value === true;
+                        toggleNotificationsBell(settings.notificationsBellHidden);
+                        break;
+                    case 'topHeaderHidden':
+                        settings.topHeaderHidden = value === true;
+                        toggleTopHeader(settings.topHeaderHidden);
+                        break;
+                    case 'exploreTrendingHidden':
+                        settings.exploreTrendingHidden = value === true;
+                        toggleExploreTrending(settings.exploreTrendingHidden);
+                        break;
+                    case 'endScreenCardsHidden':
+                        settings.endScreenCardsHidden = value === true;
+                        toggleEndScreenCards(settings.endScreenCardsHidden);
+                        break;
+                    case 'moreFromYouTubeHidden':
+                        settings.moreFromYouTubeHidden = value === true;
+                        toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
+                        break;
+                    case 'hideChannelHidden':
+                        settings.hideChannelHidden = value === true;
+                        toggleHideChannel(settings.hideChannelHidden);
+                        break;
+                    case 'buttonsBarHidden':
+                        settings.buttonsBarHidden = value === true;
+                        toggleButtonsBar(settings.buttonsBarHidden);
+                        break;
+                    case 'hideDescriptionHidden':
+                        settings.hideDescriptionHidden = value === true;
+                        toggleHideDescription(settings.hideDescriptionHidden);
+                        break;
+                }
+            }
+
+            sendResponse({ success: true });
+            return true;
+        }
+
+        // Handle direct toggle messages from popup
         if (request.action === 'toggleProgressBar') {
             toggleProgressBar(request.enabled);
             console.log('✅ Progress bar toggled to:', request.enabled);
