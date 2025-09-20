@@ -12,6 +12,7 @@ Thumbs.db
 .cursor
 *.swp
 *.swo
+copilot-instructions.md
 
 # Log files
 *.log
