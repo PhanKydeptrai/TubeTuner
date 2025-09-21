@@ -1,9 +1,9 @@
 // YouTube Progress Bar Hider Popup Script
 let currentLang = 'vi'; // Default language is Vietnamese
-let translations = {}; // Khai báo toàn cục để truy cập từ bên ngoài DOMContentLoaded
-let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreTrendingSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, status; // Global variables để có thể truy cập từ bên ngoài
+let translations = {}; // Global declaration to access from outside DOMContentLoaded
+let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreTrendingSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, status; // Global variables to access from outside
 
-// Hàm global để xử lý click trực tiếp từ HTML
+// Global function to handle direct click from HTML
 function changeLanguage(lang) {
     console.log('changeLanguage called with:', lang);
     if (lang !== currentLang) {
@@ -52,7 +52,7 @@ function verifyToggleStates() {
 // Expose debug function globally
 window.verifyToggleStates = verifyToggleStates;
 
-// Hàm global để cập nhật UI
+// Global function to update UI
 function updateLanguageUI() {
     console.log('updateLanguageUI called, current language:', currentLang);
     
@@ -118,7 +118,7 @@ function updateLanguageUI() {
     }
 }
 
-// Hàm global để cập nhật UI dựa trên trạng thái
+// Global function to update UI based on state
 function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden) {
     console.log('🔄 updateUI called with:', {
         progressHidden,
@@ -148,7 +148,7 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
         return;
     }
 
-    // Update progress bar toggle - sử dụng checked property cho checkbox
+    // Update progress bar toggle - use checked property for checkbox
     toggleSwitch.checked = progressHidden;
     console.log('✅ Progress bar toggle set to:', progressHidden);
 
@@ -364,7 +364,7 @@ function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHi
     }
 }
 
-// Hàm để áp dụng theme từ localStorage hoặc system preference
+// Function to apply theme from localStorage or system preference
 function applyInitialTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -378,13 +378,13 @@ function applyInitialTheme() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Khởi tạo theme theo cài đặt trước đó hoặc theme của hệ thống
+    // Initialize theme according to previous settings or system theme
     initializeTheme();
 
-    // Khởi tạo ngôn ngữ theo cài đặt trước đó
+    // Initialize language according to previous settings
     initializeLanguage();
 
-    // Xử lý các toggle switch
+    // Handle toggle switches
     initializeSwitches();
 
     // Handle collapsible sections with state persistence
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
     
-    // Ghi log ra để xem các phần tử có được tìm thấy không
+    // Log to see if elements are found
     console.log('DOM Elements found:', {
         toggleSwitch,
         durationSwitch,
@@ -511,22 +511,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // Lấy trạng thái hiện tại với improved error handling và timing
+    // Get current state with improved error handling and timing
     chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'language', 'theme', 'sectionStates'], function(result) {
-        const isEnabled = result.progressBarHidden === true; // Mặc định là false
-        const durationHidden = result.durationHidden === true; // Mặc định là false
-        const shortsHidden = result.shortsHidden === true; // Mặc định là false
-        const homeFeedHidden = result.homeFeedHidden === true; // Mặc định là false
-        const videoSidebarHidden = result.videoSidebarHidden === true; // Mặc định là false
-        const commentsHidden = result.commentsHidden === true; // Mặc định là false
-        const notificationsBellHidden = result.notificationsBellHidden === true; // Mặc định là false
-        const topHeaderHidden = result.topHeaderHidden === true; // Mặc định là false
-        const exploreTrendingHidden = result.exploreTrendingHidden === true; // Mặc định là false
-        const endScreenCardsHidden = result.endScreenCardsHidden === true; // Mặc định là false
-        const moreFromYouTubeHidden = result.moreFromYouTubeHidden === true; // Mặc định là false
-        const hideChannelHidden = result.hideChannelHidden === true; // Mặc định là false
-        const buttonsBarHidden = result.buttonsBarHidden === true; // Mặc định là false
-        const hideDescriptionHidden = result.hideDescriptionHidden === true; // Mặc định là false
+        const isEnabled = result.progressBarHidden === true; // Default is false
+        const durationHidden = result.durationHidden === true; // Default is false
+        const shortsHidden = result.shortsHidden === true; // Default is false
+        const homeFeedHidden = result.homeFeedHidden === true; // Default is false
+        const videoSidebarHidden = result.videoSidebarHidden === true; // Default is false
+        const commentsHidden = result.commentsHidden === true; // Default is false
+        const notificationsBellHidden = result.notificationsBellHidden === true; // Default is false
+        const topHeaderHidden = result.topHeaderHidden === true; // Default is false
+        const exploreTrendingHidden = result.exploreTrendingHidden === true; // Default is false
+        const endScreenCardsHidden = result.endScreenCardsHidden === true; // Default is false
+        const moreFromYouTubeHidden = result.moreFromYouTubeHidden === true; // Default is false
+        const hideChannelHidden = result.hideChannelHidden === true; // Default is false
+        const buttonsBarHidden = result.buttonsBarHidden === true; // Default is false
+        const hideDescriptionHidden = result.hideDescriptionHidden === true; // Default is false
 
         console.log('🔍 Loading stored states:', {
             progressBarHidden: isEnabled,
@@ -593,7 +593,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('No saved language preference, using default:', currentLang);
         }
 
-        // Đồng bộ theme từ storage với localStorage
+        // Sync theme from storage with localStorage
         if (result.theme) {
             localStorage.setItem('theme', result.theme);
             document.documentElement.classList.toggle('dark', result.theme === 'dark');
@@ -603,15 +603,15 @@ document.addEventListener('DOMContentLoaded', function() {
         updateLanguageUI();
     });
     
-    // Xử lý click toggle extension
+    // Handle toggle extension click
     if (toggleSwitch) {
         toggleSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ progressBarHidden: newState });
 
-            // Cập nhật UI
+            // Update UI
             chrome.storage.sync.get(['durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
                 const currentVideoSidebarHidden = result.videoSidebarHidden === true;
@@ -629,15 +629,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Xử lý click toggle duration
+    // Handle toggle duration click
     if (durationSwitch) {
         durationSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ durationHidden: newState });
 
-            // Cập nhật UI
+            // Update UI
             chrome.storage.sync.get(['progressBarHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
                 const currentVideoSidebarHidden = result.videoSidebarHidden === true;
@@ -655,15 +655,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Xử lý click toggle shorts
+    // Handle toggle shorts click
     if (shortsSwitch) {
         shortsSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ shortsHidden: newState });
 
-            // Cập nhật UI
+            // Update UI
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
                 const currentVideoSidebarHidden = result.videoSidebarHidden === true;
@@ -681,18 +681,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle home feed
+    // Handle toggle home feed click
     if (homeFeedSwitch) {
         homeFeedSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
             console.log('🏠 Home Feed toggle changed to:', newState);
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ homeFeedHidden: newState }, function() {
                 console.log('✅ Home Feed state saved to storage:', newState);
             });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
+            // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
                 const currentVideoSidebarHidden = result.videoSidebarHidden === true;
                 const currentCommentsHidden = result.commentsHidden === true;
@@ -709,18 +709,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle video sidebar
+    // Handle toggle video sidebar click
     if (videoSidebarSwitch) {
         videoSidebarSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
             console.log('📺 Video Sidebar toggle changed to:', newState);
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ videoSidebarHidden: newState }, function() {
                 console.log('✅ Video Sidebar state saved to storage:', newState);
             });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
+            // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
                 const currentCommentsHidden = result.commentsHidden === true;
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
@@ -736,7 +736,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle comments
+    // Handle toggle comments click
     if (commentsSwitch) {
         commentsSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
@@ -757,7 +757,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle notifications bell
+    // Handle toggle notifications bell click
     if (notificationsBellSwitch) {
         notificationsBellSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
@@ -775,7 +775,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle top header
+    // Handle toggle top header click
     if (topHeaderSwitch) {
         topHeaderSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
@@ -793,7 +793,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle explore trending
+    // Handle toggle explore trending click
     if (exploreTrendingSwitch) {
         exploreTrendingSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
@@ -811,7 +811,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle end screen cards
+    // Handle toggle end screen cards click
     if (endScreenCardsSwitch) {
         endScreenCardsSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
@@ -829,7 +829,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle more from YouTube
+    // Handle toggle more from YouTube click
     if (moreFromYouTubeSwitch) {
         moreFromYouTubeSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
@@ -847,7 +847,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle hide channel
+    // Handle toggle hide channel click
     if (hideChannelSwitch) {
         hideChannelSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
@@ -859,7 +859,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle buttons bar
+    // Handle toggle buttons bar click
     if (buttonsBarSwitch) {
         buttonsBarSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
@@ -871,7 +871,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý click toggle hide description
+    // Handle toggle hide description click
     if (hideDescriptionSwitch) {
         hideDescriptionSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
@@ -883,7 +883,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Thêm sự kiện click cho nút ngôn ngữ
+    // Add click event for language buttons
     if (langVi) {
         langVi.addEventListener('click', function() {
             changeLanguage('vi');
@@ -896,11 +896,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Hàm xử lý thay đổi toggle với đồng bộ đa tab
+    // Function to handle toggle changes with multi-tab synchronization
     function handleToggleChange(action, enabled) {
         console.log(`${action} changed to:`, enabled);
 
-        // Gửi thông điệp tới tab hiện tại ngay lập tức
+        // Send message to current tab immediately
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
                 chrome.tabs.sendMessage(tabs[0].id, {
@@ -912,7 +912,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Gửi thông điệp tới background script để đồng bộ với tất cả tab khác
+        // Send message to background script to sync with all other tabs
         chrome.runtime.sendMessage({
             action: 'syncToAllTabs',
             toggleAction: action,
