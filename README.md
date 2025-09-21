@@ -1,122 +1,122 @@
-# TubeTuner - Công Cụ Tùy Chỉnh Giao Diện YouTube
+# TubeTuner - UI tweaker for Youtube
 
-[English](README_EN.md) | Tiếng Việt
+English | [Tiếng Việt](README_VI.md)
 
-Extension Chrome toàn diện để tùy chỉnh giao diện YouTube theo ý muốn của bạn. Ẩn các phần tử gây xao nhãng và tập trung vào nội dung video với 14 tùy chọn ẩn/hiện khác nhau.
+A comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 14 different hide/show options.
 
-## Tính năng chính
+## Main Features
 
-### 🎬 Điều khiển nội dung & feed
-✅ **Ẩn Home Feed** - Ẩn trang chủ YouTube để tránh xao nhãng <br>
-✅ **Ẩn Video Sidebar** - Ẩn danh sách video đề xuất bên cạnh <br>
-✅ **Ẩn Comments** - Ẩn phần bình luận video <br>
-✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube <br>
-✅ **Ẩn Channel** - Ẩn thông tin kênh <br>
+### 🎬 Content & Feed Controls
+✅ **Hide Home Feed** - Hide YouTube homepage to avoid distractions <br>
+✅ **Hide Video Sidebar** - Hide recommended video list on the side <br>
+✅ **Hide Comments** - Hide video comments section <br>
+✅ **Hide Shorts** - Completely hide Shorts videos and Shorts section on YouTube <br>
+✅ **Hide Channel** - Hide channel information <br>
 
-### 🎛️ Điều khiển giao diện
-✅ **Ẩn Top Header** - Ẩn thanh header trên cùng <br>
-✅ **Ẩn Notifications Bell** - Ẩn chuông thông báo <br>
-✅ **Ẩn Explore & Trending** - Ẩn các tab Khám phá và Thịnh hành <br>
-✅ **Ẩn More from YouTube** - Ẩn phần "Thêm từ YouTube" <br>
-✅ **Ẩn Buttons Bar** - Ẩn thanh nút bấm <br>
+### 🎛️ Interface Elements
+✅ **Hide Top Header** - Hide top header bar <br>
+✅ **Hide Notifications Bell** - Hide notification bell <br>
+✅ **Hide Explore & Trending** - Hide Explore and Trending tabs <br>
+✅ **Hide More from YouTube** - Hide "More from YouTube" section <br>
+✅ **Hide Buttons Bar** - Hide buttons bar <br>
 
-### 🎥 Điều khiển video
-✅ **Ẩn thanh tiến trình video** - Loại bỏ thanh progress bar khi xem video <br>
-✅ **Ẩn thời lượng video** - Ẩn thông tin thời gian hiện tại/tổng thời lượng video <br>
-✅ **Ẩn End Screen Cards** - Ẩn thẻ cuối video <br>
-✅ **Ẩn Description** - Ẩn mô tả video <br>
+### 🎥 Video Controls
+✅ **Hide video progress bar** - Remove the progress bar when watching videos <br>
+✅ **Hide video duration** - Hide current time/total duration information <br>
+✅ **Hide End Screen Cards** - Hide end screen cards <br>
+✅ **Hide Description** - Hide video description <br>
 
-### 🔧 Tính năng khác
-✅ **Xuất/Nhập cài đặt** - Sao lưu và chia sẻ cấu hình <br>
-✅ **Giao diện hiện đại** - UI đẹp mắt với 3 section có thể thu gọn <br>
-✅ **Dark mode** - Hỗ trợ chế độ tối, tự động theo hệ thống <br>
-✅ **Đa ngôn ngữ** - Hỗ trợ tiếng Việt và tiếng Anh <br>
-✅ **Bật/tắt riêng biệt** - Toggle độc lập cho từng tính năng <br>
-✅ **Không ảnh hưởng hiệu suất** - Extension nhẹ và tối ưu <br>
+### 🔧 Other Features
+✅ **Export/Import Settings** - Backup and share configurations <br>
+✅ **Modern UI** - Beautiful interface with 3 collapsible sections <br>
+✅ **Dark mode** - Support for dark mode, automatically follows system <br>
+✅ **Multi-language** - Support for Vietnamese and English <br>
+✅ **Independent toggles** - Separate toggle for each feature <br>
+✅ **No performance impact** - Lightweight and optimized extension <br>
 
-## 🌟 Giao diện hiện đại với 3 section có thể thu gọn 🌟
+## 🌟 Modern Interface with 3 Collapsible Sections 🌟
 
-> **Mới!** Extension có giao diện được tổ chức thành 4 phần chính:
+> **New!** Extension interface is organized into 3 main sections:
 >
-> 1. **Content & Feed Controls** - Điều khiển nội dung và feed
-> 2. **Interface Elements** - Các phần tử giao diện
-> 3. **Video Controls** - Điều khiển video
+> 1. **Content & Feed Controls** - Control content and feeds
+> 2. **Interface Elements** - Interface elements
+> 3. **Video Controls** - Video controls
 >
-> Mỗi section có thể thu gọn/mở rộng và ghi nhớ trạng thái của bạn!
+> Each section can be collapsed/expanded and remembers your state!
 >
-> **Tính năng xuất/nhập cài đặt:** Sao lưu cấu hình của bạn thành file JSON để chia sẻ hoặc khôi phục sau này.
+> **Export/Import Settings Feature:** Backup your configuration as JSON files to share or restore later.
 
-## 🛠 Cách cài đặt
+## 🛠 Installation
 
-1. **Mở Chrome và vào trang Extensions:**
-   - Gõ `chrome://extensions/` vào thanh địa chỉ
-   - Hoặc vào Menu → More tools → Extensions
+1. **Open Chrome and go to Extensions page:**
+   - Type `chrome://extensions/` in the address bar
+   - Or go to Menu → More tools → Extensions
 
-2. **Bật Developer mode:**
-   - Chuyển toggle "Developer mode" ở góc trên bên phải
+2. **Enable Developer mode:**
+   - Switch on the "Developer mode" toggle in the top right corner
 
 3. **Load extension:**
    - Click "Load unpacked"
-   - Chọn thư mục `TubeTuner` này
-   - Extension sẽ được cài đặt và xuất hiện trong danh sách
+   - Select this `TubeTuner` folder
+   - The extension will be installed and appear in the list
 
-## Cách sử dụng
+## How to Use
 
-1. **Mở YouTube** và phát một video bất kỳ
-2. **Click vào icon extension** trên thanh toolbar
-3. **Khám phá 3 section chính**:
-   - **Content & Feed Controls**: Ẩn/hiện Home Feed, Video Sidebar, Comments, Shorts, Channel
-   - **Interface Elements**: Ẩn/hiện Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar
-   - **Video Controls**: Ẩn/hiện Progress Bar, Duration, End Screen Cards, Description
-4. **Toggle switches** để bật/tắt từng tính năng riêng biệt
-5. **Chuyển đổi theme**: Nhấp vào nút sun/moon ở góc trên để chuyển Light/Dark mode
-6. **Xuất/Nhập cài đặt**: Sử dụng các nút trong phần "Other Features" để sao lưu/khôi phục cấu hình
-7. Extension sẽ tự động áp dụng thay đổi và ghi nhớ trạng thái section
+1. **Open YouTube** and play any video
+2. **Click on the extension icon** in the toolbar
+3. **Explore 3 main sections**:
+   - **Content & Feed Controls**: Hide/show Home Feed, Video Sidebar, Comments, Shorts, Channel
+   - **Interface Elements**: Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar
+   - **Video Controls**: Hide/show Progress Bar, Duration, End Screen Cards, Description
+4. **Toggle switches** to enable/disable each feature individually
+5. **Toggle theme**: Click the sun/moon button at the top to switch Light/Dark mode
+6. **Export/Import Settings**: Use buttons in settings section to backup/restore configurations
+7. Extension will automatically apply changes and remember section states
 
-## Trạng thái Extension
+## Extension Status
 
-- 🟢 **Đang ẩn: home feed** - Chỉ trang chủ bị ẩn
-- 🟢 **Đang ẩn: video sidebar** - Chỉ sidebar video bị ẩn
-- 🟢 **Đang ẩn: comments** - Chỉ phần bình luận bị ẩn
-- 🟢 **Đang ẩn: shorts** - Chỉ phần Shorts bị ẩn
-- 🟢 **Đang ẩn: channel** - Chỉ thông tin kênh bị ẩn
-- 🟢 **Đang ẩn: top header** - Chỉ header trên cùng bị ẩn
-- 🟢 **Đang ẩn: notifications bell** - Chỉ chuông thông báo bị ẩn
-- 🟢 **Đang ẩn: explore & trending** - Chỉ tab Khám phá & Thịnh hành bị ẩn
-- 🟢 **Đang ẩn: more from youtube** - Chỉ phần "Thêm từ YouTube" bị ẩn
-- 🟢 **Đang ẩn: buttons bar** - Chỉ thanh nút bấm bị ẩn
-- 🟢 **Đang ẩn: thanh tiến trình** - Chỉ thanh tiến trình bị ẩn
-- 🟢 **Đang ẩn: thời lượng** - Chỉ thời lượng video bị ẩn
-- 🟢 **Đang ẩn: end screen cards** - Chỉ thẻ cuối video bị ẩn
-- 🟢 **Đang ẩn: description** - Chỉ mô tả video bị ẩn
-- 🟢 **Đang ẩn: nhiều tính năng** - Kết hợp nhiều tính năng ẩn cùng lúc
-- 🟡 **Đã tắt tất cả** - Hiển thị bình thường
+- 🟢 **Hiding: home feed** - Only the home page is hidden
+- 🟢 **Hiding: video sidebar** - Only the video sidebar is hidden
+- 🟢 **Hiding: comments** - Only the comments section is hidden
+- 🟢 **Hiding: shorts** - Only the Shorts section is hidden
+- 🟢 **Hiding: channel** - Only the channel information is hidden
+- 🟢 **Hiding: top header** - Only the top header is hidden
+- 🟢 **Hiding: notifications bell** - Only the notification bell is hidden
+- 🟢 **Hiding: explore & trending** - Only Explore & Trending tabs are hidden
+- 🟢 **Hiding: more from youtube** - Only "More from YouTube" section is hidden
+- 🟢 **Hiding: buttons bar** - Only the buttons bar is hidden
+- 🟢 **Hiding: progress bar** - Only the progress bar is hidden
+- 🟢 **Hiding: duration** - Only the video duration is hidden
+- 🟢 **Hiding: end screen cards** - Only the end screen cards are hidden
+- 🟢 **Hiding: description** - Only the video description is hidden
+- 🟢 **Hiding: multiple features** - Combination of multiple hidden features
+- 🟡 **All disabled** - Normal display
 
-## Lưu ý
+## Notes
 
-- Extension chỉ hoạt động trên `youtube.com`
-- Các phím tắt YouTube vẫn hoạt động bình thường (Space, M, F, ←, →, ↑, ↓)
-- Settings được lưu tự động và áp dụng cho tất cả tab YouTube
-- Có thể bật/tắt riêng biệt từng tính năng theo nhu cầu
-- Trạng thái thu gọn/mở rộng của các section được ghi nhớ
-- Tùy chọn theme (sáng/tối) được lưu và áp dụng cho mọi lần mở extension
-- File xuất cài đặt có định dạng JSON và có thể chia sẻ với người khác
-- Nếu gặp vấn đề, hãy thử làm mới trang YouTube hoặc tắt/bật lại extension
+- The extension only works on `youtube.com`
+- YouTube keyboard shortcuts still work normally (Space, M, F, ←, →, ↑, ↓)
+- Settings are automatically saved and applied to all YouTube tabs
+- Each feature can be toggled independently as needed
+- Section collapsed/expanded states are remembered
+- Theme preferences (light/dark) are saved and applied for every time you open the extension
+- Exported settings files are in JSON format and can be shared with others
+- If you encounter issues, try refreshing the YouTube page or disabling/enabling the extension
 
-## Cấu trúc file
+## File Structure
 
 ```
 TubeTuner/
-├── manifest.json         # Cấu hình extension
-├── content.js            # Script chạy trên trang YouTube
-├── popup.html            # Giao diện popup
-├── popup.js              # Logic popup
-├── styles.css            # CSS để ẩn các phần tử YouTube
-├── interface.css         # CSS cho giao diện popup
-├── LICENSE               # Giấy phép MIT
-├── README.md             # File hướng dẫn tiếng Việt
-├── README_EN.md          # File hướng dẫn tiếng Anh
-└── icons/                # Thư mục chứa icons (đã có đầy đủ)
+├── manifest.json         # Extension configuration
+├── content.js            # Script running on YouTube page
+├── popup.html            # Popup interface
+├── popup.js              # Popup logic
+├── styles.css            # CSS to hide YouTube elements
+├── interface.css         # CSS for popup interface
+├── LICENSE               # MIT License
+├── README.md             # Vietnamese readme file
+├── README_EN.md          # English readme file (this file)
+└── icons/                # Folder containing icons (complete set)
     ├── icon16.png        # Icon 16x16px
     ├── icon32.png        # Icon 32x32px
     ├── icon48.png        # Icon 48x48px
@@ -125,23 +125,23 @@ TubeTuner/
 
 ## Troubleshooting
 
-**Extension không hoạt động:**
-- Kiểm tra xem đã bật Developer mode chưa
-- Reload extension trong trang chrome://extensions/
-- Làm mới trang YouTube
+**Extension not working:**
+- Check if Developer mode is enabled
+- Reload the extension in chrome://extensions/
+- Refresh the YouTube page
 
-**Các tính năng ẩn vẫn hiển thị:**
-- Click icon extension và kiểm tra trạng thái các toggle trong từng section
-- Đảm bảo đã bật tính năng tương ứng
-- Làm mới trang và thử lại
-- Kiểm tra Console để xem có lỗi không
+**Hidden features still showing:**
+- Click the extension icon and check toggle status in each section
+- Make sure the corresponding feature is enabled
+- Refresh the page and try again
+- Check the Console for any errors
 
-**Section không thu gọn/mở rộng:**
-- Kiểm tra xem localStorage có bị xóa không
-- Thử xóa cache của trình duyệt
-- Reload extension và thử lại
+**Sections not collapsing/expanding:**
+- Check if localStorage is being cleared
+- Try clearing browser cache
+- Reload the extension and try again
 
-**Xuất/Nhập cài đặt không hoạt động:**
-- Đảm bảo file có định dạng JSON hợp lệ
-- Kiểm tra kích thước file (tối đa 5MB)
-- Kiểm tra Console để xem có lỗi JavaScript không
+**Export/Import settings not working:**
+- Ensure file has valid JSON format
+- Check file size (maximum 5MB)
+- Check Console for JavaScript errors
