@@ -245,6 +245,20 @@ body.youtube-shorts-hidden yt-tab-shape[tab-title*="shorts"] {
   display: none !important;
 }
 
+/* Hide Shorts shelf in sidebar */
+body.youtube-shorts-hidden .ytGridShelfViewModelHost.ytd-item-section-renderer.ytGridShelfViewModelHostHasBottomButton {
+  display: none !important;
+}
+
+/* Hide the time badge on thumbnails */
+body.youtube-duration-hidden .yt-thumbnail-overlay-badge-view-model.yt-thumbnail-overlay-badge-view-model--bottom-end.yt-thumbnail-overlay-badge-view-model--medium {
+  display: none !important;
+}
+
+body.youtube-duration-hidden .yt-badge-shape.yt-badge-shape--thumbnail-default.yt-badge-shape--thumbnail-badge {
+  display: none !important;
+}
+
 /* Hide Shorts in channel video grids */
 body.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer:has(a[href*="/shorts/"]),
 body.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer a[href*="/shorts/"] {
