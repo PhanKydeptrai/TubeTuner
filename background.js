@@ -89,7 +89,7 @@
                 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden',
                 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden',
                 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden',
-                'buttonsBarHidden', 'hideDescriptionHidden'
+                'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'
             ], (settings) => {
                 // Send initial sync message to the new tab
                 const syncMessage = {

@@ -2,8 +2,6 @@
 (function() {
     'use strict';
 
-    // (Debug logs removed for production)
-
     // State variables
     let settings = {
         progressBarHidden: false,
@@ -21,6 +19,9 @@
         buttonsBarHidden: false,
         hideDescriptionHidden: false
     };
+
+    // Add grayscale setting to internal state
+    settings.grayscaleEnabled = false;
     
     // Simple function to toggle the progress bar
     function toggleProgressBar(hide) {
@@ -1328,6 +1329,11 @@
                     settings.hideDescriptionHidden = newValue === true;
                     toggleHideDescription(settings.hideDescriptionHidden);
                     break;
+                case 'grayscaleEnabled':
+                    // New grayscale setting from storage change
+                    settings.grayscaleEnabled = newValue === true;
+                    toggleGrayscale(settings.grayscaleEnabled);
+                    break;
             }
         }
     });
@@ -1399,6 +1405,10 @@
                         settings.hideDescriptionHidden = value === true;
                         toggleHideDescription(settings.hideDescriptionHidden);
                         break;
+                    case 'grayscaleEnabled':
+                        settings.grayscaleEnabled = value === true;
+                        toggleGrayscale(settings.grayscaleEnabled);
+                        break;
                 }
             }
 
@@ -1463,6 +1473,10 @@
             toggleHideDescription(request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
+        } else if (request.action === 'toggleGrayscale') {
+            // Direct toggle command from popup
+            toggleGrayscale(request.enabled);
+            sendResponse({ success: true, willRefresh: false });
         } else if (request.action === 'getStatus') {
             sendResponse(settings);
         }

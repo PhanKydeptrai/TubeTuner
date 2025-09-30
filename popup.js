@@ -7,10 +7,19 @@ let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwit
 
 // Global function to handle direct click from HTML
 function changeLanguage(lang) {
-    if (lang !== currentLang) {
-        currentLang = lang;
-        chrome.storage.sync.set({ language: currentLang });
-        updateLanguageUI();
+    // Delegate to centralized setLanguage which updates UI and persists the choice.
+    // Use the existing setLanguage function (declared later) so all UI text mapping
+    // is updated consistently without needing to reload the popup.
+    try {
+        setLanguage(lang, true);
+    } catch (e) {
+        // If setLanguage isn't available yet for some reason, fall back to the
+        // original minimal behavior so the preference is still saved.
+        if (lang !== currentLang) {
+            currentLang = lang;
+            chrome.storage.sync.set({ language: currentLang });
+            if (typeof updateLanguageUI === 'function') updateLanguageUI();
+        }
     }
 }
 
@@ -112,7 +121,8 @@ function updateLanguageUI() {
 }
 
 // Global function to update UI based on state
-function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden) {
+// Update UI elements (checkboxes) based on stored state
+function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden, grayscaleEnabled) {
 
     if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch) {
         console.error('❌ Toggle switches not defined yet:', {
@@ -355,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Language selection
-    initializeLanguage();
+    // Language selection handled above during initialization
 
     // Initialize global variables
     toggleSwitch = document.getElementById('progressSwitch');
@@ -414,6 +424,11 @@ document.addEventListener('DOMContentLoaded', function() {
             invalidFileType: 'Chỉ chấp nhận file JSON!',
             fileTooLarge: 'File quá lớn (tối đa 5MB)!',
             noSettingsToExport: 'Không có cài đặt nào để xuất!'
+            ,
+            // New translation entries for grayscale feature
+            grayscale: 'Giao diện đen trắng',
+            enableGrayscale: 'Bật giao diện đen trắng',
+            disableGrayscale: 'Tắt giao diện đen trắng'
         },
         en: {
             title: 'TubeTuner',
@@ -534,13 +549,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(newState, result.durationHidden === true, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
+                updateUI(newState, result.durationHidden === true, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, result.grayscaleEnabled === true);
                 // Updated UI after progress bar toggle
             });
 
             handleToggleChange('toggleProgressBar', newState);
         });
     }
+
     
     // Handle toggle duration click
     if (durationSwitch) {
@@ -560,7 +576,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(result.progressBarHidden === true, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
+                updateUI(result.progressBarHidden === true, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, result.grayscaleEnabled === true);
                 // Updated UI after duration toggle
             });
 
@@ -923,6 +939,10 @@ function initializeLanguage() {
 
 // Set language and update UI
 function setLanguage(lang, save = true) {
+    // Update global language state so other functions that rely on
+    // `currentLang` and `translations` will reflect the new language.
+    currentLang = lang;
+
     // Remove active class from all language buttons
     document.querySelectorAll('.ext-lang-button').forEach(btn => {
         btn.classList.remove('active');
@@ -1072,6 +1092,16 @@ function setLanguage(lang, save = true) {
     // Save language preference if needed
     if (save) {
         chrome.storage.sync.set({ language: lang });
+    }
+
+    // Ensure the rest of the UI which may use the older updateLanguageUI
+    // flow is refreshed as well.
+    if (typeof updateLanguageUI === 'function') {
+        try { updateLanguageUI(); } catch (e) { /* ignore */ }
+    }
+
+    if (typeof updateStatus === 'function') {
+        try { updateStatus(); } catch (e) { /* ignore */ }
     }
 }
 
