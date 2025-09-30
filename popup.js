@@ -3,20 +3,19 @@ let currentLang = 'vi'; // Default language is Vietnamese
 let translations = {}; // Global declaration to access from outside DOMContentLoaded
 let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreTrendingSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, status; // Global variables to access from outside
 
+// Console log calls have been removed in production build
+
 // Global function to handle direct click from HTML
 function changeLanguage(lang) {
-    console.log('changeLanguage called with:', lang);
     if (lang !== currentLang) {
         currentLang = lang;
         chrome.storage.sync.set({ language: currentLang });
-        console.log('Language preference saved:', currentLang);
         updateLanguageUI();
     }
 }
 
 // Debug function to verify toggle state persistence
 function verifyToggleStates() {
-    console.log('🔍 Verifying toggle states...');
 
     chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden'], function(result) {
         const storedStates = {
@@ -37,9 +36,6 @@ function verifyToggleStates() {
             commentsHidden: commentsSwitch ? commentsSwitch.checked : 'N/A'
         };
 
-        console.log('📊 Stored states:', storedStates);
-        console.log('📊 UI states:', uiStates);
-
         // Check for mismatches
         Object.keys(storedStates).forEach(key => {
             if (storedStates[key] !== uiStates[key] && uiStates[key] !== 'N/A') {
@@ -54,25 +50,22 @@ window.verifyToggleStates = verifyToggleStates;
 
 // Global function to update UI
 function updateLanguageUI() {
-    console.log('updateLanguageUI called, current language:', currentLang);
-    
+
     // Update language toggle
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
-    
+
     if (langVi && langEn) {
         langVi.classList.toggle('active', currentLang === 'vi');
         langEn.classList.toggle('active', currentLang === 'en');
-        
-        console.log('Applying language UI updates for:', currentLang);
-        
+
         // Update all text elements
         document.querySelector('.title').textContent = translations[currentLang].title;
         document.querySelector('.subtitle').textContent = translations[currentLang].subtitle;
         document.querySelectorAll('.toggle-label')[0].textContent = translations[currentLang].hideProgressBar;
         document.querySelectorAll('.toggle-label')[1].textContent = translations[currentLang].hideDuration;
         document.querySelectorAll('.toggle-label')[2].textContent = translations[currentLang].hideShorts;
-        
+
         // Update info sections
         document.querySelector('.info-content').innerHTML = `
             ${translations[currentLang].extensionInfo}
@@ -83,10 +76,10 @@ function updateLanguageUI() {
             </ul>
             <p style="margin-top: 8px;">${translations[currentLang].controlsInfo}</p>
         `;
-        
+
         // Update info title
         document.querySelector('.info-title').textContent = translations[currentLang].infoTitle;
-        
+
         // Update important note
         const importantNote = document.querySelector('.important-note');
         if (importantNote) {
@@ -95,7 +88,7 @@ function updateLanguageUI() {
                 ${translations[currentLang].importantNote.split(':')[1]}
             `;
         }
-        
+
         // Update Export/Import settings section
         const settingsTitle = document.querySelector('.ext-settings-title');
         const exportBtn = document.querySelector('#exportSettingsBtn span');
@@ -120,19 +113,6 @@ function updateLanguageUI() {
 
 // Global function to update UI based on state
 function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden) {
-    console.log('🔄 updateUI called with:', {
-        progressHidden,
-        durationHidden,
-        shortsHidden,
-        homeFeedHidden,
-        videoSidebarHidden,
-        commentsHidden,
-        notificationsBellHidden,
-        topHeaderHidden,
-        exploreTrendingHidden,
-        endScreenCardsHidden,
-        moreFromYouTubeHidden
-    });
 
     if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch) {
         console.error('❌ Toggle switches not defined yet:', {
@@ -150,70 +130,56 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
 
     // Update progress bar toggle - use checked property for checkbox
     toggleSwitch.checked = progressHidden;
-    console.log('✅ Progress bar toggle set to:', progressHidden);
 
     // Update duration toggle
     durationSwitch.checked = durationHidden;
-    console.log('✅ Duration toggle set to:', durationHidden);
 
     // Update shorts toggle
     shortsSwitch.checked = shortsHidden;
-    console.log('✅ Shorts toggle set to:', shortsHidden);
 
     // Update home feed toggle with extra verification
     homeFeedSwitch.checked = homeFeedHidden;
-    console.log('✅ Home feed toggle set to:', homeFeedHidden);
 
     // Update video sidebar toggle
     videoSidebarSwitch.checked = videoSidebarHidden;
-    console.log('✅ Video sidebar toggle set to:', videoSidebarHidden);
 
     // Update comments toggle
     commentsSwitch.checked = commentsHidden;
-    console.log('✅ Comments toggle set to:', commentsHidden);
 
     // Update notifications bell toggle
     notificationsBellSwitch.checked = notificationsBellHidden;
-    console.log('✅ Notifications bell toggle set to:', notificationsBellHidden);
 
     // Update top header toggle
     topHeaderSwitch.checked = topHeaderHidden;
-    console.log('✅ Top header toggle set to:', topHeaderHidden);
 
     // Update explore trending toggle
     if (exploreTrendingSwitch) {
         exploreTrendingSwitch.checked = exploreTrendingHidden;
-        console.log('✅ Explore trending toggle set to:', exploreTrendingHidden);
     }
 
     // Update end screen cards toggle
     if (endScreenCardsSwitch) {
         endScreenCardsSwitch.checked = endScreenCardsHidden;
-        console.log('✅ End screen cards toggle set to:', endScreenCardsHidden);
     }
 
     // Update more from YouTube toggle
     if (moreFromYouTubeSwitch) {
         moreFromYouTubeSwitch.checked = moreFromYouTubeHidden;
-        console.log('✅ More from YouTube toggle set to:', moreFromYouTubeHidden);
     }
 
     // Update hide channel toggle
     if (hideChannelSwitch) {
         hideChannelSwitch.checked = hideChannelHidden;
-        console.log('✅ Hide channel toggle set to:', hideChannelHidden);
     }
 
     // Update buttons bar toggle
     if (buttonsBarSwitch) {
         buttonsBarSwitch.checked = buttonsBarHidden;
-        console.log('✅ Buttons bar toggle set to:', buttonsBarHidden);
     }
 
     // Update hide description toggle
     if (hideDescriptionSwitch) {
         hideDescriptionSwitch.checked = hideDescriptionHidden;
-        console.log('✅ Hide description toggle set to:', hideDescriptionHidden);
     }
 
     // Verify the state was actually set
@@ -226,44 +192,38 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
         const actualExploreTrendingState = exploreTrendingSwitch ? exploreTrendingSwitch.checked : false;
         const actualEndScreenCardsState = endScreenCardsSwitch ? endScreenCardsSwitch.checked : false;
         const actualMoreFromYouTubeState = moreFromYouTubeSwitch ? moreFromYouTubeSwitch.checked : false;
-        console.log('🔍 Home feed toggle verification - Expected:', homeFeedHidden, 'Actual:', actualHomeFeedState);
-        console.log('🔍 Video sidebar toggle verification - Expected:', videoSidebarHidden, 'Actual:', actualVideoSidebarState);
-        console.log('🔍 Comments toggle verification - Expected:', commentsHidden, 'Actual:', actualCommentsState);
-        console.log('🔍 Notifications bell toggle verification - Expected:', notificationsBellHidden, 'Actual:', actualNotificationsBellState);
-        console.log('🔍 Top header toggle verification - Expected:', topHeaderHidden, 'Actual:', actualTopHeaderState);
-        console.log('🔍 Explore trending toggle verification - Expected:', exploreTrendingHidden, 'Actual:', actualExploreTrendingState);
-        console.log('🔍 End screen cards toggle verification - Expected:', endScreenCardsHidden, 'Actual:', actualEndScreenCardsState);
-        console.log('🔍 More from YouTube toggle verification - Expected:', moreFromYouTubeHidden, 'Actual:', actualMoreFromYouTubeState);
+
+        // Verification checks executed
         if (actualHomeFeedState !== homeFeedHidden) {
-            console.warn('⚠️ Home feed toggle state mismatch, retrying...');
+            // Home feed toggle mismatch, retrying...
             homeFeedSwitch.checked = homeFeedHidden;
         }
         if (actualVideoSidebarState !== videoSidebarHidden) {
-            console.warn('⚠️ Video sidebar toggle state mismatch, retrying...');
+            // Video sidebar toggle mismatch, retrying...
             videoSidebarSwitch.checked = videoSidebarHidden;
         }
         if (actualCommentsState !== commentsHidden) {
-            console.warn('⚠️ Comments toggle state mismatch, retrying...');
+            // Comments toggle mismatch, retrying...
             commentsSwitch.checked = commentsHidden;
         }
         if (actualNotificationsBellState !== notificationsBellHidden) {
-            console.warn('⚠️ Notifications bell toggle state mismatch, retrying...');
+            // Notifications bell toggle mismatch, retrying...
             notificationsBellSwitch.checked = notificationsBellHidden;
         }
         if (actualTopHeaderState !== topHeaderHidden) {
-            console.warn('⚠️ Top header toggle state mismatch, retrying...');
+            // Top header toggle mismatch, retrying...
             topHeaderSwitch.checked = topHeaderHidden;
         }
         if (exploreTrendingSwitch && actualExploreTrendingState !== exploreTrendingHidden) {
-            console.warn('⚠️ Explore trending toggle state mismatch, retrying...');
+            // Explore trending toggle mismatch, retrying...
             exploreTrendingSwitch.checked = exploreTrendingHidden;
         }
         if (endScreenCardsSwitch && actualEndScreenCardsState !== endScreenCardsHidden) {
-            console.warn('⚠️ End screen cards toggle state mismatch, retrying...');
+            // End screen cards toggle mismatch, retrying...
             endScreenCardsSwitch.checked = endScreenCardsHidden;
         }
         if (moreFromYouTubeSwitch && actualMoreFromYouTubeState !== moreFromYouTubeHidden) {
-            console.warn('⚠️ More from YouTube toggle state mismatch, retrying...');
+            // More from YouTube toggle mismatch, retrying...
             moreFromYouTubeSwitch.checked = moreFromYouTubeHidden;
         }
 
@@ -273,15 +233,15 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
         const actualHideDescriptionState = hideDescriptionSwitch ? hideDescriptionSwitch.checked : false;
 
         if (hideChannelSwitch && actualHideChannelState !== hideChannelHidden) {
-            console.warn('⚠️ Hide channel toggle state mismatch, retrying...');
+            // Hide channel toggle mismatch, retrying...
             hideChannelSwitch.checked = hideChannelHidden;
         }
         if (buttonsBarSwitch && actualButtonsBarState !== buttonsBarHidden) {
-            console.warn('⚠️ Buttons bar toggle state mismatch, retrying...');
+            // Buttons bar toggle mismatch, retrying...
             buttonsBarSwitch.checked = buttonsBarHidden;
         }
         if (hideDescriptionSwitch && actualHideDescriptionState !== hideDescriptionHidden) {
-            console.warn('⚠️ Hide description toggle state mismatch, retrying...');
+            // Hide description toggle mismatch, retrying...
             hideDescriptionSwitch.checked = hideDescriptionHidden;
         }
     }, 50);
@@ -339,27 +299,27 @@ function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHi
         if (notificationsBellHidden) features.push(translations[currentLang].notificationsBell || 'notifications bell');
         if (topHeaderHidden) features.push(translations[currentLang].topHeader || 'top header');
         if (exploreTrendingHidden) features.push(translations[currentLang].exploreTrending || 'explore trending');
-        
+
         const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', 'success');
         statusBadge.textContent = `${translations[currentLang].hidingFeatures}: ${features.join(', ')}`;
-        
+
         if (!status.contains(statusBadge)) {
             status.innerHTML = '';
             status.appendChild(statusBadge);
         }
-        
+
         status.className = 'status enabled';
     } else {
         const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', 'warning');
         statusBadge.textContent = translations[currentLang].allDisabled;
-        
+
         if (!status.contains(statusBadge)) {
             status.innerHTML = '';
             status.appendChild(statusBadge);
         }
-        
+
         status.className = 'status disabled';
     }
 }
@@ -368,11 +328,9 @@ function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHi
 function applyInitialTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-        console.log('Applying saved theme:', savedTheme);
         document.documentElement.classList.toggle('dark', savedTheme === 'dark');
     } else {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        console.log('Applying system theme preference:', prefersDark ? 'dark' : 'light');
         document.documentElement.classList.toggle('dark', prefersDark);
     }
 }
@@ -397,13 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Language selection
-    document.getElementById('lang-vi').addEventListener('click', function() {
-        setLanguage('vi');
-    });
-    
-    document.getElementById('lang-en').addEventListener('click', function() {
-        setLanguage('en');
-    });
+    initializeLanguage();
 
     // Initialize global variables
     toggleSwitch = document.getElementById('progressSwitch');
@@ -423,20 +375,9 @@ document.addEventListener('DOMContentLoaded', function() {
     status = document.getElementById('status');
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
-    
-    // Log to see if elements are found
-    console.log('DOM Elements found:', {
-        toggleSwitch,
-        durationSwitch,
-        shortsSwitch,
-        homeFeedSwitch,
-        videoSidebarSwitch,
-        commentsSwitch,
-        status,
-        langVi,
-        langEn
-    });
-    
+
+    // DOM elements initialized
+
     // Translation object
     translations = {
         vi: {
@@ -510,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
             noSettingsToExport: 'No settings to export!'
         }
     };
-    
+
     // Get current state with improved error handling and timing
     chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'language', 'theme', 'sectionStates'], function(result) {
         const isEnabled = result.progressBarHidden === true; // Default is false
@@ -528,31 +469,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const buttonsBarHidden = result.buttonsBarHidden === true; // Default is false
         const hideDescriptionHidden = result.hideDescriptionHidden === true; // Default is false
 
-        console.log('🔍 Loading stored states:', {
-            progressBarHidden: isEnabled,
-            durationHidden: durationHidden,
-            shortsHidden: shortsHidden,
-            homeFeedHidden: homeFeedHidden,
-            videoSidebarHidden: videoSidebarHidden,
-            commentsHidden: commentsHidden,
-            notificationsBellHidden: notificationsBellHidden,
-            topHeaderHidden: topHeaderHidden,
-            rawHomeFeedHidden: result.homeFeedHidden,
-            rawVideoSidebarHidden: result.videoSidebarHidden,
-            rawCommentsHidden: result.commentsHidden,
-            rawNotificationsBellHidden: result.notificationsBellHidden,
-            rawTopHeaderHidden: result.topHeaderHidden,
-            exploreTrendingHidden: exploreTrendingHidden,
-            rawExploreTrendingHidden: result.exploreTrendingHidden,
-            endScreenCardsHidden: endScreenCardsHidden,
-            rawEndScreenCardsHidden: result.endScreenCardsHidden,
-            moreFromYouTubeHidden: moreFromYouTubeHidden,
-            rawMoreFromYouTubeHidden: result.moreFromYouTubeHidden
-        });
+        // Loaded stored states
 
         // Verify DOM elements are available before updating UI
         if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch) {
-            console.error('❌ DOM elements not ready, retrying in 100ms...');
+            // DOM elements not ready, retrying in 100ms...
             setTimeout(() => {
                 // Re-initialize DOM elements
                 toggleSwitch = document.getElementById('progressSwitch');
@@ -568,36 +489,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
                 status = document.getElementById('status');
 
-                console.log('🔄 Retrying UI update with elements:', {
-                    toggleSwitch: !!toggleSwitch,
-                    durationSwitch: !!durationSwitch,
-                    shortsSwitch: !!shortsSwitch,
-                    homeFeedSwitch: !!homeFeedSwitch,
-                    videoSidebarSwitch: !!videoSidebarSwitch,
-                    commentsSwitch: !!commentsSwitch,
-                    notificationsBellSwitch: !!notificationsBellSwitch
-                });
+                // Retrying UI update with elements
 
                 updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden);
             }, 100);
         } else {
-            console.log('✅ DOM elements ready, updating UI immediately');
+            // DOM elements ready, updating UI immediately
             updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden);
         }
 
         // Set language
         if (result.language) {
             currentLang = result.language;
-            console.log('Loaded saved language preference:', currentLang);
+            // Loaded saved language preference
         } else {
-            console.log('No saved language preference, using default:', currentLang);
+            // No saved language preference, using default
         }
 
         // Sync theme from storage with localStorage
         if (result.theme) {
             localStorage.setItem('theme', result.theme);
             document.documentElement.classList.toggle('dark', result.theme === 'dark');
-            console.log('Synced theme from storage:', result.theme);
+            // Synced theme from storage
         }
 
         updateLanguageUI();
@@ -622,7 +535,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
                 updateUI(newState, result.durationHidden === true, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
-                console.log('🔄 Updated UI after progress bar toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
+                // Updated UI after progress bar toggle
             });
 
             handleToggleChange('toggleProgressBar', newState);
@@ -648,7 +561,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
                 updateUI(result.progressBarHidden === true, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
-                console.log('🔄 Updated UI after duration toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
+                // Updated UI after duration toggle
             });
 
             handleToggleChange('toggleDuration', newState);
@@ -674,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, newState, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
-                console.log('🔄 Updated UI after shorts toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
+                // Updated UI after shorts toggle
             });
 
             handleToggleChange('toggleShorts', newState);
@@ -685,11 +598,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (homeFeedSwitch) {
         homeFeedSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
-            console.log('🏠 Home Feed toggle changed to:', newState);
 
             // Save state
             chrome.storage.sync.set({ homeFeedHidden: newState }, function() {
-                console.log('✅ Home Feed state saved to storage:', newState);
+                // Home Feed state saved to storage
             });
 
             // Update UI immediately with new state
@@ -702,7 +614,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, newState, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
-                console.log('🔄 Updated UI after home feed toggle, newState:', newState, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
+                // Updated UI after home feed toggle
             });
 
             handleToggleChange('toggleHomeFeed', newState);
@@ -713,11 +625,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (videoSidebarSwitch) {
         videoSidebarSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
-            console.log('📺 Video Sidebar toggle changed to:', newState);
 
             // Save state
             chrome.storage.sync.set({ videoSidebarHidden: newState }, function() {
-                console.log('✅ Video Sidebar state saved to storage:', newState);
+                // Video Sidebar state saved to storage
             });
 
             // Update UI immediately with new state
@@ -729,7 +640,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, newState, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
-                console.log('🔄 Updated UI after video sidebar toggle, newState:', newState, 'commentsHidden:', currentCommentsHidden);
+                // Updated UI after video sidebar toggle
             });
 
             handleToggleChange('toggleVideoSidebar', newState);
@@ -750,7 +661,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
                 const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, newState, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden);
-                console.log('🔄 Updated UI after comments toggle, newState:', newState);
+                // Updated UI after comments toggle
             });
 
             handleToggleChange('toggleComments', newState);
@@ -768,7 +679,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'topHeaderHidden', 'exploreTrendingHidden'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, newState, result.topHeaderHidden === true, result.exploreTrendingHidden === true);
-                console.log('🔄 Updated UI after notifications bell toggle, newState:', newState);
+                // Updated UI after notifications bell toggle
             });
 
             handleToggleChange('toggleNotificationsBell', newState);
@@ -786,7 +697,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'exploreTrendingHidden'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, newState, result.exploreTrendingHidden === true);
-                console.log('🔄 Updated UI after top header toggle, newState:', newState);
+                // Updated UI after top header toggle
             });
 
             handleToggleChange('toggleTopHeader', newState);
@@ -804,7 +715,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'endScreenCardsHidden'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, newState, result.endScreenCardsHidden === true);
-                console.log('🔄 Updated UI after explore trending toggle, newState:', newState);
+                // Updated UI after explore trending toggle
             });
 
             handleToggleChange('toggleExploreTrending', newState);
@@ -822,7 +733,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'moreFromYouTubeHidden'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreTrendingHidden === true, newState, result.moreFromYouTubeHidden === true);
-                console.log('🔄 Updated UI after end screen cards toggle, newState:', newState);
+                // Updated UI after end screen cards toggle
             });
 
             handleToggleChange('toggleEndScreenCards', newState);
@@ -840,7 +751,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreTrendingHidden === true, result.endScreenCardsHidden === true, newState);
-                console.log('🔄 Updated UI after more from YouTube toggle, newState:', newState);
+                // Updated UI after more from YouTube toggle
             });
 
             handleToggleChange('toggleMoreFromYouTube', newState);
@@ -884,21 +795,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Add click event for language buttons
-    if (langVi) {
-        langVi.addEventListener('click', function() {
+    const lv = document.getElementById('lang-vi');
+    const le = document.getElementById('lang-en');
+
+    if (lv) {
+        lv.addEventListener('click', function() {
             changeLanguage('vi');
         });
     }
     
-    if (langEn) {
-        langEn.addEventListener('click', function() {
+    if (le) {
+        le.addEventListener('click', function() {
             changeLanguage('en');
         });
     }
     
     // Function to handle toggle changes with multi-tab synchronization
     function handleToggleChange(action, enabled) {
-        console.log(`${action} changed to:`, enabled);
+        // Toggle action changed
 
         // Send message to current tab immediately
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -907,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     action: action,
                     enabled: enabled
                 }).catch(error => {
-                    console.log('⚠️ Could not send message to current tab:', error.message);
+                    // Could not send message to current tab
                 });
             }
         });
@@ -918,7 +832,7 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleAction: action,
             enabled: enabled
         }).catch(error => {
-            console.log('⚠️ Could not send sync message to background:', error.message);
+            // Could not send sync message to background
         });
     }
 
@@ -929,21 +843,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (exportBtn) {
         exportBtn.addEventListener('click', function() {
-            console.log('🔄 Export settings button clicked');
+            // Export settings button clicked
             exportSettings();
         });
     }
 
     if (importBtn && importFileInput) {
         importBtn.addEventListener('click', function() {
-            console.log('🔄 Import settings button clicked');
+            // Import settings button clicked
             importFileInput.click();
         });
 
         importFileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                console.log('📁 File selected for import:', file.name);
+                // File selected for import
 
                 // Validate file type
                 if (!file.name.toLowerCase().endsWith('.json')) {
@@ -1183,7 +1097,7 @@ function initializeCollapsibleSections() {
     // Load saved section states
     chrome.storage.sync.get('sectionStates', function(result) {
         const savedStates = result.sectionStates || {};
-        console.log('📂 Loading saved section states:', savedStates);
+        // Loading saved section states
 
         sections.forEach(section => {
             const sectionId = section.getAttribute('data-section-id');
@@ -1215,7 +1129,7 @@ function initializeCollapsibleSections() {
                     // Save the new state
                     saveSectionState(sectionId, !wasOpen);
 
-                    console.log(`📂 Section "${sectionId}" ${!wasOpen ? 'opened' : 'closed'}`);
+                    // Section toggled
                 });
             }
         });
@@ -1229,7 +1143,7 @@ function saveSectionState(sectionId, isOpen) {
         sectionStates[sectionId] = isOpen;
 
         chrome.storage.sync.set({ sectionStates: sectionStates }, function() {
-            console.log('💾 Saved section state:', sectionId, '=', isOpen);
+            // Saved section state
         });
     });
 }
@@ -1264,7 +1178,7 @@ function initializeSwitches() {
                     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                         if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
                             chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(error => {
-                                console.log('⚠️ Could not send update message to current tab:', error.message);
+                                // Could not send update message to current tab
                             });
                         }
                     });
@@ -1347,7 +1261,7 @@ function exportSettings() {
         // Clean up
         URL.revokeObjectURL(url);
 
-        console.log('✅ Settings exported successfully:', Object.keys(allSettings).length, 'settings');
+        // Settings exported successfully
 
         // Show success message
         showNotification(
@@ -1388,7 +1302,7 @@ function createBackupBeforeImport(callback) {
         document.body.removeChild(a);
 
         URL.revokeObjectURL(url);
-        console.log('✅ Backup created before import');
+        // Backup created before import
 
         if (callback) callback();
     });
@@ -1404,7 +1318,7 @@ function importSettings(file) {
 
     // Create backup first
     createBackupBeforeImport(function() {
-        console.log('📦 Backup created, proceeding with import...');
+        // Backup created, proceeding with import
     });
 
     const reader = new FileReader();
@@ -1474,7 +1388,7 @@ function importSettings(file) {
 
             // Show preview of what will be imported
             const settingsPreview = Object.keys(validSettings).join(', ');
-            console.log('📋 Settings to be imported:', settingsPreview);
+            // Settings to be imported
 
             // Apply imported settings
             chrome.storage.sync.set(validSettings, function() {
@@ -1493,7 +1407,7 @@ function importSettings(file) {
                     return;
                 }
 
-                console.log('✅ Settings imported successfully:', validCount, 'settings applied');
+                // Settings imported successfully
 
                 // Show success message with details
                 const successMsg = currentLang === 'vi' ?
@@ -1506,7 +1420,7 @@ function importSettings(file) {
                 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                     if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
                         chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(error => {
-                            console.log('⚠️ Could not send update message to current tab:', error.message);
+                            // Could not send update message to current tab
                         });
                     }
                 });

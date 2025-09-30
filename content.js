@@ -2,6 +2,8 @@
 (function() {
     'use strict';
 
+    // (Debug logs removed for production)
+
     // State variables
     let settings = {
         progressBarHidden: false,
@@ -22,51 +24,51 @@
     
     // Simple function to toggle the progress bar
     function toggleProgressBar(hide) {
-        console.log('Toggle progress bar:', hide);
+        // debug: toggle progress bar
         settings.progressBarHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-progress-hidden');
-            console.log('Added class youtube-progress-hidden');
+            // added class youtube-progress-hidden
         } else {
             document.body.classList.remove('youtube-progress-hidden');
-            console.log('Removed class youtube-progress-hidden');
+            // removed class youtube-progress-hidden
         }
     }
 
     // Function to toggle video duration
     function toggleDuration(hide) {
-        console.log('Toggle duration:', hide);
+        // debug: toggle duration
         settings.durationHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-duration-hidden');
-            console.log('Added class youtube-duration-hidden');
+            // added class youtube-duration-hidden
         } else {
             document.body.classList.remove('youtube-duration-hidden');
-            console.log('Removed class youtube-duration-hidden');
+            // removed class youtube-duration-hidden
         }
     }
     
     // Function to toggle Shorts
     function toggleShorts(hide) {
-        console.log('🎬 Toggle shorts:', hide);
+        // debug: toggle shorts
         settings.shortsHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-shorts-hidden');
-            console.log('✅ Added class youtube-shorts-hidden');
+            // added class youtube-shorts-hidden
             applyShortsFixes();
         } else {
             document.body.classList.remove('youtube-shorts-hidden');
-            console.log('❌ Removed class youtube-shorts-hidden');
+            // removed class youtube-shorts-hidden
             restoreShorts();
         }
     }
 
     // Function to restore Shorts when the feature is turned off
     function restoreShorts() {
-        console.log('🔄 Restoring Shorts visibility...');
+        // restoring Shorts visibility
 
         // Remove all JavaScript-added attributes
         const attributesToRemove = [
@@ -86,234 +88,234 @@
             });
         });
 
-        console.log('✅ Shorts visibility restored');
+        // Shorts visibility restored
     }
 
     // Function to toggle Home Feed
     function toggleHomeFeed(hide) {
-        console.log('🏠 Toggle home feed:', hide);
+        // debug: toggle home feed
         settings.homeFeedHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-home-feed-hidden');
             document.body.setAttribute('data-home-feed-hidden', 'true');
-            console.log('✅ Added class youtube-home-feed-hidden');
+            // added class youtube-home-feed-hidden
             applyHomeFeedFixes();
         } else {
             document.body.classList.remove('youtube-home-feed-hidden');
             document.body.removeAttribute('data-home-feed-hidden');
-            console.log('❌ Removed class youtube-home-feed-hidden');
+            // removed class youtube-home-feed-hidden
             restoreHomeFeed();
         }
     }
 
     // Function to toggle Video Sidebar
     function toggleVideoSidebar(hide) {
-        console.log('📺 Toggle video sidebar:', hide);
+        // debug: toggle video sidebar
         settings.videoSidebarHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-video-sidebar-hidden');
             document.body.setAttribute('data-video-sidebar-hidden', 'true');
-            console.log('✅ Added class youtube-video-sidebar-hidden');
+            // added class youtube-video-sidebar-hidden
             applyVideoSidebarFixes();
         } else {
             document.body.classList.remove('youtube-video-sidebar-hidden');
             document.body.removeAttribute('data-video-sidebar-hidden');
-            console.log('❌ Removed class youtube-video-sidebar-hidden');
+            // removed class youtube-video-sidebar-hidden
             restoreVideoSidebar();
         }
     }
 
     // Function to toggle Comments Section
     function toggleComments(hide) {
-        console.log('💬 Toggle comments section:', hide);
+        // debug: toggle comments section
         settings.commentsHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-comments-hidden');
             document.body.setAttribute('data-comments-hidden', 'true');
-            console.log('✅ Added class youtube-comments-hidden');
+            // added class youtube-comments-hidden
             applyCommentsFixes();
         } else {
             document.body.classList.remove('youtube-comments-hidden');
             document.body.removeAttribute('data-comments-hidden');
-            console.log('❌ Removed class youtube-comments-hidden');
+            // removed class youtube-comments-hidden
             restoreComments();
         }
     }
 
     // Function to toggle Notifications Bell
     function toggleNotificationsBell(hide) {
-        console.log('🔔 Toggle notifications bell:', hide);
+        // debug: toggle notifications bell
         settings.notificationsBellHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-notifications-bell-hidden');
             document.body.setAttribute('data-notifications-bell-hidden', 'true');
-            console.log('✅ Added class youtube-notifications-bell-hidden');
+            // added class youtube-notifications-bell-hidden
             applyNotificationsBellFixes();
         } else {
             document.body.classList.remove('youtube-notifications-bell-hidden');
             document.body.removeAttribute('data-notifications-bell-hidden');
-            console.log('❌ Removed class youtube-notifications-bell-hidden');
+            // removed class youtube-notifications-bell-hidden
             restoreNotificationsBell();
         }
     }
 
     // Function to toggle Top Header/Navigation Bar
     function toggleTopHeader(hide) {
-        console.log('🎯 Toggle top header:', hide);
+        // debug: toggle top header
         settings.topHeaderHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-top-header-hidden');
             document.body.setAttribute('data-top-header-hidden', 'true');
-            console.log('✅ Added class youtube-top-header-hidden');
+            // added class youtube-top-header-hidden
             applyTopHeaderFixes();
         } else {
             document.body.classList.remove('youtube-top-header-hidden');
             document.body.removeAttribute('data-top-header-hidden');
-            console.log('❌ Removed class youtube-top-header-hidden');
+            // removed class youtube-top-header-hidden
             restoreTopHeader();
         }
     }
 
     // Function to toggle Explore & Trending Tabs
     function toggleExploreTrending(hide) {
-        console.log('🔍 Toggle explore trending:', hide);
+        // debug: toggle explore trending
         settings.exploreTrendingHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-explore-trending-hidden');
             document.body.setAttribute('data-explore-trending-hidden', 'true');
-            console.log('✅ Added class youtube-explore-trending-hidden');
+            // added class youtube-explore-trending-hidden
             applyExploreTrendingFixes();
         } else {
             document.body.classList.remove('youtube-explore-trending-hidden');
             document.body.removeAttribute('data-explore-trending-hidden');
-            console.log('❌ Removed class youtube-explore-trending-hidden');
+            // removed class youtube-explore-trending-hidden
             restoreExploreTrending();
         }
     }
 
     // Function to toggle End Screen Cards/Annotations
     function toggleEndScreenCards(hide) {
-        console.log('🎬 Toggle end screen cards:', hide);
+        // debug: toggle end screen cards
         settings.endScreenCardsHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-end-screen-cards-hidden');
             document.body.setAttribute('data-end-screen-cards-hidden', 'true');
-            console.log('✅ Added class youtube-end-screen-cards-hidden');
+            // added class youtube-end-screen-cards-hidden
             applyEndScreenCardsFixes();
         } else {
             document.body.classList.remove('youtube-end-screen-cards-hidden');
             document.body.removeAttribute('data-end-screen-cards-hidden');
-            console.log('❌ Removed class youtube-end-screen-cards-hidden');
+            // removed class youtube-end-screen-cards-hidden
             restoreEndScreenCards();
         }
     }
 
     // Function to toggle More from YouTube Section
     function toggleMoreFromYouTube(hide) {
-        console.log('📺 Toggle more from YouTube:', hide);
+        // debug: toggle more from YouTube
         settings.moreFromYouTubeHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-more-from-youtube-hidden');
-            console.log('✅ Added class youtube-more-from-youtube-hidden');
+            // added class youtube-more-from-youtube-hidden
             applyMoreFromYouTubeFixes();
         } else {
             document.body.classList.remove('youtube-more-from-youtube-hidden');
-            console.log('❌ Removed class youtube-more-from-youtube-hidden');
+            // removed class youtube-more-from-youtube-hidden
             restoreMoreFromYouTube();
         }
     }
 
     // Function to toggle Hide Channel
     function toggleHideChannel(hide) {
-        console.log('📺 Toggle hide channel:', hide);
+        // debug: toggle hide channel
         settings.hideChannelHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-hide-channel-hidden');
-            console.log('✅ Added class youtube-hide-channel-hidden');
+            // added class youtube-hide-channel-hidden
             applyHideChannelFixes();
         } else {
             document.body.classList.remove('youtube-hide-channel-hidden');
-            console.log('❌ Removed class youtube-hide-channel-hidden');
+            // removed class youtube-hide-channel-hidden
             restoreHideChannel();
         }
     }
 
     // Function to toggle Buttons Bar
     function toggleButtonsBar(hide) {
-        console.log('🔘 Toggle buttons bar:', hide);
+        // debug: toggle buttons bar
         settings.buttonsBarHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-buttons-bar-hidden');
-            console.log('✅ Added class youtube-buttons-bar-hidden');
+            // added class youtube-buttons-bar-hidden
             applyButtonsBarFixes();
         } else {
             document.body.classList.remove('youtube-buttons-bar-hidden');
-            console.log('❌ Removed class youtube-buttons-bar-hidden');
+            // removed class youtube-buttons-bar-hidden
             restoreButtonsBar();
         }
     }
 
     // Function to toggle Hide Description
     function toggleHideDescription(hide) {
-        console.log('📝 Toggle hide description:', hide);
+        // debug: toggle hide description
         settings.hideDescriptionHidden = hide;
 
         if (hide) {
             document.body.classList.add('youtube-hide-description-hidden');
-            console.log('✅ Added class youtube-hide-description-hidden');
+            // added class youtube-hide-description-hidden
             applyHideDescriptionFixes();
         } else {
             document.body.classList.remove('youtube-hide-description-hidden');
-            console.log('❌ Removed class youtube-hide-description-hidden');
+            // removed class youtube-hide-description-hidden
             restoreHideDescription();
         }
     }
 
     // Function to restore Home Feed when the feature is turned off
     function restoreHomeFeed() {
-        console.log('🔄 Restoring Home Feed visibility...');
+        // restoring Home Feed visibility
 
         // Simple approach: CSS will handle showing content when class is removed
         // No need for complex DOM manipulation
 
-        console.log('✅ Home Feed visibility restored via CSS');
+        // Home Feed visibility restored via CSS
     }
 
     // Function to restore Video Sidebar when the feature is turned off
     function restoreVideoSidebar() {
-        console.log('🔄 Restoring Video Sidebar visibility...');
+        // restoring Video Sidebar visibility
 
         // Simple approach: CSS will handle showing content when class is removed
         // No need for complex DOM manipulation
 
-        console.log('✅ Video Sidebar visibility restored via CSS');
+        // Video Sidebar visibility restored via CSS
     }
 
     // Function to restore Comments when the feature is turned off
     function restoreComments() {
-        console.log('🔄 Restoring Comments visibility...');
+        // restoring Comments visibility
 
         // Simple approach: CSS will handle showing content when class is removed
         // No need for complex DOM manipulation
 
-        console.log('✅ Comments visibility restored via CSS');
+        // Comments visibility restored via CSS
     }
 
     // Simple Home Feed hiding function
     function applyHomeFeedFixes() {
         if (!isHomeFeedHidden) return;
 
-        console.log('🏠 Applying simple Home Feed hiding...');
+        // applying simple Home Feed hiding
 
         // Simple approach: just hide the main content area on home page
         // CSS will handle the rest with: body.youtube-home-feed-hidden ytd-browse[page-subtype="home"] #primary
@@ -321,14 +323,14 @@
         // No need for complex DOM manipulation or marking elements
         // The CSS rule is sufficient and won't interfere with sidebar navigation
 
-        console.log('✅ Home Feed hiding applied via CSS');
+        // Home Feed hiding applied via CSS
     }
 
     // Simple Video Sidebar hiding function
     function applyVideoSidebarFixes() {
         if (!isVideoSidebarHidden) return;
 
-        console.log('📺 Applying simple Video Sidebar hiding...');
+        // applying simple Video Sidebar hiding
 
         // Simple approach: just hide the secondary column on video watch pages
         // CSS will handle the rest with: body.youtube-video-sidebar-hidden ytd-watch-flexy #secondary
@@ -336,14 +338,14 @@
         // No need for complex DOM manipulation or marking elements
         // The CSS rule is sufficient and will hide all sidebar content
 
-        console.log('✅ Video Sidebar hiding applied via CSS');
+        // Video Sidebar hiding applied via CSS
     }
 
     // Simple Comments hiding function
     function applyCommentsFixes() {
         if (!isCommentsHidden) return;
 
-        console.log('💬 Applying simple Comments hiding...');
+        // applying simple Comments hiding
 
         // Simple approach: just hide the comments section on video watch pages
         // CSS will handle the rest with: body.youtube-comments-hidden ytd-comments
@@ -351,7 +353,7 @@
         // No need for complex DOM manipulation or marking elements
         // The CSS rule is sufficient and will hide all comments content
 
-        console.log('✅ Comments hiding applied via CSS');
+        // Comments hiding applied via CSS
     }
 
     // Debug function to check Home Feed status
@@ -362,13 +364,8 @@
         const primaryHidden = primaryElement ? window.getComputedStyle(primaryElement).display === 'none' : false;
         const sidebarVisible = document.querySelector('#guide') ? window.getComputedStyle(document.querySelector('#guide')).display !== 'none' : false;
 
-        console.log('🔍 Debug Home Feed Status (Simple):');
-        console.log('   Body has class:', bodyHasClass);
-        console.log('   Body has data attribute:', bodyHasAttribute);
-        console.log('   Primary content hidden:', primaryHidden);
-        console.log('   Sidebar visible:', sidebarVisible);
-        console.log('   isHomeFeedHidden variable:', isHomeFeedHidden);
-        console.log('   Current page:', window.location.pathname);
+        // Debug Home Feed Status (Simple)
+        // bodyHasClass: %s, bodyHasAttribute: %s, primaryHidden: %s, sidebarVisible: %s, isHomeFeedHidden: %s, currentPage: %s
 
         return {
             bodyHasClass,
@@ -387,13 +384,8 @@
         const secondaryHidden = secondaryElement ? window.getComputedStyle(secondaryElement).display === 'none' : false;
         const isWatchPage = window.location.pathname.includes('/watch');
 
-        console.log('🔍 Debug Video Sidebar Status (Simple):');
-        console.log('   Body has class:', bodyHasClass);
-        console.log('   Body has data attribute:', bodyHasAttribute);
-        console.log('   Secondary content hidden:', secondaryHidden);
-        console.log('   Is watch page:', isWatchPage);
-        console.log('   isVideoSidebarHidden variable:', isVideoSidebarHidden);
-        console.log('   Current page:', window.location.pathname);
+        // Debug Video Sidebar Status (Simple)
+        // bodyHasClass: %s, bodyHasAttribute: %s, secondaryHidden: %s, isWatchPage: %s, isVideoSidebarHidden: %s, currentPage: %s
 
         return {
             bodyHasClass,
@@ -412,13 +404,8 @@
         const commentsHidden = commentsElement ? window.getComputedStyle(commentsElement).display === 'none' : false;
         const isWatchPage = window.location.pathname.includes('/watch');
 
-        console.log('🔍 Debug Comments Status (Simple):');
-        console.log('   Body has class:', bodyHasClass);
-        console.log('   Body has data attribute:', bodyHasAttribute);
-        console.log('   Comments content hidden:', commentsHidden);
-        console.log('   Is watch page:', isWatchPage);
-        console.log('   commentsHidden variable:', settings.commentsHidden);
-        console.log('   Current page:', window.location.pathname);
+        // Debug Comments Status (Simple)
+        // bodyHasClass: %s, bodyHasAttribute: %s, commentsHidden: %s, isWatchPage: %s, settingsCommentsHidden: %s, currentPage: %s
 
         return {
             bodyHasClass,
@@ -438,11 +425,8 @@
             window.getComputedStyle(link.closest('ytd-rich-grid-media, ytd-grid-video-renderer, ytd-video-renderer') || link).display === 'none'
         );
 
-        console.log('🔍 Debug Shorts Status:');
-        console.log('   Body has class:', bodyHasClass);
-        console.log('   Total shorts found:', shortsLinks.length);
-        console.log('   Hidden shorts:', hiddenShorts.length);
-        console.log('   isShortsHidden variable:', isShortsHidden);
+        // Debug Shorts Status
+        // bodyHasClass: %s, totalShorts: %d, hiddenShorts: %d, isShortsHidden: %s
 
         return {
             bodyHasClass,
@@ -459,12 +443,8 @@
         const notificationsBellElement = document.querySelector('ytd-notification-topbar-button-renderer, #notification-button, button[aria-label*="Notifications"]');
         const notificationsBellHidden = notificationsBellElement ? window.getComputedStyle(notificationsBellElement).display === 'none' : false;
 
-        console.log('🔍 Debug Notifications Bell Status:');
-        console.log('   Body has class:', bodyHasClass);
-        console.log('   Body has data attribute:', bodyHasAttribute);
-        console.log('   Notifications bell hidden:', notificationsBellHidden);
-        console.log('   notificationsBellHidden variable:', settings.notificationsBellHidden);
-        console.log('   Current page:', window.location.pathname);
+        // Debug Notifications Bell Status
+        // bodyHasClass: %s, bodyHasAttribute: %s, notificationsBellHidden: %s, settingsNotificationsBellHidden: %s, currentPage: %s
 
         return {
             bodyHasClass,
@@ -478,7 +458,7 @@
     function applyNotificationsBellFixes() {
         if (!isNotificationsBellHidden) return;
 
-        console.log('🔔 Applying notifications bell hiding fixes...');
+        // applying notifications bell hiding fixes
 
         // Mark notifications bell elements for CSS targeting
         const notificationsBellSelectors = [
@@ -498,26 +478,26 @@
             });
         });
 
-        console.log(`🔔 Marked ${hiddenCount} notifications bell elements for hiding`);
+        // marked notifications bell elements for hiding: %d
     }
 
     // Function to restore notifications bell
     function restoreNotificationsBell() {
-        console.log('🔔 Restoring notifications bell...');
+        // restoring notifications bell
 
         // Remove marking attributes
         document.querySelectorAll('[notifications-bell-element="true"]').forEach(element => {
             element.removeAttribute('notifications-bell-element');
         });
 
-        console.log('🔔 Notifications bell restored');
+        // notifications bell restored
     }
 
     // Function to hide the top navigation bar
     function applyTopHeaderFixes() {
         if (!isTopHeaderHidden) return;
 
-        console.log('🎯 Applying top header fixes...');
+        // applying top header fixes
 
         let hiddenCount = 0;
 
@@ -536,19 +516,19 @@
             });
         });
 
-        console.log(`🎯 Marked ${hiddenCount} top header elements for hiding`);
+        // marked top header elements for hiding: %d
     }
 
     // Function to restore the top navigation bar
     function restoreTopHeader() {
-        console.log('🎯 Restoring top header...');
+        // restoring top header
 
         // Remove the marking attribute
         document.querySelectorAll('[top-header-element="true"]').forEach(element => {
             element.removeAttribute('top-header-element');
         });
 
-        console.log('🎯 Top header restored');
+        // top header restored
     }
 
     // Debug function for top navigation bar status
@@ -556,12 +536,10 @@
         const isHidden = document.body.classList.contains('youtube-top-header-hidden');
         const elements = document.querySelectorAll('[top-header-element="true"]');
 
-        console.log('🎯 Top Header Status:');
-        console.log(`- Hidden: ${isHidden}`);
-        console.log(`- Marked elements: ${elements.length}`);
+        // Top Header Status (summary)
 
         elements.forEach((el, i) => {
-            console.log(`- Element ${i+1}: ${el.tagName}#${el.id || 'no-id'}.${Array.from(el.classList).join('.')}`);
+            // listing element tag
         });
     }
 
@@ -569,7 +547,7 @@
     function applyExploreTrendingFixes() {
         if (!isExploreTrendingHidden) return;
 
-        console.log('🔍 Applying Explore & Trending hiding...');
+        // applying Explore & Trending hiding
 
         // Mark Explore and Trending navigation elements for hiding
         const exploreElements = document.querySelectorAll(`
@@ -619,12 +597,12 @@
             }
         });
 
-        console.log(`🔍 Marked ${hiddenCount} explore/trending elements and sections for hiding`);
+        // marked explore/trending elements and sections for hiding: %d
     }
 
     // Function to restore Explore & Trending tabs
     function restoreExploreTrending() {
-        console.log('🔍 Restoring Explore & Trending tabs...');
+        // restoring Explore & Trending tabs
 
         // Remove marking attributes
         document.querySelectorAll('[explore-trending-element="true"]').forEach(element => {
@@ -640,28 +618,19 @@
             element.removeAttribute('explore-trending-section');
         });
 
-        console.log('🔍 Explore & Trending tabs and sections restored');
+        // Explore & Trending tabs and sections restored
     }
 
     // Debug function for End Screen Cards
     function debugEndScreenCardsStatus() {
-        console.log('🎬 Debug End Screen Cards Status:');
-        console.log('- Body class:', document.body.classList.contains('youtube-end-screen-cards-hidden'));
-        console.log('- Data attribute:', document.body.getAttribute('data-end-screen-cards-hidden'));
-
-        // Check for end screen elements
-        const endScreenElements = document.querySelectorAll('.ytp-ce-element, .ytp-ce-video, .ytp-ce-playlist, .ytp-ce-channel, .ytp-ce-website, .ytp-endscreen-content, .ytp-ce-covering-overlay, .ytp-ce-expanding-overlay');
-        console.log('- End screen elements found:', endScreenElements.length);
-
-        const cardElements = document.querySelectorAll('.ytp-cards-teaser, .ytp-cards-button, .iv-card, .annotation');
-        console.log('- Card/annotation elements found:', cardElements.length);
+        // Debug End Screen Cards Status (summary)
     }
 
     // Apply End Screen Cards hiding
     function applyEndScreenCardsFixes() {
         if (!isEndScreenCardsHidden) return;
 
-        console.log('🎬 Applying End Screen Cards hiding...');
+        // applying End Screen Cards hiding
 
         const markEndScreenElements = () => {
             let hiddenCount = 0;
@@ -706,7 +675,7 @@
                 });
             });
 
-            console.log(`🎯 Marked ${hiddenCount} end screen cards/annotation elements for hiding`);
+            // marked end screen cards/annotation elements for hiding: %d
         };
 
         // Run immediately and set up MutationObserver to monitor DOM changes
@@ -732,7 +701,7 @@
             });
 
             if (shouldReapply) {
-                console.log('🎬 New end screen elements detected, reapplying fixes...');
+                // new end screen elements detected, reapplying fixes
                 setTimeout(markEndScreenElements, 100);
             }
         });
@@ -742,12 +711,12 @@
             subtree: true
         });
 
-        console.log('✅ End Screen Cards hiding applied with observer');
+        // End Screen Cards hiding applied with observer
     }
 
     // Restore End Screen Cards
     function restoreEndScreenCards() {
-        console.log('🎬 Restoring end screen cards elements...');
+        // restoring end screen cards elements
 
         // Remove all custom attributes
         document.querySelectorAll('[end-screen-element]').forEach(element => {
@@ -758,53 +727,19 @@
             element.removeAttribute('card-element');
         });
 
-        console.log('✅ End screen cards elements restored');
+        // end screen cards elements restored
     }
 
     // Debug function for More from YouTube
     function debugMoreFromYouTubeStatus() {
-        console.log('📺 Debug More from YouTube Status:');
-        console.log('- Body class:', document.body.classList.contains('youtube-more-from-youtube-hidden'));
-
-        // Check for hidden elements
-        const hiddenElements = document.querySelectorAll('.youtube-more-from-hidden');
-        console.log('- Hidden More from YouTube elements:', hiddenElements.length);
-
-        // Check for guide section renderers specifically
-        const guideSections = document.querySelectorAll('ytd-guide-section-renderer.style-scope.ytd-guide-renderer[modern-typography][guide-persistent-and-visible]');
-        console.log('- Total guide section renderers found:', guideSections.length);
-
-        // Check guide sections for "More from YouTube" content
-        let potentialGuideSections = 0;
-        guideSections.forEach(section => {
-            const text = section.textContent.toLowerCase();
-            if (text.includes('more from') || text.includes('thêm từ')) {
-                potentialGuideSections++;
-                console.log('- Found potential guide section:', text.substring(0, 100) + '...');
-            }
-        });
-        console.log('- Potential More from YouTube guide sections:', potentialGuideSections);
-
-        // Also check other elements
-        const otherElements = document.querySelectorAll('ytd-shelf-renderer, ytd-horizontal-card-list-renderer, ytd-rich-shelf-renderer');
-        console.log('- Total other shelf elements found:', otherElements.length);
-
-        let potentialOtherElements = 0;
-        otherElements.forEach(element => {
-            const text = element.textContent.toLowerCase();
-            if (text.includes('more from') || text.includes('thêm từ')) {
-                potentialOtherElements++;
-                console.log('- Found potential other element:', element.tagName, text.substring(0, 80) + '...');
-            }
-        });
-        console.log('- Potential More from YouTube other elements:', potentialOtherElements);
+        // Debug More from YouTube Status (summary)
     }
 
     // Hide "More from YouTube" guide section function
     function applyMoreFromYouTubeFixes() {
         if (!isMoreFromYouTubeHidden) return;
 
-        console.log('📺 Applying More from YouTube hiding...');
+        // applying More from YouTube hiding
 
         const hideMoreFromYouTubeSection = () => {
             let hiddenCount = 0;
@@ -812,7 +747,7 @@
             // Target the specific ytd-guide-section-renderer elements in sidebar
             const guideSections = document.querySelectorAll('ytd-guide-section-renderer.style-scope.ytd-guide-renderer[modern-typography][guide-persistent-and-visible]');
 
-            console.log(`🔍 Found ${guideSections.length} guide section renderers`);
+            // found guide section renderers: %d
 
             guideSections.forEach(section => {
                 // Skip if already processed
@@ -826,7 +761,7 @@
                 // Get the text content of the section
                 const sectionText = section.textContent.toLowerCase();
 
-                console.log('🔍 Checking guide section text:', sectionText.substring(0, 100) + '...');
+                // checking guide section text
 
                 // Check for "More from YouTube" patterns
                 const isMoreFromYouTubeSection = (
@@ -839,7 +774,7 @@
                 if (isMoreFromYouTubeSection) {
                     section.classList.add('youtube-more-from-hidden');
                     hiddenCount++;
-                    console.log('🎯 Hidden More from YouTube guide section:', sectionText.substring(0, 80) + '...');
+                    // hidden More from YouTube guide section
                 }
             });
 
@@ -857,11 +792,11 @@
                 if (elementText.includes('more from') || elementText.includes('thêm từ')) {
                     element.classList.add('youtube-more-from-hidden');
                     hiddenCount++;
-                    console.log('🎯 Hidden More from YouTube content element:', element.tagName);
+                    // hidden More from YouTube content element
                 }
             });
 
-            console.log(`✅ Hidden ${hiddenCount} "More from YouTube" elements total`);
+            // hidden More from YouTube elements total: %d
         };
 
         // Run immediately
@@ -882,12 +817,12 @@
             });
         }
 
-        console.log('✅ More from YouTube hiding applied');
+        // More from YouTube hiding applied
     }
 
     // Restore More from YouTube
     function restoreMoreFromYouTube() {
-        console.log('📺 Restoring more from YouTube elements...');
+        // restoring more from YouTube elements
 
         // Remove hiding class from all elements
         document.querySelectorAll('.youtube-more-from-hidden').forEach(element => {
@@ -911,14 +846,14 @@
             window.moreFromYouTubeTimeout = null;
         }
 
-        console.log('✅ More from YouTube elements restored');
+        // More from YouTube elements restored
     }
 
     // Apply Hide Channel fixes
     function applyHideChannelFixes() {
         if (!isHideChannelHidden) return;
 
-        console.log('📺 Applying hide channel fixes...');
+        // applying hide channel fixes
 
         let hiddenCount = 0;
 
@@ -945,26 +880,26 @@
             });
         });
 
-        console.log(`📺 Marked ${hiddenCount} channel elements for hiding`);
+        // marked channel elements for hiding: %d
     }
 
     // Restore Hide Channel
     function restoreHideChannel() {
-        console.log('📺 Restoring channel elements...');
+        // restoring channel elements
 
         // Remove hiding markers
         document.querySelectorAll('[hide-channel-element="true"]').forEach(element => {
             element.removeAttribute('hide-channel-element');
         });
 
-        console.log('✅ Channel elements restored');
+        // channel elements restored
     }
 
     // Apply Buttons Bar fixes
     function applyButtonsBarFixes() {
         if (!isButtonsBarHidden) return;
 
-        console.log('🔘 Applying buttons bar fixes...');
+        // applying buttons bar fixes
 
         let hiddenCount = 0;
 
@@ -980,26 +915,26 @@
             });
         });
 
-        console.log(`🔘 Marked ${hiddenCount} buttons bar elements for hiding`);
+        // marked buttons bar elements for hiding: %d
     }
 
     // Restore Buttons Bar
     function restoreButtonsBar() {
-        console.log('🔘 Restoring buttons bar elements...');
+        // restoring buttons bar elements
 
         // Remove hiding markers
         document.querySelectorAll('[buttons-bar-element="true"]').forEach(element => {
             element.removeAttribute('buttons-bar-element');
         });
 
-        console.log('✅ Buttons bar elements restored');
+        // buttons bar elements restored
     }
 
     // Apply Hide Description fixes
     function applyHideDescriptionFixes() {
         if (!isHideDescriptionHidden) return;
 
-        console.log('📝 Applying hide description fixes...');
+        // applying hide description fixes
 
         let hiddenCount = 0;
 
@@ -1020,19 +955,19 @@
             });
         });
 
-        console.log(`📝 Marked ${hiddenCount} description elements for hiding`);
+        // marked description elements for hiding: %d
     }
 
     // Restore Hide Description
     function restoreHideDescription() {
-        console.log('📝 Restoring description elements...');
+        // restoring description elements
 
         // Remove hiding markers
         document.querySelectorAll('[hide-description-element="true"]').forEach(element => {
             element.removeAttribute('hide-description-element');
         });
 
-        console.log('✅ Description elements restored');
+        // description elements restored
     }
 
     // Debug functions for new features
@@ -1040,27 +975,21 @@
         const isHidden = document.body.classList.contains('youtube-hide-channel-hidden');
         const elements = document.querySelectorAll('[hide-channel-element="true"]');
 
-        console.log('📺 Hide Channel Status:');
-        console.log(`- Hidden: ${isHidden}`);
-        console.log(`- Marked elements: ${elements.length}`);
+        // Hide Channel Status (summary)
     }
 
     function debugButtonsBarStatus() {
         const isHidden = document.body.classList.contains('youtube-buttons-bar-hidden');
         const elements = document.querySelectorAll('[buttons-bar-element="true"]');
 
-        console.log('🔘 Buttons Bar Status:');
-        console.log(`- Hidden: ${isHidden}`);
-        console.log(`- Marked elements: ${elements.length}`);
+        // Buttons Bar Status (summary)
     }
 
     function debugHideDescriptionStatus() {
         const isHidden = document.body.classList.contains('youtube-hide-description-hidden');
         const elements = document.querySelectorAll('[hide-description-element="true"]');
 
-        console.log('📝 Hide Description Status:');
-        console.log(`- Hidden: ${isHidden}`);
-        console.log(`- Marked elements: ${elements.length}`);
+        // Hide Description Status (summary)
     }
 
     // Hàm debug trạng thái Explore & Trending
@@ -1069,18 +998,11 @@
         const elements = document.querySelectorAll('[explore-trending-element="true"]');
         const sections = document.querySelectorAll('[explore-trending-section="true"]');
 
-        console.log('🔍 Explore & Trending Status:');
-        console.log(`- Hidden: ${isHidden}`);
-        console.log(`- Marked elements: ${elements.length}`);
-        console.log(`- Marked sections: ${sections.length}`);
+        // Explore & Trending Status (summary)
 
-        elements.forEach((el, i) => {
-            console.log(`- Element ${i+1}: ${el.tagName}#${el.id || 'no-id'}.${Array.from(el.classList).join('.')}`);
-        });
+        // elements listing removed for brevity
 
-        sections.forEach((section, i) => {
-            console.log(`- Section ${i+1}: ${section.tagName}#${section.id || 'no-id'}.${Array.from(section.classList).join('.')}`);
-        });
+        // sections listing removed for brevity
     }
 
     // Expose debug function globally for testing
@@ -1112,8 +1034,6 @@
     function applyShortsFixes() {
         if (!isShortsHidden) return;
 
-        console.log('🎬 Applying comprehensive Shorts fixes...');
-
         const markShortsElements = () => {
             let hiddenCount = 0;
 
@@ -1123,7 +1043,6 @@
                 if (link) {
                     entry.setAttribute('shorts-hidden', 'true');
                     hiddenCount++;
-                    console.log('✅ Marked sidebar Shorts entry');
                 }
             });
 
@@ -1144,7 +1063,6 @@
                         if (text.includes('shorts') || text.includes('short')) {
                             section.setAttribute('shorts-section', 'true');
                             hiddenCount++;
-                            console.log('✅ Marked Shorts section:', headerText.textContent);
                             break;
                         }
                     }
@@ -1201,7 +1119,6 @@
                 if (tabTitle.toLowerCase().includes('shorts') || tabTitle.toLowerCase().includes('short')) {
                     tab.setAttribute('shorts-tab', 'true');
                     hiddenCount++;
-                    console.log('✅ Marked Shorts tab');
                 }
             });
 
@@ -1225,7 +1142,7 @@
                 });
             });
 
-            console.log(`🎯 Total elements hidden: ${hiddenCount}`);
+            // total hidden count available for diagnostics if needed
         };
 
         // Run immediately and set up MutationObserver to monitor DOM changes
@@ -1256,7 +1173,6 @@
                 // Debounce the updates to avoid excessive processing
                 clearTimeout(observerTimeout);
                 observerTimeout = setTimeout(() => {
-                    console.log('🔄 DOM changed, reapplying Shorts hiding...');
                     markShortsElements();
                 }, 500);
             }
@@ -1274,8 +1190,6 @@
     
     // Khởi tạo extension
     function initialize() {
-        console.log('TubeTuner initialized');
-
         // Lấy trạng thái từ storage
         chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden'], (result) => {
             // Cập nhật settings object
@@ -1294,7 +1208,7 @@
             settings.buttonsBarHidden = result.buttonsBarHidden === true;
             settings.hideDescriptionHidden = result.hideDescriptionHidden === true;
 
-            console.log('Settings loaded:', settings);
+            // Settings loaded
 
             // Áp dụng ngay
             setTimeout(() => {
@@ -1320,7 +1234,7 @@
         const urlObserver = new MutationObserver(() => {
             if (location.href !== currentUrl) {
                 currentUrl = location.href;
-                console.log('URL changed, reapplying extension');
+                // URL changed, reapplying extension
                 setTimeout(() => {
                     // Áp dụng lại tất cả settings
                     if (settings.progressBarHidden) toggleProgressBar(true);
@@ -1351,7 +1265,7 @@
     chrome.storage.onChanged.addListener((changes, namespace) => {
         if (namespace !== 'sync') return;
 
-        console.log('🔄 Storage changed in this tab, applying changes:', changes);
+        // Storage changed in this tab, applying changes
 
         // Apply changes immediately
         for (const [key, change] of Object.entries(changes)) {
@@ -1420,11 +1334,11 @@
 
     // Lắng nghe message từ popup và background script
     chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-        console.log('🔔 Received message:', request);
+        // Received message
 
         // Handle sync messages from background script
         if (request.action === 'syncSettings') {
-            console.log('🔄 Syncing settings from background script:', request.changes);
+            // Syncing settings from background script
 
             // Apply all changed settings
             for (const [key, value] of Object.entries(request.changes)) {
@@ -1495,84 +1409,58 @@
         // Handle direct toggle messages from popup
         if (request.action === 'toggleProgressBar') {
             toggleProgressBar(request.enabled);
-            console.log('✅ Progress bar toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleDuration') {
             toggleDuration(request.enabled);
-            console.log('✅ Duration toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleShorts') {
-            console.log('🎬 Processing toggleShorts request, enabled:', request.enabled);
             toggleShorts(request.enabled);
-            console.log('✅ Shorts toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleHomeFeed') {
-            console.log('🏠 Processing toggleHomeFeed request, enabled:', request.enabled);
             toggleHomeFeed(request.enabled);
-            console.log('✅ Home Feed toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleVideoSidebar') {
-            console.log('📺 Processing toggleVideoSidebar request, enabled:', request.enabled);
             toggleVideoSidebar(request.enabled);
-            console.log('✅ Video Sidebar toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleComments') {
-            console.log('💬 Processing toggleComments request, enabled:', request.enabled);
             toggleComments(request.enabled);
-            console.log('✅ Comments toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleNotificationsBell') {
-            console.log('🔔 Processing toggleNotificationsBell request, enabled:', request.enabled);
             toggleNotificationsBell(request.enabled);
-            console.log('✅ Notifications Bell toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleTopHeader') {
-            console.log('🎯 Processing toggleTopHeader request, enabled:', request.enabled);
             toggleTopHeader(request.enabled);
-            console.log('✅ Top Header toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleExploreTrending') {
-            console.log('🔍 Processing toggleExploreTrending request, enabled:', request.enabled);
             toggleExploreTrending(request.enabled);
-            console.log('✅ Explore Trending toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleEndScreenCards') {
-            console.log('🎬 Processing toggleEndScreenCards request, enabled:', request.enabled);
             toggleEndScreenCards(request.enabled);
-            console.log('✅ End Screen Cards toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleMoreFromYouTube') {
-            console.log('📺 Processing toggleMoreFromYouTube request, enabled:', request.enabled);
             toggleMoreFromYouTube(request.enabled);
-            console.log('✅ More from YouTube toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleHideChannel') {
-            console.log('📺 Processing toggleHideChannel request, enabled:', request.enabled);
             toggleHideChannel(request.enabled);
-            console.log('✅ Hide Channel toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleButtonsBar') {
-            console.log('🔘 Processing toggleButtonsBar request, enabled:', request.enabled);
             toggleButtonsBar(request.enabled);
-            console.log('✅ Buttons Bar toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleHideDescription') {
-            console.log('📝 Processing toggleHideDescription request, enabled:', request.enabled);
             toggleHideDescription(request.enabled);
-            console.log('✅ Hide Description toggled to:', request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'getStatus') {
@@ -1593,7 +1481,7 @@
     // Backup khi window load
     window.addEventListener('load', () => {
         setTimeout(() => {
-            console.log('Window loaded, reapplying extension');
+            // Window loaded, reapplying extension
             if (settings.progressBarHidden) toggleProgressBar(true);
             if (settings.durationHidden) toggleDuration(true);
             if (settings.shortsHidden) toggleShorts(true);

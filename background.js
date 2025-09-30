@@ -2,19 +2,19 @@
 (function() {
     'use strict';
 
-    console.log('TubeTuner background script loaded');
+    // Debug statements have been removed for production
 
     // Listen for storage changes and sync across all YouTube tabs
     chrome.storage.onChanged.addListener((changes, namespace) => {
         if (namespace !== 'sync') return;
 
-        console.log('🔄 Storage changed, syncing across tabs:', changes);
+        
 
         // Get all YouTube tabs
         chrome.tabs.query({ url: ['*://www.youtube.com/*', '*://youtube.com/*'] }, (tabs) => {
             if (tabs.length === 0) return;
 
-            console.log(`📡 Found ${tabs.length} YouTube tabs to sync`);
+            
 
             // Prepare the sync message with all changed settings
             const syncMessage = {
@@ -30,7 +30,7 @@
                 }
 
                 syncMessage.changes[key] = change.newValue;
-                console.log(`📝 Setting changed: ${key} = ${change.newValue}`);
+                
             }
 
             // Only send sync message if there are actual setting changes
@@ -39,7 +39,7 @@
                 tabs.forEach(tab => {
                     chrome.tabs.sendMessage(tab.id, syncMessage).catch(error => {
                         // Ignore errors for tabs that might not have content script loaded yet
-                        console.log(`⚠️ Could not sync to tab ${tab.id}:`, error.message);
+                        
                     });
                 });
             }
@@ -48,7 +48,7 @@
 
     // Handle messages from content scripts or popup
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-        console.log('📨 Background received message:', request);
+        
 
         if (request.action === 'syncToAllTabs') {
             // Sync specific setting to all YouTube tabs
@@ -63,7 +63,7 @@
                     if (sender.tab && sender.tab.id === tab.id) return;
 
                     chrome.tabs.sendMessage(tab.id, message).catch(error => {
-                        console.log(`⚠️ Could not sync to tab ${tab.id}:`, error.message);
+                        
                     });
                 });
             });
@@ -81,7 +81,7 @@
             tab.url && 
             (tab.url.includes('youtube.com'))) {
             
-            console.log('🆕 New YouTube tab loaded, syncing current settings');
+            
 
             // Get all current settings and send to the new tab
             chrome.storage.sync.get([
@@ -101,7 +101,7 @@
                 // Wait a bit for content script to load
                 setTimeout(() => {
                     chrome.tabs.sendMessage(tabId, syncMessage).catch(error => {
-                        console.log(`⚠️ Could not sync to new tab ${tabId}:`, error.message);
+                        
                     });
                 }, 1000);
             });
