@@ -741,10 +741,10 @@ document.addEventListener('DOMContentLoaded', function() {
         commentsSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ commentsHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
+            // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden'], function(result) {
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
@@ -762,10 +762,10 @@ document.addEventListener('DOMContentLoaded', function() {
         notificationsBellSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ notificationsBellHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
+            // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'topHeaderHidden', 'exploreTrendingHidden'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, newState, result.topHeaderHidden === true, result.exploreTrendingHidden === true);
                 console.log('🔄 Updated UI after notifications bell toggle, newState:', newState);
@@ -780,10 +780,10 @@ document.addEventListener('DOMContentLoaded', function() {
         topHeaderSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ topHeaderHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
+            // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'exploreTrendingHidden'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, newState, result.exploreTrendingHidden === true);
                 console.log('🔄 Updated UI after top header toggle, newState:', newState);
@@ -798,10 +798,10 @@ document.addEventListener('DOMContentLoaded', function() {
         exploreTrendingSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ exploreTrendingHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
+            // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'endScreenCardsHidden'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, newState, result.endScreenCardsHidden === true);
                 console.log('🔄 Updated UI after explore trending toggle, newState:', newState);
@@ -816,10 +816,10 @@ document.addEventListener('DOMContentLoaded', function() {
         endScreenCardsSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ endScreenCardsHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
+            // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'moreFromYouTubeHidden'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreTrendingHidden === true, newState, result.moreFromYouTubeHidden === true);
                 console.log('🔄 Updated UI after end screen cards toggle, newState:', newState);
@@ -834,10 +834,10 @@ document.addEventListener('DOMContentLoaded', function() {
         moreFromYouTubeSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ moreFromYouTubeHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
+            // Update UI immediately with new state
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreTrendingHidden === true, result.endScreenCardsHidden === true, newState);
                 console.log('🔄 Updated UI after more from YouTube toggle, newState:', newState);
@@ -852,7 +852,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hideChannelSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ hideChannelHidden: newState });
 
             handleToggleChange('toggleHideChannel', newState);
@@ -864,7 +864,7 @@ document.addEventListener('DOMContentLoaded', function() {
         buttonsBarSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ buttonsBarHidden: newState });
 
             handleToggleChange('toggleButtonsBar', newState);
@@ -876,7 +876,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hideDescriptionSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ hideDescriptionHidden: newState });
 
             handleToggleChange('toggleHideDescription', newState);

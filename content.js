@@ -20,7 +20,7 @@
         hideDescriptionHidden: false
     };
     
-    // Hàm đơn giản để toggle progress bar
+    // Simple function to toggle the progress bar
     function toggleProgressBar(hide) {
         console.log('Toggle progress bar:', hide);
         settings.progressBarHidden = hide;
@@ -34,7 +34,7 @@
         }
     }
 
-    // Hàm toggle duration/thời lượng video
+    // Function to toggle video duration
     function toggleDuration(hide) {
         console.log('Toggle duration:', hide);
         settings.durationHidden = hide;
@@ -48,7 +48,7 @@
         }
     }
     
-    // Hàm toggle Shorts
+    // Function to toggle Shorts
     function toggleShorts(hide) {
         console.log('🎬 Toggle shorts:', hide);
         settings.shortsHidden = hide;
@@ -64,7 +64,7 @@
         }
     }
 
-    // Hàm khôi phục Shorts khi tắt tính năng
+    // Function to restore Shorts when the feature is turned off
     function restoreShorts() {
         console.log('🔄 Restoring Shorts visibility...');
 
@@ -89,7 +89,7 @@
         console.log('✅ Shorts visibility restored');
     }
 
-    // Hàm toggle Home Feed
+    // Function to toggle Home Feed
     function toggleHomeFeed(hide) {
         console.log('🏠 Toggle home feed:', hide);
         settings.homeFeedHidden = hide;
@@ -107,7 +107,7 @@
         }
     }
 
-    // Hàm toggle Video Sidebar
+    // Function to toggle Video Sidebar
     function toggleVideoSidebar(hide) {
         console.log('📺 Toggle video sidebar:', hide);
         settings.videoSidebarHidden = hide;
@@ -125,7 +125,7 @@
         }
     }
 
-    // Hàm toggle Comments Section
+    // Function to toggle Comments Section
     function toggleComments(hide) {
         console.log('💬 Toggle comments section:', hide);
         settings.commentsHidden = hide;
@@ -143,7 +143,7 @@
         }
     }
 
-    // Hàm toggle Notifications Bell
+    // Function to toggle Notifications Bell
     function toggleNotificationsBell(hide) {
         console.log('🔔 Toggle notifications bell:', hide);
         settings.notificationsBellHidden = hide;
@@ -161,7 +161,7 @@
         }
     }
 
-    // Hàm toggle Top Header/Navigation Bar
+    // Function to toggle Top Header/Navigation Bar
     function toggleTopHeader(hide) {
         console.log('🎯 Toggle top header:', hide);
         settings.topHeaderHidden = hide;
@@ -179,7 +179,7 @@
         }
     }
 
-    // Hàm toggle Explore & Trending Tabs
+    // Function to toggle Explore & Trending Tabs
     function toggleExploreTrending(hide) {
         console.log('🔍 Toggle explore trending:', hide);
         settings.exploreTrendingHidden = hide;
@@ -197,7 +197,7 @@
         }
     }
 
-    // Hàm toggle End Screen Cards/Annotations
+    // Function to toggle End Screen Cards/Annotations
     function toggleEndScreenCards(hide) {
         console.log('🎬 Toggle end screen cards:', hide);
         settings.endScreenCardsHidden = hide;
@@ -215,7 +215,7 @@
         }
     }
 
-    // Hàm toggle More from YouTube Section
+    // Function to toggle More from YouTube Section
     function toggleMoreFromYouTube(hide) {
         console.log('📺 Toggle more from YouTube:', hide);
         settings.moreFromYouTubeHidden = hide;
@@ -231,7 +231,7 @@
         }
     }
 
-    // Hàm toggle Hide Channel
+    // Function to toggle Hide Channel
     function toggleHideChannel(hide) {
         console.log('📺 Toggle hide channel:', hide);
         settings.hideChannelHidden = hide;
@@ -247,7 +247,7 @@
         }
     }
 
-    // Hàm toggle Buttons Bar
+    // Function to toggle Buttons Bar
     function toggleButtonsBar(hide) {
         console.log('🔘 Toggle buttons bar:', hide);
         settings.buttonsBarHidden = hide;
@@ -263,7 +263,7 @@
         }
     }
 
-    // Hàm toggle Hide Description
+    // Function to toggle Hide Description
     function toggleHideDescription(hide) {
         console.log('📝 Toggle hide description:', hide);
         settings.hideDescriptionHidden = hide;
@@ -279,7 +279,7 @@
         }
     }
 
-    // Hàm khôi phục Home Feed khi tắt tính năng
+    // Function to restore Home Feed when the feature is turned off
     function restoreHomeFeed() {
         console.log('🔄 Restoring Home Feed visibility...');
 
@@ -289,7 +289,7 @@
         console.log('✅ Home Feed visibility restored via CSS');
     }
 
-    // Hàm khôi phục Video Sidebar khi tắt tính năng
+    // Function to restore Video Sidebar when the feature is turned off
     function restoreVideoSidebar() {
         console.log('🔄 Restoring Video Sidebar visibility...');
 
@@ -299,7 +299,7 @@
         console.log('✅ Video Sidebar visibility restored via CSS');
     }
 
-    // Hàm khôi phục Comments khi tắt tính năng
+    // Function to restore Comments when the feature is turned off
     function restoreComments() {
         console.log('🔄 Restoring Comments visibility...');
 
@@ -354,7 +354,7 @@
         console.log('✅ Comments hiding applied via CSS');
     }
 
-    // Hàm debug để kiểm tra trạng thái Home Feed
+    // Debug function to check Home Feed status
     function debugHomeFeedStatus() {
         const bodyHasClass = document.body.classList.contains('youtube-home-feed-hidden');
         const bodyHasAttribute = document.body.hasAttribute('data-home-feed-hidden');
@@ -379,7 +379,7 @@
         };
     }
 
-    // Hàm debug để kiểm tra trạng thái Video Sidebar
+    // Debug function to check Video Sidebar status
     function debugVideoSidebarStatus() {
         const bodyHasClass = document.body.classList.contains('youtube-video-sidebar-hidden');
         const bodyHasAttribute = document.body.hasAttribute('data-video-sidebar-hidden');
@@ -404,7 +404,7 @@
         };
     }
 
-    // Hàm debug để kiểm tra trạng thái Comments
+    // Debug function to check Comments status
     function debugCommentsStatus() {
         const bodyHasClass = document.body.classList.contains('youtube-comments-hidden');
         const bodyHasAttribute = document.body.hasAttribute('data-comments-hidden');
@@ -429,7 +429,7 @@
         };
     }
 
-    // Hàm debug để kiểm tra trạng thái Shorts
+    // Debug function to check Shorts status
     function debugShortsStatus() {
         const bodyHasClass = document.body.classList.contains('youtube-shorts-hidden');
         const shortsLinks = document.querySelectorAll('a[href*="/shorts/"]');
@@ -452,7 +452,7 @@
         };
     }
 
-    // Hàm debug để kiểm tra trạng thái Notifications Bell
+    // Debug function to check Notifications Bell status
     function debugNotificationsBellStatus() {
         const bodyHasClass = document.body.classList.contains('youtube-notifications-bell-hidden');
         const bodyHasAttribute = document.body.hasAttribute('data-notifications-bell-hidden');
@@ -474,7 +474,7 @@
         };
     }
 
-    // Hàm áp dụng ẩn notifications bell
+    // Function to apply notifications bell hiding
     function applyNotificationsBellFixes() {
         if (!isNotificationsBellHidden) return;
 
@@ -501,7 +501,7 @@
         console.log(`🔔 Marked ${hiddenCount} notifications bell elements for hiding`);
     }
 
-    // Hàm khôi phục notifications bell
+    // Function to restore notifications bell
     function restoreNotificationsBell() {
         console.log('🔔 Restoring notifications bell...');
 
@@ -513,7 +513,7 @@
         console.log('🔔 Notifications bell restored');
     }
 
-    // Hàm ẩn thanh điều hướng trên cùng
+    // Function to hide the top navigation bar
     function applyTopHeaderFixes() {
         if (!isTopHeaderHidden) return;
 
@@ -521,7 +521,7 @@
 
         let hiddenCount = 0;
 
-        // Đánh dấu các phần tử của thanh điều hướng trên cùng
+        // Mark the top navigation bar elements
         const headerSelectors = [
             'ytd-masthead#masthead',
             '#masthead-container',
@@ -539,11 +539,11 @@
         console.log(`🎯 Marked ${hiddenCount} top header elements for hiding`);
     }
 
-    // Hàm khôi phục thanh điều hướng trên cùng
+    // Function to restore the top navigation bar
     function restoreTopHeader() {
         console.log('🎯 Restoring top header...');
 
-        // Xóa thuộc tính đánh dấu
+        // Remove the marking attribute
         document.querySelectorAll('[top-header-element="true"]').forEach(element => {
             element.removeAttribute('top-header-element');
         });
@@ -551,7 +551,7 @@
         console.log('🎯 Top header restored');
     }
 
-    // Hàm debug trạng thái thanh điều hướng trên cùng
+    // Debug function for top navigation bar status
     function debugTopHeaderStatus() {
         const isHidden = document.body.classList.contains('youtube-top-header-hidden');
         const elements = document.querySelectorAll('[top-header-element="true"]');
@@ -565,7 +565,7 @@
         });
     }
 
-    // Hàm áp dụng Explore & Trending hiding
+    // Function to apply Explore & Trending hiding
     function applyExploreTrendingFixes() {
         if (!isExploreTrendingHidden) return;
 
@@ -622,7 +622,7 @@
         console.log(`🔍 Marked ${hiddenCount} explore/trending elements and sections for hiding`);
     }
 
-    // Hàm khôi phục Explore & Trending tabs
+    // Function to restore Explore & Trending tabs
     function restoreExploreTrending() {
         console.log('🔍 Restoring Explore & Trending tabs...');
 
