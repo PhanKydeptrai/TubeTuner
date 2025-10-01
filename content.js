@@ -282,6 +282,47 @@
         }
     }
 
+    // Function to toggle Grayscale (black & white) mode
+    function toggleGrayscale(enabled) {
+        settings.grayscaleEnabled = enabled;
+
+        const styleId = 'tubetuner-grayscale-style';
+
+        if (enabled) {
+            document.body.classList.add('youtube-grayscale-enabled');
+
+            // Inject style to apply grayscale across the page
+            if (!document.getElementById(styleId)) {
+                const style = document.createElement('style');
+                style.id = styleId;
+                style.textContent = `
+                    /* Apply grayscale only to raster/thumbnail-like elements to avoid
+                       creating a containing block on the root (html/body). Applying
+                       filter to the root causes position:fixed elements (player
+                       controls, overlays) to behave incorrectly. */
+                    img, picture, canvas, svg, yt-img-shadow img, ytd-thumbnail img, yt-img-shadow, .yt-thumb, .ytd-thumbnail, .ytd-rich-grid-media, .ytd-rich-item-renderer, ytd-grid-video-renderer, ytd-compact-video-renderer, ytd-video-renderer, ytd-rich-shelf-renderer, ytd-rich-section-renderer {
+                        -webkit-filter: grayscale(100%) !important;
+                        filter: grayscale(100%) !important;
+                        color-adjust: exact !important;
+                    }
+
+                    /* Explicitly exclude the video player and its chrome so controls
+                       remain unaffected and clickable. */
+                    video, ytd-player, .html5-video-player, .ytp-chrome-top, .ytp-chrome-bottom, .ytp-play-button {
+                        -webkit-filter: none !important;
+                        filter: none !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        } else {
+            document.body.classList.remove('youtube-grayscale-enabled');
+
+            const existing = document.getElementById(styleId);
+            if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+        }
+    }
+
     // Function to restore Home Feed when the feature is turned off
     function restoreHomeFeed() {
         // restoring Home Feed visibility
@@ -1510,6 +1551,7 @@
             if (settings.hideChannelHidden) toggleHideChannel(true);
             if (settings.buttonsBarHidden) toggleButtonsBar(true);
             if (settings.hideDescriptionHidden) toggleHideDescription(true);
+            if (settings.grayscaleEnabled) toggleGrayscale(true);
         }, 2000);
     });
 

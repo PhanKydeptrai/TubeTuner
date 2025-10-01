@@ -1,7 +1,7 @@
 // YouTube Progress Bar Hider Popup Script
 let currentLang = 'vi'; // Default language is Vietnamese
 let translations = {}; // Global declaration to access from outside DOMContentLoaded
-let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreTrendingSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, status; // Global variables to access from outside
+let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreTrendingSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, grayscaleSwitch, status; // Global variables to access from outside
 
 // Console log calls have been removed in production build
 
@@ -192,6 +192,11 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
         hideDescriptionSwitch.checked = hideDescriptionHidden;
     }
 
+    // Update grayscale toggle
+    if (typeof grayscaleSwitch !== 'undefined' && document.getElementById('grayscaleSwitch')) {
+        document.getElementById('grayscaleSwitch').checked = grayscaleEnabled;
+    }
+
     // Verify the state was actually set
     setTimeout(() => {
         const actualHomeFeedState = homeFeedSwitch.checked;
@@ -235,6 +240,12 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
         if (moreFromYouTubeSwitch && actualMoreFromYouTubeState !== moreFromYouTubeHidden) {
             // More from YouTube toggle mismatch, retrying...
             moreFromYouTubeSwitch.checked = moreFromYouTubeHidden;
+        }
+
+        // Ensure grayscale toggle persisted
+        const grayscaleEl = document.getElementById('grayscaleSwitch');
+        if (grayscaleEl && grayscaleEl.checked !== grayscaleEnabled) {
+            grayscaleEl.checked = grayscaleEnabled;
         }
 
         // Verify new features
@@ -382,6 +393,7 @@ document.addEventListener('DOMContentLoaded', function() {
     hideChannelSwitch = document.getElementById('hideChannelSwitch');
     buttonsBarSwitch = document.getElementById('buttonsBarSwitch');
     hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
+    grayscaleSwitch = document.getElementById('grayscaleSwitch');
     status = document.getElementById('status');
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
@@ -483,6 +495,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const hideChannelHidden = result.hideChannelHidden === true; // Default is false
         const buttonsBarHidden = result.buttonsBarHidden === true; // Default is false
         const hideDescriptionHidden = result.hideDescriptionHidden === true; // Default is false
+        const grayscaleEnabled = result.grayscaleEnabled === true; // Default is false
 
         // Loaded stored states
 
@@ -506,11 +519,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Retrying UI update with elements
 
-                updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden);
+                updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden, grayscaleEnabled);
             }, 100);
         } else {
             // DOM elements ready, updating UI immediately
-            updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden);
+            updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden, grayscaleEnabled);
         }
 
         // Set language
@@ -1183,7 +1196,8 @@ function initializeSwitches() {
     const switches = [
         { id: 'progressSwitch', setting: 'hideProgressBar', default: true },
         { id: 'durationSwitch', setting: 'hideDuration', default: true },
-        { id: 'shortsSwitch', setting: 'hideShorts', default: false }
+        { id: 'shortsSwitch', setting: 'hideShorts', default: false },
+        { id: 'grayscaleSwitch', setting: 'grayscaleEnabled', default: false }
     ];
 
     // Get all settings at once
@@ -1204,12 +1218,14 @@ function initializeSwitches() {
                     // Update status message
                     updateStatus();
 
-                    // Send message to content script to update immediately if on YouTube
+                    // Send specific message for grayscale, otherwise request a general update
                     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                         if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
-                            chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(error => {
-                                // Could not send update message to current tab
-                            });
+                            if (switchItem.setting === 'grayscaleEnabled') {
+                                chrome.tabs.sendMessage(tabs[0].id, { action: 'toggleGrayscale', enabled: switchElement.checked }).catch(() => {});
+                            } else {
+                                chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(() => {});
+                            }
                         }
                     });
                 });
