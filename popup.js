@@ -113,6 +113,15 @@ function updateLanguageUI() {
             importBtn.textContent = translations[currentLang].importSettings;
         }
 
+        // Update grayscale label
+        const grayscaleSwitch = document.getElementById('grayscaleSwitch');
+        if (grayscaleSwitch) {
+            const label = grayscaleSwitch.closest('.ext-control-item').querySelector('.ext-control-label');
+            if (label) {
+                label.textContent = translations[currentLang].grayscale;
+            }
+        }
+
         // Update status based on current state
         updateStatusUI();
     } else {
@@ -964,7 +973,7 @@ function setLanguage(lang, save = true) {
     // Add active class to selected language button
     document.getElementById(`lang-${lang}`).classList.add('active');
     
-    const translations = {
+    translations = {
         'vi': {
             'title': 'TubeTuner',
             'subtitle': 'Ẩn các phần tử YouTube không mong muốn',
@@ -1002,6 +1011,11 @@ function setLanguage(lang, save = true) {
             'infoExtra': 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với 14 tùy chọn ẩn/hiện.',
             'noticeTitle': 'Lưu ý quan trọng',
             'noticeDesc': 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.'
+            ,
+            // Grayscale feature translations
+            'grayscale': 'Giao diện đen trắng',
+            'enableGrayscale': 'Bật giao diện đen trắng',
+            'disableGrayscale': 'Tắt giao diện đen trắng'
         },
         'en': {
             'title': 'TubeTuner',
@@ -1040,6 +1054,11 @@ function setLanguage(lang, save = true) {
             'infoExtra': 'Customize your YouTube experience with 14 hide/show options.',
             'noticeTitle': 'Important Notice',
             'noticeDesc': 'For the best experience, please enable the extension before visiting YouTube.'
+            ,
+            // Grayscale feature translations
+            'grayscale': 'Grayscale interface',
+            'enableGrayscale': 'Enable grayscale interface',
+            'disableGrayscale': 'Disable grayscale interface'
         }
     };
     
@@ -1076,6 +1095,8 @@ function setLanguage(lang, save = true) {
         { id: 'durationSwitch', text: t.hideDuration },
         { id: 'endScreenCardsSwitch', text: t.hideEndScreenCards },
         { id: 'hideDescriptionSwitch', text: t.hideDescription },
+        // Grayscale
+        { id: 'grayscaleSwitch', text: t.grayscale },
 
 
     ];
@@ -1201,7 +1222,7 @@ function initializeSwitches() {
     ];
 
     // Get all settings at once
-    chrome.storage.sync.get(['hideProgressBar', 'hideDuration', 'hideShorts'], function(data) {
+    chrome.storage.sync.get(['hideProgressBar', 'hideDuration', 'hideShorts', 'grayscaleEnabled'], function(data) {
         switches.forEach(switchItem => {
             const switchElement = document.getElementById(switchItem.id);
             const isEnabled = data[switchItem.setting] !== undefined ? data[switchItem.setting] : switchItem.default;

@@ -296,21 +296,16 @@
                 const style = document.createElement('style');
                 style.id = styleId;
                 style.textContent = `
-                    /* Apply grayscale only to raster/thumbnail-like elements to avoid
-                       creating a containing block on the root (html/body). Applying
-                       filter to the root causes position:fixed elements (player
-                       controls, overlays) to behave incorrectly. */
-                    img, picture, canvas, svg, yt-img-shadow img, ytd-thumbnail img, yt-img-shadow, .yt-thumb, .ytd-thumbnail, .ytd-rich-grid-media, .ytd-rich-item-renderer, ytd-grid-video-renderer, ytd-compact-video-renderer, ytd-video-renderer, ytd-rich-shelf-renderer, ytd-rich-section-renderer {
+                    /* Apply grayscale to the entire page including all text, emojis, images, and videos */
+                    html {
                         -webkit-filter: grayscale(100%) !important;
                         filter: grayscale(100%) !important;
-                        color-adjust: exact !important;
                     }
-
-                    /* Explicitly exclude the video player and its chrome so controls
-                       remain unaffected and clickable. */
-                    video, ytd-player, .html5-video-player, .ytp-chrome-top, .ytp-chrome-bottom, .ytp-play-button {
-                        -webkit-filter: none !important;
-                        filter: none !important;
+                    
+                    /* Alternative: Apply to body if html doesn't work well */
+                    body {
+                        -webkit-filter: grayscale(100%) !important;
+                        filter: grayscale(100%) !important;
                     }
                 `;
                 document.head.appendChild(style);
