@@ -1015,7 +1015,21 @@ function setLanguage(lang, save = true) {
             // Grayscale feature translations
             'grayscale': 'Giao diện đen trắng',
             'enableGrayscale': 'Bật giao diện đen trắng',
-            'disableGrayscale': 'Tắt giao diện đen trắng'
+            'disableGrayscale': 'Tắt giao diện đen trắng',
+            // Settings management
+            'settingsManagement': 'Quản lý cài đặt',
+            'exportSettings': 'Xuất cài đặt',
+            'importSettings': 'Nhập cài đặt',
+            'exportSuccess': 'Đã xuất cài đặt thành công!',
+            'importSuccess': 'Đã nhập cài đặt thành công! Đang tải lại...',
+            'importError': 'Lỗi: File cài đặt không hợp lệ!',
+            'exporting': 'Đang xuất...',
+            'importing': 'Đang nhập...',
+            'confirmImport': 'Bạn có chắc muốn nhập cài đặt mới? Điều này sẽ ghi đè lên cài đặt hiện tại.',
+            'backupCreated': 'Đã tạo bản sao lưu tự động',
+            'invalidFileType': 'Chỉ chấp nhận file JSON!',
+            'fileTooLarge': 'File quá lớn (tối đa 5MB)!',
+            'noSettingsToExport': 'Không có cài đặt nào để xuất!'
         },
         'en': {
             'title': 'TubeTuner',
@@ -1058,7 +1072,21 @@ function setLanguage(lang, save = true) {
             // Grayscale feature translations
             'grayscale': 'Grayscale interface',
             'enableGrayscale': 'Enable grayscale interface',
-            'disableGrayscale': 'Disable grayscale interface'
+            'disableGrayscale': 'Disable grayscale interface',
+            // Settings management
+            'settingsManagement': 'Settings Management',
+            'exportSettings': 'Export Settings',
+            'importSettings': 'Import Settings',
+            'exportSuccess': 'Settings exported successfully!',
+            'importSuccess': 'Settings imported successfully! Reloading...',
+            'importError': 'Error: Invalid settings file!',
+            'exporting': 'Exporting...',
+            'importing': 'Importing...',
+            'confirmImport': 'Are you sure you want to import new settings? This will overwrite current settings.',
+            'backupCreated': 'Auto backup created',
+            'invalidFileType': 'Only JSON files are accepted!',
+            'fileTooLarge': 'File too large (max 5MB)!',
+            'noSettingsToExport': 'No settings to export!'
         }
     };
     
@@ -1111,6 +1139,21 @@ function setLanguage(lang, save = true) {
             }
         }
     });
+
+    // Update settings management section
+    const settingsTitle = document.querySelector('.ext-settings-title');
+    const exportBtn = document.querySelector('#exportSettingsBtn span');
+    const importBtn = document.querySelector('#importSettingsBtn span');
+
+    if (settingsTitle) {
+        settingsTitle.textContent = t.settingsManagement;
+    }
+    if (exportBtn) {
+        exportBtn.textContent = t.exportSettings;
+    }
+    if (importBtn) {
+        importBtn.textContent = t.importSettings;
+    }
 
     // Other UI elements
     document.querySelector('#status').textContent = t.active;
