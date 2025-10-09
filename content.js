@@ -323,7 +323,48 @@
                     .ytd-video-meta-block .ytd-video-meta-block-info,
                     ytd-channel-renderer yt-formatted-string,
                     ytd-shelf-renderer yt-formatted-string,
-                    ytd-rich-section-renderer yt-formatted-string {
+                    ytd-rich-section-renderer yt-formatted-string,
+                    yt-formatted-string,
+                    ytd-rich-grid-media yt-formatted-string,
+                    ytd-compact-video-renderer yt-formatted-string,
+                    .yt-core-attributed-string,
+                    .yt-core-attributed-string *,
+                    #video-title,
+                    #video-title *,
+                    .ytd-video-renderer #video-title,
+                    .ytd-compact-video-renderer #video-title,
+                    .ytd-grid-video-renderer #video-title {
+                        -webkit-filter: grayscale(100%) !important;
+                        filter: grayscale(100%) !important;
+                    }
+
+                    /* Apply to YouTube logo */
+                    #logo,
+                    #logo *,
+                    yt-icon,
+                    yt-icon *,
+                    .logo,
+                    .yt-logo,
+                    #masthead-logo,
+                    yt-icon-shape,
+                    .yt-spec-icon-shape,
+                    #masthead #logo,
+                    #masthead .logo,
+                    a[href="/"] img,
+                    a[href="/"] svg,
+                    .yt-spec-button-shape-next yt-icon,
+                    .yt-spec-button-shape-next yt-icon-shape {
+                        -webkit-filter: grayscale(100%) !important;
+                        filter: grayscale(100%) !important;
+                    }
+
+                    /* Apply to badges including Live badges */
+                    .badge,
+                    .yt-badge-shape,
+                    .badge-style-type-simple,
+                    .yt-thumbnail-overlay-badge-view-model,
+                    .badge-shape,
+                    .yt-badge {
                         -webkit-filter: grayscale(100%) !important;
                         filter: grayscale(100%) !important;
                     }
