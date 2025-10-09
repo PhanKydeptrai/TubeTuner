@@ -327,6 +327,13 @@
                         -webkit-filter: grayscale(100%) !important;
                         filter: grayscale(100%) !important;
                     }
+
+                    /* Apply to right panel (secondary) on watch pages */
+                    #secondary,
+                    #secondary * {
+                        -webkit-filter: grayscale(100%) !important;
+                        filter: grayscale(100%) !important;
+                    }
                 `;
                 document.head.appendChild(style);
             }
