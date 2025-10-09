@@ -291,19 +291,39 @@
         if (enabled) {
             document.body.classList.add('youtube-grayscale-enabled');
 
-            // Inject style to apply grayscale across the page
+            // Inject style to apply grayscale only to specific elements without affecting layout
             if (!document.getElementById(styleId)) {
                 const style = document.createElement('style');
                 style.id = styleId;
                 style.textContent = `
-                    /* Apply grayscale to the entire page including all text, emojis, images, and videos */
-                    html {
+                    /* Apply grayscale only to video elements */
+                    video,
+                    .html5-video-player,
+                    .video-stream {
                         -webkit-filter: grayscale(100%) !important;
                         filter: grayscale(100%) !important;
                     }
-                    
-                    /* Alternative: Apply to body if html doesn't work well */
-                    body {
+
+                    /* Apply to thumbnail images only */
+                    yt-image img,
+                    yt-img-shadow img,
+                    .yt-core-image,
+                    ytd-thumbnail img,
+                    ytd-video-renderer img,
+                    ytd-compact-video-renderer img,
+                    ytd-grid-video-renderer img,
+                    ytd-rich-item-renderer img,
+                    ytd-reel-item-renderer img {
+                        -webkit-filter: grayscale(100%) !important;
+                        filter: grayscale(100%) !important;
+                    }
+
+                    /* Apply to specific content text that won't affect layout */
+                    ytd-video-meta-block yt-formatted-string,
+                    .ytd-video-meta-block .ytd-video-meta-block-info,
+                    ytd-channel-renderer yt-formatted-string,
+                    ytd-shelf-renderer yt-formatted-string,
+                    ytd-rich-section-renderer yt-formatted-string {
                         -webkit-filter: grayscale(100%) !important;
                         filter: grayscale(100%) !important;
                     }
