@@ -87,7 +87,7 @@
             chrome.storage.sync.get([
                 'progressBarHidden', 'durationHidden', 'shortsHidden', 
                 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden',
-                'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden',
+                'notificationsBellHidden', 'topHeaderHidden',
                 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden',
                 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'
             ], (settings) => {

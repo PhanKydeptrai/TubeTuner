@@ -522,51 +522,6 @@ body.youtube-comments-hidden ytd-live-chat-frame[src*="live_chat"] {
   display: none !important;
 }
 
-/* ===== EXPLORE & TRENDING TABS HIDING ===== */
-
-/* Hide Explore and Trending tabs from sidebar navigation */
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title="Explore"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title*="Explore"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title="Trending"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title*="Trending"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title="Khám phá"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title*="Khám phá"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title="Thịnh hành"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title*="Thịnh hành"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title="Explore"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title*="Explore"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title="Trending"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title*="Trending"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title="Khám phá"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title*="Khám phá"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title="Thịnh hành"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title*="Thịnh hành"] {
-  display: none !important;
-}
-
-/* Hide standalone Explore section/menu items */
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href="/feed/explore"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href*="explore"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href="/feed/explore"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href*="explore"] {
-  display: none !important;
-}
-
-/* Hide by href patterns - comprehensive coverage */
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href="/feed/explore"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href*="/feed/explore"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href="/feed/trending"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href*="/feed/trending"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href*="/explore"],
-body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href*="/trending"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href="/feed/explore"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href*="/feed/explore"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href="/feed/trending"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href*="/feed/trending"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href*="/explore"],
-body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href*="/trending"] {
-  display: none !important;
-}
 
 /* Hide entire guide entry containers that contain Explore or Trending */
 body.youtube-explore-trending-hidden ytd-guide-entry-renderer[explore-trending-hidden="true"],
