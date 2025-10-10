@@ -807,9 +807,18 @@ body.youtube-more-from-youtube-hidden ytd-guide-section-renderer.style-scope.ytd
   display: none !important;
 }
 
-/* Fallback: Hide any ytd-guide-section-renderer marked as more from YouTube */
+/* Hide guide entries marked as more from YouTube */
+body.youtube-more-from-youtube-hidden ytd-guide-entry-renderer.youtube-more-from-hidden {
+  display: none !important;
+}
+
+/* Fallback: Hide any element marked as more from YouTube */
 body.youtube-more-from-youtube-hidden .youtube-more-from-hidden {
   display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
 }
 
 /* ===== HIDE CHANNEL ELEMENTS ===== */
