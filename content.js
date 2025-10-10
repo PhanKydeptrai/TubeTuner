@@ -12,7 +12,7 @@
         commentsHidden: false,
         notificationsBellHidden: false,
         topHeaderHidden: false,
-        exploreTrendingHidden: false,
+        exploreSectionHidden: false,
         endScreenCardsHidden: false,
         moreFromYouTubeHidden: false,
         hideChannelHidden: false,
@@ -182,21 +182,21 @@
         }
     }
 
-    // Function to toggle Explore & Trending Tabs
-    function toggleExploreTrending(hide) {
-        // debug: toggle explore trending
-        settings.exploreTrendingHidden = hide;
+    // Function to toggle Explore Section
+    function toggleExploreSection(hide) {
+        // debug: toggle explore section
+        settings.exploreSectionHidden = hide;
 
         if (hide) {
-            document.body.classList.add('youtube-explore-trending-hidden');
-            document.body.setAttribute('data-explore-trending-hidden', 'true');
-            // added class youtube-explore-trending-hidden
-            applyExploreTrendingFixes();
+            document.body.classList.add('youtube-explore-section-hidden');
+            document.body.setAttribute('data-explore-section-hidden', 'true');
+            // added class youtube-explore-section-hidden
+            applyExploreSectionFixes();
         } else {
-            document.body.classList.remove('youtube-explore-trending-hidden');
-            document.body.removeAttribute('data-explore-trending-hidden');
-            // removed class youtube-explore-trending-hidden
-            restoreExploreTrending();
+            document.body.classList.remove('youtube-explore-section-hidden');
+            document.body.removeAttribute('data-explore-section-hidden');
+            // removed class youtube-explore-section-hidden
+            restoreExploreSection();
         }
     }
 
@@ -261,7 +261,7 @@
             applyButtonsBarFixes();
         } else {
             document.body.classList.remove('youtube-buttons-bar-hidden');
-            // removed class youtube-buttons-bar-hidden
+            // removed class youtube-buttons-bar
             restoreButtonsBar();
         }
     }
@@ -573,82 +573,46 @@
         });
     }
 
-    // Function to apply Explore & Trending hiding
-    function applyExploreTrendingFixes() {
-        if (!isExploreTrendingHidden) return;
+    // Function to apply Explore Section hiding
+    function applyExploreSectionFixes() {
+        if (!isExploreSectionHidden) return;
 
-        // applying Explore & Trending hiding
+        // applying Explore Section hiding
 
-        // Mark Explore and Trending navigation elements for hiding
+        // Mark Explore navigation elements for hiding
         const exploreElements = document.querySelectorAll(`
             ytd-guide-entry-renderer a[title*="Explore"],
-            ytd-guide-entry-renderer a[title*="Trending"],
             ytd-guide-entry-renderer a[title*="Khám phá"],
-            ytd-guide-entry-renderer a[title*="Thịnh hành"],
             ytd-guide-entry-renderer a[href*="/feed/explore"],
-            ytd-guide-entry-renderer a[href*="/feed/trending"],
             ytd-guide-entry-renderer a[href*="/explore"],
-            ytd-guide-entry-renderer a[href*="/trending"],
             ytd-mini-guide-entry-renderer a[title*="Explore"],
-            ytd-mini-guide-entry-renderer a[title*="Trending"],
             ytd-mini-guide-entry-renderer a[title*="Khám phá"],
-            ytd-mini-guide-entry-renderer a[title*="Thịnh hành"],
             ytd-mini-guide-entry-renderer a[href*="/feed/explore"],
-            ytd-mini-guide-entry-renderer a[href*="/feed/trending"],
-            ytd-mini-guide-entry-renderer a[href*="/explore"],
-            ytd-mini-guide-entry-renderer a[href*="/trending"]
+            ytd-mini-guide-entry-renderer a[href*="/explore"]
         `);
 
-        // Also mark ytd-guide-section-renderer containers that contain Explore elements
-        const exploreSections = document.querySelectorAll(`
-            ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[href*="/explore"]),
-            ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[title*="Explore"]),
-            ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[title*="Khám phá"])
-        `);
-
-        let hiddenCount = 0;
-        exploreElements.forEach(element => {
-            if (element && !element.hasAttribute('explore-trending-element')) {
-                element.setAttribute('explore-trending-element', 'true');
-                // Also mark the parent guide entry renderer
-                const parentGuideEntry = element.closest('ytd-guide-entry-renderer, ytd-mini-guide-entry-renderer');
-                if (parentGuideEntry) {
-                    parentGuideEntry.setAttribute('explore-trending-hidden', 'true');
-                }
-                hiddenCount++;
-            }
-        });
-
-        // Mark ytd-guide-section-renderer containers
-        exploreSections.forEach(section => {
-            if (section && !section.hasAttribute('explore-trending-section')) {
-                section.setAttribute('explore-trending-section', 'true');
-                hiddenCount++;
-            }
-        });
-
-        // marked explore/trending elements and sections for hiding: %d
+        exploreElements.forEach(el => el.setAttribute('hidden', 'true'));
     }
 
-    // Function to restore Explore & Trending tabs
-    function restoreExploreTrending() {
-        // restoring Explore & Trending tabs
+    // Function to restore Explore Section
+    function restoreExploreSection() {
+        // restoring Explore Section
 
         // Remove marking attributes
-        document.querySelectorAll('[explore-trending-element="true"]').forEach(element => {
-            element.removeAttribute('explore-trending-element');
+        document.querySelectorAll('[explore-section-element="true"]').forEach(element => {
+            element.removeAttribute('explore-section-element');
         });
 
-        document.querySelectorAll('[explore-trending-hidden="true"]').forEach(element => {
-            element.removeAttribute('explore-trending-hidden');
+        document.querySelectorAll('[explore-section-hidden="true"]').forEach(element => {
+            element.removeAttribute('explore-section-hidden');
         });
 
         // Remove section marking attributes
-        document.querySelectorAll('[explore-trending-section="true"]').forEach(element => {
-            element.removeAttribute('explore-trending-section');
+        document.querySelectorAll('[explore-section="true"]').forEach(element => {
+            element.removeAttribute('explore-section');
         });
 
-        // Explore & Trending tabs and sections restored
+        // Explore Section restored
     }
 
     // Debug function for End Screen Cards
@@ -1176,13 +1140,13 @@
         // Hide Description Status (summary)
     }
 
-    // Hàm debug trạng thái Explore & Trending
-    function debugExploreTrendingStatus() {
-        const isHidden = document.body.classList.contains('youtube-explore-trending-hidden');
-        const elements = document.querySelectorAll('[explore-trending-element="true"]');
-        const sections = document.querySelectorAll('[explore-trending-section="true"]');
+    // Hàm debug trạng thái Explore Section
+    function debugExploreSectionStatus() {
+        const isHidden = document.body.classList.contains('youtube-explore-section-hidden');
+        const elements = document.querySelectorAll('[explore-section-element="true"]');
+        const sections = document.querySelectorAll('[explore-section="true"]');
 
-        // Explore & Trending Status (summary)
+        // Explore Section Status (summary)
 
         // elements listing removed for brevity
 
@@ -1209,9 +1173,9 @@
         debugTopHeaderStatus,
         toggleTopHeader,
         isTopHeaderHidden: () => isTopHeaderHidden,
-        debugExploreTrendingStatus,
-        toggleExploreTrending,
-        isExploreTrendingHidden: () => isExploreTrendingHidden
+        debugExploreSectionStatus,
+        toggleExploreSection,
+        isExploreSectionHidden: () => isExploreSectionHidden
     };
     
     // Comprehensive Shorts hiding function
@@ -1375,7 +1339,7 @@
     // Khởi tạo extension
     function initialize() {
         // Lấy trạng thái từ storage
-        chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden'], (result) => {
+        chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden'], (result) => {
             // Cập nhật settings object
             settings.progressBarHidden = result.progressBarHidden === true;
             settings.durationHidden = result.durationHidden === true;
@@ -1385,7 +1349,7 @@
             settings.commentsHidden = result.commentsHidden === true;
             settings.notificationsBellHidden = result.notificationsBellHidden === true;
             settings.topHeaderHidden = result.topHeaderHidden === true;
-            settings.exploreTrendingHidden = result.exploreTrendingHidden === true;
+            settings.exploreSectionHidden = result.exploreSectionHidden === true;
             settings.endScreenCardsHidden = result.endScreenCardsHidden === true;
             settings.moreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
             settings.hideChannelHidden = result.hideChannelHidden === true;
@@ -1404,7 +1368,7 @@
                 toggleComments(settings.commentsHidden);
                 toggleNotificationsBell(settings.notificationsBellHidden);
                 toggleTopHeader(settings.topHeaderHidden);
-                toggleExploreTrending(settings.exploreTrendingHidden);
+                toggleExploreSection(settings.exploreSectionHidden);
                 toggleEndScreenCards(settings.endScreenCardsHidden);
                 toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
                 toggleHideChannel(settings.hideChannelHidden);
@@ -1429,7 +1393,7 @@
                     if (settings.commentsHidden) toggleComments(true);
                     if (settings.notificationsBellHidden) toggleNotificationsBell(true);
                     if (settings.topHeaderHidden) toggleTopHeader(true);
-                    if (settings.exploreTrendingHidden) toggleExploreTrending(true);
+                    if (settings.exploreSectionHidden) toggleExploreSection(true);
                     if (settings.endScreenCardsHidden) toggleEndScreenCards(true);
                     if (settings.moreFromYouTubeHidden) toggleMoreFromYouTube(true);
                     if (settings.hideChannelHidden) toggleHideChannel(true);
@@ -1488,9 +1452,9 @@
                     settings.topHeaderHidden = newValue === true;
                     toggleTopHeader(settings.topHeaderHidden);
                     break;
-                case 'exploreTrendingHidden':
-                    settings.exploreTrendingHidden = newValue === true;
-                    toggleExploreTrending(settings.exploreTrendingHidden);
+                case 'exploreSectionHidden':
+                    settings.exploreSectionHidden = newValue === true;
+                    toggleExploreSection(settings.exploreSectionHidden);
                     break;
                 case 'endScreenCardsHidden':
                     settings.endScreenCardsHidden = newValue === true;
@@ -1564,9 +1528,9 @@
                         settings.topHeaderHidden = value === true;
                         toggleTopHeader(settings.topHeaderHidden);
                         break;
-                    case 'exploreTrendingHidden':
-                        settings.exploreTrendingHidden = value === true;
-                        toggleExploreTrending(settings.exploreTrendingHidden);
+                    case 'exploreSectionHidden':
+                        settings.exploreSectionHidden = value === true;
+                        toggleExploreSection(settings.exploreSectionHidden);
                         break;
                     case 'endScreenCardsHidden':
                         settings.endScreenCardsHidden = value === true;
@@ -1632,8 +1596,8 @@
             toggleTopHeader(request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
-        } else if (request.action === 'toggleExploreTrending') {
-            toggleExploreTrending(request.enabled);
+        } else if (request.action === 'toggleExploreSection') {
+            toggleExploreSection(request.enabled);
             sendResponse({ success: true, willRefresh: false });
 
         } else if (request.action === 'toggleEndScreenCards') {
@@ -1687,7 +1651,7 @@
             if (settings.commentsHidden) toggleComments(true);
             if (settings.notificationsBellHidden) toggleNotificationsBell(true);
             if (settings.topHeaderHidden) toggleTopHeader(true);
-            if (settings.exploreTrendingHidden) toggleExploreTrending(true);
+            if (settings.exploreSectionHidden) toggleExploreSection(true);
             if (settings.endScreenCardsHidden) toggleEndScreenCards(true);
             if (settings.moreFromYouTubeHidden) toggleMoreFromYouTube(true);
             if (settings.hideChannelHidden) toggleHideChannel(true);
