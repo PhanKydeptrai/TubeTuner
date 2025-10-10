@@ -575,42 +575,72 @@
 
     // Function to apply Explore Section hiding
     function applyExploreSectionFixes() {
-        if (!isExploreSectionHidden) return;
+        if (!settings.exploreSectionHidden) return;
 
         // applying Explore Section hiding
 
-        // Mark Explore navigation elements for hiding
-        const exploreElements = document.querySelectorAll(`
-            ytd-guide-entry-renderer a[title*="Explore"],
-            ytd-guide-entry-renderer a[title*="Khám phá"],
-            ytd-guide-entry-renderer a[href*="/feed/explore"],
-            ytd-guide-entry-renderer a[href*="/explore"],
-            ytd-mini-guide-entry-renderer a[title*="Explore"],
-            ytd-mini-guide-entry-renderer a[title*="Khám phá"],
-            ytd-mini-guide-entry-renderer a[href*="/feed/explore"],
-            ytd-mini-guide-entry-renderer a[href*="/explore"]
-        `);
+        const hideExploreSections = () => {
+            // Find and hide the Explore section renderer
+            const exploreSections = document.querySelectorAll('ytd-guide-section-renderer');
 
-        exploreElements.forEach(el => el.setAttribute('hidden', 'true'));
+            exploreSections.forEach(section => {
+                const titleElement = section.querySelector('yt-formatted-string#guide-section-title');
+                if (titleElement && (titleElement.textContent.trim() === 'Explore' || titleElement.textContent.trim() === 'Khám phá')) {
+                    section.setAttribute('hidden', 'true');
+                }
+            });
+        };
+
+        // Run immediately
+        hideExploreSections();
+
+        // Set up MutationObserver to monitor DOM changes for new guide sections
+        if (!window.exploreSectionObserver) {
+            window.exploreSectionObserver = new MutationObserver((mutations) => {
+                let shouldReapply = false;
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach((node) => {
+                            if (node.nodeType === Node.ELEMENT_NODE) {
+                                // Check if added node is or contains guide section renderers
+                                if (node.matches && (
+                                    node.matches('ytd-guide-section-renderer') ||
+                                    node.querySelector('ytd-guide-section-renderer')
+                                )) {
+                                    shouldReapply = true;
+                                }
+                            }
+                        });
+                    }
+                });
+
+                if (shouldReapply) {
+                    // new guide sections detected, reapplying fixes
+                    setTimeout(hideExploreSections, 100);
+                }
+            });
+
+            window.exploreSectionObserver.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
     }
 
     // Function to restore Explore Section
     function restoreExploreSection() {
         // restoring Explore Section
 
-        // Remove marking attributes
-        document.querySelectorAll('[explore-section-element="true"]').forEach(element => {
-            element.removeAttribute('explore-section-element');
+        // Remove hidden attributes from Explore section renderers
+        document.querySelectorAll('ytd-guide-section-renderer[hidden="true"]').forEach(element => {
+            element.removeAttribute('hidden');
         });
 
-        document.querySelectorAll('[explore-section-hidden="true"]').forEach(element => {
-            element.removeAttribute('explore-section-hidden');
-        });
-
-        // Remove section marking attributes
-        document.querySelectorAll('[explore-section="true"]').forEach(element => {
-            element.removeAttribute('explore-section');
-        });
+        // Disconnect observer if it exists
+        if (window.exploreSectionObserver) {
+            window.exploreSectionObserver.disconnect();
+            window.exploreSectionObserver = null;
+        }
 
         // Explore Section restored
     }
@@ -1175,7 +1205,7 @@
         isTopHeaderHidden: () => isTopHeaderHidden,
         debugExploreSectionStatus,
         toggleExploreSection,
-        isExploreSectionHidden: () => isExploreSectionHidden
+        isExploreSectionHidden: () => settings.exploreSectionHidden
     };
     
     // Comprehensive Shorts hiding function
