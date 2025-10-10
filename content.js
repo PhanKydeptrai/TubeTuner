@@ -12,6 +12,7 @@
         commentsHidden: false,
         notificationsBellHidden: false,
         topHeaderHidden: false,
+        exploreTrendingHidden: false,
         endScreenCardsHidden: false,
         moreFromYouTubeHidden: false,
         hideChannelHidden: false,
@@ -181,6 +182,24 @@
         }
     }
 
+    // Function to toggle Explore & Trending Tabs
+    function toggleExploreTrending(hide) {
+        // debug: toggle explore trending
+        settings.exploreTrendingHidden = hide;
+
+        if (hide) {
+            document.body.classList.add('youtube-explore-trending-hidden');
+            document.body.setAttribute('data-explore-trending-hidden', 'true');
+            // added class youtube-explore-trending-hidden
+            applyExploreTrendingFixes();
+        } else {
+            document.body.classList.remove('youtube-explore-trending-hidden');
+            document.body.removeAttribute('data-explore-trending-hidden');
+            // removed class youtube-explore-trending-hidden
+            restoreExploreTrending();
+        }
+    }
+
     // Function to toggle End Screen Cards/Annotations
     function toggleEndScreenCards(hide) {
         // debug: toggle end screen cards
@@ -201,7 +220,6 @@
 
     // Function to toggle More from YouTube Section
     function toggleMoreFromYouTube(hide) {
-        console.log('Toggling More from YouTube:', hide);
         // debug: toggle more from YouTube
         settings.moreFromYouTubeHidden = hide;
 
@@ -555,6 +573,84 @@
         });
     }
 
+    // Function to apply Explore & Trending hiding
+    function applyExploreTrendingFixes() {
+        if (!isExploreTrendingHidden) return;
+
+        // applying Explore & Trending hiding
+
+        // Mark Explore and Trending navigation elements for hiding
+        const exploreElements = document.querySelectorAll(`
+            ytd-guide-entry-renderer a[title*="Explore"],
+            ytd-guide-entry-renderer a[title*="Trending"],
+            ytd-guide-entry-renderer a[title*="Khám phá"],
+            ytd-guide-entry-renderer a[title*="Thịnh hành"],
+            ytd-guide-entry-renderer a[href*="/feed/explore"],
+            ytd-guide-entry-renderer a[href*="/feed/trending"],
+            ytd-guide-entry-renderer a[href*="/explore"],
+            ytd-guide-entry-renderer a[href*="/trending"],
+            ytd-mini-guide-entry-renderer a[title*="Explore"],
+            ytd-mini-guide-entry-renderer a[title*="Trending"],
+            ytd-mini-guide-entry-renderer a[title*="Khám phá"],
+            ytd-mini-guide-entry-renderer a[title*="Thịnh hành"],
+            ytd-mini-guide-entry-renderer a[href*="/feed/explore"],
+            ytd-mini-guide-entry-renderer a[href*="/feed/trending"],
+            ytd-mini-guide-entry-renderer a[href*="/explore"],
+            ytd-mini-guide-entry-renderer a[href*="/trending"]
+        `);
+
+        // Also mark ytd-guide-section-renderer containers that contain Explore elements
+        const exploreSections = document.querySelectorAll(`
+            ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[href*="/explore"]),
+            ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[title*="Explore"]),
+            ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[title*="Khám phá"])
+        `);
+
+        let hiddenCount = 0;
+        exploreElements.forEach(element => {
+            if (element && !element.hasAttribute('explore-trending-element')) {
+                element.setAttribute('explore-trending-element', 'true');
+                // Also mark the parent guide entry renderer
+                const parentGuideEntry = element.closest('ytd-guide-entry-renderer, ytd-mini-guide-entry-renderer');
+                if (parentGuideEntry) {
+                    parentGuideEntry.setAttribute('explore-trending-hidden', 'true');
+                }
+                hiddenCount++;
+            }
+        });
+
+        // Mark ytd-guide-section-renderer containers
+        exploreSections.forEach(section => {
+            if (section && !section.hasAttribute('explore-trending-section')) {
+                section.setAttribute('explore-trending-section', 'true');
+                hiddenCount++;
+            }
+        });
+
+        // marked explore/trending elements and sections for hiding: %d
+    }
+
+    // Function to restore Explore & Trending tabs
+    function restoreExploreTrending() {
+        // restoring Explore & Trending tabs
+
+        // Remove marking attributes
+        document.querySelectorAll('[explore-trending-element="true"]').forEach(element => {
+            element.removeAttribute('explore-trending-element');
+        });
+
+        document.querySelectorAll('[explore-trending-hidden="true"]').forEach(element => {
+            element.removeAttribute('explore-trending-hidden');
+        });
+
+        // Remove section marking attributes
+        document.querySelectorAll('[explore-trending-section="true"]').forEach(element => {
+            element.removeAttribute('explore-trending-section');
+        });
+
+        // Explore & Trending tabs and sections restored
+    }
+
     // Debug function for End Screen Cards
     function debugEndScreenCardsStatus() {
         // Debug End Screen Cards Status (summary)
@@ -664,42 +760,73 @@
         // end screen cards elements restored
     }
 
+    // Debug function for More from YouTube
+    function debugMoreFromYouTubeStatus() {
+        // Debug More from YouTube Status (summary)
+    }
+
     // Hide "More from YouTube" guide section function
     function applyMoreFromYouTubeFixes() {
-        if (!settings.moreFromYouTubeHidden) return;
+        if (!isMoreFromYouTubeHidden) return;
 
         // applying More from YouTube hiding
 
         const hideMoreFromYouTubeSection = () => {
             let hiddenCount = 0;
 
-            // Target elements that may contain "More from YouTube" section
-            const targetSelectors = [
-                'ytd-guide-section-renderer',
-                'ytd-shelf-renderer',
-                'ytd-rich-shelf-renderer',
-                'ytd-horizontal-card-list-renderer'
-            ];
+            // Target the specific ytd-guide-section-renderer elements in sidebar
+            const guideSections = document.querySelectorAll('ytd-guide-section-renderer.style-scope.ytd-guide-renderer[modern-typography][guide-persistent-and-visible]');
 
-            targetSelectors.forEach(selector => {
-                document.querySelectorAll(selector).forEach(element => {
-                    if (element.classList.contains('youtube-more-from-hidden') || element.hasAttribute('data-more-from-processed')) {
-                        return;
-                    }
+            // found guide section renderers: %d
 
-                    const textContent = element.textContent.toLowerCase();
-                    const isMoreFromYouTube = textContent.includes('more from youtube') || 
-                                            textContent.includes('thêm từ youtube');
+            guideSections.forEach(section => {
+                // Skip if already processed
+                if (section.classList.contains('youtube-more-from-hidden') || section.hasAttribute('data-more-from-processed')) {
+                    return;
+                }
 
-                    if (isMoreFromYouTube) {
-                        element.classList.add('youtube-more-from-hidden');
-                        element.setAttribute('data-more-from-processed', 'true');
-                        hiddenCount++;
-                    }
-                });
+                // Mark as processed to avoid reprocessing
+                section.setAttribute('data-more-from-processed', 'true');
+
+                // Get the text content of the section
+                const sectionText = section.textContent.toLowerCase();
+
+                // checking guide section text
+
+                // Check for "More from YouTube" patterns
+                const isMoreFromYouTubeSection = (
+                    sectionText.includes('more from youtube') ||
+                    sectionText.includes('thêm từ youtube') ||
+                    sectionText.includes('more from') ||
+                    sectionText.includes('thêm từ')
+                );
+
+                if (isMoreFromYouTubeSection) {
+                    section.classList.add('youtube-more-from-hidden');
+                    hiddenCount++;
+                    // hidden More from YouTube guide section
+                }
             });
 
-            console.log('Hidden More from YouTube elements:', hiddenCount);
+            // Also check for any other elements that might contain "More from YouTube"
+            const allElements = document.querySelectorAll('ytd-shelf-renderer, ytd-horizontal-card-list-renderer, ytd-rich-shelf-renderer');
+
+            allElements.forEach(element => {
+                if (element.classList.contains('youtube-more-from-hidden') || element.hasAttribute('data-more-from-processed')) {
+                    return;
+                }
+
+                element.setAttribute('data-more-from-processed', 'true');
+                const elementText = element.textContent.toLowerCase();
+
+                if (elementText.includes('more from') || elementText.includes('thêm từ')) {
+                    element.classList.add('youtube-more-from-hidden');
+                    hiddenCount++;
+                    // hidden More from YouTube content element
+                }
+            });
+
+            // hidden More from YouTube elements total: %d
         };
 
         // Run immediately
@@ -708,7 +835,7 @@
         // Set up observer to catch new elements
         if (!window.moreFromYouTubeObserver) {
             window.moreFromYouTubeObserver = new MutationObserver(() => {
-                if (settings.moreFromYouTubeHidden) {
+                if (isMoreFromYouTubeHidden) {
                     clearTimeout(window.moreFromYouTubeTimeout);
                     window.moreFromYouTubeTimeout = setTimeout(hideMoreFromYouTubeSection, 500);
                 }
@@ -895,6 +1022,19 @@
         // Hide Description Status (summary)
     }
 
+    // Hàm debug trạng thái Explore & Trending
+    function debugExploreTrendingStatus() {
+        const isHidden = document.body.classList.contains('youtube-explore-trending-hidden');
+        const elements = document.querySelectorAll('[explore-trending-element="true"]');
+        const sections = document.querySelectorAll('[explore-trending-section="true"]');
+
+        // Explore & Trending Status (summary)
+
+        // elements listing removed for brevity
+
+        // sections listing removed for brevity
+    }
+
     // Expose debug function globally for testing
     window.debugYouTubeExtension = {
         debugShortsStatus,
@@ -914,7 +1054,10 @@
         isNotificationsBellHidden: () => isNotificationsBellHidden,
         debugTopHeaderStatus,
         toggleTopHeader,
-        isTopHeaderHidden: () => isTopHeaderHidden
+        isTopHeaderHidden: () => isTopHeaderHidden,
+        debugExploreTrendingStatus,
+        toggleExploreTrending,
+        isExploreTrendingHidden: () => isExploreTrendingHidden
     };
     
     // Comprehensive Shorts hiding function
