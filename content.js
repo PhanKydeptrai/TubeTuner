@@ -313,7 +313,12 @@
                     ytd-compact-video-renderer img,
                     ytd-grid-video-renderer img,
                     ytd-rich-item-renderer img,
-                    ytd-reel-item-renderer img {
+                    ytd-reel-item-renderer img,
+                    ytd-shorts img,
+                    ytd-shorts-shelf-renderer img,
+                    ytd-reel-shelf-renderer img,
+                    ytd-shorts-compact-video-renderer img,
+                    ytd-shorts-video-renderer img {
                         -webkit-filter: grayscale(100%) !important;
                         filter: grayscale(100%) !important;
                     }
@@ -1369,7 +1374,7 @@
     // Khởi tạo extension
     function initialize() {
         // Lấy trạng thái từ storage
-        chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden'], (result) => {
+        chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], (result) => {
             // Cập nhật settings object
             settings.progressBarHidden = result.progressBarHidden === true;
             settings.durationHidden = result.durationHidden === true;
@@ -1385,6 +1390,7 @@
             settings.hideChannelHidden = result.hideChannelHidden === true;
             settings.buttonsBarHidden = result.buttonsBarHidden === true;
             settings.hideDescriptionHidden = result.hideDescriptionHidden === true;
+            settings.grayscaleEnabled = result.grayscaleEnabled === true;
 
             // Settings loaded
 
@@ -1404,6 +1410,7 @@
                 toggleHideChannel(settings.hideChannelHidden);
                 toggleButtonsBar(settings.buttonsBarHidden);
                 toggleHideDescription(settings.hideDescriptionHidden);
+                toggleGrayscale(settings.grayscaleEnabled);
             }, 1000);
         });
         

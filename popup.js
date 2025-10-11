@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Get current state with improved error handling and timing
-    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'language', 'theme', 'sectionStates'], function(result) {
+    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'language', 'theme', 'sectionStates'], function(result) {
         const isEnabled = result.progressBarHidden === true; // Default is false
         const durationHidden = result.durationHidden === true; // Default is false
         const shortsHidden = result.shortsHidden === true; // Default is false
@@ -524,6 +524,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 hideChannelSwitch = document.getElementById('hideChannelSwitch');
                 buttonsBarSwitch = document.getElementById('buttonsBarSwitch');
                 hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
+                grayscaleSwitch = document.getElementById('grayscaleSwitch');
                 status = document.getElementById('status');
 
                 // Retrying UI update with elements
@@ -829,6 +830,18 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ hideDescriptionHidden: newState });
 
             handleToggleChange('toggleHideDescription', newState);
+        });
+    }
+
+    // Handle toggle grayscale click
+    if (grayscaleSwitch) {
+        grayscaleSwitch.addEventListener('change', function(e) {
+            const newState = e.target.checked;
+
+            // Save state
+            chrome.storage.sync.set({ grayscaleEnabled: newState });
+
+            handleToggleChange('toggleGrayscale', newState);
         });
     }
 
