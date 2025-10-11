@@ -1,22 +1,30 @@
 // YouTube Progress Bar Hider Popup Script
 let currentLang = 'vi'; // Default language is Vietnamese
 let translations = {}; // Global declaration to access from outside DOMContentLoaded
-let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreTrendingSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, status; // Global variables to access from outside
+let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreSectionSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, grayscaleSwitch, status; // Global variables to access from outside
+
+// Console log calls have been removed in production build
 
 // Global function to handle direct click from HTML
 function changeLanguage(lang) {
-    console.log('changeLanguage called with:', lang);
-    if (lang !== currentLang) {
-        currentLang = lang;
-        chrome.storage.sync.set({ language: currentLang });
-        console.log('Language preference saved:', currentLang);
-        updateLanguageUI();
+    // Delegate to centralized setLanguage which updates UI and persists the choice.
+    // Use the existing setLanguage function (declared later) so all UI text mapping
+    // is updated consistently without needing to reload the popup.
+    try {
+        setLanguage(lang, true);
+    } catch (e) {
+        // If setLanguage isn't available yet for some reason, fall back to the
+        // original minimal behavior so the preference is still saved.
+        if (lang !== currentLang) {
+            currentLang = lang;
+            chrome.storage.sync.set({ language: currentLang });
+            if (typeof updateLanguageUI === 'function') updateLanguageUI();
+        }
     }
 }
 
 // Debug function to verify toggle state persistence
 function verifyToggleStates() {
-    console.log('🔍 Verifying toggle states...');
 
     chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden'], function(result) {
         const storedStates = {
@@ -37,9 +45,6 @@ function verifyToggleStates() {
             commentsHidden: commentsSwitch ? commentsSwitch.checked : 'N/A'
         };
 
-        console.log('📊 Stored states:', storedStates);
-        console.log('📊 UI states:', uiStates);
-
         // Check for mismatches
         Object.keys(storedStates).forEach(key => {
             if (storedStates[key] !== uiStates[key] && uiStates[key] !== 'N/A') {
@@ -54,25 +59,22 @@ window.verifyToggleStates = verifyToggleStates;
 
 // Global function to update UI
 function updateLanguageUI() {
-    console.log('updateLanguageUI called, current language:', currentLang);
-    
+
     // Update language toggle
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
-    
+
     if (langVi && langEn) {
         langVi.classList.toggle('active', currentLang === 'vi');
         langEn.classList.toggle('active', currentLang === 'en');
-        
-        console.log('Applying language UI updates for:', currentLang);
-        
+
         // Update all text elements
         document.querySelector('.title').textContent = translations[currentLang].title;
         document.querySelector('.subtitle').textContent = translations[currentLang].subtitle;
         document.querySelectorAll('.toggle-label')[0].textContent = translations[currentLang].hideProgressBar;
         document.querySelectorAll('.toggle-label')[1].textContent = translations[currentLang].hideDuration;
         document.querySelectorAll('.toggle-label')[2].textContent = translations[currentLang].hideShorts;
-        
+
         // Update info sections
         document.querySelector('.info-content').innerHTML = `
             ${translations[currentLang].extensionInfo}
@@ -83,10 +85,10 @@ function updateLanguageUI() {
             </ul>
             <p style="margin-top: 8px;">${translations[currentLang].controlsInfo}</p>
         `;
-        
+
         // Update info title
         document.querySelector('.info-title').textContent = translations[currentLang].infoTitle;
-        
+
         // Update important note
         const importantNote = document.querySelector('.important-note');
         if (importantNote) {
@@ -95,7 +97,7 @@ function updateLanguageUI() {
                 ${translations[currentLang].importantNote.split(':')[1]}
             `;
         }
-        
+
         // Update Export/Import settings section
         const settingsTitle = document.querySelector('.ext-settings-title');
         const exportBtn = document.querySelector('#exportSettingsBtn span');
@@ -111,6 +113,15 @@ function updateLanguageUI() {
             importBtn.textContent = translations[currentLang].importSettings;
         }
 
+        // Update grayscale label
+        const grayscaleSwitch = document.getElementById('grayscaleSwitch');
+        if (grayscaleSwitch) {
+            const label = grayscaleSwitch.closest('.ext-control-item').querySelector('.ext-control-label');
+            if (label) {
+                label.textContent = translations[currentLang].grayscale;
+            }
+        }
+
         // Update status based on current state
         updateStatusUI();
     } else {
@@ -119,20 +130,8 @@ function updateLanguageUI() {
 }
 
 // Global function to update UI based on state
-function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden) {
-    console.log('🔄 updateUI called with:', {
-        progressHidden,
-        durationHidden,
-        shortsHidden,
-        homeFeedHidden,
-        videoSidebarHidden,
-        commentsHidden,
-        notificationsBellHidden,
-        topHeaderHidden,
-        exploreTrendingHidden,
-        endScreenCardsHidden,
-        moreFromYouTubeHidden
-    });
+// Update UI elements (checkboxes) based on stored state
+function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, grayscaleEnabled) {
 
     if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch) {
         console.error('❌ Toggle switches not defined yet:', {
@@ -150,70 +149,61 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
 
     // Update progress bar toggle - use checked property for checkbox
     toggleSwitch.checked = progressHidden;
-    console.log('✅ Progress bar toggle set to:', progressHidden);
 
     // Update duration toggle
     durationSwitch.checked = durationHidden;
-    console.log('✅ Duration toggle set to:', durationHidden);
 
     // Update shorts toggle
     shortsSwitch.checked = shortsHidden;
-    console.log('✅ Shorts toggle set to:', shortsHidden);
 
     // Update home feed toggle with extra verification
     homeFeedSwitch.checked = homeFeedHidden;
-    console.log('✅ Home feed toggle set to:', homeFeedHidden);
 
     // Update video sidebar toggle
     videoSidebarSwitch.checked = videoSidebarHidden;
-    console.log('✅ Video sidebar toggle set to:', videoSidebarHidden);
 
     // Update comments toggle
     commentsSwitch.checked = commentsHidden;
-    console.log('✅ Comments toggle set to:', commentsHidden);
 
     // Update notifications bell toggle
     notificationsBellSwitch.checked = notificationsBellHidden;
-    console.log('✅ Notifications bell toggle set to:', notificationsBellHidden);
 
     // Update top header toggle
     topHeaderSwitch.checked = topHeaderHidden;
-    console.log('✅ Top header toggle set to:', topHeaderHidden);
 
-    // Update explore trending toggle
-    if (exploreTrendingSwitch) {
-        exploreTrendingSwitch.checked = exploreTrendingHidden;
-        console.log('✅ Explore trending toggle set to:', exploreTrendingHidden);
+    // Update explore section toggle
+    if (exploreSectionSwitch) {
+        exploreSectionSwitch.checked = exploreSectionHidden;
     }
 
     // Update end screen cards toggle
     if (endScreenCardsSwitch) {
         endScreenCardsSwitch.checked = endScreenCardsHidden;
-        console.log('✅ End screen cards toggle set to:', endScreenCardsHidden);
     }
 
     // Update more from YouTube toggle
     if (moreFromYouTubeSwitch) {
         moreFromYouTubeSwitch.checked = moreFromYouTubeHidden;
-        console.log('✅ More from YouTube toggle set to:', moreFromYouTubeHidden);
     }
 
     // Update hide channel toggle
     if (hideChannelSwitch) {
         hideChannelSwitch.checked = hideChannelHidden;
-        console.log('✅ Hide channel toggle set to:', hideChannelHidden);
     }
 
     // Update buttons bar toggle
     if (buttonsBarSwitch) {
         buttonsBarSwitch.checked = buttonsBarHidden;
-        console.log('✅ Buttons bar toggle set to:', buttonsBarHidden);
     }
 
     // Update hide description toggle
     if (hideDescriptionSwitch) {
         hideDescriptionSwitch.checked = hideDescriptionHidden;
-        console.log('✅ Hide description toggle set to:', hideDescriptionHidden);
+    }
+
+    // Update grayscale toggle
+    if (typeof grayscaleSwitch !== 'undefined' && document.getElementById('grayscaleSwitch')) {
+        document.getElementById('grayscaleSwitch').checked = grayscaleEnabled;
     }
 
     // Verify the state was actually set
@@ -223,48 +213,48 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
         const actualCommentsState = commentsSwitch.checked;
         const actualNotificationsBellState = notificationsBellSwitch.checked;
         const actualTopHeaderState = topHeaderSwitch.checked;
-        const actualExploreTrendingState = exploreTrendingSwitch ? exploreTrendingSwitch.checked : false;
+        const actualExploreSectionState = exploreSectionSwitch ? exploreSectionSwitch.checked : false;
         const actualEndScreenCardsState = endScreenCardsSwitch ? endScreenCardsSwitch.checked : false;
         const actualMoreFromYouTubeState = moreFromYouTubeSwitch ? moreFromYouTubeSwitch.checked : false;
-        console.log('🔍 Home feed toggle verification - Expected:', homeFeedHidden, 'Actual:', actualHomeFeedState);
-        console.log('🔍 Video sidebar toggle verification - Expected:', videoSidebarHidden, 'Actual:', actualVideoSidebarState);
-        console.log('🔍 Comments toggle verification - Expected:', commentsHidden, 'Actual:', actualCommentsState);
-        console.log('🔍 Notifications bell toggle verification - Expected:', notificationsBellHidden, 'Actual:', actualNotificationsBellState);
-        console.log('🔍 Top header toggle verification - Expected:', topHeaderHidden, 'Actual:', actualTopHeaderState);
-        console.log('🔍 Explore trending toggle verification - Expected:', exploreTrendingHidden, 'Actual:', actualExploreTrendingState);
-        console.log('🔍 End screen cards toggle verification - Expected:', endScreenCardsHidden, 'Actual:', actualEndScreenCardsState);
-        console.log('🔍 More from YouTube toggle verification - Expected:', moreFromYouTubeHidden, 'Actual:', actualMoreFromYouTubeState);
+
+        // Verification checks executed
         if (actualHomeFeedState !== homeFeedHidden) {
-            console.warn('⚠️ Home feed toggle state mismatch, retrying...');
+            // Home feed toggle mismatch, retrying...
             homeFeedSwitch.checked = homeFeedHidden;
         }
         if (actualVideoSidebarState !== videoSidebarHidden) {
-            console.warn('⚠️ Video sidebar toggle state mismatch, retrying...');
+            // Video sidebar toggle mismatch, retrying...
             videoSidebarSwitch.checked = videoSidebarHidden;
         }
         if (actualCommentsState !== commentsHidden) {
-            console.warn('⚠️ Comments toggle state mismatch, retrying...');
+            // Comments toggle mismatch, retrying...
             commentsSwitch.checked = commentsHidden;
         }
         if (actualNotificationsBellState !== notificationsBellHidden) {
-            console.warn('⚠️ Notifications bell toggle state mismatch, retrying...');
+            // Notifications bell toggle mismatch, retrying...
             notificationsBellSwitch.checked = notificationsBellHidden;
         }
         if (actualTopHeaderState !== topHeaderHidden) {
-            console.warn('⚠️ Top header toggle state mismatch, retrying...');
+            // Top header toggle mismatch, retrying...
             topHeaderSwitch.checked = topHeaderHidden;
         }
-        if (exploreTrendingSwitch && actualExploreTrendingState !== exploreTrendingHidden) {
-            console.warn('⚠️ Explore trending toggle state mismatch, retrying...');
-            exploreTrendingSwitch.checked = exploreTrendingHidden;
+        if (exploreSectionSwitch && actualExploreSectionState !== exploreSectionHidden) {
+            // Explore section toggle mismatch, retrying...
+            exploreSectionSwitch.checked = exploreSectionHidden;
         }
         if (endScreenCardsSwitch && actualEndScreenCardsState !== endScreenCardsHidden) {
-            console.warn('⚠️ End screen cards toggle state mismatch, retrying...');
+            // End screen cards toggle mismatch, retrying...
             endScreenCardsSwitch.checked = endScreenCardsHidden;
         }
         if (moreFromYouTubeSwitch && actualMoreFromYouTubeState !== moreFromYouTubeHidden) {
-            console.warn('⚠️ More from YouTube toggle state mismatch, retrying...');
+            // More from YouTube toggle mismatch, retrying...
             moreFromYouTubeSwitch.checked = moreFromYouTubeHidden;
+        }
+
+        // Ensure grayscale toggle persisted
+        const grayscaleEl = document.getElementById('grayscaleSwitch');
+        if (grayscaleEl && grayscaleEl.checked !== grayscaleEnabled) {
+            grayscaleEl.checked = grayscaleEnabled;
         }
 
         // Verify new features
@@ -273,25 +263,25 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
         const actualHideDescriptionState = hideDescriptionSwitch ? hideDescriptionSwitch.checked : false;
 
         if (hideChannelSwitch && actualHideChannelState !== hideChannelHidden) {
-            console.warn('⚠️ Hide channel toggle state mismatch, retrying...');
+            // Hide channel toggle mismatch, retrying...
             hideChannelSwitch.checked = hideChannelHidden;
         }
         if (buttonsBarSwitch && actualButtonsBarState !== buttonsBarHidden) {
-            console.warn('⚠️ Buttons bar toggle state mismatch, retrying...');
+            // Buttons bar toggle mismatch, retrying...
             buttonsBarSwitch.checked = buttonsBarHidden;
         }
         if (hideDescriptionSwitch && actualHideDescriptionState !== hideDescriptionHidden) {
-            console.warn('⚠️ Hide description toggle state mismatch, retrying...');
+            // Hide description toggle mismatch, retrying...
             hideDescriptionSwitch.checked = hideDescriptionHidden;
         }
     }, 50);
 
     // Update status
-    updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden);
+    updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden);
 }
 
 // Function to update status UI
-function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden) {
+function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden) {
     if (!status) return;
 
     // If parameters not provided, get current state from switches
@@ -338,28 +328,28 @@ function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHi
         if (commentsHidden) features.push(translations[currentLang].comments || 'comments');
         if (notificationsBellHidden) features.push(translations[currentLang].notificationsBell || 'notifications bell');
         if (topHeaderHidden) features.push(translations[currentLang].topHeader || 'top header');
-        if (exploreTrendingHidden) features.push(translations[currentLang].exploreTrending || 'explore trending');
-        
+        if (exploreSectionHidden) features.push(translations[currentLang].exploreSection || 'explore section');
+
         const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', 'success');
         statusBadge.textContent = `${translations[currentLang].hidingFeatures}: ${features.join(', ')}`;
-        
+
         if (!status.contains(statusBadge)) {
             status.innerHTML = '';
             status.appendChild(statusBadge);
         }
-        
+
         status.className = 'status enabled';
     } else {
         const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', 'warning');
         statusBadge.textContent = translations[currentLang].allDisabled;
-        
+
         if (!status.contains(statusBadge)) {
             status.innerHTML = '';
             status.appendChild(statusBadge);
         }
-        
+
         status.className = 'status disabled';
     }
 }
@@ -368,11 +358,9 @@ function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHi
 function applyInitialTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-        console.log('Applying saved theme:', savedTheme);
         document.documentElement.classList.toggle('dark', savedTheme === 'dark');
     } else {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        console.log('Applying system theme preference:', prefersDark ? 'dark' : 'light');
         document.documentElement.classList.toggle('dark', prefersDark);
     }
 }
@@ -397,13 +385,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Language selection
-    document.getElementById('lang-vi').addEventListener('click', function() {
-        setLanguage('vi');
-    });
-    
-    document.getElementById('lang-en').addEventListener('click', function() {
-        setLanguage('en');
-    });
+    // Language selection handled above during initialization
 
     // Initialize global variables
     toggleSwitch = document.getElementById('progressSwitch');
@@ -414,29 +396,19 @@ document.addEventListener('DOMContentLoaded', function() {
     commentsSwitch = document.getElementById('commentsSwitch');
     notificationsBellSwitch = document.getElementById('notificationsBellSwitch');
     topHeaderSwitch = document.getElementById('topHeaderSwitch');
-    exploreTrendingSwitch = document.getElementById('exploreTrendingSwitch');
+    exploreSectionSwitch = document.getElementById('exploreSectionSwitch');
     endScreenCardsSwitch = document.getElementById('endScreenCardsSwitch');
     moreFromYouTubeSwitch = document.getElementById('moreFromYouTubeSwitch');
     hideChannelSwitch = document.getElementById('hideChannelSwitch');
     buttonsBarSwitch = document.getElementById('buttonsBarSwitch');
     hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
+    grayscaleSwitch = document.getElementById('grayscaleSwitch');
     status = document.getElementById('status');
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
-    
-    // Log to see if elements are found
-    console.log('DOM Elements found:', {
-        toggleSwitch,
-        durationSwitch,
-        shortsSwitch,
-        homeFeedSwitch,
-        videoSidebarSwitch,
-        commentsSwitch,
-        status,
-        langVi,
-        langEn
-    });
-    
+
+    // DOM elements initialized
+
     // Translation object
     translations = {
         vi: {
@@ -454,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
             videoSidebar: 'thanh bên video',
             notificationsBell: 'chuông thông báo',
             topHeader: 'thanh điều hướng trên',
-            exploreTrending: 'tab khám phá & thịnh hành',
+            exploreSection: 'phần khám phá',
             allDisabled: 'Đã tắt tất cả',
             infoTitle: 'Giới thiệu',
             extensionInfo: 'Extension giúp bạn tập trung vào nội dung video mà không bị phân tâm bởi:',
@@ -473,6 +445,11 @@ document.addEventListener('DOMContentLoaded', function() {
             invalidFileType: 'Chỉ chấp nhận file JSON!',
             fileTooLarge: 'File quá lớn (tối đa 5MB)!',
             noSettingsToExport: 'Không có cài đặt nào để xuất!'
+            ,
+            // New translation entries for grayscale feature
+            grayscale: 'Giao diện đen trắng',
+            enableGrayscale: 'Bật giao diện đen trắng',
+            disableGrayscale: 'Tắt giao diện đen trắng'
         },
         en: {
             title: 'TubeTuner',
@@ -489,7 +466,7 @@ document.addEventListener('DOMContentLoaded', function() {
             videoSidebar: 'video sidebar',
             notificationsBell: 'notifications bell',
             topHeader: 'top header',
-            exploreTrending: 'explore & trending tabs',
+            exploreSection: 'explore section',
             allDisabled: 'All features disabled',
             infoTitle: 'Introduction',
             extensionInfo: 'This extension helps you focus on video content without distractions from:',
@@ -510,9 +487,9 @@ document.addEventListener('DOMContentLoaded', function() {
             noSettingsToExport: 'No settings to export!'
         }
     };
-    
+
     // Get current state with improved error handling and timing
-    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'language', 'theme', 'sectionStates'], function(result) {
+    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'language', 'theme', 'sectionStates'], function(result) {
         const isEnabled = result.progressBarHidden === true; // Default is false
         const durationHidden = result.durationHidden === true; // Default is false
         const shortsHidden = result.shortsHidden === true; // Default is false
@@ -521,38 +498,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const commentsHidden = result.commentsHidden === true; // Default is false
         const notificationsBellHidden = result.notificationsBellHidden === true; // Default is false
         const topHeaderHidden = result.topHeaderHidden === true; // Default is false
-        const exploreTrendingHidden = result.exploreTrendingHidden === true; // Default is false
+        const exploreSectionHidden = result.exploreSectionHidden === true; // Default is false
         const endScreenCardsHidden = result.endScreenCardsHidden === true; // Default is false
         const moreFromYouTubeHidden = result.moreFromYouTubeHidden === true; // Default is false
         const hideChannelHidden = result.hideChannelHidden === true; // Default is false
         const buttonsBarHidden = result.buttonsBarHidden === true; // Default is false
         const hideDescriptionHidden = result.hideDescriptionHidden === true; // Default is false
+        const grayscaleEnabled = result.grayscaleEnabled === true; // Default is false
 
-        console.log('🔍 Loading stored states:', {
-            progressBarHidden: isEnabled,
-            durationHidden: durationHidden,
-            shortsHidden: shortsHidden,
-            homeFeedHidden: homeFeedHidden,
-            videoSidebarHidden: videoSidebarHidden,
-            commentsHidden: commentsHidden,
-            notificationsBellHidden: notificationsBellHidden,
-            topHeaderHidden: topHeaderHidden,
-            rawHomeFeedHidden: result.homeFeedHidden,
-            rawVideoSidebarHidden: result.videoSidebarHidden,
-            rawCommentsHidden: result.commentsHidden,
-            rawNotificationsBellHidden: result.notificationsBellHidden,
-            rawTopHeaderHidden: result.topHeaderHidden,
-            exploreTrendingHidden: exploreTrendingHidden,
-            rawExploreTrendingHidden: result.exploreTrendingHidden,
-            endScreenCardsHidden: endScreenCardsHidden,
-            rawEndScreenCardsHidden: result.endScreenCardsHidden,
-            moreFromYouTubeHidden: moreFromYouTubeHidden,
-            rawMoreFromYouTubeHidden: result.moreFromYouTubeHidden
-        });
+        // Loaded stored states
 
         // Verify DOM elements are available before updating UI
         if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch) {
-            console.error('❌ DOM elements not ready, retrying in 100ms...');
+            // DOM elements not ready, retrying in 100ms...
             setTimeout(() => {
                 // Re-initialize DOM elements
                 toggleSwitch = document.getElementById('progressSwitch');
@@ -566,38 +524,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 hideChannelSwitch = document.getElementById('hideChannelSwitch');
                 buttonsBarSwitch = document.getElementById('buttonsBarSwitch');
                 hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
+                grayscaleSwitch = document.getElementById('grayscaleSwitch');
                 status = document.getElementById('status');
 
-                console.log('🔄 Retrying UI update with elements:', {
-                    toggleSwitch: !!toggleSwitch,
-                    durationSwitch: !!durationSwitch,
-                    shortsSwitch: !!shortsSwitch,
-                    homeFeedSwitch: !!homeFeedSwitch,
-                    videoSidebarSwitch: !!videoSidebarSwitch,
-                    commentsSwitch: !!commentsSwitch,
-                    notificationsBellSwitch: !!notificationsBellSwitch
-                });
+                // Retrying UI update with elements
 
-                updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden);
+                updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, grayscaleEnabled);
             }, 100);
         } else {
-            console.log('✅ DOM elements ready, updating UI immediately');
-            updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreTrendingHidden, endScreenCardsHidden, moreFromYouTubeHidden);
+            // DOM elements ready, updating UI immediately
+            updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, grayscaleEnabled);
         }
 
         // Set language
         if (result.language) {
             currentLang = result.language;
-            console.log('Loaded saved language preference:', currentLang);
+            // Loaded saved language preference
         } else {
-            console.log('No saved language preference, using default:', currentLang);
+            // No saved language preference, using default
         }
 
         // Sync theme from storage with localStorage
         if (result.theme) {
             localStorage.setItem('theme', result.theme);
             document.documentElement.classList.toggle('dark', result.theme === 'dark');
-            console.log('Synced theme from storage:', result.theme);
+            // Synced theme from storage
         }
 
         updateLanguageUI();
@@ -612,22 +563,23 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ progressBarHidden: newState });
 
             // Update UI
-            chrome.storage.sync.get(['durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
+            chrome.storage.sync.get(['durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
                 const currentVideoSidebarHidden = result.videoSidebarHidden === true;
                 const currentCommentsHidden = result.commentsHidden === true;
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
+                const currentExploreSectionHidden = result.exploreSectionHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(newState, result.durationHidden === true, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
-                console.log('🔄 Updated UI after progress bar toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
+                updateUI(newState, result.durationHidden === true, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, result.grayscaleEnabled === true);
+                // Updated UI after progress bar toggle
             });
 
             handleToggleChange('toggleProgressBar', newState);
         });
     }
+
     
     // Handle toggle duration click
     if (durationSwitch) {
@@ -638,17 +590,17 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ durationHidden: newState });
 
             // Update UI
-            chrome.storage.sync.get(['progressBarHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
+            chrome.storage.sync.get(['progressBarHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
                 const currentVideoSidebarHidden = result.videoSidebarHidden === true;
                 const currentCommentsHidden = result.commentsHidden === true;
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
+                const currentExploreSectionHidden = result.exploreSectionHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(result.progressBarHidden === true, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
-                console.log('🔄 Updated UI after duration toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
+                updateUI(result.progressBarHidden === true, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, result.grayscaleEnabled === true);
+                // Updated UI after duration toggle
             });
 
             handleToggleChange('toggleDuration', newState);
@@ -664,17 +616,17 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ shortsHidden: newState });
 
             // Update UI
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
                 const currentVideoSidebarHidden = result.videoSidebarHidden === true;
                 const currentCommentsHidden = result.commentsHidden === true;
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
+                const currentExploreSectionHidden = result.exploreSectionHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, newState, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
-                console.log('🔄 Updated UI after shorts toggle, homeFeedHidden:', currentHomeFeedHidden, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, newState, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, result.grayscaleEnabled === true);
+                // Updated UI after shorts toggle
             });
 
             handleToggleChange('toggleShorts', newState);
@@ -685,24 +637,23 @@ document.addEventListener('DOMContentLoaded', function() {
     if (homeFeedSwitch) {
         homeFeedSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
-            console.log('🏠 Home Feed toggle changed to:', newState);
 
             // Save state
             chrome.storage.sync.set({ homeFeedHidden: newState }, function() {
-                console.log('✅ Home Feed state saved to storage:', newState);
+                // Home Feed state saved to storage
             });
 
             // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
                 const currentVideoSidebarHidden = result.videoSidebarHidden === true;
                 const currentCommentsHidden = result.commentsHidden === true;
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
+                const currentExploreSectionHidden = result.exploreSectionHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, newState, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
-                console.log('🔄 Updated UI after home feed toggle, newState:', newState, 'videoSidebarHidden:', currentVideoSidebarHidden, 'commentsHidden:', currentCommentsHidden);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, newState, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, result.grayscaleEnabled === true);
+                // Updated UI after home feed toggle
             });
 
             handleToggleChange('toggleHomeFeed', newState);
@@ -713,23 +664,22 @@ document.addEventListener('DOMContentLoaded', function() {
     if (videoSidebarSwitch) {
         videoSidebarSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
-            console.log('📺 Video Sidebar toggle changed to:', newState);
 
             // Save state
             chrome.storage.sync.set({ videoSidebarHidden: newState }, function() {
-                console.log('✅ Video Sidebar state saved to storage:', newState);
+                // Video Sidebar state saved to storage
             });
 
             // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
                 const currentCommentsHidden = result.commentsHidden === true;
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
+                const currentExploreSectionHidden = result.exploreSectionHidden === true;
                 const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
                 const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, newState, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden);
-                console.log('🔄 Updated UI after video sidebar toggle, newState:', newState, 'commentsHidden:', currentCommentsHidden);
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, newState, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, result.grayscaleEnabled === true);
+                // Updated UI after video sidebar toggle
             });
 
             handleToggleChange('toggleVideoSidebar', newState);
@@ -741,16 +691,16 @@ document.addEventListener('DOMContentLoaded', function() {
         commentsSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ commentsHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden'], function(result) {
+            // Update UI immediately with new state
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden'], function(result) {
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreTrendingHidden = result.exploreTrendingHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, newState, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreTrendingHidden);
-                console.log('🔄 Updated UI after comments toggle, newState:', newState);
+                const currentExploreSectionHidden = result.exploreSectionHidden === true;
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, newState, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, result.grayscaleEnabled === true);
+                // Updated UI after comments toggle
             });
 
             handleToggleChange('toggleComments', newState);
@@ -762,13 +712,13 @@ document.addEventListener('DOMContentLoaded', function() {
         notificationsBellSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ notificationsBellHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'topHeaderHidden', 'exploreTrendingHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, newState, result.topHeaderHidden === true, result.exploreTrendingHidden === true);
-                console.log('🔄 Updated UI after notifications bell toggle, newState:', newState);
+            // Update UI immediately with new state
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'topHeaderHidden', 'exploreSectionHidden'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, newState, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.grayscaleEnabled === true);
+                // Updated UI after notifications bell toggle
             });
 
             handleToggleChange('toggleNotificationsBell', newState);
@@ -780,34 +730,34 @@ document.addEventListener('DOMContentLoaded', function() {
         topHeaderSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ topHeaderHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'exploreTrendingHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, newState, result.exploreTrendingHidden === true);
-                console.log('🔄 Updated UI after top header toggle, newState:', newState);
+            // Update UI immediately with new state
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'exploreSectionHidden'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, newState, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.grayscaleEnabled === true);
+                // Updated UI after top header toggle
             });
 
             handleToggleChange('toggleTopHeader', newState);
         });
     }
 
-    // Handle toggle explore trending click
-    if (exploreTrendingSwitch) {
-        exploreTrendingSwitch.addEventListener('change', function(e) {
+    // Handle toggle explore section click
+    if (exploreSectionSwitch) {
+        exploreSectionSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
-            chrome.storage.sync.set({ exploreTrendingHidden: newState });
+            // Save state
+            chrome.storage.sync.set({ exploreSectionHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'endScreenCardsHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, newState, result.endScreenCardsHidden === true);
-                console.log('🔄 Updated UI after explore trending toggle, newState:', newState);
+            // Update UI immediately with new state
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'grayscaleEnabled'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, newState, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.grayscaleEnabled === true);
+                // Updated UI after explore section toggle
             });
 
-            handleToggleChange('toggleExploreTrending', newState);
+            handleToggleChange('toggleExploreSection', newState);
         });
     }
 
@@ -816,13 +766,13 @@ document.addEventListener('DOMContentLoaded', function() {
         endScreenCardsSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ endScreenCardsHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'moreFromYouTubeHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreTrendingHidden === true, newState, result.moreFromYouTubeHidden === true);
-                console.log('🔄 Updated UI after end screen cards toggle, newState:', newState);
+            // Update UI immediately with new state
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'moreFromYouTubeHidden'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, newState, result.moreFromYouTubeHidden === true, result.grayscaleEnabled === true);
+                // Updated UI after end screen cards toggle
             });
 
             handleToggleChange('toggleEndScreenCards', newState);
@@ -834,13 +784,13 @@ document.addEventListener('DOMContentLoaded', function() {
         moreFromYouTubeSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ moreFromYouTubeHidden: newState });
 
-            // Cập nhật UI ngay lập tức với trạng thái mới
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreTrendingHidden === true, result.endScreenCardsHidden === true, newState);
-                console.log('🔄 Updated UI after more from YouTube toggle, newState:', newState);
+            // Update UI immediately with new state
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, newState, result.grayscaleEnabled === true);
+                // Updated UI after more from YouTube toggle
             });
 
             handleToggleChange('toggleMoreFromYouTube', newState);
@@ -852,7 +802,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hideChannelSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ hideChannelHidden: newState });
 
             handleToggleChange('toggleHideChannel', newState);
@@ -864,7 +814,7 @@ document.addEventListener('DOMContentLoaded', function() {
         buttonsBarSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ buttonsBarHidden: newState });
 
             handleToggleChange('toggleButtonsBar', newState);
@@ -876,29 +826,44 @@ document.addEventListener('DOMContentLoaded', function() {
         hideDescriptionSwitch.addEventListener('change', function(e) {
             const newState = e.target.checked;
 
-            // Lưu trạng thái
+            // Save state
             chrome.storage.sync.set({ hideDescriptionHidden: newState });
 
             handleToggleChange('toggleHideDescription', newState);
         });
     }
 
+    // Handle toggle grayscale click
+    if (grayscaleSwitch) {
+        grayscaleSwitch.addEventListener('change', function(e) {
+            const newState = e.target.checked;
+
+            // Save state
+            chrome.storage.sync.set({ grayscaleEnabled: newState });
+
+            handleToggleChange('toggleGrayscale', newState);
+        });
+    }
+
     // Add click event for language buttons
-    if (langVi) {
-        langVi.addEventListener('click', function() {
+    const lv = document.getElementById('lang-vi');
+    const le = document.getElementById('lang-en');
+
+    if (lv) {
+        lv.addEventListener('click', function() {
             changeLanguage('vi');
         });
     }
     
-    if (langEn) {
-        langEn.addEventListener('click', function() {
+    if (le) {
+        le.addEventListener('click', function() {
             changeLanguage('en');
         });
     }
     
     // Function to handle toggle changes with multi-tab synchronization
     function handleToggleChange(action, enabled) {
-        console.log(`${action} changed to:`, enabled);
+        // Toggle action changed
 
         // Send message to current tab immediately
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -907,7 +872,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     action: action,
                     enabled: enabled
                 }).catch(error => {
-                    console.log('⚠️ Could not send message to current tab:', error.message);
+                    // Could not send message to current tab
                 });
             }
         });
@@ -918,7 +883,7 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleAction: action,
             enabled: enabled
         }).catch(error => {
-            console.log('⚠️ Could not send sync message to background:', error.message);
+            // Could not send sync message to background
         });
     }
 
@@ -929,21 +894,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (exportBtn) {
         exportBtn.addEventListener('click', function() {
-            console.log('🔄 Export settings button clicked');
+            // Export settings button clicked
             exportSettings();
         });
     }
 
     if (importBtn && importFileInput) {
         importBtn.addEventListener('click', function() {
-            console.log('🔄 Import settings button clicked');
+            // Import settings button clicked
             importFileInput.click();
         });
 
         importFileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                console.log('📁 File selected for import:', file.name);
+                // File selected for import
 
                 // Validate file type
                 if (!file.name.toLowerCase().endsWith('.json')) {
@@ -1009,6 +974,10 @@ function initializeLanguage() {
 
 // Set language and update UI
 function setLanguage(lang, save = true) {
+    // Update global language state so other functions that rely on
+    // `currentLang` and `translations` will reflect the new language.
+    currentLang = lang;
+
     // Remove active class from all language buttons
     document.querySelectorAll('.ext-lang-button').forEach(btn => {
         btn.classList.remove('active');
@@ -1017,7 +986,7 @@ function setLanguage(lang, save = true) {
     // Add active class to selected language button
     document.getElementById(`lang-${lang}`).classList.add('active');
     
-    const translations = {
+    translations = {
         'vi': {
             'title': 'TubeTuner',
             'subtitle': 'Ẩn các phần tử YouTube không mong muốn',
@@ -1032,7 +1001,7 @@ function setLanguage(lang, save = true) {
             'interfaceElementsTitle': 'Interface Elements',
             'hideTopHeader': 'Ẩn thanh điều hướng trên',
             'hideNotificationsBell': 'Ẩn chuông thông báo',
-            'hideExploreTrending': 'Ẩn tab Khám phá & Thịnh hành',
+            'hideExploreSection': 'Ẩn phần Khám phá',
             'hideMoreFromYouTube': 'Ẩn "Thêm từ YouTube"',
             'hideButtonsBar': 'Ẩn thanh nút bấm',
             // Video Controls
@@ -1055,6 +1024,25 @@ function setLanguage(lang, save = true) {
             'infoExtra': 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với 14 tùy chọn ẩn/hiện.',
             'noticeTitle': 'Lưu ý quan trọng',
             'noticeDesc': 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.'
+            ,
+            // Grayscale feature translations
+            'grayscale': 'Giao diện đen trắng',
+            'enableGrayscale': 'Bật giao diện đen trắng',
+            'disableGrayscale': 'Tắt giao diện đen trắng',
+            // Settings management
+            'settingsManagement': 'Quản lý cài đặt',
+            'exportSettings': 'Xuất cài đặt',
+            'importSettings': 'Nhập cài đặt',
+            'exportSuccess': 'Đã xuất cài đặt thành công!',
+            'importSuccess': 'Đã nhập cài đặt thành công! Đang tải lại...',
+            'importError': 'Lỗi: File cài đặt không hợp lệ!',
+            'exporting': 'Đang xuất...',
+            'importing': 'Đang nhập...',
+            'confirmImport': 'Bạn có chắc muốn nhập cài đặt mới? Điều này sẽ ghi đè lên cài đặt hiện tại.',
+            'backupCreated': 'Đã tạo bản sao lưu tự động',
+            'invalidFileType': 'Chỉ chấp nhận file JSON!',
+            'fileTooLarge': 'File quá lớn (tối đa 5MB)!',
+            'noSettingsToExport': 'Không có cài đặt nào để xuất!'
         },
         'en': {
             'title': 'TubeTuner',
@@ -1070,7 +1058,7 @@ function setLanguage(lang, save = true) {
             'interfaceElementsTitle': 'Interface Elements',
             'hideTopHeader': 'Hide Top Header/Navigation Bar',
             'hideNotificationsBell': 'Hide Notifications Bell',
-            'hideExploreTrending': 'Hide Explore & Trending Tabs',
+            'hideExploreSection': 'Hide Explore Section',
             'hideMoreFromYouTube': 'Hide "More from YouTube" Section',
             'hideButtonsBar': 'Hide Buttons Bar',
             // Video Controls
@@ -1093,6 +1081,25 @@ function setLanguage(lang, save = true) {
             'infoExtra': 'Customize your YouTube experience with 14 hide/show options.',
             'noticeTitle': 'Important Notice',
             'noticeDesc': 'For the best experience, please enable the extension before visiting YouTube.'
+            ,
+            // Grayscale feature translations
+            'grayscale': 'Grayscale interface',
+            'enableGrayscale': 'Enable grayscale interface',
+            'disableGrayscale': 'Disable grayscale interface',
+            // Settings management
+            'settingsManagement': 'Settings Management',
+            'exportSettings': 'Export Settings',
+            'importSettings': 'Import Settings',
+            'exportSuccess': 'Settings exported successfully!',
+            'importSuccess': 'Settings imported successfully! Reloading...',
+            'importError': 'Error: Invalid settings file!',
+            'exporting': 'Exporting...',
+            'importing': 'Importing...',
+            'confirmImport': 'Are you sure you want to import new settings? This will overwrite current settings.',
+            'backupCreated': 'Auto backup created',
+            'invalidFileType': 'Only JSON files are accepted!',
+            'fileTooLarge': 'File too large (max 5MB)!',
+            'noSettingsToExport': 'No settings to export!'
         }
     };
     
@@ -1121,7 +1128,7 @@ function setLanguage(lang, save = true) {
         // Interface Elements
         { id: 'topHeaderSwitch', text: t.hideTopHeader },
         { id: 'notificationsBellSwitch', text: t.hideNotificationsBell },
-        { id: 'exploreTrendingSwitch', text: t.hideExploreTrending },
+        { id: 'exploreSectionSwitch', text: t.hideExploreSection },
         { id: 'moreFromYouTubeSwitch', text: t.hideMoreFromYouTube },
         { id: 'buttonsBarSwitch', text: t.hideButtonsBar },
         // Video Controls
@@ -1129,6 +1136,8 @@ function setLanguage(lang, save = true) {
         { id: 'durationSwitch', text: t.hideDuration },
         { id: 'endScreenCardsSwitch', text: t.hideEndScreenCards },
         { id: 'hideDescriptionSwitch', text: t.hideDescription },
+        // Grayscale
+        { id: 'grayscaleSwitch', text: t.grayscale },
 
 
     ];
@@ -1144,6 +1153,21 @@ function setLanguage(lang, save = true) {
         }
     });
 
+    // Update settings management section
+    const settingsTitle = document.querySelector('.ext-settings-title');
+    const exportBtn = document.querySelector('#exportSettingsBtn span');
+    const importBtn = document.querySelector('#importSettingsBtn span');
+
+    if (settingsTitle) {
+        settingsTitle.textContent = t.settingsManagement;
+    }
+    if (exportBtn) {
+        exportBtn.textContent = t.exportSettings;
+    }
+    if (importBtn) {
+        importBtn.textContent = t.importSettings;
+    }
+
     // Other UI elements
     document.querySelector('#status').textContent = t.active;
     document.querySelector('.ext-info-title').textContent = t.infoTitle;
@@ -1158,6 +1182,16 @@ function setLanguage(lang, save = true) {
     // Save language preference if needed
     if (save) {
         chrome.storage.sync.set({ language: lang });
+    }
+
+    // Ensure the rest of the UI which may use the older updateLanguageUI
+    // flow is refreshed as well.
+    if (typeof updateLanguageUI === 'function') {
+        try { updateLanguageUI(); } catch (e) { /* ignore */ }
+    }
+
+    if (typeof updateStatus === 'function') {
+        try { updateStatus(); } catch (e) { /* ignore */ }
     }
 }
 
@@ -1183,7 +1217,7 @@ function initializeCollapsibleSections() {
     // Load saved section states
     chrome.storage.sync.get('sectionStates', function(result) {
         const savedStates = result.sectionStates || {};
-        console.log('📂 Loading saved section states:', savedStates);
+        // Loading saved section states
 
         sections.forEach(section => {
             const sectionId = section.getAttribute('data-section-id');
@@ -1215,7 +1249,7 @@ function initializeCollapsibleSections() {
                     // Save the new state
                     saveSectionState(sectionId, !wasOpen);
 
-                    console.log(`📂 Section "${sectionId}" ${!wasOpen ? 'opened' : 'closed'}`);
+                    // Section toggled
                 });
             }
         });
@@ -1229,7 +1263,7 @@ function saveSectionState(sectionId, isOpen) {
         sectionStates[sectionId] = isOpen;
 
         chrome.storage.sync.set({ sectionStates: sectionStates }, function() {
-            console.log('💾 Saved section state:', sectionId, '=', isOpen);
+            // Saved section state
         });
     });
 }
@@ -1239,11 +1273,12 @@ function initializeSwitches() {
     const switches = [
         { id: 'progressSwitch', setting: 'hideProgressBar', default: true },
         { id: 'durationSwitch', setting: 'hideDuration', default: true },
-        { id: 'shortsSwitch', setting: 'hideShorts', default: false }
+        { id: 'shortsSwitch', setting: 'hideShorts', default: false },
+        { id: 'grayscaleSwitch', setting: 'grayscaleEnabled', default: false }
     ];
 
     // Get all settings at once
-    chrome.storage.sync.get(['hideProgressBar', 'hideDuration', 'hideShorts'], function(data) {
+    chrome.storage.sync.get(['hideProgressBar', 'hideDuration', 'hideShorts', 'grayscaleEnabled'], function(data) {
         switches.forEach(switchItem => {
             const switchElement = document.getElementById(switchItem.id);
             const isEnabled = data[switchItem.setting] !== undefined ? data[switchItem.setting] : switchItem.default;
@@ -1260,12 +1295,14 @@ function initializeSwitches() {
                     // Update status message
                     updateStatus();
 
-                    // Send message to content script to update immediately if on YouTube
+                    // Send specific message for grayscale, otherwise request a general update
                     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                         if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
-                            chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(error => {
-                                console.log('⚠️ Could not send update message to current tab:', error.message);
-                            });
+                            if (switchItem.setting === 'grayscaleEnabled') {
+                                chrome.tabs.sendMessage(tabs[0].id, { action: 'toggleGrayscale', enabled: switchElement.checked }).catch(() => {});
+                            } else {
+                                chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(() => {});
+                            }
                         }
                     });
                 });
@@ -1347,7 +1384,7 @@ function exportSettings() {
         // Clean up
         URL.revokeObjectURL(url);
 
-        console.log('✅ Settings exported successfully:', Object.keys(allSettings).length, 'settings');
+        // Settings exported successfully
 
         // Show success message
         showNotification(
@@ -1388,7 +1425,7 @@ function createBackupBeforeImport(callback) {
         document.body.removeChild(a);
 
         URL.revokeObjectURL(url);
-        console.log('✅ Backup created before import');
+        // Backup created before import
 
         if (callback) callback();
     });
@@ -1404,7 +1441,7 @@ function importSettings(file) {
 
     // Create backup first
     createBackupBeforeImport(function() {
-        console.log('📦 Backup created, proceeding with import...');
+        // Backup created, proceeding with import
     });
 
     const reader = new FileReader();
@@ -1439,7 +1476,7 @@ function importSettings(file) {
             const expectedKeys = [
                 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden',
                 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden',
-                'topHeaderHidden', 'exploreTrendingHidden', 'endScreenCardsHidden',
+                'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden',
                 'moreFromYouTubeHidden', 'language', 'theme', 'sectionStates'
             ];
 
@@ -1474,7 +1511,7 @@ function importSettings(file) {
 
             // Show preview of what will be imported
             const settingsPreview = Object.keys(validSettings).join(', ');
-            console.log('📋 Settings to be imported:', settingsPreview);
+            // Settings to be imported
 
             // Apply imported settings
             chrome.storage.sync.set(validSettings, function() {
@@ -1493,7 +1530,7 @@ function importSettings(file) {
                     return;
                 }
 
-                console.log('✅ Settings imported successfully:', validCount, 'settings applied');
+                // Settings imported successfully
 
                 // Show success message with details
                 const successMsg = currentLang === 'vi' ?
@@ -1506,7 +1543,7 @@ function importSettings(file) {
                 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                     if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
                         chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(error => {
-                            console.log('⚠️ Could not send update message to current tab:', error.message);
+                            // Could not send update message to current tab
                         });
                     }
                 });
