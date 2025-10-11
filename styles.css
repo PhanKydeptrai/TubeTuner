@@ -245,20 +245,6 @@ body.youtube-shorts-hidden yt-tab-shape[tab-title*="shorts"] {
   display: none !important;
 }
 
-/* Hide Shorts shelf in sidebar */
-body.youtube-shorts-hidden .ytGridShelfViewModelHost.ytd-item-section-renderer.ytGridShelfViewModelHostHasBottomButton {
-  display: none !important;
-}
-
-/* Hide the time badge on thumbnails */
-body.youtube-duration-hidden .yt-thumbnail-overlay-badge-view-model.yt-thumbnail-overlay-badge-view-model--bottom-end.yt-thumbnail-overlay-badge-view-model--medium {
-  display: none !important;
-}
-
-body.youtube-duration-hidden .yt-badge-shape.yt-badge-shape--thumbnail-default.yt-badge-shape--thumbnail-badge {
-  display: none !important;
-}
-
 /* Hide Shorts in channel video grids */
 body.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer:has(a[href*="/shorts/"]),
 body.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer a[href*="/shorts/"] {
@@ -522,10 +508,138 @@ body.youtube-comments-hidden ytd-live-chat-frame[src*="live_chat"] {
   display: none !important;
 }
 
-/* ===== EXPLORE SECTION HIDING ===== */
+/* ===== EXPLORE & TRENDING TABS HIDING ===== */
 
-/* Hide Explore section renderer */
-body.youtube-explore-section-hidden ytd-guide-section-renderer[hidden="true"] {
+/* Hide Explore and Trending tabs from sidebar navigation */
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title="Explore"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title*="Explore"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title="Trending"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title*="Trending"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title="Khám phá"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title*="Khám phá"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title="Thịnh hành"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[title*="Thịnh hành"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title="Explore"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title*="Explore"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title="Trending"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title*="Trending"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title="Khám phá"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title*="Khám phá"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title="Thịnh hành"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[title*="Thịnh hành"] {
+  display: none !important;
+}
+
+/* Hide standalone Explore section/menu items */
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href="/feed/explore"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href*="explore"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href="/feed/explore"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href*="explore"] {
+  display: none !important;
+}
+
+/* Hide by href patterns - comprehensive coverage */
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href="/feed/explore"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href*="/feed/explore"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href="/feed/trending"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href*="/feed/trending"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href*="/explore"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer a[href*="/trending"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href="/feed/explore"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href*="/feed/explore"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href="/feed/trending"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href*="/feed/trending"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href*="/explore"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer a[href*="/trending"] {
+  display: none !important;
+}
+
+/* Hide entire guide entry containers that contain Explore or Trending */
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer[explore-trending-hidden="true"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer[explore-trending-hidden="true"] {
+  display: none !important;
+}
+
+/* Hide by aria-label attributes */
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer[aria-label*="Explore"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer[aria-label*="Trending"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer[aria-label*="Khám phá"],
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer[aria-label*="Thịnh hành"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer[aria-label*="Explore"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer[aria-label*="Trending"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer[aria-label*="Khám phá"],
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer[aria-label*="Thịnh hành"] {
+  display: none !important;
+}
+
+/* Hide entire guide entry containers that contain Explore or Trending links */
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer:has(a[href*="/explore"]),
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer:has(a[href*="/trending"]),
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer:has(a[title*="Explore"]),
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer:has(a[title*="Trending"]),
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer:has(a[title*="Khám phá"]),
+body.youtube-explore-trending-hidden ytd-guide-entry-renderer:has(a[title*="Thịnh hành"]),
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer:has(a[href*="/explore"]),
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer:has(a[href*="/trending"]),
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer:has(a[title*="Explore"]),
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer:has(a[title*="Trending"]),
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer:has(a[title*="Khám phá"]),
+body.youtube-explore-trending-hidden ytd-mini-guide-entry-renderer:has(a[title*="Thịnh hành"]) {
+  display: none !important;
+}
+
+/* Hide entire ytd-guide-section-renderer that contains Explore elements */
+body.youtube-explore-trending-hidden ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[href*="/explore"]),
+body.youtube-explore-trending-hidden ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[href*="/trending"]),
+body.youtube-explore-trending-hidden ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[title*="Explore"]),
+body.youtube-explore-trending-hidden ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[title*="Trending"]),
+body.youtube-explore-trending-hidden ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[title*="Khám phá"]),
+body.youtube-explore-trending-hidden ytd-guide-section-renderer:has(ytd-guide-entry-renderer a[title*="Thịnh hành"]) {
+  display: none !important;
+}
+
+/* Hide ytd-guide-section-renderer with specific attributes that contain Explore */
+body.youtube-explore-trending-hidden ytd-guide-section-renderer.style-scope.ytd-guide-renderer[modern-typography][guide-persistent-and-visible]:has(ytd-guide-entry-renderer a[href*="/explore"]),
+body.youtube-explore-trending-hidden ytd-guide-section-renderer.style-scope.ytd-guide-renderer[modern-typography][guide-persistent-and-visible]:has(ytd-guide-entry-renderer a[title*="Explore"]),
+body.youtube-explore-trending-hidden ytd-guide-section-renderer.style-scope.ytd-guide-renderer[modern-typography][guide-persistent-and-visible]:has(ytd-guide-entry-renderer a[title*="Khám phá"]) {
+  display: none !important;
+}
+
+/* Hide using attribute marking for dynamic content */
+body.youtube-explore-trending-hidden [explore-trending-element="true"] {
+  display: none !important;
+}
+
+/* Hide ytd-guide-section-renderer marked for hiding */
+body.youtube-explore-trending-hidden [explore-trending-section="true"] {
+  display: none !important;
+}
+
+/* Mobile Explore and Trending hiding */
+body.youtube-explore-trending-hidden ytm-guide-entry-renderer a[title*="Explore"],
+body.youtube-explore-trending-hidden ytm-guide-entry-renderer a[title*="Trending"],
+body.youtube-explore-trending-hidden ytm-guide-entry-renderer a[title*="Khám phá"],
+body.youtube-explore-trending-hidden ytm-guide-entry-renderer a[title*="Thịnh hành"],
+body.youtube-explore-trending-hidden ytm-guide-entry-renderer a[href*="/explore"],
+body.youtube-explore-trending-hidden ytm-guide-entry-renderer a[href*="/trending"] {
+  display: none !important;
+}
+
+/* Additional comprehensive selectors for Explore sections */
+body.youtube-explore-trending-hidden [aria-label*="Explore"],
+body.youtube-explore-trending-hidden [aria-label*="Trending"],
+body.youtube-explore-trending-hidden [aria-label*="Khám phá"],
+body.youtube-explore-trending-hidden [aria-label*="Thịnh hành"],
+body.youtube-explore-trending-hidden [title*="Explore"],
+body.youtube-explore-trending-hidden [title*="Trending"],
+body.youtube-explore-trending-hidden [title*="Khám phá"],
+body.youtube-explore-trending-hidden [title*="Thịnh hành"] {
+  display: none !important;
+}
+
+/* Hide Explore page content when directly accessed */
+body.youtube-explore-trending-hidden ytd-browse[page-subtype="explore"],
+body.youtube-explore-trending-hidden ytd-browse[page-subtype="trending"] {
   display: none !important;
 }
 
@@ -679,18 +793,9 @@ body.youtube-more-from-youtube-hidden ytd-guide-section-renderer.style-scope.ytd
   display: none !important;
 }
 
-/* Hide guide entries marked as more from YouTube */
-body.youtube-more-from-youtube-hidden ytd-guide-entry-renderer.youtube-more-from-hidden {
-  display: none !important;
-}
-
-/* Fallback: Hide any element marked as more from YouTube */
+/* Fallback: Hide any ytd-guide-section-renderer marked as more from YouTube */
 body.youtube-more-from-youtube-hidden .youtube-more-from-hidden {
   display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  width: 0 !important;
-  overflow: hidden !important;
 }
 
 /* ===== HIDE CHANNEL ELEMENTS ===== */
