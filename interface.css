@@ -903,7 +903,6 @@ button:focus,
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-md);
-  margin-top: var(--space-md);
   margin-bottom: var(--space-md);
   transition: all 0.2s ease;
 }
@@ -921,7 +920,7 @@ button:focus,
   justify-content: center;
   width: 32px;
   height: 32px;
-  background: #5a5370;
+  background: linear-gradient(135deg, var(--icon-blue), var(--icon-purple));
   border-radius: 6px;
   color: white;
   flex-shrink: 0;
