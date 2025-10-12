@@ -27,7 +27,24 @@
         "*://www.youtube.com/*",
         "*://youtube.com/*"
       ],
-      "js": ["content.js"],
+      "js": [
+        "features/progressBar.js",
+        "features/duration.js",
+        "features/shorts.js",
+        "features/homeFeed.js",
+        "features/videoSidebar.js",
+        "features/comments.js",
+        "features/notificationsBell.js",
+        "features/topHeader.js",
+        "features/exploreSection.js",
+        "features/endScreenCards.js",
+        "features/moreFromYouTube.js",
+        "features/hideChannel.js",
+        "features/buttonsBar.js",
+        "features/hideDescription.js",
+        "features/grayscale.js",
+        "content.js"
+      ],
       "css": ["styles.css"],
       "run_at": "document_start"
     }
