@@ -494,7 +494,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // New translation entries for grayscale feature
             grayscale: 'Giao diện đen trắng',
             enableGrayscale: 'Bật giao diện đen trắng',
-            disableGrayscale: 'Tắt giao diện đen trắng'
+            disableGrayscale: 'Tắt giao diện đen trắng',
+            // About section translations
+            aboutTitle: 'Giới thiệu',
+            aboutDescription: 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
+            aboutFeaturesTitle: 'Tính năng chính:',
+            aboutFeature1: '✨ Ẩn/hiện các phần tử giao diện YouTube',
+            aboutFeature2: '🎨 Chế độ giao diện đen trắng',
+            aboutFeature3: '🔄 Đồng bộ cài đặt giữa các tab',
+            aboutFeature4: '💾 Sao lưu/khôi phục cài đặt',
+            aboutFeature5: '🌐 Hỗ trợ đa ngôn ngữ (VI/EN)',
+            aboutGithubLink: 'GitHub Repository'
         },
         en: {
             title: 'TubeTuner',
@@ -1114,7 +1124,17 @@ function setLanguage(lang, save = true) {
             'noSettingsToExport': 'Không có cài đặt nào để xuất!',
             'extensionEnabled': 'Bật/Tắt Extension',
             'extensionDisabledTitle': 'Extension đã tắt',
-            'extensionDisabledDesc': 'TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy chỉnh YouTube.'
+            'extensionDisabledDesc': 'TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy chỉnh YouTube.',
+            // About section translations
+            'aboutTitle': 'Giới thiệu',
+            'aboutDescription': 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
+            'aboutFeaturesTitle': 'Tính năng chính:',
+            'aboutFeature1': '✨ Ẩn/hiện các phần tử giao diện YouTube',
+            'aboutFeature2': '🎨 Chế độ giao diện đen trắng',
+            'aboutFeature3': '🔄 Đồng bộ cài đặt giữa các tab',
+            'aboutFeature4': '💾 Sao lưu/khôi phục cài đặt',
+            'aboutFeature5': '🌐 Hỗ trợ đa ngôn ngữ (VI/EN)',
+            'aboutGithubLink': 'GitHub Repository'
         },
         'en': {
             'title': 'TubeTuner',
@@ -1174,7 +1194,17 @@ function setLanguage(lang, save = true) {
             'noSettingsToExport': 'No settings to export!',
             'extensionEnabled': 'Enable/Disable Extension',
             'extensionDisabledTitle': 'Extension Disabled',
-            'extensionDisabledDesc': 'TubeTuner is currently disabled. Enable it to use YouTube customization features.'
+            'extensionDisabledDesc': 'TubeTuner is currently disabled. Enable it to use YouTube customization features.',
+            // About section translations
+            'aboutTitle': 'About',
+            'aboutDescription': 'TubeTuner is an extension that helps you customize your YouTube experience as you wish. Hide unnecessary elements like progress bars, Shorts, ads, and many other components to focus on important content.',
+            'aboutFeaturesTitle': 'Key Features:',
+            'aboutFeature1': '✨ Show/hide YouTube interface elements',
+            'aboutFeature2': '🎨 Grayscale interface mode',
+            'aboutFeature3': '🔄 Sync settings across tabs',
+            'aboutFeature4': '💾 Backup/restore settings',
+            'aboutFeature5': '🌐 Multi-language support (VI/EN)',
+            'aboutGithubLink': 'GitHub Repository'
         }
     };
     
@@ -1187,10 +1217,35 @@ function setLanguage(lang, save = true) {
 
     // Section titles
     const sectionTitles = document.querySelectorAll('.ext-section-title');
-    if (sectionTitles[0]) sectionTitles[0].textContent = t.contentFeedControlsTitle;
-    if (sectionTitles[1]) sectionTitles[1].textContent = t.interfaceElementsTitle;
-    if (sectionTitles[2]) sectionTitles[2].textContent = t.videoControlsTitle;
-    if (sectionTitles[3]) sectionTitles[3].textContent = t.otherFeaturesTitle;
+    if (sectionTitles[0]) sectionTitles[0].textContent = t.aboutTitle;
+    if (sectionTitles[1]) sectionTitles[1].textContent = t.contentFeedControlsTitle;
+    if (sectionTitles[2]) sectionTitles[2].textContent = t.interfaceElementsTitle;
+    if (sectionTitles[3]) sectionTitles[3].textContent = t.videoControlsTitle;
+    if (sectionTitles[4]) sectionTitles[4].textContent = t.otherFeaturesTitle;
+
+    // About section content
+    const aboutDescription = document.querySelector('.ext-about-description');
+    if (aboutDescription) aboutDescription.textContent = t.aboutDescription;
+    
+    const aboutFeaturesTitle = document.querySelector('.ext-about-features-title');
+    if (aboutFeaturesTitle) aboutFeaturesTitle.textContent = t.aboutFeaturesTitle;
+    
+    const aboutFeaturesList = document.querySelectorAll('.ext-about-features-list li');
+    if (aboutFeaturesList.length >= 5) {
+        aboutFeaturesList[0].textContent = t.aboutFeature1;
+        aboutFeaturesList[1].textContent = t.aboutFeature2;
+        aboutFeaturesList[2].textContent = t.aboutFeature3;
+        aboutFeaturesList[3].textContent = t.aboutFeature4;
+        aboutFeaturesList[4].textContent = t.aboutFeature5;
+    }
+    
+    const aboutGithubLink = document.querySelector('.ext-about-link');
+    if (aboutGithubLink) {
+        const linkText = aboutGithubLink.childNodes[aboutGithubLink.childNodes.length - 1];
+        if (linkText && linkText.nodeType === Node.TEXT_NODE) {
+            linkText.textContent = t.aboutGithubLink;
+        }
+    }
 
     // Control labels - using a mapping approach for better maintainability
     const labelMappings = [
@@ -1253,8 +1308,6 @@ function setLanguage(lang, save = true) {
     document.querySelectorAll('.ext-feature-item')[1].textContent = t.featureDuration;
     document.querySelectorAll('.ext-feature-item')[2].textContent = t.featureShorts;
     document.querySelector('.ext-info-content p').textContent = t.infoExtra;
-    document.querySelector('.ext-notice-title').textContent = t.noticeTitle;
-    document.querySelector('.ext-notice-description').textContent = t.noticeDesc;
 
     // Save language preference if needed
     if (save) {
