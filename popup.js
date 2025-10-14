@@ -1,5 +1,5 @@
 // YouTube Progress Bar Hider Popup Script
-let currentLang = 'vi'; // Default language is Vietnamese
+let currentLang = 'en'; // Default language is English
 let translations = {}; // Global declaration to access from outside DOMContentLoaded
 let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreSectionSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, grayscaleSwitch, status; // Global variables to access from outside
 
@@ -967,7 +967,7 @@ function saveThemeSetting(theme) {
 // Initialize language
 function initializeLanguage() {
     chrome.storage.sync.get('language', function(data) {
-        const savedLanguage = data.language || 'vi';
+        const savedLanguage = data.language || 'en';
         setLanguage(savedLanguage, false);
     });
 }
