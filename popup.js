@@ -2,6 +2,8 @@
 let currentLang = 'en'; // Default language is English
 let translations = {}; // Global declaration to access from outside DOMContentLoaded
 let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreSectionSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, grayscaleSwitch, status; // Global variables to access from outside
+let extensionEnabledSwitch; // Master extension toggle
+let currentExtensionEnabled = true; // Global extension enabled state
 
 // Console log calls have been removed in production build
 
@@ -122,6 +124,25 @@ function updateLanguageUI() {
             }
         }
 
+        // Update extension enabled label
+        const extensionEnabledSwitch = document.getElementById('extensionEnabledSwitch');
+        if (extensionEnabledSwitch) {
+            const label = extensionEnabledSwitch.closest('.ext-control-item').querySelector('.ext-control-label');
+            if (label) {
+                label.textContent = translations[currentLang].extensionEnabled;
+            }
+        }
+
+        // Update disabled notice
+        const disabledTitle = document.querySelector('.ext-notice-title');
+        const disabledDesc = document.querySelector('.ext-notice-description');
+        if (disabledTitle && disabledTitle.textContent.includes('Extension')) {
+            disabledTitle.textContent = translations[currentLang].extensionDisabledTitle;
+        }
+        if (disabledDesc && disabledDesc.textContent.includes('TubeTuner')) {
+            disabledDesc.textContent = translations[currentLang].extensionDisabledDesc;
+        }
+
         // Update status based on current state
         updateStatusUI();
     } else {
@@ -132,6 +153,26 @@ function updateLanguageUI() {
 // Global function to update UI based on state
 // Update UI elements (checkboxes) based on stored state
 function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, grayscaleEnabled) {
+
+    // Update extension enabled toggle
+    if (extensionEnabledSwitch) {
+        extensionEnabledSwitch.checked = currentExtensionEnabled;
+    }
+
+    // Show/hide sections and disabled notice based on extension enabled state
+    const sectionsContainer = document.getElementById('sectionsContainer');
+    const disabledNotice = document.getElementById('disabledNotice');
+    if (sectionsContainer) {
+        sectionsContainer.style.display = currentExtensionEnabled ? 'block' : 'none';
+    }
+    if (disabledNotice) {
+        disabledNotice.style.display = currentExtensionEnabled ? 'none' : 'block';
+    }
+
+    if (!currentExtensionEnabled) {
+        // If extension is disabled, don't update individual toggles
+        return;
+    }
 
     if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch) {
         console.error('❌ Toggle switches not defined yet:', {
@@ -403,6 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
     buttonsBarSwitch = document.getElementById('buttonsBarSwitch');
     hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
     grayscaleSwitch = document.getElementById('grayscaleSwitch');
+    extensionEnabledSwitch = document.getElementById('extensionEnabledSwitch');
     status = document.getElementById('status');
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
@@ -417,6 +459,9 @@ document.addEventListener('DOMContentLoaded', function() {
             hideProgressBar: 'Ẩn thanh tiến trình',
             hideDuration: 'Ẩn thời lượng video',
             hideShorts: 'Ẩn Shorts',
+            extensionEnabled: 'Bật/Tắt Extension',
+            extensionDisabledTitle: 'Extension đã tắt',
+            extensionDisabledDesc: 'TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy chỉnh YouTube.',
             statusActive: 'Đang hoạt động',
             hidingFeatures: 'Đang ẩn',
             progressBar: 'thanh tiến trình',
@@ -457,6 +502,9 @@ document.addEventListener('DOMContentLoaded', function() {
             hideProgressBar: 'Hide progress bar',
             hideDuration: 'Hide video duration',
             hideShorts: 'Hide Shorts',
+            extensionEnabled: 'Enable/Disable Extension',
+            extensionDisabledTitle: 'Extension Disabled',
+            extensionDisabledDesc: 'TubeTuner is currently disabled. Enable it to use YouTube customization features.',
             statusActive: 'Active',
             hidingFeatures: 'Hiding',
             progressBar: 'progress bar',
@@ -489,7 +537,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Get current state with improved error handling and timing
-    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'language', 'theme', 'sectionStates'], function(result) {
+    chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'language', 'theme', 'sectionStates'], function(result) {
+        currentExtensionEnabled = result.extensionEnabled !== false; // Default is true
         const isEnabled = result.progressBarHidden === true; // Default is false
         const durationHidden = result.durationHidden === true; // Default is false
         const shortsHidden = result.shortsHidden === true; // Default is false
@@ -554,6 +603,25 @@ document.addEventListener('DOMContentLoaded', function() {
         updateLanguageUI();
     });
     
+    // Handle extension enabled toggle click
+    if (extensionEnabledSwitch) {
+        extensionEnabledSwitch.addEventListener('change', function(e) {
+            const newState = e.target.checked;
+            currentExtensionEnabled = newState; // Update global state
+
+            // Save state
+            chrome.storage.sync.set({ extensionEnabled: newState });
+
+            // Update UI immediately
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'grayscaleEnabled'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.grayscaleEnabled === true);
+                // Updated UI after extension enabled toggle
+            });
+
+            handleToggleChange('toggleExtensionEnabled', newState);
+        });
+    }
+
     // Handle toggle extension click
     if (toggleSwitch) {
         toggleSwitch.addEventListener('change', function(e) {
@@ -590,7 +658,8 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ durationHidden: newState });
 
             // Update UI
-            chrome.storage.sync.get(['progressBarHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
+            chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
+                const currentExtensionEnabled = result.extensionEnabled !== false;
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
                 const currentVideoSidebarHidden = result.videoSidebarHidden === true;
                 const currentCommentsHidden = result.commentsHidden === true;
@@ -1042,7 +1111,10 @@ function setLanguage(lang, save = true) {
             'backupCreated': 'Đã tạo bản sao lưu tự động',
             'invalidFileType': 'Chỉ chấp nhận file JSON!',
             'fileTooLarge': 'File quá lớn (tối đa 5MB)!',
-            'noSettingsToExport': 'Không có cài đặt nào để xuất!'
+            'noSettingsToExport': 'Không có cài đặt nào để xuất!',
+            'extensionEnabled': 'Bật/Tắt Extension',
+            'extensionDisabledTitle': 'Extension đã tắt',
+            'extensionDisabledDesc': 'TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy chỉnh YouTube.'
         },
         'en': {
             'title': 'TubeTuner',
@@ -1099,7 +1171,10 @@ function setLanguage(lang, save = true) {
             'backupCreated': 'Auto backup created',
             'invalidFileType': 'Only JSON files are accepted!',
             'fileTooLarge': 'File too large (max 5MB)!',
-            'noSettingsToExport': 'No settings to export!'
+            'noSettingsToExport': 'No settings to export!',
+            'extensionEnabled': 'Enable/Disable Extension',
+            'extensionDisabledTitle': 'Extension Disabled',
+            'extensionDisabledDesc': 'TubeTuner is currently disabled. Enable it to use YouTube customization features.'
         }
     };
     
@@ -1138,6 +1213,8 @@ function setLanguage(lang, save = true) {
         { id: 'hideDescriptionSwitch', text: t.hideDescription },
         // Grayscale
         { id: 'grayscaleSwitch', text: t.grayscale },
+        // Extension Enabled
+        { id: 'extensionEnabledSwitch', text: t.extensionEnabled },
 
 
     ];
