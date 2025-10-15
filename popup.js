@@ -1470,15 +1470,58 @@ function exportSettings() {
     exportBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${translations[currentLang].exporting}</span>`;
     exportBtn.disabled = true;
 
+    // Define all valid setting keys
+    const validSettingKeys = [
+        'extensionEnabled',
+        'progressBarHidden',
+        'durationHidden',
+        'shortsHidden',
+        'homeFeedHidden',
+        'videoSidebarHidden',
+        'commentsHidden',
+        'notificationsBellHidden',
+        'topHeaderHidden',
+        'exploreSectionHidden',
+        'endScreenCardsHidden',
+        'moreFromYouTubeHidden',
+        'hideChannelHidden',
+        'buttonsBarHidden',
+        'hideDescriptionHidden',
+        'grayscaleEnabled',
+        'language',
+        'theme'
+    ];
+
     // Get all settings from chrome storage
-    chrome.storage.sync.get(null, function(allSettings) {
+    chrome.storage.sync.get(validSettingKeys, function(result) {
+        if (chrome.runtime.lastError) {
+            console.error('Error getting settings:', chrome.runtime.lastError);
+            showNotification(
+                currentLang === 'vi' ? 'Lỗi khi lấy cài đặt!' : 'Error getting settings!',
+                'error'
+            );
+            exportBtn.innerHTML = originalText;
+            exportBtn.disabled = false;
+            return;
+        }
+
+        // Filter only existing settings
+        const settingsToExport = {};
+        let settingsCount = 0;
+        
+        for (const key of validSettingKeys) {
+            if (result.hasOwnProperty(key)) {
+                settingsToExport[key] = result[key];
+                settingsCount++;
+            }
+        }
+
         // Check if there are any settings to export
-        if (!allSettings || Object.keys(allSettings).length === 0) {
+        if (settingsCount === 0) {
             showNotification(
                 translations[currentLang].noSettingsToExport,
                 'info'
             );
-            // Restore button state
             exportBtn.innerHTML = originalText;
             exportBtn.disabled = false;
             return;
@@ -1489,11 +1532,11 @@ function exportSettings() {
             metadata: {
                 exportDate: new Date().toISOString(),
                 extensionName: "TubeTuner",
-                version: "1.2",
-                exportedBy: "TubeTuner Settings Export",
-                settingsCount: Object.keys(allSettings).length
+                extensionVersion: "1.2",
+                formatVersion: "1.0",
+                settingsCount: settingsCount
             },
-            settings: allSettings
+            settings: settingsToExport
         };
 
         // Convert to JSON string with pretty formatting
@@ -1503,18 +1546,17 @@ function exportSettings() {
         const blob = new Blob([jsonString], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
 
-        // Create download link
+        // Create download link with timestamp
+        const timestamp = new Date().toISOString().replace(/:/g, '-').split('.')[0];
         const a = document.createElement('a');
         a.href = url;
-        a.download = `youtube-extension-settings-${new Date().toISOString().split('T')[0]}.json`;
+        a.download = `TubeTuner-settings-${timestamp}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
 
         // Clean up
         URL.revokeObjectURL(url);
-
-        // Settings exported successfully
 
         // Show success message
         showNotification(
@@ -1530,37 +1572,6 @@ function exportSettings() {
     });
 }
 
-// Create backup before importing
-function createBackupBeforeImport(callback) {
-    chrome.storage.sync.get(null, function(currentSettings) {
-        const backup = {
-            metadata: {
-                backupDate: new Date().toISOString(),
-                extensionName: "TubeTuner",
-                version: "1.2",
-                backupType: "Auto backup before import"
-            },
-            settings: currentSettings
-        };
-
-        const jsonString = JSON.stringify(backup, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `youtube-extension-backup-${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        URL.revokeObjectURL(url);
-        // Backup created before import
-
-        if (callback) callback();
-    });
-}
-
 // Import Settings functionality
 function importSettings(file) {
     // Show loading state
@@ -1569,133 +1580,139 @@ function importSettings(file) {
     importBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${translations[currentLang].importing}</span>`;
     importBtn.disabled = true;
 
-    // Create backup first
-    createBackupBeforeImport(function() {
-        // Backup created, proceeding with import
-    });
+    // Define all valid setting keys with their expected types
+    const validSettings = {
+        'extensionEnabled': 'boolean',
+        'progressBarHidden': 'boolean',
+        'durationHidden': 'boolean',
+        'shortsHidden': 'boolean',
+        'homeFeedHidden': 'boolean',
+        'videoSidebarHidden': 'boolean',
+        'commentsHidden': 'boolean',
+        'notificationsBellHidden': 'boolean',
+        'topHeaderHidden': 'boolean',
+        'exploreSectionHidden': 'boolean',
+        'endScreenCardsHidden': 'boolean',
+        'moreFromYouTubeHidden': 'boolean',
+        'hideChannelHidden': 'boolean',
+        'buttonsBarHidden': 'boolean',
+        'hideDescriptionHidden': 'boolean',
+        'grayscaleEnabled': 'boolean',
+        'language': 'string',
+        'theme': 'string'
+    };
 
     const reader = new FileReader();
 
     reader.onload = function(e) {
         try {
-            // Validate file size (max 1MB)
-            if (file.size > 1024 * 1024) {
-                throw new Error('File too large (max 1MB)');
-            }
-
+            // Parse JSON
             const importedData = JSON.parse(e.target.result);
 
-            // Validate imported data structure
+            // Validate file structure
             if (!importedData || typeof importedData !== 'object') {
-                throw new Error('Invalid JSON format');
+                throw new Error(currentLang === 'vi' ? 'Định dạng file không hợp lệ' : 'Invalid file format');
             }
 
-            if (!importedData.settings || typeof importedData.settings !== 'object') {
-                throw new Error('Invalid settings file format - missing settings object');
+            // Check metadata
+            if (!importedData.metadata || !importedData.settings) {
+                throw new Error(currentLang === 'vi' ? 'File thiếu thông tin metadata hoặc settings' : 'File missing metadata or settings');
             }
 
-            // Check if it's from the same extension
-            if (importedData.metadata && importedData.metadata.extensionName &&
-                !importedData.metadata.extensionName.includes('YouTube')) {
-                throw new Error('Settings file is not from YouTube extension');
+            // Verify extension name
+            if (importedData.metadata.extensionName && 
+                importedData.metadata.extensionName !== "TubeTuner") {
+                throw new Error(currentLang === 'vi' ? 'File không phải từ TubeTuner' : 'File is not from TubeTuner');
             }
 
             const settings = importedData.settings;
 
-            // Validate that imported settings contain expected keys
-            const expectedKeys = [
-                'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden',
-                'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden',
-                'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden',
-                'moreFromYouTubeHidden', 'language', 'theme', 'sectionStates'
-            ];
-
-            // Filter settings to only include valid keys and validate types
-            const validSettings = {};
+            // Validate and filter settings
+            const settingsToImport = {};
             let validCount = 0;
 
-            for (const key of expectedKeys) {
+            for (const [key, expectedType] of Object.entries(validSettings)) {
                 if (settings.hasOwnProperty(key)) {
                     const value = settings[key];
+                    const actualType = typeof value;
 
                     // Type validation
-                    if (key === 'language' && typeof value === 'string' && ['vi', 'en'].includes(value)) {
-                        validSettings[key] = value;
-                        validCount++;
-                    } else if (key === 'theme' && typeof value === 'string' && ['light', 'dark', 'auto'].includes(value)) {
-                        validSettings[key] = value;
-                        validCount++;
-                    } else if (key === 'sectionStates' && typeof value === 'object' && value !== null) {
-                        validSettings[key] = value;
-                        validCount++;
-                    } else if (typeof value === 'boolean') {
-                        validSettings[key] = value;
-                        validCount++;
+                    if (actualType !== expectedType) {
+                        console.warn(`Skipping ${key}: expected ${expectedType}, got ${actualType}`);
+                        continue;
                     }
+
+                    // Additional validation for specific keys
+                    if (key === 'language') {
+                        if (!['vi', 'en'].includes(value)) {
+                            console.warn(`Skipping ${key}: invalid language value '${value}'`);
+                            continue;
+                        }
+                    } else if (key === 'theme') {
+                        if (!['light', 'dark', 'auto'].includes(value)) {
+                            console.warn(`Skipping ${key}: invalid theme value '${value}'`);
+                            continue;
+                        }
+                    }
+
+                    settingsToImport[key] = value;
+                    validCount++;
                 }
             }
 
+            // Check if we have any valid settings to import
             if (validCount === 0) {
-                throw new Error('No valid settings found in file');
+                throw new Error(currentLang === 'vi' ? 'Không tìm thấy cài đặt hợp lệ nào trong file' : 'No valid settings found in file');
             }
 
-            // Show preview of what will be imported
-            const settingsPreview = Object.keys(validSettings).join(', ');
-            // Settings to be imported
-
             // Apply imported settings
-            chrome.storage.sync.set(validSettings, function() {
+            chrome.storage.sync.set(settingsToImport, function() {
                 if (chrome.runtime.lastError) {
-                    console.error('❌ Error saving settings:', chrome.runtime.lastError);
+                    console.error('Error saving settings:', chrome.runtime.lastError);
                     showNotification(
-                        currentLang === 'vi' ? 'Lỗi lưu cài đặt!' : 'Error saving settings!',
+                        currentLang === 'vi' ? 'Lỗi khi lưu cài đặt!' : 'Error saving settings!',
                         'error'
                     );
-
-                    // Restore button state
-                    setTimeout(() => {
-                        importBtn.innerHTML = originalText;
-                        importBtn.disabled = false;
-                    }, 2000);
+                    importBtn.innerHTML = originalText;
+                    importBtn.disabled = false;
                     return;
                 }
 
-                // Settings imported successfully
-
-                // Show success message with details
+                // Success message
                 const successMsg = currentLang === 'vi' ?
                     `Đã nhập ${validCount} cài đặt thành công! Đang tải lại...` :
                     `Successfully imported ${validCount} settings! Reloading...`;
 
                 showNotification(successMsg, 'success');
 
-                // Send message to content script to update immediately if on YouTube
-                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-                    if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
-                        chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(error => {
-                            // Could not send update message to current tab
+                // Update content scripts on active YouTube tabs
+                chrome.tabs.query({url: '*://*.youtube.com/*'}, function(tabs) {
+                    tabs.forEach(tab => {
+                        chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {
+                            // Tab may not have content script loaded yet
                         });
-                    }
+                    });
                 });
 
-                // Reload the popup to reflect new settings
+                // Reload popup after a short delay
                 setTimeout(() => {
                     window.location.reload();
                 }, 1500);
             });
 
         } catch (error) {
-            console.error('❌ Error importing settings:', error);
-            showNotification(
-                translations[currentLang].importError + ` (${error.message})`,
-                'error'
-            );
+            console.error('Error importing settings:', error);
+            
+            let errorMessage = translations[currentLang].importError;
+            if (error.message) {
+                errorMessage = error.message;
+            }
+            
+            showNotification(errorMessage, 'error');
 
             // Restore button state
-            setTimeout(() => {
-                importBtn.innerHTML = originalText;
-                importBtn.disabled = false;
-            }, 2000);
+            importBtn.innerHTML = originalText;
+            importBtn.disabled = false;
         }
     };
 
@@ -1706,10 +1723,8 @@ function importSettings(file) {
         );
 
         // Restore button state
-        setTimeout(() => {
-            importBtn.innerHTML = originalText;
-            importBtn.disabled = false;
-        }, 2000);
+        importBtn.innerHTML = originalText;
+        importBtn.disabled = false;
     };
 
     reader.readAsText(file);
