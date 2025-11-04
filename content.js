@@ -4,6 +4,7 @@
 
     // State variables
     let settings = {
+        extensionEnabled: true,
         progressBarHidden: false,
         durationHidden: false,
         shortsHidden: false,
@@ -26,8 +27,9 @@
     // Khởi tạo extension
     function initialize() {
         // Lấy trạng thái từ storage
-        chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], (result) => {
+        chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], (result) => {
             // Cập nhật settings object
+            settings.extensionEnabled = result.extensionEnabled !== false; // Default is true
             settings.progressBarHidden = result.progressBarHidden === true;
             settings.durationHidden = result.durationHidden === true;
             settings.shortsHidden = result.shortsHidden === true;
@@ -48,21 +50,23 @@
 
             // Áp dụng ngay
             setTimeout(() => {
-                toggleProgressBar(settings.progressBarHidden);
-                toggleDuration(settings.durationHidden);
-                toggleShorts(settings.shortsHidden);
-                toggleHomeFeed(settings.homeFeedHidden);
-                toggleVideoSidebar(settings.videoSidebarHidden);
-                toggleComments(settings.commentsHidden);
-                toggleNotificationsBell(settings.notificationsBellHidden);
-                toggleTopHeader(settings.topHeaderHidden);
-                toggleExploreSection(settings.exploreSectionHidden);
-                toggleEndScreenCards(settings.endScreenCardsHidden);
-                toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
-                toggleHideChannel(settings.hideChannelHidden);
-                toggleButtonsBar(settings.buttonsBarHidden);
-                toggleHideDescription(settings.hideDescriptionHidden);
-                toggleGrayscale(settings.grayscaleEnabled);
+                if (settings.extensionEnabled) {
+                    toggleProgressBar(settings.progressBarHidden);
+                    toggleDuration(settings.durationHidden);
+                    toggleShorts(settings.shortsHidden);
+                    toggleHomeFeed(settings.homeFeedHidden);
+                    toggleVideoSidebar(settings.videoSidebarHidden);
+                    toggleComments(settings.commentsHidden);
+                    toggleNotificationsBell(settings.notificationsBellHidden);
+                    toggleTopHeader(settings.topHeaderHidden);
+                    toggleExploreSection(settings.exploreSectionHidden);
+                    toggleEndScreenCards(settings.endScreenCardsHidden);
+                    toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
+                    toggleHideChannel(settings.hideChannelHidden);
+                    toggleButtonsBar(settings.buttonsBarHidden);
+                    toggleHideDescription(settings.hideDescriptionHidden);
+                    toggleGrayscale(settings.grayscaleEnabled);
+                }
             }, 1000);
         });
 
@@ -74,20 +78,22 @@
                 // URL changed, reapplying extension
                 setTimeout(() => {
                     // Áp dụng lại tất cả settings
-                    if (settings.progressBarHidden) toggleProgressBar(true);
-                    if (settings.durationHidden) toggleDuration(true);
-                    if (settings.shortsHidden) toggleShorts(true);
-                    if (settings.homeFeedHidden) toggleHomeFeed(true);
-                    if (settings.videoSidebarHidden) toggleVideoSidebar(true);
-                    if (settings.commentsHidden) toggleComments(true);
-                    if (settings.notificationsBellHidden) toggleNotificationsBell(true);
-                    if (settings.topHeaderHidden) toggleTopHeader(true);
-                    if (settings.exploreSectionHidden) toggleExploreSection(true);
-                    if (settings.endScreenCardsHidden) toggleEndScreenCards(true);
-                    if (settings.moreFromYouTubeHidden) toggleMoreFromYouTube(true);
-                    if (settings.hideChannelHidden) toggleHideChannel(true);
-                    if (settings.buttonsBarHidden) toggleButtonsBar(true);
-                    if (settings.hideDescriptionHidden) toggleHideDescription(true);
+                    if (settings.extensionEnabled) {
+                        if (settings.progressBarHidden) toggleProgressBar(true);
+                        if (settings.durationHidden) toggleDuration(true);
+                        if (settings.shortsHidden) toggleShorts(true);
+                        if (settings.homeFeedHidden) toggleHomeFeed(true);
+                        if (settings.videoSidebarHidden) toggleVideoSidebar(true);
+                        if (settings.commentsHidden) toggleComments(true);
+                        if (settings.notificationsBellHidden) toggleNotificationsBell(true);
+                        if (settings.topHeaderHidden) toggleTopHeader(true);
+                        if (settings.exploreSectionHidden) toggleExploreSection(true);
+                        if (settings.endScreenCardsHidden) toggleEndScreenCards(true);
+                        if (settings.moreFromYouTubeHidden) toggleMoreFromYouTube(true);
+                        if (settings.hideChannelHidden) toggleHideChannel(true);
+                        if (settings.buttonsBarHidden) toggleButtonsBar(true);
+                        if (settings.hideDescriptionHidden) toggleHideDescription(true);
+                    }
                 }, 2000);
             }
         });
@@ -109,6 +115,45 @@
             const newValue = change.newValue;
 
             switch (key) {
+                case 'extensionEnabled':
+                    settings.extensionEnabled = newValue !== false;
+                    // If extension is disabled, remove all applied changes
+                    if (!settings.extensionEnabled) {
+                        // Disable all features
+                        toggleProgressBar(false);
+                        toggleDuration(false);
+                        toggleShorts(false);
+                        toggleHomeFeed(false);
+                        toggleVideoSidebar(false);
+                        toggleComments(false);
+                        toggleNotificationsBell(false);
+                        toggleTopHeader(false);
+                        toggleExploreSection(false);
+                        toggleEndScreenCards(false);
+                        toggleMoreFromYouTube(false);
+                        toggleHideChannel(false);
+                        toggleButtonsBar(false);
+                        toggleHideDescription(false);
+                        toggleGrayscale(false);
+                    } else {
+                        // Re-enable features based on current settings
+                        toggleProgressBar(settings.progressBarHidden);
+                        toggleDuration(settings.durationHidden);
+                        toggleShorts(settings.shortsHidden);
+                        toggleHomeFeed(settings.homeFeedHidden);
+                        toggleVideoSidebar(settings.videoSidebarHidden);
+                        toggleComments(settings.commentsHidden);
+                        toggleNotificationsBell(settings.notificationsBellHidden);
+                        toggleTopHeader(settings.topHeaderHidden);
+                        toggleExploreSection(settings.exploreSectionHidden);
+                        toggleEndScreenCards(settings.endScreenCardsHidden);
+                        toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
+                        toggleHideChannel(settings.hideChannelHidden);
+                        toggleButtonsBar(settings.buttonsBarHidden);
+                        toggleHideDescription(settings.hideDescriptionHidden);
+                        toggleGrayscale(settings.grayscaleEnabled);
+                    }
+                    break;
                 case 'progressBarHidden':
                     settings.progressBarHidden = newValue === true;
                     toggleProgressBar(settings.progressBarHidden);
@@ -185,6 +230,45 @@
             // Apply all changed settings
             for (const [key, value] of Object.entries(request.changes)) {
                 switch (key) {
+                    case 'extensionEnabled':
+                        settings.extensionEnabled = value !== false;
+                        // If extension is disabled, remove all applied changes
+                        if (!settings.extensionEnabled) {
+                            // Disable all features
+                            toggleProgressBar(false);
+                            toggleDuration(false);
+                            toggleShorts(false);
+                            toggleHomeFeed(false);
+                            toggleVideoSidebar(false);
+                            toggleComments(false);
+                            toggleNotificationsBell(false);
+                            toggleTopHeader(false);
+                            toggleExploreSection(false);
+                            toggleEndScreenCards(false);
+                            toggleMoreFromYouTube(false);
+                            toggleHideChannel(false);
+                            toggleButtonsBar(false);
+                            toggleHideDescription(false);
+                            toggleGrayscale(false);
+                        } else {
+                            // Re-enable features based on current settings
+                            toggleProgressBar(settings.progressBarHidden);
+                            toggleDuration(settings.durationHidden);
+                            toggleShorts(settings.shortsHidden);
+                            toggleHomeFeed(settings.homeFeedHidden);
+                            toggleVideoSidebar(settings.videoSidebarHidden);
+                            toggleComments(settings.commentsHidden);
+                            toggleNotificationsBell(settings.notificationsBellHidden);
+                            toggleTopHeader(settings.topHeaderHidden);
+                            toggleExploreSection(settings.exploreSectionHidden);
+                            toggleEndScreenCards(settings.endScreenCardsHidden);
+                            toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
+                            toggleHideChannel(settings.hideChannelHidden);
+                            toggleButtonsBar(settings.buttonsBarHidden);
+                            toggleHideDescription(settings.hideDescriptionHidden);
+                            toggleGrayscale(settings.grayscaleEnabled);
+                        }
+                        break;
                     case 'progressBarHidden':
                         settings.progressBarHidden = value === true;
                         toggleProgressBar(settings.progressBarHidden);

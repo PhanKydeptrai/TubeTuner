@@ -2,6 +2,8 @@
 let currentLang = 'en'; // Default language is English
 let translations = {}; // Global declaration to access from outside DOMContentLoaded
 let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreSectionSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, grayscaleSwitch, status; // Global variables to access from outside
+let extensionEnabledSwitch; // Master extension toggle
+let currentExtensionEnabled = true; // Global extension enabled state
 
 // Console log calls have been removed in production build
 
@@ -122,6 +124,25 @@ function updateLanguageUI() {
             }
         }
 
+        // Update extension enabled label
+        const extensionEnabledSwitch = document.getElementById('extensionEnabledSwitch');
+        if (extensionEnabledSwitch) {
+            const label = extensionEnabledSwitch.closest('.ext-control-item').querySelector('.ext-control-label');
+            if (label) {
+                label.textContent = translations[currentLang].extensionEnabled;
+            }
+        }
+
+        // Update disabled notice
+        const disabledTitle = document.querySelector('.ext-notice-title');
+        const disabledDesc = document.querySelector('.ext-notice-description');
+        if (disabledTitle && disabledTitle.textContent.includes('Extension')) {
+            disabledTitle.textContent = translations[currentLang].extensionDisabledTitle;
+        }
+        if (disabledDesc && disabledDesc.textContent.includes('TubeTuner')) {
+            disabledDesc.textContent = translations[currentLang].extensionDisabledDesc;
+        }
+
         // Update status based on current state
         updateStatusUI();
     } else {
@@ -132,6 +153,26 @@ function updateLanguageUI() {
 // Global function to update UI based on state
 // Update UI elements (checkboxes) based on stored state
 function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, grayscaleEnabled) {
+
+    // Update extension enabled toggle
+    if (extensionEnabledSwitch) {
+        extensionEnabledSwitch.checked = currentExtensionEnabled;
+    }
+
+    // Show/hide sections and disabled notice based on extension enabled state
+    const sectionsContainer = document.getElementById('sectionsContainer');
+    const disabledNotice = document.getElementById('disabledNotice');
+    if (sectionsContainer) {
+        sectionsContainer.style.display = currentExtensionEnabled ? 'block' : 'none';
+    }
+    if (disabledNotice) {
+        disabledNotice.style.display = currentExtensionEnabled ? 'none' : 'block';
+    }
+
+    if (!currentExtensionEnabled) {
+        // If extension is disabled, don't update individual toggles
+        return;
+    }
 
     if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch) {
         console.error('❌ Toggle switches not defined yet:', {
@@ -403,6 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
     buttonsBarSwitch = document.getElementById('buttonsBarSwitch');
     hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
     grayscaleSwitch = document.getElementById('grayscaleSwitch');
+    extensionEnabledSwitch = document.getElementById('extensionEnabledSwitch');
     status = document.getElementById('status');
     const langVi = document.getElementById('lang-vi');
     const langEn = document.getElementById('lang-en');
@@ -417,6 +459,9 @@ document.addEventListener('DOMContentLoaded', function() {
             hideProgressBar: 'Ẩn thanh tiến trình',
             hideDuration: 'Ẩn thời lượng video',
             hideShorts: 'Ẩn Shorts',
+            extensionEnabled: 'Bật/Tắt Extension',
+            extensionDisabledTitle: 'Extension đã tắt',
+            extensionDisabledDesc: 'TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy chỉnh YouTube.',
             statusActive: 'Đang hoạt động',
             hidingFeatures: 'Đang ẩn',
             progressBar: 'thanh tiến trình',
@@ -449,7 +494,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // New translation entries for grayscale feature
             grayscale: 'Giao diện đen trắng',
             enableGrayscale: 'Bật giao diện đen trắng',
-            disableGrayscale: 'Tắt giao diện đen trắng'
+            disableGrayscale: 'Tắt giao diện đen trắng',
+            // About section translations
+            aboutTitle: 'Giới thiệu',
+            aboutDescription: 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
+            aboutFeaturesTitle: 'Tính năng chính:',
+            aboutFeature1: '✨ Ẩn/hiện các phần tử giao diện YouTube',
+            aboutFeature2: '🎨 Chế độ giao diện đen trắng',
+            aboutFeature3: '🔄 Đồng bộ cài đặt giữa các tab',
+            aboutFeature4: '💾 Sao lưu/khôi phục cài đặt',
+            aboutFeature5: '🌐 Hỗ trợ đa ngôn ngữ (VI/EN)',
+            aboutGithubLink: 'GitHub Repository'
         },
         en: {
             title: 'TubeTuner',
@@ -457,6 +512,9 @@ document.addEventListener('DOMContentLoaded', function() {
             hideProgressBar: 'Hide progress bar',
             hideDuration: 'Hide video duration',
             hideShorts: 'Hide Shorts',
+            extensionEnabled: 'Enable/Disable Extension',
+            extensionDisabledTitle: 'Extension Disabled',
+            extensionDisabledDesc: 'TubeTuner is currently disabled. Enable it to use YouTube customization features.',
             statusActive: 'Active',
             hidingFeatures: 'Hiding',
             progressBar: 'progress bar',
@@ -489,7 +547,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Get current state with improved error handling and timing
-    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'language', 'theme', 'sectionStates'], function(result) {
+    chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'language', 'theme', 'sectionStates'], function(result) {
+        currentExtensionEnabled = result.extensionEnabled !== false; // Default is true
         const isEnabled = result.progressBarHidden === true; // Default is false
         const durationHidden = result.durationHidden === true; // Default is false
         const shortsHidden = result.shortsHidden === true; // Default is false
@@ -554,6 +613,25 @@ document.addEventListener('DOMContentLoaded', function() {
         updateLanguageUI();
     });
     
+    // Handle extension enabled toggle click
+    if (extensionEnabledSwitch) {
+        extensionEnabledSwitch.addEventListener('change', function(e) {
+            const newState = e.target.checked;
+            currentExtensionEnabled = newState; // Update global state
+
+            // Save state
+            chrome.storage.sync.set({ extensionEnabled: newState });
+
+            // Update UI immediately
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'grayscaleEnabled'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.grayscaleEnabled === true);
+                // Updated UI after extension enabled toggle
+            });
+
+            handleToggleChange('toggleExtensionEnabled', newState);
+        });
+    }
+
     // Handle toggle extension click
     if (toggleSwitch) {
         toggleSwitch.addEventListener('change', function(e) {
@@ -590,7 +668,8 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ durationHidden: newState });
 
             // Update UI
-            chrome.storage.sync.get(['progressBarHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
+            chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden'], function(result) {
+                const currentExtensionEnabled = result.extensionEnabled !== false;
                 const currentHomeFeedHidden = result.homeFeedHidden === true;
                 const currentVideoSidebarHidden = result.videoSidebarHidden === true;
                 const currentCommentsHidden = result.commentsHidden === true;
@@ -1042,7 +1121,20 @@ function setLanguage(lang, save = true) {
             'backupCreated': 'Đã tạo bản sao lưu tự động',
             'invalidFileType': 'Chỉ chấp nhận file JSON!',
             'fileTooLarge': 'File quá lớn (tối đa 5MB)!',
-            'noSettingsToExport': 'Không có cài đặt nào để xuất!'
+            'noSettingsToExport': 'Không có cài đặt nào để xuất!',
+            'extensionEnabled': 'Bật/Tắt Extension',
+            'extensionDisabledTitle': 'Extension đã tắt',
+            'extensionDisabledDesc': 'TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy chỉnh YouTube.',
+            // About section translations
+            'aboutTitle': 'Giới thiệu',
+            'aboutDescription': 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
+            'aboutFeaturesTitle': 'Tính năng chính:',
+            'aboutFeature1': '✨ Ẩn/hiện các phần tử giao diện YouTube',
+            'aboutFeature2': '🎨 Chế độ giao diện đen trắng',
+            'aboutFeature3': '🔄 Đồng bộ cài đặt giữa các tab',
+            'aboutFeature4': '💾 Sao lưu/khôi phục cài đặt',
+            'aboutFeature5': '🌐 Hỗ trợ đa ngôn ngữ (VI/EN)',
+            'aboutGithubLink': 'GitHub Repository'
         },
         'en': {
             'title': 'TubeTuner',
@@ -1099,7 +1191,20 @@ function setLanguage(lang, save = true) {
             'backupCreated': 'Auto backup created',
             'invalidFileType': 'Only JSON files are accepted!',
             'fileTooLarge': 'File too large (max 5MB)!',
-            'noSettingsToExport': 'No settings to export!'
+            'noSettingsToExport': 'No settings to export!',
+            'extensionEnabled': 'Enable/Disable Extension',
+            'extensionDisabledTitle': 'Extension Disabled',
+            'extensionDisabledDesc': 'TubeTuner is currently disabled. Enable it to use YouTube customization features.',
+            // About section translations
+            'aboutTitle': 'About',
+            'aboutDescription': 'TubeTuner is an extension that helps you customize your YouTube experience as you wish. Hide unnecessary elements like progress bars, Shorts, ads, and many other components to focus on important content.',
+            'aboutFeaturesTitle': 'Key Features:',
+            'aboutFeature1': '✨ Show/hide YouTube interface elements',
+            'aboutFeature2': '🎨 Grayscale interface mode',
+            'aboutFeature3': '🔄 Sync settings across tabs',
+            'aboutFeature4': '💾 Backup/restore settings',
+            'aboutFeature5': '🌐 Multi-language support (VI/EN)',
+            'aboutGithubLink': 'GitHub Repository'
         }
     };
     
@@ -1112,10 +1217,35 @@ function setLanguage(lang, save = true) {
 
     // Section titles
     const sectionTitles = document.querySelectorAll('.ext-section-title');
-    if (sectionTitles[0]) sectionTitles[0].textContent = t.contentFeedControlsTitle;
-    if (sectionTitles[1]) sectionTitles[1].textContent = t.interfaceElementsTitle;
-    if (sectionTitles[2]) sectionTitles[2].textContent = t.videoControlsTitle;
-    if (sectionTitles[3]) sectionTitles[3].textContent = t.otherFeaturesTitle;
+    if (sectionTitles[0]) sectionTitles[0].textContent = t.aboutTitle;
+    if (sectionTitles[1]) sectionTitles[1].textContent = t.contentFeedControlsTitle;
+    if (sectionTitles[2]) sectionTitles[2].textContent = t.interfaceElementsTitle;
+    if (sectionTitles[3]) sectionTitles[3].textContent = t.videoControlsTitle;
+    if (sectionTitles[4]) sectionTitles[4].textContent = t.otherFeaturesTitle;
+
+    // About section content
+    const aboutDescription = document.querySelector('.ext-about-description');
+    if (aboutDescription) aboutDescription.textContent = t.aboutDescription;
+    
+    const aboutFeaturesTitle = document.querySelector('.ext-about-features-title');
+    if (aboutFeaturesTitle) aboutFeaturesTitle.textContent = t.aboutFeaturesTitle;
+    
+    const aboutFeaturesList = document.querySelectorAll('.ext-about-features-list li');
+    if (aboutFeaturesList.length >= 5) {
+        aboutFeaturesList[0].textContent = t.aboutFeature1;
+        aboutFeaturesList[1].textContent = t.aboutFeature2;
+        aboutFeaturesList[2].textContent = t.aboutFeature3;
+        aboutFeaturesList[3].textContent = t.aboutFeature4;
+        aboutFeaturesList[4].textContent = t.aboutFeature5;
+    }
+    
+    const aboutGithubLink = document.querySelector('.ext-about-link');
+    if (aboutGithubLink) {
+        const linkText = aboutGithubLink.childNodes[aboutGithubLink.childNodes.length - 1];
+        if (linkText && linkText.nodeType === Node.TEXT_NODE) {
+            linkText.textContent = t.aboutGithubLink;
+        }
+    }
 
     // Control labels - using a mapping approach for better maintainability
     const labelMappings = [
@@ -1138,6 +1268,8 @@ function setLanguage(lang, save = true) {
         { id: 'hideDescriptionSwitch', text: t.hideDescription },
         // Grayscale
         { id: 'grayscaleSwitch', text: t.grayscale },
+        // Extension Enabled
+        { id: 'extensionEnabledSwitch', text: t.extensionEnabled },
 
 
     ];
@@ -1176,8 +1308,6 @@ function setLanguage(lang, save = true) {
     document.querySelectorAll('.ext-feature-item')[1].textContent = t.featureDuration;
     document.querySelectorAll('.ext-feature-item')[2].textContent = t.featureShorts;
     document.querySelector('.ext-info-content p').textContent = t.infoExtra;
-    document.querySelector('.ext-notice-title').textContent = t.noticeTitle;
-    document.querySelector('.ext-notice-description').textContent = t.noticeDesc;
 
     // Save language preference if needed
     if (save) {
@@ -1340,15 +1470,58 @@ function exportSettings() {
     exportBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${translations[currentLang].exporting}</span>`;
     exportBtn.disabled = true;
 
+    // Define all valid setting keys
+    const validSettingKeys = [
+        'extensionEnabled',
+        'progressBarHidden',
+        'durationHidden',
+        'shortsHidden',
+        'homeFeedHidden',
+        'videoSidebarHidden',
+        'commentsHidden',
+        'notificationsBellHidden',
+        'topHeaderHidden',
+        'exploreSectionHidden',
+        'endScreenCardsHidden',
+        'moreFromYouTubeHidden',
+        'hideChannelHidden',
+        'buttonsBarHidden',
+        'hideDescriptionHidden',
+        'grayscaleEnabled',
+        'language',
+        'theme'
+    ];
+
     // Get all settings from chrome storage
-    chrome.storage.sync.get(null, function(allSettings) {
+    chrome.storage.sync.get(validSettingKeys, function(result) {
+        if (chrome.runtime.lastError) {
+            console.error('Error getting settings:', chrome.runtime.lastError);
+            showNotification(
+                currentLang === 'vi' ? 'Lỗi khi lấy cài đặt!' : 'Error getting settings!',
+                'error'
+            );
+            exportBtn.innerHTML = originalText;
+            exportBtn.disabled = false;
+            return;
+        }
+
+        // Filter only existing settings
+        const settingsToExport = {};
+        let settingsCount = 0;
+        
+        for (const key of validSettingKeys) {
+            if (result.hasOwnProperty(key)) {
+                settingsToExport[key] = result[key];
+                settingsCount++;
+            }
+        }
+
         // Check if there are any settings to export
-        if (!allSettings || Object.keys(allSettings).length === 0) {
+        if (settingsCount === 0) {
             showNotification(
                 translations[currentLang].noSettingsToExport,
                 'info'
             );
-            // Restore button state
             exportBtn.innerHTML = originalText;
             exportBtn.disabled = false;
             return;
@@ -1359,11 +1532,11 @@ function exportSettings() {
             metadata: {
                 exportDate: new Date().toISOString(),
                 extensionName: "TubeTuner",
-                version: "1.2",
-                exportedBy: "TubeTuner Settings Export",
-                settingsCount: Object.keys(allSettings).length
+                extensionVersion: "1.2",
+                formatVersion: "1.0",
+                settingsCount: settingsCount
             },
-            settings: allSettings
+            settings: settingsToExport
         };
 
         // Convert to JSON string with pretty formatting
@@ -1373,18 +1546,17 @@ function exportSettings() {
         const blob = new Blob([jsonString], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
 
-        // Create download link
+        // Create download link with timestamp
+        const timestamp = new Date().toISOString().replace(/:/g, '-').split('.')[0];
         const a = document.createElement('a');
         a.href = url;
-        a.download = `youtube-extension-settings-${new Date().toISOString().split('T')[0]}.json`;
+        a.download = `TubeTuner-settings-${timestamp}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
 
         // Clean up
         URL.revokeObjectURL(url);
-
-        // Settings exported successfully
 
         // Show success message
         showNotification(
@@ -1400,37 +1572,6 @@ function exportSettings() {
     });
 }
 
-// Create backup before importing
-function createBackupBeforeImport(callback) {
-    chrome.storage.sync.get(null, function(currentSettings) {
-        const backup = {
-            metadata: {
-                backupDate: new Date().toISOString(),
-                extensionName: "TubeTuner",
-                version: "1.2",
-                backupType: "Auto backup before import"
-            },
-            settings: currentSettings
-        };
-
-        const jsonString = JSON.stringify(backup, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `youtube-extension-backup-${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        URL.revokeObjectURL(url);
-        // Backup created before import
-
-        if (callback) callback();
-    });
-}
-
 // Import Settings functionality
 function importSettings(file) {
     // Show loading state
@@ -1439,133 +1580,139 @@ function importSettings(file) {
     importBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${translations[currentLang].importing}</span>`;
     importBtn.disabled = true;
 
-    // Create backup first
-    createBackupBeforeImport(function() {
-        // Backup created, proceeding with import
-    });
+    // Define all valid setting keys with their expected types
+    const validSettings = {
+        'extensionEnabled': 'boolean',
+        'progressBarHidden': 'boolean',
+        'durationHidden': 'boolean',
+        'shortsHidden': 'boolean',
+        'homeFeedHidden': 'boolean',
+        'videoSidebarHidden': 'boolean',
+        'commentsHidden': 'boolean',
+        'notificationsBellHidden': 'boolean',
+        'topHeaderHidden': 'boolean',
+        'exploreSectionHidden': 'boolean',
+        'endScreenCardsHidden': 'boolean',
+        'moreFromYouTubeHidden': 'boolean',
+        'hideChannelHidden': 'boolean',
+        'buttonsBarHidden': 'boolean',
+        'hideDescriptionHidden': 'boolean',
+        'grayscaleEnabled': 'boolean',
+        'language': 'string',
+        'theme': 'string'
+    };
 
     const reader = new FileReader();
 
     reader.onload = function(e) {
         try {
-            // Validate file size (max 1MB)
-            if (file.size > 1024 * 1024) {
-                throw new Error('File too large (max 1MB)');
-            }
-
+            // Parse JSON
             const importedData = JSON.parse(e.target.result);
 
-            // Validate imported data structure
+            // Validate file structure
             if (!importedData || typeof importedData !== 'object') {
-                throw new Error('Invalid JSON format');
+                throw new Error(currentLang === 'vi' ? 'Định dạng file không hợp lệ' : 'Invalid file format');
             }
 
-            if (!importedData.settings || typeof importedData.settings !== 'object') {
-                throw new Error('Invalid settings file format - missing settings object');
+            // Check metadata
+            if (!importedData.metadata || !importedData.settings) {
+                throw new Error(currentLang === 'vi' ? 'File thiếu thông tin metadata hoặc settings' : 'File missing metadata or settings');
             }
 
-            // Check if it's from the same extension
-            if (importedData.metadata && importedData.metadata.extensionName &&
-                !importedData.metadata.extensionName.includes('YouTube')) {
-                throw new Error('Settings file is not from YouTube extension');
+            // Verify extension name
+            if (importedData.metadata.extensionName && 
+                importedData.metadata.extensionName !== "TubeTuner") {
+                throw new Error(currentLang === 'vi' ? 'File không phải từ TubeTuner' : 'File is not from TubeTuner');
             }
 
             const settings = importedData.settings;
 
-            // Validate that imported settings contain expected keys
-            const expectedKeys = [
-                'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden',
-                'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden',
-                'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden',
-                'moreFromYouTubeHidden', 'language', 'theme', 'sectionStates'
-            ];
-
-            // Filter settings to only include valid keys and validate types
-            const validSettings = {};
+            // Validate and filter settings
+            const settingsToImport = {};
             let validCount = 0;
 
-            for (const key of expectedKeys) {
+            for (const [key, expectedType] of Object.entries(validSettings)) {
                 if (settings.hasOwnProperty(key)) {
                     const value = settings[key];
+                    const actualType = typeof value;
 
                     // Type validation
-                    if (key === 'language' && typeof value === 'string' && ['vi', 'en'].includes(value)) {
-                        validSettings[key] = value;
-                        validCount++;
-                    } else if (key === 'theme' && typeof value === 'string' && ['light', 'dark', 'auto'].includes(value)) {
-                        validSettings[key] = value;
-                        validCount++;
-                    } else if (key === 'sectionStates' && typeof value === 'object' && value !== null) {
-                        validSettings[key] = value;
-                        validCount++;
-                    } else if (typeof value === 'boolean') {
-                        validSettings[key] = value;
-                        validCount++;
+                    if (actualType !== expectedType) {
+                        console.warn(`Skipping ${key}: expected ${expectedType}, got ${actualType}`);
+                        continue;
                     }
+
+                    // Additional validation for specific keys
+                    if (key === 'language') {
+                        if (!['vi', 'en'].includes(value)) {
+                            console.warn(`Skipping ${key}: invalid language value '${value}'`);
+                            continue;
+                        }
+                    } else if (key === 'theme') {
+                        if (!['light', 'dark', 'auto'].includes(value)) {
+                            console.warn(`Skipping ${key}: invalid theme value '${value}'`);
+                            continue;
+                        }
+                    }
+
+                    settingsToImport[key] = value;
+                    validCount++;
                 }
             }
 
+            // Check if we have any valid settings to import
             if (validCount === 0) {
-                throw new Error('No valid settings found in file');
+                throw new Error(currentLang === 'vi' ? 'Không tìm thấy cài đặt hợp lệ nào trong file' : 'No valid settings found in file');
             }
 
-            // Show preview of what will be imported
-            const settingsPreview = Object.keys(validSettings).join(', ');
-            // Settings to be imported
-
             // Apply imported settings
-            chrome.storage.sync.set(validSettings, function() {
+            chrome.storage.sync.set(settingsToImport, function() {
                 if (chrome.runtime.lastError) {
-                    console.error('❌ Error saving settings:', chrome.runtime.lastError);
+                    console.error('Error saving settings:', chrome.runtime.lastError);
                     showNotification(
-                        currentLang === 'vi' ? 'Lỗi lưu cài đặt!' : 'Error saving settings!',
+                        currentLang === 'vi' ? 'Lỗi khi lưu cài đặt!' : 'Error saving settings!',
                         'error'
                     );
-
-                    // Restore button state
-                    setTimeout(() => {
-                        importBtn.innerHTML = originalText;
-                        importBtn.disabled = false;
-                    }, 2000);
+                    importBtn.innerHTML = originalText;
+                    importBtn.disabled = false;
                     return;
                 }
 
-                // Settings imported successfully
-
-                // Show success message with details
+                // Success message
                 const successMsg = currentLang === 'vi' ?
                     `Đã nhập ${validCount} cài đặt thành công! Đang tải lại...` :
                     `Successfully imported ${validCount} settings! Reloading...`;
 
                 showNotification(successMsg, 'success');
 
-                // Send message to content script to update immediately if on YouTube
-                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-                    if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
-                        chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(error => {
-                            // Could not send update message to current tab
+                // Update content scripts on active YouTube tabs
+                chrome.tabs.query({url: '*://*.youtube.com/*'}, function(tabs) {
+                    tabs.forEach(tab => {
+                        chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {
+                            // Tab may not have content script loaded yet
                         });
-                    }
+                    });
                 });
 
-                // Reload the popup to reflect new settings
+                // Reload popup after a short delay
                 setTimeout(() => {
                     window.location.reload();
                 }, 1500);
             });
 
         } catch (error) {
-            console.error('❌ Error importing settings:', error);
-            showNotification(
-                translations[currentLang].importError + ` (${error.message})`,
-                'error'
-            );
+            console.error('Error importing settings:', error);
+            
+            let errorMessage = translations[currentLang].importError;
+            if (error.message) {
+                errorMessage = error.message;
+            }
+            
+            showNotification(errorMessage, 'error');
 
             // Restore button state
-            setTimeout(() => {
-                importBtn.innerHTML = originalText;
-                importBtn.disabled = false;
-            }, 2000);
+            importBtn.innerHTML = originalText;
+            importBtn.disabled = false;
         }
     };
 
@@ -1576,10 +1723,8 @@ function importSettings(file) {
         );
 
         // Restore button state
-        setTimeout(() => {
-            importBtn.innerHTML = originalText;
-            importBtn.disabled = false;
-        }, 2000);
+        importBtn.innerHTML = originalText;
+        importBtn.disabled = false;
     };
 
     reader.readAsText(file);
