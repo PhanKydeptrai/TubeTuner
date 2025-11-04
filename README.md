@@ -1,32 +1,88 @@
-# TubeTuner - UI tweaker for Youtube
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+<a id="readme-top"></a>
 
-English | [Tiếng Việt](README_VI.md)
+<!-- PROJECT SHIELDS -->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
 
-A comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 14 different hide/show options.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/PhanKydeptrai/TubeTuner">
+    <img src="icons/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-## Main Features
+  <h3 align="center">TubeTuner</h3>
 
-### 🎬 Content & Feed Controls
+  <p align="center">
+    A comprehensive Chrome extension to customize your YouTube interface according to your preferences.
+    <br />
+    <a href="https://github.com/PhanKydeptrai/TubeTuner"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/PhanKydeptrai/TubeTuner">View Demo</a>
+    ·
+    <a href="https://github.com/PhanKydeptrai/TubeTuner/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    ·
+    <a href="https://github.com/PhanKydeptrai/TubeTuner/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+  </p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+TubeTuner is a comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 14 different hide/show options.
+
+### Main Features
+
+#### 🎬 Content & Feed Controls
 ✅ **Hide Home Feed** - Hide YouTube homepage to avoid distractions <br>
 ✅ **Hide Video Sidebar** - Hide recommended video list on the side <br>
 ✅ **Hide Comments** - Hide video comments section <br>
 ✅ **Hide Shorts** - Completely hide Shorts videos and Shorts section on YouTube <br>
 ✅ **Hide Channel** - Hide channel information <br>
 
-### 🎛️ Interface Elements
+#### 🎛️ Interface Elements
 ✅ **Hide Top Header** - Hide top header bar <br>
 ✅ **Hide Notifications Bell** - Hide notification bell <br>
 ✅ **Hide Explore & Trending** - Hide Explore and Trending tabs <br>
 ✅ **Hide More from YouTube** - Hide "More from YouTube" section <br>
 ✅ **Hide Buttons Bar** - Hide buttons bar <br>
 
-### 🎥 Video Controls
+#### 🎥 Video Controls
 ✅ **Hide video progress bar** - Remove the progress bar when watching videos <br>
 ✅ **Hide video duration** - Hide current time/total duration information <br>
 ✅ **Hide End Screen Cards** - Hide end screen cards <br>
 ✅ **Hide Description** - Hide video description <br>
 
-### 🔧 Other Features
+#### 🔧 Other Features
 ✅ **Export/Import Settings** - Backup and share configurations <br>
 ✅ **Modern UI** - Beautiful interface with 3 collapsible sections <br>
 ✅ **Dark mode** - Support for dark mode, automatically follows system <br>
@@ -34,33 +90,37 @@ A comprehensive Chrome extension to customize your YouTube interface according t
 ✅ **Independent toggles** - Separate toggle for each feature <br>
 ✅ **No performance impact** - Lightweight and optimized extension <br>
 
-## 🌟 Modern Interface with 3 Collapsible Sections 🌟
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-> **New!** Extension interface is organized into 3 main sections:
->
-> 1. **Content & Feed Controls** - Control content and feeds
-> 2. **Interface Elements** - Interface elements
-> 3. **Video Controls** - Video controls
->
-> Each section can be collapsed/expanded and remembers your state!
->
-> **Export/Import Settings Feature:** Backup your configuration as JSON files to share or restore later.
+### Built With
 
-## 🛠 Installation
+* [![JavaScript][JavaScript-shield]][JavaScript-url]
+* [![HTML5][HTML5-shield]][HTML5-url]
+* [![CSS3][CSS3-shield]][CSS3-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+To get a local copy up and running follow these simple example steps.
+
+### Installation
 
 1. **Open Chrome and go to Extensions page:**
    - Type `chrome://extensions/` in the address bar
    - Or go to Menu → More tools → Extensions
-
 2. **Enable Developer mode:**
    - Switch on the "Developer mode" toggle in the top right corner
-
 3. **Load extension:**
    - Click "Load unpacked"
-   - Select this `TubeTuner` folder
+   - Select the `TubeTuner` folder
    - The extension will be installed and appear in the list
 
-## How to Use
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
+## Usage
 
 1. **Open YouTube** and play any video
 2. **Click on the extension icon** in the toolbar
@@ -73,75 +133,65 @@ A comprehensive Chrome extension to customize your YouTube interface according t
 6. **Export/Import Settings**: Use buttons in settings section to backup/restore configurations
 7. Extension will automatically apply changes and remember section states
 
-## Extension Status
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-- 🟢 **Hiding: home feed** - Only the home page is hidden
-- 🟢 **Hiding: video sidebar** - Only the video sidebar is hidden
-- 🟢 **Hiding: comments** - Only the comments section is hidden
-- 🟢 **Hiding: shorts** - Only the Shorts section is hidden
-- 🟢 **Hiding: channel** - Only the channel information is hidden
-- 🟢 **Hiding: top header** - Only the top header is hidden
-- 🟢 **Hiding: notifications bell** - Only the notification bell is hidden
-- 🟢 **Hiding: explore & trending** - Only Explore & Trending tabs are hidden
-- 🟢 **Hiding: more from youtube** - Only "More from YouTube" section is hidden
-- 🟢 **Hiding: buttons bar** - Only the buttons bar is hidden
-- 🟢 **Hiding: progress bar** - Only the progress bar is hidden
-- 🟢 **Hiding: duration** - Only the video duration is hidden
-- 🟢 **Hiding: end screen cards** - Only the end screen cards are hidden
-- 🟢 **Hiding: description** - Only the video description is hidden
-- 🟢 **Hiding: multiple features** - Combination of multiple hidden features
-- 🟡 **All disabled** - Normal display
+<!-- ROADMAP -->
+## Roadmap
 
-## Notes
+- [x] Add all the amazing features
+- [ ] Add more features
+- [ ] ...
 
-- The extension only works on `youtube.com`
-- YouTube keyboard shortcuts still work normally (Space, M, F, ←, →, ↑, ↓)
-- Settings are automatically saved and applied to all YouTube tabs
-- Each feature can be toggled independently as needed
-- Section collapsed/expanded states are remembered
-- Theme preferences (light/dark) are saved and applied for every time you open the extension
-- Exported settings files are in JSON format and can be shared with others
-- If you encounter issues, try refreshing the YouTube page or disabling/enabling the extension
+See the [open issues](https://github.com/PhanKydeptrai/TubeTuner/issues) for a full list of proposed features (and known issues).
 
-## File Structure
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-```
-TubeTuner/
-├── manifest.json         # Extension configuration
-├── content.js            # Script running on YouTube page
-├── popup.html            # Popup interface
-├── popup.js              # Popup logic
-├── styles.css            # CSS to hide YouTube elements
-├── interface.css         # CSS for popup interface
-├── LICENSE               # MIT License
-├── README.md             # Vietnamese readme file
-├── README_EN.md          # English readme file (this file)
-└── icons/                # Folder containing icons (complete set)
-    ├── icon16.png        # Icon 16x16px
-    ├── icon32.png        # Icon 32x32px
-    ├── icon48.png        # Icon 48x48px
-    └── icon128.png       # Icon 128x128px
-```
+<!-- CONTRIBUTING -->
+## Contributing
 
-## Troubleshooting
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-**Extension not working:**
-- Check if Developer mode is enabled
-- Reload the extension in chrome://extensions/
-- Refresh the YouTube page
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
-**Hidden features still showing:**
-- Click the extension icon and check toggle status in each section
-- Make sure the corresponding feature is enabled
-- Refresh the page and try again
-- Check the Console for any errors
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-**Sections not collapsing/expanding:**
-- Check if localStorage is being cleared
-- Try clearing browser cache
-- Reload the extension and try again
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-**Export/Import settings not working:**
-- Ensure file has valid JSON format
-- Check file size (maximum 5MB)
-- Check Console for JavaScript errors
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+## Contact
+
+Phan Ky - kyp194490@gmail.com
+
+Project Link: [https://github.com/PhanKydeptrai/TubeTuner](https://github.com/PhanKydeptrai/TubeTuner)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[contributors-shield]: https://img.shields.io/github/contributors/PhanKydeptrai/TubeTuner.svg?style=for-the-badge
+[contributors-url]: https://github.com/PhanKydeptrai/TubeTuner/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/PhanKydeptrai/TubeTuner.svg?style=for-the-badge
+[forks-url]: https://github.com/PhanKydeptrai/TubeTuner/network/members
+[stars-shield]: https://img.shields.io/github/stars/PhanKydeptrai/TubeTuner.svg?style=for-the-badge
+[stars-url]: https://github.com/PhanKydeptrai/TubeTuner/stargazers
+[issues-shield]: https://img.shields.io/github/issues/PhanKydeptrai/TubeTuner.svg?style=for-the-badge
+[issues-url]: https://github.com/PhanKydeptrai/TubeTuner/issues
+[license-shield]: https://img.shields.io/github/license/PhanKydeptrai/TubeTuner.svg?style=for-the-badge
+[license-url]: https://github.com/PhanKydeptrai/TubeTuner/blob/master/LICENSE
+[JavaScript-shield]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
+[JavaScript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+[HTML5-shield]: https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
+[HTML5-url]: https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5
+[CSS3-shield]: https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white
+[CSS3-url]: https://developer.mozilla.org/en-US/docs/Web/CSS
