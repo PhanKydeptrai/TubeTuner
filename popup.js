@@ -1,5 +1,5 @@
 // YouTube Progress Bar Hider Popup Script
-let currentLang = 'vi'; // Default language is Vietnamese
+let currentLang = 'en'; // Default language is English
 let translations = {}; // Global declaration to access from outside DOMContentLoaded
 let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreSectionSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, grayscaleSwitch, status; // Global variables to access from outside
 let extensionEnabledSwitch; // Master extension toggle
@@ -815,7 +815,6 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ notificationsBellHidden: newState });
 
             // Update UI immediately with new state
-
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, newState, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true);
                 // Updated UI after notifications bell toggle
@@ -834,10 +833,8 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ topHeaderHidden: newState });
 
             // Update UI immediately with new state
-
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, newState, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true);
-
                 // Updated UI after top header toggle
             });
 
@@ -872,7 +869,6 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ endScreenCardsHidden: newState });
 
             // Update UI immediately with new state
-
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, newState, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true);
                 // Updated UI after end screen cards toggle
@@ -891,7 +887,6 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ moreFromYouTubeHidden: newState });
 
             // Update UI immediately with new state
-
             chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
                 updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, newState, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true);
                 // Updated UI after more from YouTube toggle
@@ -1071,7 +1066,7 @@ function saveThemeSetting(theme) {
 // Initialize language
 function initializeLanguage() {
     chrome.storage.sync.get('language', function(data) {
-        const savedLanguage = data.language || 'vi';
+        const savedLanguage = data.language || 'en';
         setLanguage(savedLanguage, false);
     });
 }
