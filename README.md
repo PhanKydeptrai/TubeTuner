@@ -18,7 +18,7 @@
   <h3 align="center">TubeTuner</h3>
 
   <p align="center">
-    A comprehensive Chrome extension to customize your YouTube interface according to your preferences.
+    Customize the YouTube interface to eliminate distractions and create a focused, personalized viewing experience
     <br />
     <a href="https://github.com/PhanKydeptrai/TubeTuner"><strong>Explore the docs »</strong></a>
     <br />
