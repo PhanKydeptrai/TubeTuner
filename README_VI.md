@@ -47,6 +47,7 @@
         <li><a href="#installation">Cài đặt</a></li>
       </ul>
     </li>
+    <li><a href="#get-this-extension">✨ Tải tiện ích này</a></li>
     <li><a href="#usage">Sử dụng</a></li>
     <li><a href="#roadmap">Lộ trình</a></li>
     <li><a href="#contributing">Đóng góp</a></li>
@@ -119,6 +120,15 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
+<!-- GET THIS EXTENSION -->
+## ✨ Tải tiện ích này
+
+| Trình duyệt | Liên kết |
+|---------------|--------|
+| Chrome        | [Tải xuống](https://chromewebstore.google.com/detail/tubetuner/ekllndjjhcpljlfhfblfcagbdjnjkbco) |
+
+<p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
+
 <!-- USAGE EXAMPLES -->
 ## Sử dụng
 
@@ -172,7 +182,7 @@ Nếu bạn có đề xuất để làm cho dự án này tốt hơn, vui lòng 
 <!-- CONTACT -->
 ## Liên hệ
 
-Phan Ky - kyp194490@gmail.com
+Phan Ky - phanky.dev@proton.me
 
 Liên kết dự án: [https://github.com/PhanKydeptrai/TubeTuner](https://github.com/PhanKydeptrai/TubeTuner)
 
