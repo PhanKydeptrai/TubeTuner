@@ -9,17 +9,17 @@
 [![MIT License][license-shield]][license-url]
 
 <!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/PhanKydeptrai/TubeTuner">
-    <img src="icons/logo.png" alt="Logo" width="80" height="80">
-  </a>
+<h1 align="center">
 
-  <h3 align="center">TubeTuner</h3>
+![](images/banners/banner.png)
+<br/>
+TubeTuner
 
-  <p align="center">
-    Một tiện ích mở rộng Chrome toàn diện để tùy chỉnh giao diện YouTube theo sở thích của bạn.
-    <br />
+</h1>
+
+<h3 align="center">Một tiện ích mở rộng Chrome toàn diện để tùy chỉnh giao diện YouTube theo sở thích của bạn.</h3>
+
+<p align="center">
     <a href="https://github.com/PhanKydeptrai/TubeTuner"><strong>Khám phá tài liệu »</strong></a>
     <br />
     <br />
@@ -29,7 +29,6 @@
     ·
     <a href="https://github.com/PhanKydeptrai/TubeTuner/issues/new?labels=enhancement&template=feature-request---.md">Yêu Cầu Tính Năng</a>
   </p>
-</div>
 
 <!-- TABLE OF CONTENTS -->
 <details>

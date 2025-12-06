@@ -9,17 +9,17 @@
 [![MIT License][license-shield]][license-url]
 
 <!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/PhanKydeptrai/TubeTuner">
-    <img src="icons/logo.png" alt="Logo" width="80" height="80">
-  </a>
+<h1 align="center">
 
-  <h3 align="center">TubeTuner</h3>
+![](images/banners/banner.png)
+<br/>
+TubeTuner
 
-  <p align="center">
-    Customize the YouTube interface to eliminate distractions and create a focused, personalized viewing experience
-    <br />
+</h1>
+
+<h3 align="center">Customize the YouTube interface to eliminate distractions and create a focused, personalized viewing experience</h3>
+
+<p align="center">
     <a href="https://github.com/PhanKydeptrai/TubeTuner"><strong>Explore the docs »</strong></a>
     <br />
     <br />
@@ -29,7 +29,6 @@
     ·
     <a href="https://github.com/PhanKydeptrai/TubeTuner/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
-</div>
 
 <!-- TABLE OF CONTENTS -->
 <details>
