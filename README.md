@@ -9,17 +9,17 @@
 [![MIT License][license-shield]][license-url]
 
 <!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/PhanKydeptrai/TubeTuner">
-    <img src="icons/logo.png" alt="Logo" width="80" height="80">
-  </a>
+<h1 align="center">
 
-  <h3 align="center">TubeTuner</h3>
+![](images/banners/banner.png)
+<br/>
+TubeTuner
 
-  <p align="center">
-    Customize the YouTube interface to eliminate distractions and create a focused, personalized viewing experience
-    <br />
+</h1>
+
+<h3 align="center">Customize the YouTube interface to eliminate distractions and create a focused, personalized viewing experience</h3>
+
+<p align="center">
     <a href="https://github.com/PhanKydeptrai/TubeTuner"><strong>Explore the docs »</strong></a>
     <br />
     <br />
@@ -29,7 +29,6 @@
     ·
     <a href="https://github.com/PhanKydeptrai/TubeTuner/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
-</div>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -47,6 +46,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#get-this-extension">✨ Get this extension</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
@@ -119,6 +119,15 @@ To get a local copy up and running follow these simple example steps.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- GET THIS EXTENSION -->
+## ✨ Get this extension
+
+| Browser       | Link |
+|---------------|------|
+| Chrome        | [Download](https://chromewebstore.google.com/detail/tubetuner/ekllndjjhcpljlfhfblfcagbdjnjkbco) |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 
@@ -172,7 +181,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Phan Ky - kyp194490@gmail.com
+Phan Ky - phanky.dev@proton.me
 
 Project Link: [https://github.com/PhanKydeptrai/TubeTuner](https://github.com/PhanKydeptrai/TubeTuner)
 
