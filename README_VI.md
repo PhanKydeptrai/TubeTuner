@@ -6,7 +6,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+[![GNU GPL v3][license-shield]][license-url]
 
 <!-- PROJECT LOGO -->
 <h1 align="center">
@@ -48,7 +48,6 @@ TubeTuner
     </li>
     <li><a href="#get-this-extension">✨ Tải tiện ích này</a></li>
     <li><a href="#usage">Sử dụng</a></li>
-    <li><a href="#roadmap">Lộ trình</a></li>
     <li><a href="#contributing">Đóng góp</a></li>
     <li><a href="#license">Giấy phép</a></li>
     <li><a href="#contact">Liên hệ</a></li>
@@ -144,17 +143,6 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
-<!-- ROADMAP -->
-## Lộ trình
-
-- [x] Thêm tất cả các tính năng tuyệt vời
-- [ ] Thêm nhiều tính năng hơn
-- [ ] ...
-
-Xem [các vấn đề đang mở](https://github.com/PhanKydeptrai/TubeTuner/issues) để biết danh sách đầy đủ các tính năng được đề xuất (và các vấn đề đã biết).
-
-<p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
-
 <!-- CONTRIBUTING -->
 ## Đóng góp
 
@@ -174,7 +162,7 @@ Nếu bạn có đề xuất để làm cho dự án này tốt hơn, vui lòng 
 <!-- LICENSE -->
 ## Giấy phép
 
-Được phân phối theo Giấy phép MIT. Xem `LICENSE` để biết thêm thông tin.
+Được phân phối theo Giấy phép GNU General Public License v3. Xem `LICENSE` để biết thêm thông tin.
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
