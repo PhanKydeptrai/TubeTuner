@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "TubeTuner",
     "version": "1.2",
-    "description": "Customize YouTube interface with 15 hide/show options: progress bar, duration, Shorts, home feed, comments, and more",
+    "description": "Customize YouTube interface with 16 hide/show options: progress bar, duration, Shorts, home feed, comments, and more",
     "icons": {
       "16": "images/icons/icon16.png",
       "32": "images/icons/icon32.png",
@@ -40,6 +40,7 @@
           "features/buttonsBar.js",
           "features/hideDescription.js",
           "features/grayscale.js",
+          "features/shop.js",
           "content.js"
         ],
         "css": ["styles.css"],
@@ -50,10 +51,10 @@
       "default_popup": "popup.html",
       "default_title": "TubeTuner",
       "default_icon": {
-        "16": "icons/icon16.png",
-        "32": "icons/icon32.png",
-        "48": "icons/icon48.png",
-        "128": "icons/icon128.png"
+        "16": "images/icons/icon16.png",
+        "32": "images/icons/icon32.png",
+        "48": "images/icons/icon48.png",
+        "128": "images/icons/icon128.png"
       }
     }
   }
