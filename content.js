@@ -18,7 +18,8 @@
         moreFromYouTubeHidden: false,
         hideChannelHidden: false,
         buttonsBarHidden: false,
-        hideDescriptionHidden: false
+        hideDescriptionHidden: false,
+        shopHidden: false
     };
 
     // Add grayscale setting to internal state
@@ -27,7 +28,7 @@
     // Khởi tạo extension
     function initialize() {
         // Lấy trạng thái từ storage
-        chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], (result) => {
+        chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], (result) => {
             // Cập nhật settings object
             settings.extensionEnabled = result.extensionEnabled !== false; // Default is true
             settings.progressBarHidden = result.progressBarHidden === true;
@@ -45,6 +46,7 @@
             settings.buttonsBarHidden = result.buttonsBarHidden === true;
             settings.hideDescriptionHidden = result.hideDescriptionHidden === true;
             settings.grayscaleEnabled = result.grayscaleEnabled === true;
+            settings.shopHidden = result.shopHidden === true;
 
             // Settings loaded
 
@@ -66,6 +68,7 @@
                     toggleButtonsBar(settings.buttonsBarHidden);
                     toggleHideDescription(settings.hideDescriptionHidden);
                     toggleGrayscale(settings.grayscaleEnabled);
+                    toggleShop(settings.shopHidden);
                 }
             }, 1000);
         });
@@ -93,6 +96,7 @@
                         if (settings.hideChannelHidden) toggleHideChannel(true);
                         if (settings.buttonsBarHidden) toggleButtonsBar(true);
                         if (settings.hideDescriptionHidden) toggleHideDescription(true);
+                        if (settings.shopHidden) toggleShop(true);
                     }
                 }, 2000);
             }
@@ -215,6 +219,10 @@
                     settings.grayscaleEnabled = newValue === true;
                     toggleGrayscale(settings.grayscaleEnabled);
                     break;
+                case 'shopHidden':
+                    settings.shopHidden = newValue === true;
+                    toggleShop(settings.shopHidden);
+                    break;
             }
         }
     });
@@ -250,6 +258,7 @@
                             toggleButtonsBar(false);
                             toggleHideDescription(false);
                             toggleGrayscale(false);
+                            toggleShop(false);
                         } else {
                             // Re-enable features based on current settings
                             toggleProgressBar(settings.progressBarHidden);
@@ -267,6 +276,7 @@
                             toggleButtonsBar(settings.buttonsBarHidden);
                             toggleHideDescription(settings.hideDescriptionHidden);
                             toggleGrayscale(settings.grayscaleEnabled);
+                            toggleShop(settings.shopHidden);
                         }
                         break;
                     case 'progressBarHidden':
@@ -397,6 +407,9 @@
             // Direct toggle command from popup
             toggleGrayscale(request.enabled);
             sendResponse({ success: true, willRefresh: false });
+        } else if (request.action === 'toggleShop') {
+            toggleShop(request.enabled);
+            sendResponse({ success: true, willRefresh: false });
         } else if (request.action === 'getStatus') {
             sendResponse(settings);
         }
@@ -431,6 +444,7 @@
             if (settings.buttonsBarHidden) toggleButtonsBar(true);
             if (settings.hideDescriptionHidden) toggleHideDescription(true);
             if (settings.grayscaleEnabled) toggleGrayscale(true);
+            if (settings.shopHidden) toggleShop(true);
         }, 2000);
     });
 

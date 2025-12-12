@@ -1,7 +1,7 @@
 // YouTube Progress Bar Hider Popup Script
 let currentLang = 'en'; // Default language is English
 let translations = {}; // Global declaration to access from outside DOMContentLoaded
-let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreSectionSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, grayscaleSwitch, status; // Global variables to access from outside
+let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreSectionSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, grayscaleSwitch, shopSwitch, status; // Global variables to access from outside
 let extensionEnabledSwitch; // Master extension toggle
 let currentExtensionEnabled = true; // Global extension enabled state
 
@@ -124,6 +124,15 @@ function updateLanguageUI() {
             }
         }
 
+        // Update shop label
+        const shopSwitchEl = document.getElementById('shopSwitch');
+        if (shopSwitchEl) {
+            const label = shopSwitchEl.closest('.ext-control-item').querySelector('.ext-control-label');
+            if (label) {
+                label.textContent = translations[currentLang].hideShop;
+            }
+        }
+
         // Update extension enabled label
         const extensionEnabledSwitch = document.getElementById('extensionEnabledSwitch');
         if (extensionEnabledSwitch) {
@@ -152,7 +161,7 @@ function updateLanguageUI() {
 
 // Global function to update UI based on state
 // Update UI elements (checkboxes) based on stored state
-function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, grayscaleEnabled) {
+function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, grayscaleEnabled, shopHidden) {
 
     // Update extension enabled toggle
     if (extensionEnabledSwitch) {
@@ -247,6 +256,11 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
         document.getElementById('grayscaleSwitch').checked = grayscaleEnabled;
     }
 
+    // Update shop toggle
+    if (shopSwitch) {
+        shopSwitch.checked = shopHidden;
+    }
+
     // Verify the state was actually set
     setTimeout(() => {
         const actualHomeFeedState = homeFeedSwitch.checked;
@@ -318,11 +332,11 @@ function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, 
     }, 50);
 
     // Update status
-    updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden);
+    updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, shopHidden);
 }
 
 // Function to update status UI
-function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden) {
+function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, shopHidden) {
     if (!status) return;
 
     // If parameters not provided, get current state from switches
@@ -358,8 +372,12 @@ function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHi
         topHeaderHidden = topHeaderSwitch.checked;
     }
 
+    if (shopHidden === undefined && shopSwitch) {
+        shopHidden = shopSwitch.checked;
+    }
+
     // Update status
-    if (progressHidden || durationHidden || shortsHidden || homeFeedHidden || videoSidebarHidden || commentsHidden || notificationsBellHidden || topHeaderHidden) {
+    if (progressHidden || durationHidden || shortsHidden || homeFeedHidden || videoSidebarHidden || commentsHidden || notificationsBellHidden || topHeaderHidden || shopHidden) {
         const features = [];
         if (progressHidden) features.push(translations[currentLang].progressBar);
         if (durationHidden) features.push(translations[currentLang].duration);
@@ -370,6 +388,7 @@ function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHi
         if (notificationsBellHidden) features.push(translations[currentLang].notificationsBell || 'notifications bell');
         if (topHeaderHidden) features.push(translations[currentLang].topHeader || 'top header');
         if (exploreSectionHidden) features.push(translations[currentLang].exploreSection || 'explore section');
+        if (shopHidden) features.push(translations[currentLang].shop || 'YouTube Shop');
 
         const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', 'success');
@@ -444,6 +463,7 @@ document.addEventListener('DOMContentLoaded', function() {
     buttonsBarSwitch = document.getElementById('buttonsBarSwitch');
     hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
     grayscaleSwitch = document.getElementById('grayscaleSwitch');
+    shopSwitch = document.getElementById('shopSwitch');
     extensionEnabledSwitch = document.getElementById('extensionEnabledSwitch');
     status = document.getElementById('status');
     const langVi = document.getElementById('lang-vi');
@@ -495,6 +515,9 @@ document.addEventListener('DOMContentLoaded', function() {
             grayscale: 'Giao diện đen trắng',
             enableGrayscale: 'Bật giao diện đen trắng',
             disableGrayscale: 'Tắt giao diện đen trắng',
+            // Shop feature translations
+            shop: 'YouTube Shop',
+            hideShop: 'Ẩn YouTube Shop',
             // About section translations
             aboutTitle: 'Giới thiệu',
             aboutDescription: 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
@@ -542,12 +565,15 @@ document.addEventListener('DOMContentLoaded', function() {
             backupCreated: 'Auto backup created',
             invalidFileType: 'Only JSON files are accepted!',
             fileTooLarge: 'File too large (max 5MB)!',
-            noSettingsToExport: 'No settings to export!'
+            noSettingsToExport: 'No settings to export!',
+            // Shop feature translations
+            shop: 'YouTube Shop',
+            hideShop: 'Hide YouTube Shop'
         }
     };
 
     // Get current state with improved error handling and timing
-    chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'language', 'theme', 'sectionStates'], function(result) {
+    chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden', 'language', 'theme', 'sectionStates'], function(result) {
         currentExtensionEnabled = result.extensionEnabled !== false; // Default is true
         const isEnabled = result.progressBarHidden === true; // Default is false
         const durationHidden = result.durationHidden === true; // Default is false
@@ -564,11 +590,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const buttonsBarHidden = result.buttonsBarHidden === true; // Default is false
         const hideDescriptionHidden = result.hideDescriptionHidden === true; // Default is false
         const grayscaleEnabled = result.grayscaleEnabled === true; // Default is false
+        const shopHidden = result.shopHidden === true; // Default is false
 
         // Loaded stored states
 
         // Verify DOM elements are available before updating UI
-        if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch || !hideChannelSwitch || !buttonsBarSwitch || !hideDescriptionSwitch) {
+        if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch || !hideChannelSwitch || !buttonsBarSwitch || !hideDescriptionSwitch || !shopSwitch) {
             // DOM elements not ready, retrying in 100ms...
             setTimeout(() => {
                 // Re-initialize DOM elements
@@ -584,15 +611,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 buttonsBarSwitch = document.getElementById('buttonsBarSwitch');
                 hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
                 grayscaleSwitch = document.getElementById('grayscaleSwitch');
+                shopSwitch = document.getElementById('shopSwitch');
                 status = document.getElementById('status');
 
                 // Retrying UI update with elements
 
-                updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, grayscaleEnabled);
+                updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, grayscaleEnabled, shopHidden);
             }, 100);
         } else {
             // DOM elements ready, updating UI immediately
-            updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, grayscaleEnabled);
+            updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, grayscaleEnabled, shopHidden);
         }
 
         // Set language
@@ -623,8 +651,8 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ extensionEnabled: newState });
 
             // Update UI immediately
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true);
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
                 // Updated UI after extension enabled toggle
             });
 
@@ -653,7 +681,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentHideChannelHidden = result.hideChannelHidden === true;
                 const currentButtonsBarHidden = result.buttonsBarHidden === true;
                 const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                updateUI(newState, result.durationHidden === true, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true);
+                const currentShopHidden = result.shopHidden === true;
+                updateUI(newState, result.durationHidden === true, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
                 // Updated UI after progress bar toggle
             });
 
@@ -684,7 +713,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentHideChannelHidden = result.hideChannelHidden === true;
                 const currentButtonsBarHidden = result.buttonsBarHidden === true;
                 const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                updateUI(result.progressBarHidden === true, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true);
+                const currentShopHidden = result.shopHidden === true;
+                updateUI(result.progressBarHidden === true, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
                 // Updated UI after duration toggle
             });
 
@@ -713,7 +743,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentHideChannelHidden = result.hideChannelHidden === true;
                 const currentButtonsBarHidden = result.buttonsBarHidden === true;
                 const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, newState, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true);
+                const currentShopHidden = result.shopHidden === true;
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, newState, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
                 // Updated UI after shorts toggle
             });
 
@@ -743,7 +774,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentHideChannelHidden = result.hideChannelHidden === true;
                 const currentButtonsBarHidden = result.buttonsBarHidden === true;
                 const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, newState, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true);
+                const currentShopHidden = result.shopHidden === true;
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, newState, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
                 // Updated UI after home feed toggle
             });
 
@@ -762,7 +794,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
                 const currentCommentsHidden = result.commentsHidden === true;
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
@@ -772,7 +804,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentHideChannelHidden = result.hideChannelHidden === true;
                 const currentButtonsBarHidden = result.buttonsBarHidden === true;
                 const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, newState, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true);
+                const currentShopHidden = result.shopHidden === true;
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, newState, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
                 // Updated UI after video sidebar toggle
             });
 
@@ -789,7 +822,7 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ commentsHidden: newState });
 
             // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
                 const currentNotificationsBellHidden = result.notificationsBellHidden === true;
                 const currentTopHeaderHidden = result.topHeaderHidden === true;
                 const currentExploreSectionHidden = result.exploreSectionHidden === true;
@@ -798,7 +831,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentHideChannelHidden = result.hideChannelHidden === true;
                 const currentButtonsBarHidden = result.buttonsBarHidden === true;
                 const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, newState, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true);
+                const currentShopHidden = result.shopHidden === true;
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, newState, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
                 // Updated UI after comments toggle
             });
 
@@ -815,8 +849,8 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ notificationsBellHidden: newState });
 
             // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, newState, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true);
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, newState, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
                 // Updated UI after notifications bell toggle
             });
 
@@ -833,8 +867,8 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ topHeaderHidden: newState });
 
             // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, newState, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true);
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, newState, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
                 // Updated UI after top header toggle
             });
 
@@ -851,8 +885,8 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ exploreSectionHidden: newState });
 
             // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, newState, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true);
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, newState, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
                 // Updated UI after explore section toggle
             });
 
@@ -869,8 +903,8 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ endScreenCardsHidden: newState });
 
             // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, newState, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true);
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, newState, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
                 // Updated UI after end screen cards toggle
             });
 
@@ -887,8 +921,8 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ moreFromYouTubeHidden: newState });
 
             // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, newState, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true);
+            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
+                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, newState, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
                 // Updated UI after more from YouTube toggle
             });
 
@@ -941,6 +975,18 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.set({ grayscaleEnabled: newState });
 
             handleToggleChange('toggleGrayscale', newState);
+        });
+    }
+
+    // Handle toggle shop click
+    if (shopSwitch) {
+        shopSwitch.addEventListener('change', function(e) {
+            const newState = e.target.checked;
+
+            // Save state
+            chrome.storage.sync.set({ shopHidden: newState });
+
+            handleToggleChange('toggleShop', newState);
         });
     }
 
@@ -1128,6 +1174,9 @@ function setLanguage(lang, save = true) {
             'grayscale': 'Giao diện đen trắng',
             'enableGrayscale': 'Bật giao diện đen trắng',
             'disableGrayscale': 'Tắt giao diện đen trắng',
+            // Shop feature translations
+            'shop': 'YouTube Shop',
+            'hideShop': 'Ẩn YouTube Shop',
             // Settings management
             'settingsManagement': 'Quản lý cài đặt',
             'exportSettings': 'Xuất cài đặt',
@@ -1198,6 +1247,9 @@ function setLanguage(lang, save = true) {
             'grayscale': 'Grayscale interface',
             'enableGrayscale': 'Enable grayscale interface',
             'disableGrayscale': 'Disable grayscale interface',
+            // Shop feature translations
+            'shop': 'YouTube Shop',
+            'hideShop': 'Hide YouTube Shop',
             // Settings management
             'settingsManagement': 'Settings Management',
             'exportSettings': 'Export Settings',
@@ -1288,6 +1340,8 @@ function setLanguage(lang, save = true) {
         { id: 'hideDescriptionSwitch', text: t.hideDescription },
         // Grayscale
         { id: 'grayscaleSwitch', text: t.grayscale },
+        // Shop
+        { id: 'shopSwitch', text: t.hideShop },
         // Extension Enabled
         { id: 'extensionEnabledSwitch', text: t.extensionEnabled },
 
@@ -1508,6 +1562,7 @@ function exportSettings() {
         'buttonsBarHidden',
         'hideDescriptionHidden',
         'grayscaleEnabled',
+        'shopHidden',
         'language',
         'theme'
     ];
@@ -1618,6 +1673,7 @@ function importSettings(file) {
         'buttonsBarHidden': 'boolean',
         'hideDescriptionHidden': 'boolean',
         'grayscaleEnabled': 'boolean',
+        'shopHidden': 'boolean',
         'language': 'string',
         'theme': 'string'
     };
