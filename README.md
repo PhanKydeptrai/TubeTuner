@@ -88,6 +88,7 @@ TubeTuner is a comprehensive Chrome extension to customize your YouTube interfac
 ✅ **Multi-language** - Support for Vietnamese and English <br>
 ✅ **Independent toggles** - Separate toggle for each feature <br>
 ✅ **No performance impact** - Lightweight and optimized extension <br>
+✅ **Presets** - Apply pre-made presets (None, Balanced, Focus) to quickly switch multiple settings.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -140,6 +141,7 @@ To get a local copy up and running follow these simple example steps.
 5. **Toggle theme**: Click the sun/moon button at the top to switch Light/Dark mode
 6. **Export/Import Settings**: Use buttons in settings section to backup/restore configurations
 7. Extension will automatically apply changes and remember section states
+8. **Presets**: Choose a predefined preset (None, Balanced, Focus) in the settings to apply multiple hide/show options at once.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

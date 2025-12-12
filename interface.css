@@ -1028,6 +1028,60 @@ button:focus,
   flex-wrap: wrap;
 }
 
+/* Presets control */
+.ext-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+.ext-presets-label {
+  font-size: var(--font-size-body);
+  color: var(--muted-foreground);
+  font-weight: var(--font-weight-medium);
+}
+.ext-presets-controls {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+.ext-select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 8px 36px 8px 12px;
+  min-height: 36px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  flex: 1 1 auto;
+  transition: box-shadow 0.15s ease, transform 0.08s ease, background 0.15s ease;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6880' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 12px;
+}
+.ext-select:hover {
+  background: var(--muted);
+}
+.ext-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(138,121,171,0.12);
+  border-color: var(--primary);
+}
+.ext-presets-controls .ext-btn {
+  min-width: 96px;
+  flex: 0 0 auto;
+}
+
+.dark .ext-select {
+  background: var(--card);
+  color: var(--foreground);
+}
+
 .ext-btn {
   display: flex;
   align-items: center;
@@ -1083,6 +1137,15 @@ button:focus,
   flex-shrink: 0;
 }
 
+.ext-btn-apply {
+  background: linear-gradient(135deg, var(--primary), oklch(from var(--primary) calc(l + 0.08) c h));
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+.ext-btn-apply:hover {
+  background: linear-gradient(135deg, oklch(from var(--primary) calc(l + 0.08) c h), oklch(from var(--primary) calc(l + 0.14) c h));
+}
+
 /* Dark mode styles for settings section */
 .dark .ext-settings-section {
   background: var(--card);
@@ -1101,6 +1164,12 @@ button:focus,
 
 .dark .ext-btn:hover {
   background: var(--muted);
+  border-color: var(--primary);
+}
+
+.dark .ext-btn-apply {
+  background: linear-gradient(135deg, var(--primary), oklch(from var(--primary) calc(l + 0.08) c h));
+  color: var(--primary-foreground);
   border-color: var(--primary);
 }
 

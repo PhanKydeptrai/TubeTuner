@@ -4,6 +4,63 @@ let translations = {}; // Global declaration to access from outside DOMContentLo
 let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreSectionSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, grayscaleSwitch, shopSwitch, status; // Global variables to access from outside
 let extensionEnabledSwitch; // Master extension toggle
 let currentExtensionEnabled = true; // Global extension enabled state
+// Preset definitions
+const PRESET_DEFINITIONS = {
+    none: {
+        progressBarHidden: false,
+        durationHidden: false,
+        shortsHidden: false,
+        homeFeedHidden: false,
+        videoSidebarHidden: false,
+        commentsHidden: false,
+        notificationsBellHidden: false,
+        topHeaderHidden: false,
+        exploreSectionHidden: false,
+        endScreenCardsHidden: false,
+        moreFromYouTubeHidden: false,
+        hideChannelHidden: false,
+        buttonsBarHidden: false,
+        hideDescriptionHidden: false,
+        grayscaleEnabled: false,
+        shopHidden: false
+    },
+    balanced: {
+        progressBarHidden: true,
+        durationHidden: false,
+        shortsHidden: true,
+        homeFeedHidden: false,
+        videoSidebarHidden: false,
+        commentsHidden: false,
+        notificationsBellHidden: false,
+        topHeaderHidden: false,
+        exploreSectionHidden: false,
+        endScreenCardsHidden: false,
+        moreFromYouTubeHidden: false,
+        hideChannelHidden: false,
+        buttonsBarHidden: false,
+        hideDescriptionHidden: false,
+        grayscaleEnabled: false,
+        shopHidden: true
+    },
+    focus: {
+        progressBarHidden: true,
+        durationHidden: true,
+        shortsHidden: true,
+        homeFeedHidden: true,
+        videoSidebarHidden: true,
+        commentsHidden: true,
+        notificationsBellHidden: true,
+        topHeaderHidden: true,
+        exploreSectionHidden: true,
+        endScreenCardsHidden: true,
+        moreFromYouTubeHidden: true,
+        hideChannelHidden: true,
+        buttonsBarHidden: true,
+        hideDescriptionHidden: true,
+        grayscaleEnabled: true,
+        shopHidden: true
+    }
+};
 
 // Console log calls have been removed in production build
 
@@ -113,6 +170,27 @@ function updateLanguageUI() {
         }
         if (importBtn) {
             importBtn.textContent = translations[currentLang].importSettings;
+        }
+
+        // Update presets UI text
+        const presetsLabel = document.querySelector('.ext-presets-label');
+        const presetSelectEl = document.getElementById('presetSelect');
+        const applyPresetBtnEl = document.getElementById('applyPresetBtn');
+
+        if (presetsLabel) {
+            presetsLabel.textContent = translations[currentLang].presetsLabel;
+        }
+        if (applyPresetBtnEl) {
+            applyPresetBtnEl.textContent = translations[currentLang].applyPreset;
+        }
+        if (presetSelectEl) {
+            // Update option text while keeping values
+            const noneOpt = presetSelectEl.querySelector('option[value="none"]');
+            const balancedOpt = presetSelectEl.querySelector('option[value="balanced"]');
+            const focusOpt = presetSelectEl.querySelector('option[value="focus"]');
+            if (noneOpt) noneOpt.textContent = translations[currentLang].presetNone || 'None';
+            if (balancedOpt) balancedOpt.textContent = translations[currentLang].presetBalanced || 'Balanced';
+            if (focusOpt) focusOpt.textContent = translations[currentLang].presetFocus || 'Focus';
         }
 
         // Update grayscale label
@@ -518,6 +596,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Shop feature translations
             shop: 'YouTube Shop',
             hideShop: 'Ẩn YouTube Shop',
+            // Preset UI
+            presetsLabel: 'Cài đặt sẵn',
+            applyPreset: 'Áp dụng preset',
+            confirmApplyPreset: 'Bạn có muốn áp dụng preset? Điều này sẽ ghi đè cài đặt hiện tại.',
+            presetApplied: 'Preset đã được áp dụng',
+            presetNone: 'Không',
+            presetBalanced: 'Cân bằng',
+            presetFocus: 'Tập trung',
             // About section translations
             aboutTitle: 'Giới thiệu',
             aboutDescription: 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
@@ -569,6 +655,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Shop feature translations
             shop: 'YouTube Shop',
             hideShop: 'Hide YouTube Shop'
+            ,
+            // Preset UI
+            presetsLabel: 'Presets',
+            applyPreset: 'Apply preset',
+            confirmApplyPreset: 'Apply selected preset? This will overwrite current settings.',
+            presetApplied: 'Preset applied'
         }
     };
 
@@ -1036,6 +1128,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const exportBtn = document.getElementById('exportSettingsBtn');
     const importBtn = document.getElementById('importSettingsBtn');
     const importFileInput = document.getElementById('importFileInput');
+    const presetSelect = document.getElementById('presetSelect');
+    const applyPresetBtn = document.getElementById('applyPresetBtn');
 
     if (exportBtn) {
         exportBtn.addEventListener('click', function() {
@@ -1082,6 +1176,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Reset file input
                 e.target.value = '';
             }
+        });
+    }
+
+    // Populate preset select options and wire up apply button
+    if (presetSelect) {
+        // Make sure select options are consistent if needed
+        // Option texts are defined in translation update, so keep values only
+    }
+
+    if (applyPresetBtn && presetSelect) {
+        applyPresetBtn.addEventListener('click', function() {
+            const selected = presetSelect.value;
+            if (!selected || !PRESET_DEFINITIONS[selected]) return;
+
+            if (!confirm(translations[currentLang].confirmApplyPreset || 'Apply selected preset? This will overwrite current settings.')) {
+                return;
+            }
+
+            const settings = Object.assign({}, PRESET_DEFINITIONS[selected], { extensionEnabled: true });
+            // Apply preset: set storage and notify content scripts
+            chrome.storage.sync.set(settings, function() {
+                // Show success
+                showNotification(translations[currentLang].presetApplied || 'Preset applied', 'success');
+
+                // Update UI immediately
+                updateUI(settings.progressBarHidden === true, settings.durationHidden === true, settings.shortsHidden === true, settings.homeFeedHidden === true, settings.videoSidebarHidden === true, settings.commentsHidden === true, settings.notificationsBellHidden === true, settings.topHeaderHidden === true, settings.exploreSectionHidden === true, settings.endScreenCardsHidden === true, settings.moreFromYouTubeHidden === true, settings.hideChannelHidden === true, settings.buttonsBarHidden === true, settings.hideDescriptionHidden === true, settings.grayscaleEnabled === true, settings.shopHidden === true);
+
+                // Notify YouTube tabs to refresh features
+                chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
+                    tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                });
+            });
         });
     }
 });
@@ -1177,6 +1303,11 @@ function setLanguage(lang, save = true) {
             // Shop feature translations
             'shop': 'YouTube Shop',
             'hideShop': 'Ẩn YouTube Shop',
+            // Presets UI
+            'presetsLabel': 'Cài đặt sẵn',
+            'applyPreset': 'Áp dụng preset',
+            'confirmApplyPreset': 'Bạn có muốn áp dụng preset? Điều này sẽ ghi đè cài đặt hiện tại.',
+            'presetApplied': 'Preset đã được áp dụng',
             // Settings management
             'settingsManagement': 'Quản lý cài đặt',
             'exportSettings': 'Xuất cài đặt',
@@ -1250,6 +1381,14 @@ function setLanguage(lang, save = true) {
             // Shop feature translations
             'shop': 'YouTube Shop',
             'hideShop': 'Hide YouTube Shop',
+            // Presets UI
+            'presetsLabel': 'Presets',
+            'applyPreset': 'Apply preset',
+            'confirmApplyPreset': 'Apply selected preset? This will overwrite current settings.',
+            'presetApplied': 'Preset applied',
+            'presetNone': 'None',
+            'presetBalanced': 'Balanced',
+            'presetFocus': 'Focus',
             // Settings management
             'settingsManagement': 'Settings Management',
             'exportSettings': 'Export Settings',
@@ -1372,6 +1511,26 @@ function setLanguage(lang, save = true) {
     }
     if (importBtn) {
         importBtn.textContent = t.importSettings;
+    }
+
+    // Update presets UI text
+    const presetsLabelEl = document.querySelector('.ext-presets-label');
+    const presetSelectEl = document.getElementById('presetSelect');
+    const applyPresetBtnEl = document.getElementById('applyPresetBtn');
+
+    if (presetsLabelEl) {
+        presetsLabelEl.textContent = t.presetsLabel || translations[currentLang].presetsLabel || 'Presets';
+    }
+    if (applyPresetBtnEl) {
+        applyPresetBtnEl.textContent = t.applyPreset || translations[currentLang].applyPreset || 'Apply preset';
+    }
+    if (presetSelectEl) {
+        const noneOpt = presetSelectEl.querySelector('option[value="none"]');
+        const balancedOpt = presetSelectEl.querySelector('option[value="balanced"]');
+        const focusOpt = presetSelectEl.querySelector('option[value="focus"]');
+        if (noneOpt) noneOpt.textContent = t.presetNone || translations[currentLang].presetNone || 'None';
+        if (balancedOpt) balancedOpt.textContent = t.presetBalanced || translations[currentLang].presetBalanced || 'Balanced';
+        if (focusOpt) focusOpt.textContent = t.presetFocus || translations[currentLang].presetFocus || 'Focus';
     }
 
     // Other UI elements
