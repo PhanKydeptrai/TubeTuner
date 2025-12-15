@@ -143,6 +143,17 @@ To get a local copy up and running follow these simple example steps.
 7. Extension will automatically apply changes and remember section states
 8. **Presets**: Choose a predefined preset (None, Balanced, Focus) in the settings to apply multiple hide/show options at once.
 
+9. **Custom Presets**: Create your own named presets by configuring the toggles and clicking "Save preset". Use "Import preset (.json)" to load presets from a JSON file (merges with existing custom presets), or "Export preset" to download your custom presets as JSON. Delete a custom preset by selecting it and clicking "Delete preset".
+
+### Manual QA (Presets)
+
+1. Open the popup and toggle some settings. Click "Save preset" with a name.
+2. Ensure the new preset appears in the Presets dropdown under "Custom".
+3. Select the custom preset and click "Apply" — the UI should update accordingly.
+4. Use "Export preset" to download your custom presets and verify the JSON contains your saved presets.
+5. Remove a preset by selecting it and clicking "Delete preset".
+6. Use "Import preset (.json)" with a valid JSON file to merge presets and verify they appear in the list.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->

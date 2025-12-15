@@ -25,7 +25,7 @@ const PRESET_DEFINITIONS = {
         shopHidden: false
     },
     balanced: {
-        progressBarHidden: true,
+        progressBarHidden: false,
         durationHidden: false,
         shortsHidden: true,
         homeFeedHidden: false,
@@ -177,20 +177,37 @@ function updateLanguageUI() {
         const presetSelectEl = document.getElementById('presetSelect');
         const applyPresetBtnEl = document.getElementById('applyPresetBtn');
 
+        const savePresetBtnEl = document.getElementById('savePresetBtn');
+        const deletePresetBtnEl = document.getElementById('deletePresetBtn');
+        const importPresetsBtnEl = document.getElementById('importPresetsBtn');
+        const exportPresetsBtnEl = document.getElementById('exportPresetsBtn');
+
         if (presetsLabel) {
             presetsLabel.textContent = translations[currentLang].presetsLabel;
         }
         if (applyPresetBtnEl) {
             applyPresetBtnEl.textContent = translations[currentLang].applyPreset;
         }
+        if (savePresetBtnEl) savePresetBtnEl.textContent = translations[currentLang].savePreset || 'Save preset';
+        if (deletePresetBtnEl) deletePresetBtnEl.textContent = translations[currentLang].deletePreset || 'Delete preset';
+        if (importPresetsBtnEl) importPresetsBtnEl.textContent = translations[currentLang].importPresets || 'Import presets';
+        if (exportPresetsBtnEl) exportPresetsBtnEl.textContent = translations[currentLang].exportPresets || 'Export presets';
         if (presetSelectEl) {
-            // Update option text while keeping values
-            const noneOpt = presetSelectEl.querySelector('option[value="none"]');
-            const balancedOpt = presetSelectEl.querySelector('option[value="balanced"]');
-            const focusOpt = presetSelectEl.querySelector('option[value="focus"]');
+            // Update option text for built-in values while keeping values
+            // Support both generated values (builtin:...) and initial static values (none/balanced/focus)
+            const noneOpt = presetSelectEl.querySelector('option[value="builtin:none"]') || presetSelectEl.querySelector('option[value="none"]');
+            const balancedOpt = presetSelectEl.querySelector('option[value="builtin:balanced"]') || presetSelectEl.querySelector('option[value="balanced"]');
+            const focusOpt = presetSelectEl.querySelector('option[value="builtin:focus"]') || presetSelectEl.querySelector('option[value="focus"]');
             if (noneOpt) noneOpt.textContent = translations[currentLang].presetNone || 'None';
             if (balancedOpt) balancedOpt.textContent = translations[currentLang].presetBalanced || 'Balanced';
             if (focusOpt) focusOpt.textContent = translations[currentLang].presetFocus || 'Focus';
+
+            // Translate optgroup labels (Built-in / Custom) and preset name placeholder
+            const optgroups = presetSelectEl.querySelectorAll('optgroup');
+            if (optgroups.length > 0) optgroups[0].label = translations[currentLang].builtInGroup || 'Built-in';
+            if (optgroups.length > 1) optgroups[1].label = translations[currentLang].customGroup || 'Custom';
+            const presetNameInputEl = document.getElementById('presetNameInput');
+            if (presetNameInputEl) presetNameInputEl.placeholder = translations[currentLang].presetNamePlaceholder || 'Preset name';
         }
 
         // Update grayscale label
@@ -203,26 +220,12 @@ function updateLanguageUI() {
         }
 
         // Update shop label
-        const shopSwitchEl = document.getElementById('shopSwitch');
-        if (shopSwitchEl) {
-            const label = shopSwitchEl.closest('.ext-control-item').querySelector('.ext-control-label');
-            if (label) {
-                label.textContent = translations[currentLang].hideShop;
-            }
-        }
-
-        // Update extension enabled label
-        const extensionEnabledSwitch = document.getElementById('extensionEnabledSwitch');
-        if (extensionEnabledSwitch) {
-            const label = extensionEnabledSwitch.closest('.ext-control-item').querySelector('.ext-control-label');
-            if (label) {
-                label.textContent = translations[currentLang].extensionEnabled;
-            }
-        }
-
-        // Update disabled notice
-        const disabledTitle = document.querySelector('.ext-notice-title');
-        const disabledDesc = document.querySelector('.ext-notice-description');
+            if (savePresetBtnEl) savePresetBtnEl.textContent = translations[currentLang].savePreset || 'Save preset';
+            if (deletePresetBtnEl) deletePresetBtnEl.textContent = translations[currentLang].deletePreset || 'Delete preset';
+            if (importPresetsBtnEl) importPresetsBtnEl.textContent = translations[currentLang].importPresets || 'Import presets';
+            if (exportPresetsBtnEl) exportPresetsBtnEl.textContent = translations[currentLang].exportPresets || 'Export presets';
+            // Update preset-specific UI (optgroups, built-in names, placeholder)
+            try { updatePresetText(); } catch (e) {}
         if (disabledTitle && disabledTitle.textContent.includes('Extension')) {
             disabledTitle.textContent = translations[currentLang].extensionDisabledTitle;
         }
@@ -235,6 +238,30 @@ function updateLanguageUI() {
     } else {
         console.error('Language buttons not found in updateLanguageUI!');
     }
+}
+
+// Helper: update preset select texts and placeholder
+function updatePresetText() {
+    const presetSelectEl = document.getElementById('presetSelect');
+    if (!presetSelectEl) return;
+
+    // Support both generated values (builtin:...) and initial static values (none/balanced/focus)
+    const noneOpt = presetSelectEl.querySelector('option[value="builtin:none"]') || presetSelectEl.querySelector('option[value="none"]');
+    const balancedOpt = presetSelectEl.querySelector('option[value="builtin:balanced"]') || presetSelectEl.querySelector('option[value="balanced"]');
+    const focusOpt = presetSelectEl.querySelector('option[value="builtin:focus"]') || presetSelectEl.querySelector('option[value="focus"]');
+    if (noneOpt) noneOpt.textContent = translations[currentLang].presetNone || 'None';
+    if (balancedOpt) balancedOpt.textContent = translations[currentLang].presetBalanced || 'Balanced';
+    if (focusOpt) focusOpt.textContent = translations[currentLang].presetFocus || 'Focus';
+
+    // Translate optgroup labels (Built-in / Custom) and preset name placeholder
+    const optgroups = presetSelectEl.querySelectorAll('optgroup');
+    if (optgroups.length > 0) optgroups[0].label = translations[currentLang].builtInGroup || 'Built-in';
+    if (optgroups.length > 1) optgroups[1].label = translations[currentLang].customGroup || 'Custom';
+    const presetNameInputEl = document.getElementById('presetNameInput');
+    if (presetNameInputEl) presetNameInputEl.placeholder = translations[currentLang].presetNamePlaceholder || 'Preset name';
+
+    // Expose for manual tests
+    window.updatePresetText = updatePresetText;
 }
 
 // Global function to update UI based on state
@@ -604,6 +631,16 @@ document.addEventListener('DOMContentLoaded', function() {
             presetNone: 'Không',
             presetBalanced: 'Cân bằng',
             presetFocus: 'Tập trung',
+            builtInGroup: 'Mặc định',
+            customGroup: 'Tùy chỉnh',
+            presetNamePlaceholder: 'Tên preset',
+            savePreset: 'Lưu preset',
+            deletePreset: 'Xóa preset',
+            importPresets: 'Nhập preset',
+            exportPresets: 'Xuất preset',
+            presetSaved: 'Đã lưu preset',
+            presetDeleted: 'Đã xóa preset',
+            presetsImported: 'Đã nhập preset',
             // About section translations
             aboutTitle: 'Giới thiệu',
             aboutDescription: 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
@@ -661,6 +698,16 @@ document.addEventListener('DOMContentLoaded', function() {
             applyPreset: 'Apply preset',
             confirmApplyPreset: 'Apply selected preset? This will overwrite current settings.',
             presetApplied: 'Preset applied'
+            ,savePreset: 'Save preset',
+            deletePreset: 'Delete preset',
+            importPresets: 'Import presets',
+            exportPresets: 'Export presets',
+            presetSaved: 'Preset saved',
+            presetDeleted: 'Preset deleted',
+            presetsImported: 'Presets imported'
+            ,builtInGroup: 'Built-in',
+            customGroup: 'Custom',
+            presetNamePlaceholder: 'Preset name'
         }
     };
 
@@ -1130,6 +1177,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const importFileInput = document.getElementById('importFileInput');
     const presetSelect = document.getElementById('presetSelect');
     const applyPresetBtn = document.getElementById('applyPresetBtn');
+    const presetNameInput = document.getElementById('presetNameInput');
+    const savePresetBtn = document.getElementById('savePresetBtn');
+    const deletePresetBtn = document.getElementById('deletePresetBtn');
+    const importPresetsBtn = document.getElementById('importPresetsBtn');
+    const importPresetsFileInput = document.getElementById('importPresetsFileInput');
+    const exportPresetsBtn = document.getElementById('exportPresetsBtn');
 
     if (exportBtn) {
         exportBtn.addEventListener('click', function() {
@@ -1188,13 +1241,34 @@ document.addEventListener('DOMContentLoaded', function() {
     if (applyPresetBtn && presetSelect) {
         applyPresetBtn.addEventListener('click', function() {
             const selected = presetSelect.value;
-            if (!selected || !PRESET_DEFINITIONS[selected]) return;
+            if (!selected) return;
 
             if (!confirm(translations[currentLang].confirmApplyPreset || 'Apply selected preset? This will overwrite current settings.')) {
                 return;
             }
+            let settings = null;
+            if (selected.startsWith('builtin:')) {
+                const key = selected.split(':')[1];
+                if (!PRESET_DEFINITIONS[key]) return;
+                settings = Object.assign({}, PRESET_DEFINITIONS[key], { extensionEnabled: true });
+            } else if (selected.startsWith('custom:')) {
+                const name = selected.split(':')[1];
+                chrome.storage.sync.get(['customPresets'], function(result) {
+                    const customs = result.customPresets || {};
+                    if (!customs[name]) return;
+                    settings = Object.assign({}, customs[name], { extensionEnabled: true });
 
-            const settings = Object.assign({}, PRESET_DEFINITIONS[selected], { extensionEnabled: true });
+                    // Apply the found custom preset
+                    chrome.storage.sync.set(settings, function() {
+                        showNotification(translations[currentLang].presetApplied || 'Preset applied', 'success');
+                        updateUI(settings.progressBarHidden === true, settings.durationHidden === true, settings.shortsHidden === true, settings.homeFeedHidden === true, settings.videoSidebarHidden === true, settings.commentsHidden === true, settings.notificationsBellHidden === true, settings.topHeaderHidden === true, settings.exploreSectionHidden === true, settings.endScreenCardsHidden === true, settings.moreFromYouTubeHidden === true, settings.hideChannelHidden === true, settings.buttonsBarHidden === true, settings.hideDescriptionHidden === true, settings.grayscaleEnabled === true, settings.shopHidden === true);
+                        chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
+                            tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                        });
+                    });
+                });
+                return;
+            }
             // Apply preset: set storage and notify content scripts
             chrome.storage.sync.set(settings, function() {
                 // Show success
@@ -1210,6 +1284,187 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Helper to load presets into select (built-in + custom)
+    function loadPresetOptions() {
+        chrome.storage.sync.get(['customPresets'], function(result) {
+            const customs = result.customPresets || {};
+            // Clear existing options
+            while (presetSelect.firstChild) presetSelect.removeChild(presetSelect.firstChild);
+
+            // Built-in group
+            const optgroupBuilt = document.createElement('optgroup');
+            optgroupBuilt.label = 'Built-in';
+            Object.keys(PRESET_DEFINITIONS).forEach(key => {
+                const opt = document.createElement('option');
+                opt.value = `builtin:${key}`;
+                opt.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+                optgroupBuilt.appendChild(opt);
+            });
+            presetSelect.appendChild(optgroupBuilt);
+
+            // Custom group
+            const customNames = Object.keys(customs || {});
+            if (customNames.length > 0) {
+                const optgroupCustom = document.createElement('optgroup');
+                optgroupCustom.label = 'Custom';
+                customNames.forEach(name => {
+                    const opt = document.createElement('option');
+                    opt.value = `custom:${name}`;
+                    opt.textContent = name;
+                    optgroupCustom.appendChild(opt);
+                });
+                presetSelect.appendChild(optgroupCustom);
+            }
+            // Ensure language text is applied to new options
+            try { updateLanguageUI(); } catch (e) {}
+        });
+    }
+
+    // Save current UI as a custom preset
+    if (savePresetBtn) {
+        savePresetBtn.addEventListener('click', function() {
+            const name = presetNameInput && presetNameInput.value && presetNameInput.value.trim();
+            if (!name) {
+                alert('Please enter a name for the preset.');
+                return;
+            }
+
+            // Build a preset object from current UI values
+            const preset = {
+                progressBarHidden: toggleSwitch.checked === true,
+                durationHidden: durationSwitch.checked === true,
+                shortsHidden: shortsSwitch.checked === true,
+                homeFeedHidden: homeFeedSwitch.checked === true,
+                videoSidebarHidden: videoSidebarSwitch.checked === true,
+                commentsHidden: commentsSwitch.checked === true,
+                notificationsBellHidden: notificationsBellSwitch.checked === true,
+                topHeaderHidden: topHeaderSwitch.checked === true,
+                exploreSectionHidden: exploreSectionSwitch ? exploreSectionSwitch.checked === true : false,
+                endScreenCardsHidden: endScreenCardsSwitch ? endScreenCardsSwitch.checked === true : false,
+                moreFromYouTubeHidden: moreFromYouTubeSwitch ? moreFromYouTubeSwitch.checked === true : false,
+                hideChannelHidden: hideChannelSwitch ? hideChannelSwitch.checked === true : false,
+                buttonsBarHidden: buttonsBarSwitch ? buttonsBarSwitch.checked === true : false,
+                hideDescriptionHidden: hideDescriptionSwitch ? hideDescriptionSwitch.checked === true : false,
+                grayscaleEnabled: grayscaleSwitch ? grayscaleSwitch.checked === true : false,
+                shopHidden: shopSwitch ? shopSwitch.checked === true : false
+            };
+
+            // Persist into storage
+            chrome.storage.sync.get(['customPresets'], function(result) {
+                const customs = result.customPresets || {};
+                customs[name] = preset;
+                chrome.storage.sync.set({ customPresets: customs }, function() {
+                    showNotification(translations[currentLang].presetSaved || 'Preset saved', 'success');
+                    loadPresetOptions();
+                    // Select the newly created preset
+                    setTimeout(() => {
+                        const val = `custom:${name}`;
+                        const opt = Array.from(presetSelect.options).find(o => o.value === val);
+                        if (opt) presetSelect.value = val;
+                    }, 50);
+                });
+            });
+        });
+    }
+
+    // Delete selected custom preset
+    if (deletePresetBtn) {
+        deletePresetBtn.addEventListener('click', function() {
+            const selected = presetSelect.value;
+            if (!selected || !selected.startsWith('custom:')) {
+                alert('Select a custom preset to delete.');
+                return;
+            }
+            const name = selected.split(':')[1];
+            if (!confirm(`Delete preset "${name}"?`)) return;
+            chrome.storage.sync.get(['customPresets'], function(result) {
+                const customs = result.customPresets || {};
+                if (customs[name]) delete customs[name];
+                chrome.storage.sync.set({ customPresets: customs }, function() {
+                    showNotification(translations[currentLang].presetDeleted || 'Preset deleted', 'success');
+                    loadPresetOptions();
+                });
+            });
+        });
+    }
+
+    // Import presets from JSON (merge)
+    if (importPresetsBtn && importPresetsFileInput) {
+        importPresetsBtn.addEventListener('click', function() {
+            importPresetsFileInput.click();
+        });
+
+        importPresetsFileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (!file.name.toLowerCase().endsWith('.json')) {
+                showNotification(translations[currentLang].invalidFileType, 'error');
+                e.target.value = '';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const data = JSON.parse(evt.target.result);
+                    let toMerge = {};
+                    if (Array.isArray(data)) {
+                        // Array of {name, preset}
+                        data.forEach(item => {
+                            if (item && item.name && item.preset) toMerge[item.name] = item.preset;
+                        });
+                    } else if (typeof data === 'object') {
+                        // Object map name->preset
+                        toMerge = data;
+                    } else {
+                        throw new Error('Invalid format');
+                    }
+
+                    // Basic validation: ensure preset objects contain at least one expected key
+                    const validKeys = Object.keys(PRESET_DEFINITIONS.none);
+                    Object.keys(toMerge).forEach(k => {
+                        const presetObj = toMerge[k];
+                        const hasKey = validKeys.some(v => Object.prototype.hasOwnProperty.call(presetObj, v));
+                        if (!hasKey) delete toMerge[k];
+                    });
+
+                    chrome.storage.sync.get(['customPresets'], function(result) {
+                        const customs = result.customPresets || {};
+                        Object.assign(customs, toMerge);
+                        chrome.storage.sync.set({ customPresets: customs }, function() {
+                            showNotification(translations[currentLang].presetsImported || 'Presets imported', 'success');
+                            loadPresetOptions();
+                        });
+                    });
+                } catch (err) {
+                    showNotification(translations[currentLang].importError || 'Invalid presets file', 'error');
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        });
+    }
+
+    // Export custom presets
+    if (exportPresetsBtn) {
+        exportPresetsBtn.addEventListener('click', function() {
+            chrome.storage.sync.get(['customPresets'], function(result) {
+                const customs = result.customPresets || {};
+                const blob = new Blob([JSON.stringify(customs, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'tubetuner-presets.json';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+            });
+        });
+    }
+
+    // Initial load of presets
+    if (presetSelect) loadPresetOptions();
 });
 
 // Initialize theme based on saved settings or system preference
@@ -1308,6 +1563,9 @@ function setLanguage(lang, save = true) {
             'applyPreset': 'Áp dụng preset',
             'confirmApplyPreset': 'Bạn có muốn áp dụng preset? Điều này sẽ ghi đè cài đặt hiện tại.',
             'presetApplied': 'Preset đã được áp dụng',
+            'builtInGroup': 'Mặc định',
+            'customGroup': 'Tùy chỉnh',
+            'presetNamePlaceholder': 'Tên preset',
             // Settings management
             'settingsManagement': 'Quản lý cài đặt',
             'exportSettings': 'Xuất cài đặt',
@@ -1389,6 +1647,9 @@ function setLanguage(lang, save = true) {
             'presetNone': 'None',
             'presetBalanced': 'Balanced',
             'presetFocus': 'Focus',
+            'builtInGroup': 'Built-in',
+            'customGroup': 'Custom',
+            'presetNamePlaceholder': 'Preset name',
             // Settings management
             'settingsManagement': 'Settings Management',
             'exportSettings': 'Export Settings',

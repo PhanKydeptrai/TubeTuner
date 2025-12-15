@@ -1077,6 +1077,22 @@ button:focus,
   flex: 0 0 auto;
 }
 
+.ext-presets-management {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.ext-presets-management .ext-input {
+  padding: 6px 8px;
+  min-height: 34px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  flex: 1 1 150px;
+}
+
 .dark .ext-select {
   background: var(--card);
   color: var(--foreground);
