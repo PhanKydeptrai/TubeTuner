@@ -1563,9 +1563,19 @@ function setLanguage(lang, save = true) {
             'applyPreset': 'Áp dụng preset',
             'confirmApplyPreset': 'Bạn có muốn áp dụng preset? Điều này sẽ ghi đè cài đặt hiện tại.',
             'presetApplied': 'Preset đã được áp dụng',
+            'presetNone': 'Không',
+            'presetBalanced': 'Cân bằng',
+            'presetFocus': 'Tập trung',
             'builtInGroup': 'Mặc định',
             'customGroup': 'Tùy chỉnh',
             'presetNamePlaceholder': 'Tên preset',
+            'savePreset': 'Lưu preset',
+            'deletePreset': 'Xóa preset',
+            'importPresets': 'Nhập preset',
+            'exportPresets': 'Xuất preset',
+            'presetSaved': 'Đã lưu preset',
+            'presetDeleted': 'Đã xóa preset',
+            'presetsImported': 'Đã nhập preset',
             // Settings management
             'settingsManagement': 'Quản lý cài đặt',
             'exportSettings': 'Xuất cài đặt',
@@ -1650,6 +1660,13 @@ function setLanguage(lang, save = true) {
             'builtInGroup': 'Built-in',
             'customGroup': 'Custom',
             'presetNamePlaceholder': 'Preset name',
+            'savePreset': 'Save preset',
+            'deletePreset': 'Delete preset',
+            'importPresets': 'Import presets',
+            'exportPresets': 'Export presets',
+            'presetSaved': 'Preset saved',
+            'presetDeleted': 'Preset deleted',
+            'presetsImported': 'Presets imported',
             // Settings management
             'settingsManagement': 'Settings Management',
             'exportSettings': 'Export Settings',
@@ -1786,13 +1803,32 @@ function setLanguage(lang, save = true) {
         applyPresetBtnEl.textContent = t.applyPreset || translations[currentLang].applyPreset || 'Apply preset';
     }
     if (presetSelectEl) {
-        const noneOpt = presetSelectEl.querySelector('option[value="none"]');
-        const balancedOpt = presetSelectEl.querySelector('option[value="balanced"]');
-        const focusOpt = presetSelectEl.querySelector('option[value="focus"]');
+        // Update option text for built-in values while keeping values
+        // Support both generated values (builtin:...) and initial static values (none/balanced/focus)
+        const noneOpt = presetSelectEl.querySelector('option[value="builtin:none"]') || presetSelectEl.querySelector('option[value="none"]');
+        const balancedOpt = presetSelectEl.querySelector('option[value="builtin:balanced"]') || presetSelectEl.querySelector('option[value="balanced"]');
+        const focusOpt = presetSelectEl.querySelector('option[value="builtin:focus"]') || presetSelectEl.querySelector('option[value="focus"]');
         if (noneOpt) noneOpt.textContent = t.presetNone || translations[currentLang].presetNone || 'None';
         if (balancedOpt) balancedOpt.textContent = t.presetBalanced || translations[currentLang].presetBalanced || 'Balanced';
         if (focusOpt) focusOpt.textContent = t.presetFocus || translations[currentLang].presetFocus || 'Focus';
     }
+
+    // Update preset management buttons
+    const savePresetBtnEl = document.getElementById('savePresetBtn');
+    const deletePresetBtnEl = document.getElementById('deletePresetBtn');
+    const importPresetsBtnEl = document.getElementById('importPresetsBtn');
+    const exportPresetsBtnEl = document.getElementById('exportPresetsBtn');
+    const presetNameInputEl = document.getElementById('presetNameInput');
+    if (savePresetBtnEl) savePresetBtnEl.textContent = t.savePreset || translations[currentLang].savePreset || 'Save preset';
+    if (deletePresetBtnEl) deletePresetBtnEl.textContent = t.deletePreset || translations[currentLang].deletePreset || 'Delete preset';
+    if (importPresetsBtnEl) importPresetsBtnEl.textContent = t.importPresets || translations[currentLang].importPresets || 'Import presets';
+    if (exportPresetsBtnEl) exportPresetsBtnEl.textContent = t.exportPresets || translations[currentLang].exportPresets || 'Export presets';
+    if (presetNameInputEl) presetNameInputEl.placeholder = t.presetNamePlaceholder || translations[currentLang].presetNamePlaceholder || 'Preset name';
+
+    // Update optgroup labels
+    const optgroups = presetSelectEl ? presetSelectEl.querySelectorAll('optgroup') : [];
+    if (optgroups.length > 0) optgroups[0].label = t.builtInGroup || translations[currentLang].builtInGroup || 'Built-in';
+    if (optgroups.length > 1) optgroups[1].label = t.customGroup || translations[currentLang].customGroup || 'Custom';
 
     // Other UI elements
     document.querySelector('#status').textContent = t.active;
