@@ -57,7 +57,7 @@ TubeTuner
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-TubeTuner is a comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 14 different hide/show options.
+TubeTuner is a comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 16 different hide/show options, plus utility features like presets and export/import for backups.
 
 ### Main Features
 
@@ -73,6 +73,7 @@ TubeTuner is a comprehensive Chrome extension to customize your YouTube interfac
 ✅ **Hide Notifications Bell** - Hide notification bell <br>
 ✅ **Hide Explore & Trending** - Hide Explore and Trending tabs <br>
 ✅ **Hide More from YouTube** - Hide "More from YouTube" section <br>
+✅ **Hide Shop** - Hide YouTube Shop section <br>
 ✅ **Hide Buttons Bar** - Hide buttons bar <br>
 
 #### 🎥 Video Controls
@@ -82,13 +83,23 @@ TubeTuner is a comprehensive Chrome extension to customize your YouTube interfac
 ✅ **Hide Description** - Hide video description <br>
 
 #### 🔧 Other Features
-✅ **Export/Import Settings** - Backup and share configurations <br>
+✅ **Export/Import Settings** - Export settings to a file for backups and import to restore or share configurations <br>
 ✅ **Modern UI** - Beautiful interface with 3 collapsible sections <br>
 ✅ **Dark mode** - Support for dark mode, automatically follows system <br>
 ✅ **Multi-language** - Support for Vietnamese and English <br>
 ✅ **Independent toggles** - Separate toggle for each feature <br>
 ✅ **No performance impact** - Lightweight and optimized extension <br>
-✅ **Presets** - Apply pre-made presets (None, Balanced, Focus) to quickly switch multiple settings.
+✅ **Presets** - Apply pre-made presets (None, Balanced, Focus) or create custom presets to quickly switch multiple settings. <br>
+✅ **Grayscale** - Apply a grayscale filter to the YouTube UI <br>
+✅ **Enable/Disable Extension** - Quickly enable or disable the extension from the popup
+
+### New Features
+
+- ✅ **Grayscale** — Apply a grayscale filter to the YouTube UI
+- ✅ **Enable/Disable Extension** — Turn the extension on or off from the popup
+- ✅ **Hide YouTube Shop** — Hide the Shop section on YouTube
+- ✅ **Preset options** — Use built-in presets or create and save custom presets
+- ✅ **Export to file (Backup)** — Export settings to a local file for backup and restore
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -135,7 +146,7 @@ To get a local copy up and running follow these simple example steps.
 2. **Click on the extension icon** in the toolbar
 3. **Explore 3 main sections**:
    - **Content & Feed Controls**: Hide/show Home Feed, Video Sidebar, Comments, Shorts, Channel
-   - **Interface Elements**: Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar
+   - **Interface Elements**: Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Shop
    - **Video Controls**: Hide/show Progress Bar, Duration, End Screen Cards, Description
 4. **Toggle switches** to enable/disable each feature individually
 5. **Toggle theme**: Click the sun/moon button at the top to switch Light/Dark mode

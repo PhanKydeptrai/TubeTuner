@@ -57,7 +57,7 @@ TubeTuner
 <!-- ABOUT THE PROJECT -->
 ## Về dự án
 
-TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉnh giao diện YouTube theo sở thích của bạn. Ẩn các yếu tố gây xao lãng và tập trung vào nội dung video với 14 tùy chọn ẩn/hiện khác nhau.
+TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉnh giao diện YouTube theo sở thích của bạn. Ẩn các yếu tố gây xao lãng và tập trung vào nội dung video với 16 tùy chọn ẩn/hiện khác nhau, cùng các tính năng tiện ích như preset và xuất/nhập để sao lưu.
 
 ### Tính năng chính
 
@@ -73,6 +73,7 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 ✅ **Ẩn Notifications Bell** - Ẩn chuông thông báo <br>
 ✅ **Ẩn Explore & Trending** - Ẩn các tab Khám phá và Thịnh hành <br>
 ✅ **Ẩn More from YouTube** - Ẩn phần "Thêm từ YouTube" <br>
+✅ **Ẩn Shop** - Ẩn phần Shop của YouTube <br>
 ✅ **Ẩn Buttons Bar** - Ẩn thanh nút bấm <br>
 
 #### 🎥 Điều khiển video
@@ -82,12 +83,23 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 ✅ **Ẩn Description** - Ẩn mô tả video <br>
 
 #### 🔧 Các tính năng khác
-✅ **Xuất/Nhập Cài đặt** - Sao lưu và chia sẻ cấu hình <br>
+✅ **Xuất/Nhập Cài đặt** - Xuất cài đặt ra file để sao lưu và nhập lại để khôi phục hoặc chia sẻ cấu hình <br>
 ✅ **Giao diện Hiện đại** - Giao diện đẹp với 3 phần có thể thu gọn <br>
 ✅ **Chế độ tối** - Hỗ trợ chế độ tối, tự động theo hệ thống <br>
 ✅ **Đa ngôn ngữ** - Hỗ trợ tiếng Việt và tiếng Anh <br>
 ✅ **Công tắc độc lập** - Công tắc riêng cho mỗi tính năng <br>
 ✅ **Không ảnh hưởng hiệu suất** - Tiện ích nhẹ và được tối ưu hóa <br>
+✅ **Presets** - Sử dụng preset có sẵn (None, Balanced, Focus) hoặc tạo preset tùy chỉnh <br>
+✅ **Grayscale** - Áp dụng bộ lọc đen trắng cho giao diện YouTube <br>
+✅ **Bật/Tắt Extension** - Bật hoặc tắt tiện ích nhanh từ popup
+
+### Tính năng mới
+
+- ✅ **Grayscale** — Áp dụng bộ lọc đen trắng cho giao diện YouTube
+- ✅ **Bật/Tắt Extension** — Bật hoặc tắt tiện ích nhanh từ popup
+- ✅ **Ẩn Shop** — Ẩn phần Shop trên YouTube
+- ✅ **Tùy chọn Preset** — Sử dụng preset có sẵn hoặc tạo và lưu nhiều preset tùy chỉnh
+- ✅ **Xuất file (Sao lưu)** — Xuất cài đặt ra file để sao lưu và khôi phục
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
@@ -134,7 +146,7 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 2. **Nhấp vào biểu tượng tiện ích** trên thanh công cụ
 3. **Khám phá 3 phần chính**:
    - **Điều khiển Nội dung & Nguồn cấp dữ liệu**: Ẩn/hiện Home Feed, Video Sidebar, Comments, Shorts, Channel
-   - **Các yếu tố giao diện**: Ẩn/hiện Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar
+   - **Các yếu tố giao diện**: Ẩn/hiện Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Shop
    - **Điều khiển video**: Ẩn/hiện Progress Bar, Duration, End Screen Cards, Description
 4. **Gạt các công tắc** để bật/tắt từng tính năng riêng lẻ
 5. **Chuyển đổi giao diện**: Nhấp vào nút mặt trời/mặt trăng ở trên cùng để chuyển đổi chế độ Sáng/Tối
