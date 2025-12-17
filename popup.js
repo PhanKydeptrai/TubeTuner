@@ -1,212 +1,4 @@
 
-const TRANSLATIONS = {
-    vi: {
-        title: 'TubeTuner',
-        subtitle: 'Ẩn các phần tử YouTube không mong muốn',
-        // Content & Feed Controls
-        contentFeedControlsTitle: 'Nội dung & Bảng tin',
-        hideHomeFeed: 'Ẩn trang chủ',
-        hideVideoSidebar: 'Ẩn thanh bên video',
-        hideShorts: 'Ẩn Shorts',
-        hideComments: 'Ẩn phần bình luận',
-        hideChannel: 'Ẩn kênh',
-        // Interface Elements
-        interfaceElementsTitle: 'Giao diện chung',
-        hideTopHeader: 'Ẩn thanh tiêu đề (Header)',
-        hideNotificationsBell: 'Ẩn chuông thông báo',
-        hideExploreSection: 'Ẩn phần Khám phá',
-        hideMoreFromYouTube: 'Ẩn "Thêm từ YouTube"',
-        hideButtonsBar: 'Ẩn thanh thao tác',
-        // Video Controls
-        videoControlsTitle: 'Trình phát Video',
-        hideProgressBar: 'Ẩn thanh tiến trình',
-        hideDuration: 'Ẩn thời lượng video',
-        hideEndScreenCards: 'Ẩn thẻ cuối video',
-        hideDescription: 'Ẩn mô tả video',
-        // General
-        active: 'Đang hoạt động',
-        inactive: 'Đã tắt',
-        infoTitle: 'Giới thiệu',
-        infoContent: 'Extension giúp bạn tập trung vào nội dung video mà không bị phân tâm bởi:',
-        featureProgress: 'Các phần tử giao diện không cần thiết',
-        featureDuration: 'Nội dung đề xuất và quảng cáo',
-        featureShorts: 'Các tính năng gây xao nhãng',
-        homeFeed: 'Trang chủ',
-        infoExtra: 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với 14 tùy chọn ẩn/hiện.',
-        noticeTitle: 'Lưu ý quan trọng',
-        noticeDesc: 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.',
-        // Grayscale feature translations
-        grayscale: 'Giao diện đen trắng',
-        enableGrayscale: 'Bật giao diện đen trắng',
-        disableGrayscale: 'Tắt giao diện đen trắng',
-        // Shop feature translations
-        shop: 'YouTube Shop',
-        hideShop: 'Ẩn YouTube Shop',
-        // Presets UI
-        presetsLabel: 'Cài đặt sẵn',
-        applyPreset: 'Áp dụng preset',
-        confirmApplyPreset: 'Áp dụng preset này? Cài đặt hiện tại của bạn sẽ bị thay thế.',
-        presetApplied: 'Preset đã được áp dụng',
-        presetNone: 'Không',
-        presetBalanced: 'Cân bằng',
-        presetFocus: 'Tập trung',
-        builtInGroup: 'Mặc định',
-        customGroup: 'Tùy chỉnh',
-        presetNamePlaceholder: 'Tên preset',
-        savePreset: 'Lưu preset',
-        deletePreset: 'Xóa preset',
-            deletePresetConfirmation: 'Xóa preset',
-        importPresets: 'Nhập preset',
-        exportPresets: 'Xuất preset',
-        presetSaved: 'Đã lưu preset',
-        presetDeleted: 'Đã xóa preset',
-        presetsImported: 'Đã nhập preset',
-        presetNameEmpty: 'Vui lòng nhập tên cho preset',
-        selectCustomPresetToDelete: 'Vui lòng chọn một preset tùy chỉnh để xóa',
-        // Settings management
-        settingsManagement: 'Quản lý cài đặt',
-        exportSettings: 'Xuất cài đặt',
-        importSettings: 'Nhập cài đặt',
-        exportSuccess: 'Đã xuất cài đặt thành công!',
-        importSuccess: 'Đã nhập cài đặt thành công! Đang tải lại...',
-        importError: 'Lỗi: File cài đặt không đúng định dạng.',
-        exporting: 'Đang xuất...',
-        importing: 'Đang nhập...',
-        confirmImport: 'Bạn có chắc muốn nhập cài đặt mới? Điều này sẽ ghi đè lên cài đặt hiện tại.',
-        backupCreated: 'Đã tạo bản sao lưu tự động',
-        invalidFileType: 'Chỉ chấp nhận file JSON!',
-        fileTooLarge: 'File quá lớn (tối đa 5MB)!',
-        noSettingsToExport: 'Không có cài đặt nào để xuất!',
-        extensionEnabled: 'Bật/Tắt Extension',
-        extensionDisabledTitle: 'Extension đã tắt',
-        extensionDisabledDesc: 'TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy chỉnh YouTube.',
-        // About section translations
-        aboutTitle: 'Giới thiệu',
-        aboutDescription: 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
-        aboutFeaturesTitle: 'Tính năng chính:',
-        aboutFeature1: '✨ Ẩn/hiện các phần tử giao diện YouTube',
-        aboutFeature2: '🎨 Chế độ giao diện đen trắng',
-        aboutFeature3: '🔄 Đồng bộ cài đặt giữa các tab',
-        aboutFeature4: '💾 Sao lưu/khôi phục cài đặt',
-        aboutFeature5: '🌐 Hỗ trợ đa ngôn ngữ (VI/EN)',
-        aboutGithubLink: 'GitHub Repository',
-        // Status
-        hidingFeatures: 'Đang ẩn',
-        progressBar: 'thanh tiến trình',
-        duration: 'thời lượng',
-        shorts: 'shorts',
-        videoSidebar: 'thanh bên video',
-        notificationsBell: 'chuông thông báo',
-        topHeader: 'thanh điều hướng trên',
-        exploreSection: 'phần khám phá',
-        allDisabled: 'Đã tắt tất cả'
-    },
-    en: {
-        title: 'TubeTuner',
-        subtitle: 'Hide unwanted YouTube elements',
-        // Content & Feed Controls
-        contentFeedControlsTitle: 'Content & Feed Controls',
-        hideHomeFeed: 'Hide Home Feed',
-        hideVideoSidebar: 'Hide Video Sidebar',
-        hideShorts: 'Hide Shorts',
-        hideComments: 'Hide Comments Section',
-        hideChannel: 'Hide Channel',
-        // Interface Elements
-        interfaceElementsTitle: 'Interface Elements',
-        hideTopHeader: 'Hide Top Header/Navigation Bar',
-        hideNotificationsBell: 'Hide Notifications Bell',
-        hideExploreSection: 'Hide Explore Section',
-        hideMoreFromYouTube: 'Hide "More from YouTube" Section',
-        hideButtonsBar: 'Hide Buttons Bar',
-        // Video Controls
-        videoControlsTitle: 'Video Controls',
-        hideProgressBar: 'Hide progress bar',
-        hideDuration: 'Hide video duration',
-        hideEndScreenCards: 'Hide End Screen Cards/Annotations',
-        hideDescription: 'Hide Video Description',
-        // General
-        active: 'Active',
-        inactive: 'Inactive',
-        infoTitle: 'Introduction',
-        infoContent: 'This extension helps you focus on video content without distractions from:',
-        featureProgress: 'Unnecessary interface elements',
-        featureDuration: 'Recommended content and ads',
-        featureShorts: 'Distracting features',
-        homeFeed: 'Home Feed',
-        infoExtra: 'Customize your YouTube experience with 14 hide/show options.',
-        noticeTitle: 'Important Notice',
-        noticeDesc: 'For the best experience, please enable the extension before visiting YouTube.',
-        // Grayscale feature translations
-        grayscale: 'Grayscale interface',
-        enableGrayscale: 'Enable grayscale interface',
-        disableGrayscale: 'Disable grayscale interface',
-        // Shop feature translations
-        shop: 'YouTube Shop',
-        hideShop: 'Hide YouTube Shop',
-        // Presets UI
-        presetsLabel: 'Presets',
-        applyPreset: 'Apply preset',
-        confirmApplyPreset: 'Apply selected preset? This will overwrite current settings.',
-        presetApplied: 'Preset applied',
-        presetNone: 'None',
-        presetBalanced: 'Balanced',
-        presetFocus: 'Focus',
-        builtInGroup: 'Built-in',
-        customGroup: 'Custom',
-        presetNamePlaceholder: 'Preset name',
-        savePreset: 'Save preset',
-        deletePreset: 'Delete preset',
-        deletePresetConfirmation: 'Delete preset',
-        importPresets: 'Import presets',
-        exportPresets: 'Export presets',
-        presetSaved: 'Preset saved',
-        presetDeleted: 'Preset deleted',
-        presetsImported: 'Presets imported',
-        presetNameEmpty: 'Please enter a name for the preset',
-        selectCustomPresetToDelete: 'Please select a custom preset to delete',
-        // Settings management
-        settingsManagement: 'Settings Management',
-        exportSettings: 'Export Settings',
-        importSettings: 'Import Settings',
-        exportSuccess: 'Settings exported successfully!',
-        importSuccess: 'Settings imported successfully! Reloading...',
-        importError: 'Error: Invalid settings file!',
-        exporting: 'Exporting...',
-        importing: 'Importing...',
-        confirmImport: 'Are you sure you want to import new settings? This will overwrite current settings.',
-        backupCreated: 'Auto backup created',
-        invalidFileType: 'Only JSON files are accepted!',
-        fileTooLarge: 'File too large (max 5MB)!',
-        noSettingsToExport: 'No settings to export!',
-        extensionEnabled: 'Enable/Disable Extension',
-        extensionDisabledTitle: 'Extension Disabled',
-        extensionDisabledDesc: 'TubeTuner is currently disabled. Enable it to use YouTube customization features.',
-        // About section translations
-        aboutTitle: 'About',
-        aboutDescription: 'TubeTuner is an extension that helps you customize your YouTube experience as you wish. Hide unnecessary elements like progress bars, Shorts, ads, and many other components to focus on important content.',
-        aboutFeaturesTitle: 'Key Features:',
-        aboutFeature1: '✨ Show/hide YouTube interface elements',
-        aboutFeature2: '🎨 Grayscale interface mode',
-        aboutFeature3: '🔄 Sync settings across tabs',
-        aboutFeature4: '💾 Backup/restore settings',
-        aboutFeature5: '🌐 Multi-language support (VI/EN)',
-        aboutGithubLink: 'GitHub Repository',
-        // Status
-        hidingFeatures: 'Hiding',
-        progressBar: 'progress bar',
-        duration: 'duration',
-        shorts: 'shorts',
-        videoSidebar: 'video sidebar',
-        notificationsBell: 'notifications bell',
-        topHeader: 'top header',
-        exploreSection: 'explore section',
-        allDisabled: 'All features disabled'
-    }
-};
-
-/**
- * Preset definitions for quick configuration
- */
 const PRESET_DEFINITIONS = {
     none: {
         progressBarHidden: false,
@@ -348,10 +140,6 @@ window.verifyToggleStates = verifyToggleStates;
 
 
 
-/**
- * Update UI based on settings object
- * @param {Object} settings -
- */
 function updateUI(settings) {
     const {
         extensionEnabled = AppState.currentExtensionEnabled,
@@ -532,6 +320,24 @@ function updateLanguageUI() {
     sectionTitles.forEach((el, idx) => {
         if (titleKeys[idx]) el.textContent = t(titleKeys[idx]);
     });
+
+    // Update About section content
+    const aboutDescription = document.getElementById('aboutDescription');
+    if (aboutDescription) aboutDescription.textContent = t('aboutDescription');
+
+    const aboutFeaturesTitle = document.getElementById('aboutFeaturesTitle');
+    if (aboutFeaturesTitle) aboutFeaturesTitle.textContent = t('aboutFeaturesTitle');
+
+    const aboutFeatures = [1, 2, 3, 4, 5];
+    aboutFeatures.forEach(num => {
+        const featureEl = document.getElementById(`aboutFeature${num}`);
+        if (featureEl) {
+            featureEl.textContent = t(`aboutFeature${num}`);
+        }
+    });
+
+    const githubLink = document.getElementById('aboutGithubLinkText');
+    if (githubLink) githubLink.textContent = t('aboutGithubLink');
 
     // Update switch labels using SWITCH_CONFIG
     SWITCH_CONFIG.forEach(config => {
