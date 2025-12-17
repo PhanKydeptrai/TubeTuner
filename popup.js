@@ -55,11 +55,14 @@ const TRANSLATIONS = {
         presetNamePlaceholder: 'Tên preset',
         savePreset: 'Lưu preset',
         deletePreset: 'Xóa preset',
+            deletePresetConfirmation: 'Xóa preset',
         importPresets: 'Nhập preset',
         exportPresets: 'Xuất preset',
         presetSaved: 'Đã lưu preset',
         presetDeleted: 'Đã xóa preset',
         presetsImported: 'Đã nhập preset',
+        presetNameEmpty: 'Vui lòng nhập tên cho preset',
+        selectCustomPresetToDelete: 'Vui lòng chọn một preset tùy chỉnh để xóa',
         // Settings management
         settingsManagement: 'Quản lý cài đặt',
         exportSettings: 'Xuất cài đặt',
@@ -153,11 +156,14 @@ const TRANSLATIONS = {
         presetNamePlaceholder: 'Preset name',
         savePreset: 'Save preset',
         deletePreset: 'Delete preset',
+        deletePresetConfirmation: 'Delete preset',
         importPresets: 'Import presets',
         exportPresets: 'Export presets',
         presetSaved: 'Preset saved',
         presetDeleted: 'Preset deleted',
         presetsImported: 'Presets imported',
+        presetNameEmpty: 'Please enter a name for the preset',
+        selectCustomPresetToDelete: 'Please select a custom preset to delete',
         // Settings management
         settingsManagement: 'Settings Management',
         exportSettings: 'Export Settings',
@@ -259,23 +265,23 @@ const PRESET_DEFINITIONS = {
 };
 
 const SWITCH_CONFIG = [
-    { id: 'extensionEnabledSwitch', key: 'extensionEnabled', default: true },
-    { id: 'progressSwitch', key: 'progressBarHidden', default: false },
-    { id: 'durationSwitch', key: 'durationHidden', default: false },
-    { id: 'shortsSwitch', key: 'shortsHidden', default: false },
-    { id: 'homeFeedSwitch', key: 'homeFeedHidden', default: false },
-    { id: 'videoSidebarSwitch', key: 'videoSidebarHidden', default: false },
-    { id: 'commentsSwitch', key: 'commentsHidden', default: false },
-    { id: 'notificationsBellSwitch', key: 'notificationsBellHidden', default: false },
-    { id: 'topHeaderSwitch', key: 'topHeaderHidden', default: false },
-    { id: 'exploreSectionSwitch', key: 'exploreSectionHidden', default: false },
-    { id: 'endScreenCardsSwitch', key: 'endScreenCardsHidden', default: false },
-    { id: 'moreFromYouTubeSwitch', key: 'moreFromYouTubeHidden', default: false },
-    { id: 'hideChannelSwitch', key: 'hideChannelHidden', default: false },
-    { id: 'buttonsBarSwitch', key: 'buttonsBarHidden', default: false },
-    { id: 'hideDescriptionSwitch', key: 'hideDescriptionHidden', default: false },
-    { id: 'grayscaleSwitch', key: 'grayscaleEnabled', default: false },
-    { id: 'shopSwitch', key: 'shopHidden', default: false }
+    { id: 'extensionEnabledSwitch', key: 'extensionEnabled', default: true, i18nKey: 'extensionEnabled' },
+    { id: 'progressSwitch', key: 'progressBarHidden', default: false, i18nKey: 'hideProgressBar' },
+    { id: 'durationSwitch', key: 'durationHidden', default: false, i18nKey: 'hideDuration' },
+    { id: 'shortsSwitch', key: 'shortsHidden', default: false, i18nKey: 'hideShorts' },
+    { id: 'homeFeedSwitch', key: 'homeFeedHidden', default: false, i18nKey: 'hideHomeFeed' },
+    { id: 'videoSidebarSwitch', key: 'videoSidebarHidden', default: false, i18nKey: 'hideVideoSidebar' },
+    { id: 'commentsSwitch', key: 'commentsHidden', default: false, i18nKey: 'hideComments' },
+    { id: 'notificationsBellSwitch', key: 'notificationsBellHidden', default: false, i18nKey: 'hideNotificationsBell' },
+    { id: 'topHeaderSwitch', key: 'topHeaderHidden', default: false, i18nKey: 'hideTopHeader' },
+    { id: 'exploreSectionSwitch', key: 'exploreSectionHidden', default: false, i18nKey: 'hideExploreSection' },
+    { id: 'endScreenCardsSwitch', key: 'endScreenCardsHidden', default: false, i18nKey: 'hideEndScreenCards' },
+    { id: 'moreFromYouTubeSwitch', key: 'moreFromYouTubeHidden', default: false, i18nKey: 'hideMoreFromYouTube' },
+    { id: 'hideChannelSwitch', key: 'hideChannelHidden', default: false, i18nKey: 'hideChannel' },
+    { id: 'buttonsBarSwitch', key: 'buttonsBarHidden', default: false, i18nKey: 'hideButtonsBar' },
+    { id: 'hideDescriptionSwitch', key: 'hideDescriptionHidden', default: false, i18nKey: 'hideDescription' },
+    { id: 'grayscaleSwitch', key: 'grayscaleEnabled', default: false, i18nKey: 'grayscale' },
+    { id: 'shopSwitch', key: 'shopHidden', default: false, i18nKey: 'hideShop' }
 ];
 
 
@@ -465,96 +471,89 @@ function updateStatusUI(settings) {
     }
 }
 
+const UI_ELEMENTS = {
+    title: { selector: '.ext-title', key: 'title' },
+    subtitle: { selector: '.ext-subtitle', key: 'subtitle' },
+    disabledNoticeTitle: { selector: '.ext-disabled-notice .ext-notice-title', key: 'extensionDisabledTitle' },
+    disabledNoticeDesc: { selector: '.ext-disabled-notice .ext-notice-description', key: 'extensionDisabledDesc' },
+    settingsTitle: { selector: '.ext-settings-title', key: 'settingsManagement' },
+    presetsLabel: { selector: '.ext-presets-label', key: 'presetsLabel' },
+    presetNameInput: { selector: '#presetNameInput', key: 'presetNamePlaceholder', attr: 'placeholder' },
+};
+
+const BUTTON_ELEMENTS = {
+    exportSettingsBtn: 'exportSettings',
+    importSettingsBtn: 'importSettings',
+    applyPresetBtn: 'applyPreset',
+    savePresetBtn: 'savePreset',
+    deletePresetBtn: 'deletePreset',
+    importPresetsBtn: 'importPresets',
+    exportPresetsBtn: 'exportPresets',
+};
+
+const PRESET_OPTIONS = {
+    'builtin:none': 'presetNone',
+    'builtin:balanced': 'presetBalanced',
+    'builtin:focus': 'presetFocus',
+};
+
 
 function updateLanguageUI() {
-    // Update title
-    const titleEl = document.querySelector('.ext-title');
-    const subtitleEl = document.querySelector('.ext-subtitle');
-    if (titleEl) titleEl.textContent = t('title');
-    if (subtitleEl) subtitleEl.textContent = t('subtitle');
-
-    // Update disabled notice
-    const disabledNoticeTitle = document.querySelector('.ext-disabled-notice .ext-notice-title');
-    const disabledNoticeDesc = document.querySelector('.ext-disabled-notice .ext-notice-description');
-    if (disabledNoticeTitle) disabledNoticeTitle.textContent = t('extensionDisabledTitle');
-    if (disabledNoticeDesc) disabledNoticeDesc.textContent = t('extensionDisabledDesc');
-
-    // Update section titles
-    const sectionTitles = document.querySelectorAll('.ext-section-title');
-    const titleMap = [
-        t('aboutTitle'),
-        t('contentFeedControlsTitle'),
-        t('interfaceElementsTitle'),
-        t('videoControlsTitle')
-    ];
-    sectionTitles.forEach((el, idx) => {
-        if (titleMap[idx]) el.textContent = titleMap[idx];
-    });
-
-    // Update control labels
-    const labelMappings = [
-        { id: 'homeFeedSwitch', text: t('hideHomeFeed') },
-        { id: 'videoSidebarSwitch', text: t('hideVideoSidebar') },
-        { id: 'shortsSwitch', text: t('hideShorts') },
-        { id: 'commentsSwitch', text: t('hideComments') },
-        { id: 'hideChannelSwitch', text: t('hideChannel') },
-        { id: 'topHeaderSwitch', text: t('hideTopHeader') },
-        { id: 'notificationsBellSwitch', text: t('hideNotificationsBell') },
-        { id: 'exploreSectionSwitch', text: t('hideExploreSection') },
-        { id: 'moreFromYouTubeSwitch', text: t('hideMoreFromYouTube') },
-        { id: 'buttonsBarSwitch', text: t('hideButtonsBar') },
-        { id: 'progressSwitch', text: t('hideProgressBar') },
-        { id: 'durationSwitch', text: t('hideDuration') },
-        { id: 'endScreenCardsSwitch', text: t('hideEndScreenCards') },
-        { id: 'hideDescriptionSwitch', text: t('hideDescription') },
-        { id: 'grayscaleSwitch', text: t('grayscale') },
-        { id: 'shopSwitch', text: t('hideShop') },
-        { id: 'extensionEnabledSwitch', text: t('extensionEnabled') }
-    ];
-
-    labelMappings.forEach(({ id, text }) => {
-        const switchEl = document.getElementById(id);
-        if (switchEl) {
-            const label = switchEl.closest('.ext-control-item')?.querySelector('.ext-control-label');
-            if (label) label.textContent = text;
+    // Update static UI elements
+    Object.entries(UI_ELEMENTS).forEach(([key, config]) => {
+        const element = document.querySelector(config.selector);
+        if (element) {
+            if (config.attr === 'placeholder') {
+                element.placeholder = t(config.key);
+            } else {
+                element.textContent = t(config.key);
+            }
         }
     });
 
-    // Update settings section
-    const settingsTitle = document.querySelector('.ext-settings-title');
-    const exportBtn = document.querySelector('#exportSettingsBtn span');
-    const importBtn = document.querySelector('#importSettingsBtn span');
-    if (settingsTitle) settingsTitle.textContent = t('settingsManagement');
-    if (exportBtn) exportBtn.textContent = t('exportSettings');
-    if (importBtn) importBtn.textContent = t('importSettings');
+    // Update button texts
+    Object.entries(BUTTON_ELEMENTS).forEach(([buttonId, translationKey]) => {
+        const button = document.getElementById(buttonId);
+        if (button) {
+            const span = button.querySelector('span') || button;
+            if (span.querySelector('svg')) {
+                // If button has SVG (loading state), preserve it and update only text
+                const textSpan = button.querySelector('span:not(.animate-spin)') || span;
+                textSpan.textContent = t(translationKey);
+            } else {
+                span.textContent = t(translationKey);
+            }
+        }
+    });
 
-    // Update presets
-    const presetsLabel = document.querySelector('.ext-presets-label');
-    const applyPresetBtn = document.getElementById('applyPresetBtn');
-    if (presetsLabel) presetsLabel.textContent = t('presetsLabel');
-    if (applyPresetBtn) applyPresetBtn.textContent = t('applyPreset');
+    // Update section titles dynamically
+    const sectionTitles = document.querySelectorAll('.ext-section-title');
+    const titleKeys = ['aboutTitle', 'contentFeedControlsTitle', 'interfaceElementsTitle', 'videoControlsTitle'];
+    sectionTitles.forEach((el, idx) => {
+        if (titleKeys[idx]) el.textContent = t(titleKeys[idx]);
+    });
 
-    const savePresetBtn = document.getElementById('savePresetBtn');
-    const deletePresetBtn = document.getElementById('deletePresetBtn');
-    const importPresetsBtn = document.getElementById('importPresetsBtn');
-    const exportPresetsBtn = document.getElementById('exportPresetsBtn');
-    if (savePresetBtn) savePresetBtn.textContent = t('savePreset');
-    if (deletePresetBtn) deletePresetBtn.textContent = t('deletePreset');
-    if (importPresetsBtn) importPresetsBtn.textContent = t('importPresets');
-    if (exportPresetsBtn) exportPresetsBtn.textContent = t('exportPresets');
+    // Update switch labels using SWITCH_CONFIG
+    SWITCH_CONFIG.forEach(config => {
+        const switchEl = document.getElementById(config.id);
+        if (switchEl) {
+            const label = switchEl.closest('.ext-control-item')?.querySelector('.ext-control-label');
+            if (label) label.textContent = t(config.i18nKey);
+        }
+    });
 
-    const presetNameInput = document.getElementById('presetNameInput');
-    if (presetNameInput) presetNameInput.placeholder = t('presetNamePlaceholder');
-
-    // Update preset options
+    // Update preset select options
     const presetSelect = document.getElementById('presetSelect');
     if (presetSelect) {
-        const noneOpt = presetSelect.querySelector('option[value="builtin:none"]') || presetSelect.querySelector('option[value="none"]');
-        const balancedOpt = presetSelect.querySelector('option[value="builtin:balanced"]') || presetSelect.querySelector('option[value="balanced"]');
-        const focusOpt = presetSelect.querySelector('option[value="builtin:focus"]') || presetSelect.querySelector('option[value="focus"]');
-        if (noneOpt) noneOpt.textContent = t('presetNone');
-        if (balancedOpt) balancedOpt.textContent = t('presetBalanced');
-        if (focusOpt) focusOpt.textContent = t('presetFocus');
+        const builtInGroup = presetSelect.querySelector('optgroup[label]');
+        if (builtInGroup) builtInGroup.label = t('builtInGroup');
+
+        presetSelect.querySelectorAll('option').forEach(option => {
+            const key = option.value || option.textContent;
+            if (PRESET_OPTIONS[key]) {
+                option.textContent = t(PRESET_OPTIONS[key]);
+            }
+        });
 
         const optgroups = presetSelect.querySelectorAll('optgroup');
         if (optgroups[0]) optgroups[0].label = t('builtInGroup');
@@ -577,6 +576,10 @@ function setupEventListeners() {
 
             // Save to storage
             chrome.storage.sync.set(storageObj);
+
+            if (config.key !== 'extensionEnabled') {
+                chrome.storage.sync.set({ currentPreset: 'builtin:none' });
+            }
 
             // Handle extension enabled toggle specially
             if (config.key === 'extensionEnabled') {
@@ -862,8 +865,9 @@ function loadPresetOptions() {
     const presetSelect = document.getElementById('presetSelect');
     if (!presetSelect) return;
 
-    chrome.storage.sync.get(['customPresets'], function(result) {
+    chrome.storage.sync.get(['customPresets', 'currentPreset'], function(result) {
         const customs = result.customPresets || {};
+        const currentPreset = result.currentPreset || 'builtin:none';
 
         while (presetSelect.firstChild) presetSelect.removeChild(presetSelect.firstChild);
 
@@ -889,6 +893,9 @@ function loadPresetOptions() {
             });
             presetSelect.appendChild(optgroupCustom);
         }
+
+        // Set the currently selected preset
+        presetSelect.value = currentPreset;
 
         try {
             updateLanguageUI();
@@ -976,6 +983,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const key = selected.split(':')[1];
                 if (PRESET_DEFINITIONS[key]) {
                     settings = Object.assign({}, PRESET_DEFINITIONS[key], { extensionEnabled: true });
+                    chrome.storage.sync.set({ currentPreset: selected }, function() {});
                 }
             } else if (selected.startsWith('custom:')) {
                 const name = selected.split(':')[1];
@@ -983,7 +991,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const customs = result.customPresets || {};
                     if (customs[name]) {
                         const customSettings = Object.assign({}, customs[name], { extensionEnabled: true });
-                        chrome.storage.sync.set(customSettings, function() {
+                        chrome.storage.sync.set(Object.assign({}, customSettings, { currentPreset: selected }), function() {
                             showNotification(t('presetApplied'), 'success');
                             updateUI(customSettings);
                             chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
@@ -1011,7 +1019,7 @@ document.addEventListener('DOMContentLoaded', function() {
         savePresetBtn.addEventListener('click', function() {
             const name = presetNameInput?.value?.trim();
             if (!name) {
-                alert('Please enter a name for the preset.');
+                showNotification(t('presetNameEmpty'), 'error');
                 return;
             }
 
@@ -1039,17 +1047,19 @@ document.addEventListener('DOMContentLoaded', function() {
         deletePresetBtn.addEventListener('click', function() {
             const selected = presetSelect.value;
             if (!selected || !selected.startsWith('custom:')) {
-                alert('Select a custom preset to delete.');
+                showNotification(t('selectCustomPresetToDelete'), 'error');
                 return;
             }
             const name = selected.split(':')[1];
-            if (!confirm(`Delete preset "${name}"?`)) return;
+            if (!confirm(`${t('deletePresetConfirmation')} "${name}"?`)) return;
 
             chrome.storage.sync.get(['customPresets'], function(result) {
                 const customs = result.customPresets || {};
                 if (customs[name]) delete customs[name];
                 chrome.storage.sync.set({ customPresets: customs }, function() {
                     showNotification(t('presetDeleted'), 'success');
+                    // Reset to 'none' preset if the deleted preset was selected
+                    chrome.storage.sync.set({ currentPreset: 'builtin:none' });
                     loadPresetOptions();
                 });
             });
