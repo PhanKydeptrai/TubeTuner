@@ -1,10 +1,206 @@
-// YouTube Progress Bar Hider Popup Script
-let currentLang = 'en'; // Default language is English
-let translations = {}; // Global declaration to access from outside DOMContentLoaded
-let toggleSwitch, durationSwitch, shortsSwitch, homeFeedSwitch, videoSidebarSwitch, commentsSwitch, notificationsBellSwitch, topHeaderSwitch, exploreSectionSwitch, endScreenCardsSwitch, moreFromYouTubeSwitch, hideChannelSwitch, buttonsBarSwitch, hideDescriptionSwitch, grayscaleSwitch, shopSwitch, status; // Global variables to access from outside
-let extensionEnabledSwitch; // Master extension toggle
-let currentExtensionEnabled = true; // Global extension enabled state
-// Preset definitions
+
+const TRANSLATIONS = {
+    vi: {
+        title: 'TubeTuner',
+        subtitle: 'Ẩn các phần tử YouTube không mong muốn',
+        // Content & Feed Controls
+        contentFeedControlsTitle: 'Content & Feed Controls',
+        hideHomeFeed: 'Ẩn trang chủ',
+        hideVideoSidebar: 'Ẩn thanh bên video',
+        hideShorts: 'Ẩn Shorts',
+        hideComments: 'Ẩn phần bình luận',
+        hideChannel: 'Ẩn kênh',
+        // Interface Elements
+        interfaceElementsTitle: 'Interface Elements',
+        hideTopHeader: 'Ẩn thanh điều hướng trên',
+        hideNotificationsBell: 'Ẩn chuông thông báo',
+        hideExploreSection: 'Ẩn phần Khám phá',
+        hideMoreFromYouTube: 'Ẩn "Thêm từ YouTube"',
+        hideButtonsBar: 'Ẩn thanh nút bấm',
+        // Video Controls
+        videoControlsTitle: 'Video Controls',
+        hideProgressBar: 'Ẩn thanh tiến trình',
+        hideDuration: 'Ẩn thời lượng video',
+        hideEndScreenCards: 'Ẩn thẻ cuối video',
+        hideDescription: 'Ẩn mô tả video',
+        // General
+        active: 'Đang hoạt động',
+        inactive: 'Đã tắt',
+        infoTitle: 'Giới thiệu',
+        infoContent: 'Extension giúp bạn tập trung vào nội dung video mà không bị phân tâm bởi:',
+        featureProgress: 'Các phần tử giao diện không cần thiết',
+        featureDuration: 'Nội dung đề xuất và quảng cáo',
+        featureShorts: 'Các tính năng gây xao nhãng',
+        homeFeed: 'Trang chủ',
+        infoExtra: 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với 14 tùy chọn ẩn/hiện.',
+        noticeTitle: 'Lưu ý quan trọng',
+        noticeDesc: 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.',
+        // Grayscale feature translations
+        grayscale: 'Giao diện đen trắng',
+        enableGrayscale: 'Bật giao diện đen trắng',
+        disableGrayscale: 'Tắt giao diện đen trắng',
+        // Shop feature translations
+        shop: 'YouTube Shop',
+        hideShop: 'Ẩn YouTube Shop',
+        // Presets UI
+        presetsLabel: 'Cài đặt sẵn',
+        applyPreset: 'Áp dụng preset',
+        confirmApplyPreset: 'Bạn có muốn áp dụng preset? Điều này sẽ ghi đè cài đặt hiện tại.',
+        presetApplied: 'Preset đã được áp dụng',
+        presetNone: 'Không',
+        presetBalanced: 'Cân bằng',
+        presetFocus: 'Tập trung',
+        builtInGroup: 'Mặc định',
+        customGroup: 'Tùy chỉnh',
+        presetNamePlaceholder: 'Tên preset',
+        savePreset: 'Lưu preset',
+        deletePreset: 'Xóa preset',
+        importPresets: 'Nhập preset',
+        exportPresets: 'Xuất preset',
+        presetSaved: 'Đã lưu preset',
+        presetDeleted: 'Đã xóa preset',
+        presetsImported: 'Đã nhập preset',
+        // Settings management
+        settingsManagement: 'Quản lý cài đặt',
+        exportSettings: 'Xuất cài đặt',
+        importSettings: 'Nhập cài đặt',
+        exportSuccess: 'Đã xuất cài đặt thành công!',
+        importSuccess: 'Đã nhập cài đặt thành công! Đang tải lại...',
+        importError: 'Lỗi: File cài đặt không hợp lệ!',
+        exporting: 'Đang xuất...',
+        importing: 'Đang nhập...',
+        confirmImport: 'Bạn có chắc muốn nhập cài đặt mới? Điều này sẽ ghi đè lên cài đặt hiện tại.',
+        backupCreated: 'Đã tạo bản sao lưu tự động',
+        invalidFileType: 'Chỉ chấp nhận file JSON!',
+        fileTooLarge: 'File quá lớn (tối đa 5MB)!',
+        noSettingsToExport: 'Không có cài đặt nào để xuất!',
+        extensionEnabled: 'Bật/Tắt Extension',
+        extensionDisabledTitle: 'Extension đã tắt',
+        extensionDisabledDesc: 'TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy chỉnh YouTube.',
+        // About section translations
+        aboutTitle: 'Giới thiệu',
+        aboutDescription: 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
+        aboutFeaturesTitle: 'Tính năng chính:',
+        aboutFeature1: '✨ Ẩn/hiện các phần tử giao diện YouTube',
+        aboutFeature2: '🎨 Chế độ giao diện đen trắng',
+        aboutFeature3: '🔄 Đồng bộ cài đặt giữa các tab',
+        aboutFeature4: '💾 Sao lưu/khôi phục cài đặt',
+        aboutFeature5: '🌐 Hỗ trợ đa ngôn ngữ (VI/EN)',
+        aboutGithubLink: 'GitHub Repository',
+        // Status
+        hidingFeatures: 'Đang ẩn',
+        progressBar: 'thanh tiến trình',
+        duration: 'thời lượng',
+        shorts: 'shorts',
+        videoSidebar: 'thanh bên video',
+        notificationsBell: 'chuông thông báo',
+        topHeader: 'thanh điều hướng trên',
+        exploreSection: 'phần khám phá',
+        allDisabled: 'Đã tắt tất cả'
+    },
+    en: {
+        title: 'TubeTuner',
+        subtitle: 'Hide unwanted YouTube elements',
+        // Content & Feed Controls
+        contentFeedControlsTitle: 'Content & Feed Controls',
+        hideHomeFeed: 'Hide Home Feed',
+        hideVideoSidebar: 'Hide Video Sidebar',
+        hideShorts: 'Hide Shorts',
+        hideComments: 'Hide Comments Section',
+        hideChannel: 'Hide Channel',
+        // Interface Elements
+        interfaceElementsTitle: 'Interface Elements',
+        hideTopHeader: 'Hide Top Header/Navigation Bar',
+        hideNotificationsBell: 'Hide Notifications Bell',
+        hideExploreSection: 'Hide Explore Section',
+        hideMoreFromYouTube: 'Hide "More from YouTube" Section',
+        hideButtonsBar: 'Hide Buttons Bar',
+        // Video Controls
+        videoControlsTitle: 'Video Controls',
+        hideProgressBar: 'Hide progress bar',
+        hideDuration: 'Hide video duration',
+        hideEndScreenCards: 'Hide End Screen Cards/Annotations',
+        hideDescription: 'Hide Video Description',
+        // General
+        active: 'Active',
+        inactive: 'Inactive',
+        infoTitle: 'Introduction',
+        infoContent: 'This extension helps you focus on video content without distractions from:',
+        featureProgress: 'Unnecessary interface elements',
+        featureDuration: 'Recommended content and ads',
+        featureShorts: 'Distracting features',
+        homeFeed: 'Home Feed',
+        infoExtra: 'Customize your YouTube experience with 14 hide/show options.',
+        noticeTitle: 'Important Notice',
+        noticeDesc: 'For the best experience, please enable the extension before visiting YouTube.',
+        // Grayscale feature translations
+        grayscale: 'Grayscale interface',
+        enableGrayscale: 'Enable grayscale interface',
+        disableGrayscale: 'Disable grayscale interface',
+        // Shop feature translations
+        shop: 'YouTube Shop',
+        hideShop: 'Hide YouTube Shop',
+        // Presets UI
+        presetsLabel: 'Presets',
+        applyPreset: 'Apply preset',
+        confirmApplyPreset: 'Apply selected preset? This will overwrite current settings.',
+        presetApplied: 'Preset applied',
+        presetNone: 'None',
+        presetBalanced: 'Balanced',
+        presetFocus: 'Focus',
+        builtInGroup: 'Built-in',
+        customGroup: 'Custom',
+        presetNamePlaceholder: 'Preset name',
+        savePreset: 'Save preset',
+        deletePreset: 'Delete preset',
+        importPresets: 'Import presets',
+        exportPresets: 'Export presets',
+        presetSaved: 'Preset saved',
+        presetDeleted: 'Preset deleted',
+        presetsImported: 'Presets imported',
+        // Settings management
+        settingsManagement: 'Settings Management',
+        exportSettings: 'Export Settings',
+        importSettings: 'Import Settings',
+        exportSuccess: 'Settings exported successfully!',
+        importSuccess: 'Settings imported successfully! Reloading...',
+        importError: 'Error: Invalid settings file!',
+        exporting: 'Exporting...',
+        importing: 'Importing...',
+        confirmImport: 'Are you sure you want to import new settings? This will overwrite current settings.',
+        backupCreated: 'Auto backup created',
+        invalidFileType: 'Only JSON files are accepted!',
+        fileTooLarge: 'File too large (max 5MB)!',
+        noSettingsToExport: 'No settings to export!',
+        extensionEnabled: 'Enable/Disable Extension',
+        extensionDisabledTitle: 'Extension Disabled',
+        extensionDisabledDesc: 'TubeTuner is currently disabled. Enable it to use YouTube customization features.',
+        // About section translations
+        aboutTitle: 'About',
+        aboutDescription: 'TubeTuner is an extension that helps you customize your YouTube experience as you wish. Hide unnecessary elements like progress bars, Shorts, ads, and many other components to focus on important content.',
+        aboutFeaturesTitle: 'Key Features:',
+        aboutFeature1: '✨ Show/hide YouTube interface elements',
+        aboutFeature2: '🎨 Grayscale interface mode',
+        aboutFeature3: '🔄 Sync settings across tabs',
+        aboutFeature4: '💾 Backup/restore settings',
+        aboutFeature5: '🌐 Multi-language support (VI/EN)',
+        aboutGithubLink: 'GitHub Repository',
+        // Status
+        hidingFeatures: 'Hiding',
+        progressBar: 'progress bar',
+        duration: 'duration',
+        shorts: 'shorts',
+        videoSidebar: 'video sidebar',
+        notificationsBell: 'notifications bell',
+        topHeader: 'top header',
+        exploreSection: 'explore section',
+        allDisabled: 'All features disabled'
+    }
+};
+
+/**
+ * Preset definitions for quick configuration
+ */
 const PRESET_DEFINITIONS = {
     none: {
         progressBarHidden: false,
@@ -62,1313 +258,777 @@ const PRESET_DEFINITIONS = {
     }
 };
 
-// Console log calls have been removed in production build
+const SWITCH_CONFIG = [
+    { id: 'extensionEnabledSwitch', key: 'extensionEnabled', default: true },
+    { id: 'progressSwitch', key: 'progressBarHidden', default: false },
+    { id: 'durationSwitch', key: 'durationHidden', default: false },
+    { id: 'shortsSwitch', key: 'shortsHidden', default: false },
+    { id: 'homeFeedSwitch', key: 'homeFeedHidden', default: false },
+    { id: 'videoSidebarSwitch', key: 'videoSidebarHidden', default: false },
+    { id: 'commentsSwitch', key: 'commentsHidden', default: false },
+    { id: 'notificationsBellSwitch', key: 'notificationsBellHidden', default: false },
+    { id: 'topHeaderSwitch', key: 'topHeaderHidden', default: false },
+    { id: 'exploreSectionSwitch', key: 'exploreSectionHidden', default: false },
+    { id: 'endScreenCardsSwitch', key: 'endScreenCardsHidden', default: false },
+    { id: 'moreFromYouTubeSwitch', key: 'moreFromYouTubeHidden', default: false },
+    { id: 'hideChannelSwitch', key: 'hideChannelHidden', default: false },
+    { id: 'buttonsBarSwitch', key: 'buttonsBarHidden', default: false },
+    { id: 'hideDescriptionSwitch', key: 'hideDescriptionHidden', default: false },
+    { id: 'grayscaleSwitch', key: 'grayscaleEnabled', default: false },
+    { id: 'shopSwitch', key: 'shopHidden', default: false }
+];
 
-// Global function to handle direct click from HTML
+
+
+const AppState = {
+    currentLang: 'en',
+    currentExtensionEnabled: true,
+    switches: new Map(),
+    statusElement: null
+};
+
+
+function t(key) {
+    return TRANSLATIONS[AppState.currentLang][key] || `[${key}]`;
+}
+
 function changeLanguage(lang) {
-    // Delegate to centralized setLanguage which updates UI and persists the choice.
-    // Use the existing setLanguage function (declared later) so all UI text mapping
-    // is updated consistently without needing to reload the popup.
     try {
         setLanguage(lang, true);
     } catch (e) {
-        // If setLanguage isn't available yet for some reason, fall back to the
-        // original minimal behavior so the preference is still saved.
-        if (lang !== currentLang) {
-            currentLang = lang;
-            chrome.storage.sync.set({ language: currentLang });
-            if (typeof updateLanguageUI === 'function') updateLanguageUI();
-        }
+        console.error('Error changing language:', e);
     }
 }
 
-// Debug function to verify toggle state persistence
+
+function setLanguage(lang, save = true) {
+    AppState.currentLang = lang;
+
+    // Remove active class from all language buttons
+    document.querySelectorAll('.ext-lang-button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Add active class to selected language button
+    const langBtn = document.getElementById(`lang-${lang}`);
+    if (langBtn) langBtn.classList.add('active');
+
+    // Update all UI elements based on language
+    updateLanguageUI();
+
+    if (save) {
+        chrome.storage.sync.set({ language: lang });
+    }
+}
+
+
 function verifyToggleStates() {
-
-    chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden'], function(result) {
-        const storedStates = {
-            progressBarHidden: result.progressBarHidden === true,
-            durationHidden: result.durationHidden === true,
-            shortsHidden: result.shortsHidden === true,
-            homeFeedHidden: result.homeFeedHidden === true,
-            videoSidebarHidden: result.videoSidebarHidden === true,
-            commentsHidden: result.commentsHidden === true
-        };
-
-        const uiStates = {
-            progressBarHidden: toggleSwitch ? toggleSwitch.checked : 'N/A',
-            durationHidden: durationSwitch ? durationSwitch.checked : 'N/A',
-            shortsHidden: shortsSwitch ? shortsSwitch.checked : 'N/A',
-            homeFeedHidden: homeFeedSwitch ? homeFeedSwitch.checked : 'N/A',
-            videoSidebarHidden: videoSidebarSwitch ? videoSidebarSwitch.checked : 'N/A',
-            commentsHidden: commentsSwitch ? commentsSwitch.checked : 'N/A'
-        };
-
-        // Check for mismatches
-        Object.keys(storedStates).forEach(key => {
-            if (storedStates[key] !== uiStates[key] && uiStates[key] !== 'N/A') {
-                console.warn(`⚠️ Mismatch for ${key}: stored=${storedStates[key]}, UI=${uiStates[key]}`);
+    const keys = Array.from(AppState.switches.keys());
+    chrome.storage.sync.get(keys, function(result) {
+        const mismatches = [];
+        keys.forEach(key => {
+            const switchEl = AppState.switches.get(key);
+            if (switchEl && result[key] !== switchEl.checked) {
+                mismatches.push(`${key}: stored=${result[key]}, UI=${switchEl.checked}`);
             }
         });
+        if (mismatches.length > 0) {
+            console.warn('⚠️ Toggle state mismatches:', mismatches);
+        }
     });
 }
 
-// Expose debug function globally
 window.verifyToggleStates = verifyToggleStates;
 
-// Global function to update UI
-function updateLanguageUI() {
 
-    // Update language toggle
-    const langVi = document.getElementById('lang-vi');
-    const langEn = document.getElementById('lang-en');
 
-    if (langVi && langEn) {
-        langVi.classList.toggle('active', currentLang === 'vi');
-        langEn.classList.toggle('active', currentLang === 'en');
+/**
+ * Update UI based on settings object
+ * @param {Object} settings -
+ */
+function updateUI(settings) {
+    const {
+        extensionEnabled = AppState.currentExtensionEnabled,
+        progressBarHidden = false,
+        durationHidden = false,
+        shortsHidden = false,
+        homeFeedHidden = false,
+        videoSidebarHidden = false,
+        commentsHidden = false,
+        notificationsBellHidden = false,
+        topHeaderHidden = false,
+        exploreSectionHidden = false,
+        endScreenCardsHidden = false,
+        moreFromYouTubeHidden = false,
+        hideChannelHidden = false,
+        buttonsBarHidden = false,
+        hideDescriptionHidden = false,
+        grayscaleEnabled = false,
+        shopHidden = false
+    } = settings;
 
-        // Update all text elements
-        document.querySelector('.title').textContent = translations[currentLang].title;
-        document.querySelector('.subtitle').textContent = translations[currentLang].subtitle;
-        document.querySelectorAll('.toggle-label')[0].textContent = translations[currentLang].hideProgressBar;
-        document.querySelectorAll('.toggle-label')[1].textContent = translations[currentLang].hideDuration;
-        document.querySelectorAll('.toggle-label')[2].textContent = translations[currentLang].hideShorts;
-
-        // Update info sections
-        document.querySelector('.info-content').innerHTML = `
-            ${translations[currentLang].extensionInfo}
-            <ul class="feature-list">
-                <li class="feature-item">${translations[currentLang].progressBar}</li>
-                <li class="feature-item">${translations[currentLang].duration}</li>
-                <li class="feature-item">${translations[currentLang].shorts}</li>
-            </ul>
-            <p style="margin-top: 8px;">${translations[currentLang].controlsInfo}</p>
-        `;
-
-        // Update info title
-        document.querySelector('.info-title').textContent = translations[currentLang].infoTitle;
-
-        // Update important note
-        const importantNote = document.querySelector('.important-note');
-        if (importantNote) {
-            importantNote.innerHTML = `
-                <strong>${translations[currentLang].importantNote.split(':')[0]}</strong>
-                ${translations[currentLang].importantNote.split(':')[1]}
-            `;
-        }
-
-        // Update Export/Import settings section
-        const settingsTitle = document.querySelector('.ext-settings-title');
-        const exportBtn = document.querySelector('#exportSettingsBtn span');
-        const importBtn = document.querySelector('#importSettingsBtn span');
-
-        if (settingsTitle) {
-            settingsTitle.textContent = translations[currentLang].settingsManagement;
-        }
-        if (exportBtn) {
-            exportBtn.textContent = translations[currentLang].exportSettings;
-        }
-        if (importBtn) {
-            importBtn.textContent = translations[currentLang].importSettings;
-        }
-
-        // Update presets UI text
-        const presetsLabel = document.querySelector('.ext-presets-label');
-        const presetSelectEl = document.getElementById('presetSelect');
-        const applyPresetBtnEl = document.getElementById('applyPresetBtn');
-
-        const savePresetBtnEl = document.getElementById('savePresetBtn');
-        const deletePresetBtnEl = document.getElementById('deletePresetBtn');
-        const importPresetsBtnEl = document.getElementById('importPresetsBtn');
-        const exportPresetsBtnEl = document.getElementById('exportPresetsBtn');
-
-        if (presetsLabel) {
-            presetsLabel.textContent = translations[currentLang].presetsLabel;
-        }
-        if (applyPresetBtnEl) {
-            applyPresetBtnEl.textContent = translations[currentLang].applyPreset;
-        }
-        if (savePresetBtnEl) savePresetBtnEl.textContent = translations[currentLang].savePreset || 'Save preset';
-        if (deletePresetBtnEl) deletePresetBtnEl.textContent = translations[currentLang].deletePreset || 'Delete preset';
-        if (importPresetsBtnEl) importPresetsBtnEl.textContent = translations[currentLang].importPresets || 'Import presets';
-        if (exportPresetsBtnEl) exportPresetsBtnEl.textContent = translations[currentLang].exportPresets || 'Export presets';
-        if (presetSelectEl) {
-            // Update option text for built-in values while keeping values
-            // Support both generated values (builtin:...) and initial static values (none/balanced/focus)
-            const noneOpt = presetSelectEl.querySelector('option[value="builtin:none"]') || presetSelectEl.querySelector('option[value="none"]');
-            const balancedOpt = presetSelectEl.querySelector('option[value="builtin:balanced"]') || presetSelectEl.querySelector('option[value="balanced"]');
-            const focusOpt = presetSelectEl.querySelector('option[value="builtin:focus"]') || presetSelectEl.querySelector('option[value="focus"]');
-            if (noneOpt) noneOpt.textContent = translations[currentLang].presetNone || 'None';
-            if (balancedOpt) balancedOpt.textContent = translations[currentLang].presetBalanced || 'Balanced';
-            if (focusOpt) focusOpt.textContent = translations[currentLang].presetFocus || 'Focus';
-
-            // Translate optgroup labels (Built-in / Custom) and preset name placeholder
-            const optgroups = presetSelectEl.querySelectorAll('optgroup');
-            if (optgroups.length > 0) optgroups[0].label = translations[currentLang].builtInGroup || 'Built-in';
-            if (optgroups.length > 1) optgroups[1].label = translations[currentLang].customGroup || 'Custom';
-            const presetNameInputEl = document.getElementById('presetNameInput');
-            if (presetNameInputEl) presetNameInputEl.placeholder = translations[currentLang].presetNamePlaceholder || 'Preset name';
-        }
-
-        // Update grayscale label
-        const grayscaleSwitch = document.getElementById('grayscaleSwitch');
-        if (grayscaleSwitch) {
-            const label = grayscaleSwitch.closest('.ext-control-item').querySelector('.ext-control-label');
-            if (label) {
-                label.textContent = translations[currentLang].grayscale;
-            }
-        }
-
-        // Update shop label
-            if (savePresetBtnEl) savePresetBtnEl.textContent = translations[currentLang].savePreset || 'Save preset';
-            if (deletePresetBtnEl) deletePresetBtnEl.textContent = translations[currentLang].deletePreset || 'Delete preset';
-            if (importPresetsBtnEl) importPresetsBtnEl.textContent = translations[currentLang].importPresets || 'Import presets';
-            if (exportPresetsBtnEl) exportPresetsBtnEl.textContent = translations[currentLang].exportPresets || 'Export presets';
-            // Update preset-specific UI (optgroups, built-in names, placeholder)
-            try { updatePresetText(); } catch (e) {}
-        if (disabledTitle && disabledTitle.textContent.includes('Extension')) {
-            disabledTitle.textContent = translations[currentLang].extensionDisabledTitle;
-        }
-        if (disabledDesc && disabledDesc.textContent.includes('TubeTuner')) {
-            disabledDesc.textContent = translations[currentLang].extensionDisabledDesc;
-        }
-
-        // Update status based on current state
-        updateStatusUI();
-    } else {
-        console.error('Language buttons not found in updateLanguageUI!');
-    }
-}
-
-// Helper: update preset select texts and placeholder
-function updatePresetText() {
-    const presetSelectEl = document.getElementById('presetSelect');
-    if (!presetSelectEl) return;
-
-    // Support both generated values (builtin:...) and initial static values (none/balanced/focus)
-    const noneOpt = presetSelectEl.querySelector('option[value="builtin:none"]') || presetSelectEl.querySelector('option[value="none"]');
-    const balancedOpt = presetSelectEl.querySelector('option[value="builtin:balanced"]') || presetSelectEl.querySelector('option[value="balanced"]');
-    const focusOpt = presetSelectEl.querySelector('option[value="builtin:focus"]') || presetSelectEl.querySelector('option[value="focus"]');
-    if (noneOpt) noneOpt.textContent = translations[currentLang].presetNone || 'None';
-    if (balancedOpt) balancedOpt.textContent = translations[currentLang].presetBalanced || 'Balanced';
-    if (focusOpt) focusOpt.textContent = translations[currentLang].presetFocus || 'Focus';
-
-    // Translate optgroup labels (Built-in / Custom) and preset name placeholder
-    const optgroups = presetSelectEl.querySelectorAll('optgroup');
-    if (optgroups.length > 0) optgroups[0].label = translations[currentLang].builtInGroup || 'Built-in';
-    if (optgroups.length > 1) optgroups[1].label = translations[currentLang].customGroup || 'Custom';
-    const presetNameInputEl = document.getElementById('presetNameInput');
-    if (presetNameInputEl) presetNameInputEl.placeholder = translations[currentLang].presetNamePlaceholder || 'Preset name';
-
-    // Expose for manual tests
-    window.updatePresetText = updatePresetText;
-}
-
-// Global function to update UI based on state
-// Update UI elements (checkboxes) based on stored state
-function updateUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, grayscaleEnabled, shopHidden) {
-
-    // Update extension enabled toggle
-    if (extensionEnabledSwitch) {
-        extensionEnabledSwitch.checked = currentExtensionEnabled;
+    // Update extension enabled state
+    AppState.currentExtensionEnabled = extensionEnabled;
+    const extensionSwitch = AppState.switches.get('extensionEnabled');
+    if (extensionSwitch) {
+        extensionSwitch.checked = extensionEnabled;
     }
 
-    // Show/hide sections and disabled notice based on extension enabled state
+    // Show/hide sections based on extension state
     const sectionsContainer = document.getElementById('sectionsContainer');
     const disabledNotice = document.getElementById('disabledNotice');
     if (sectionsContainer) {
-        sectionsContainer.style.display = currentExtensionEnabled ? 'block' : 'none';
+        sectionsContainer.style.display = extensionEnabled ? 'block' : 'none';
     }
     if (disabledNotice) {
-        disabledNotice.style.display = currentExtensionEnabled ? 'none' : 'block';
+        disabledNotice.style.display = extensionEnabled ? 'none' : 'block';
     }
 
-    if (!currentExtensionEnabled) {
-        // If extension is disabled, don't update individual toggles
+    if (!extensionEnabled) {
         return;
     }
 
-    if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch) {
-        console.error('❌ Toggle switches not defined yet:', {
-            toggleSwitch: !!toggleSwitch,
-            durationSwitch: !!durationSwitch,
-            shortsSwitch: !!shortsSwitch,
-            homeFeedSwitch: !!homeFeedSwitch,
-            videoSidebarSwitch: !!videoSidebarSwitch,
-            commentsSwitch: !!commentsSwitch,
-            notificationsBellSwitch: !!notificationsBellSwitch,
-            topHeaderSwitch: !!topHeaderSwitch
-        });
-        return;
-    }
-
-    // Update progress bar toggle - use checked property for checkbox
-    toggleSwitch.checked = progressHidden;
-
-    // Update duration toggle
-    durationSwitch.checked = durationHidden;
-
-    // Update shorts toggle
-    shortsSwitch.checked = shortsHidden;
-
-    // Update home feed toggle with extra verification
-    homeFeedSwitch.checked = homeFeedHidden;
-
-    // Update video sidebar toggle
-    videoSidebarSwitch.checked = videoSidebarHidden;
-
-    // Update comments toggle
-    commentsSwitch.checked = commentsHidden;
-
-    // Update notifications bell toggle
-    notificationsBellSwitch.checked = notificationsBellHidden;
-
-    // Update top header toggle
-    topHeaderSwitch.checked = topHeaderHidden;
-
-    // Update explore section toggle
-    if (exploreSectionSwitch) {
-        exploreSectionSwitch.checked = exploreSectionHidden;
-    }
-
-    // Update end screen cards toggle
-    if (endScreenCardsSwitch) {
-        endScreenCardsSwitch.checked = endScreenCardsHidden;
-    }
-
-    // Update more from YouTube toggle
-    if (moreFromYouTubeSwitch) {
-        moreFromYouTubeSwitch.checked = moreFromYouTubeHidden;
-    }
-
-    // Update hide channel toggle
-    if (hideChannelSwitch) {
-        hideChannelSwitch.checked = hideChannelHidden;
-    }
-
-    // Update buttons bar toggle
-    if (buttonsBarSwitch) {
-        buttonsBarSwitch.checked = buttonsBarHidden;
-    }
-
-    // Update hide description toggle
-    if (hideDescriptionSwitch) {
-        hideDescriptionSwitch.checked = hideDescriptionHidden;
-    }
-
-    // Update grayscale toggle
-    if (typeof grayscaleSwitch !== 'undefined' && document.getElementById('grayscaleSwitch')) {
-        document.getElementById('grayscaleSwitch').checked = grayscaleEnabled;
-    }
-
-    // Update shop toggle
-    if (shopSwitch) {
-        shopSwitch.checked = shopHidden;
-    }
-
-    // Verify the state was actually set
-    setTimeout(() => {
-        const actualHomeFeedState = homeFeedSwitch.checked;
-        const actualVideoSidebarState = videoSidebarSwitch.checked;
-        const actualCommentsState = commentsSwitch.checked;
-        const actualNotificationsBellState = notificationsBellSwitch.checked;
-        const actualTopHeaderState = topHeaderSwitch.checked;
-        const actualExploreSectionState = exploreSectionSwitch ? exploreSectionSwitch.checked : false;
-        const actualEndScreenCardsState = endScreenCardsSwitch ? endScreenCardsSwitch.checked : false;
-        const actualMoreFromYouTubeState = moreFromYouTubeSwitch ? moreFromYouTubeSwitch.checked : false;
-
-        // Verification checks executed
-        if (actualHomeFeedState !== homeFeedHidden) {
-            // Home feed toggle mismatch, retrying...
-            homeFeedSwitch.checked = homeFeedHidden;
-        }
-        if (actualVideoSidebarState !== videoSidebarHidden) {
-            // Video sidebar toggle mismatch, retrying...
-            videoSidebarSwitch.checked = videoSidebarHidden;
-        }
-        if (actualCommentsState !== commentsHidden) {
-            // Comments toggle mismatch, retrying...
-            commentsSwitch.checked = commentsHidden;
-        }
-        if (actualNotificationsBellState !== notificationsBellHidden) {
-            // Notifications bell toggle mismatch, retrying...
-            notificationsBellSwitch.checked = notificationsBellHidden;
-        }
-        if (actualTopHeaderState !== topHeaderHidden) {
-            // Top header toggle mismatch, retrying...
-            topHeaderSwitch.checked = topHeaderHidden;
-        }
-        if (exploreSectionSwitch && actualExploreSectionState !== exploreSectionHidden) {
-            // Explore section toggle mismatch, retrying...
-            exploreSectionSwitch.checked = exploreSectionHidden;
-        }
-        if (endScreenCardsSwitch && actualEndScreenCardsState !== endScreenCardsHidden) {
-            // End screen cards toggle mismatch, retrying...
-            endScreenCardsSwitch.checked = endScreenCardsHidden;
-        }
-        if (moreFromYouTubeSwitch && actualMoreFromYouTubeState !== moreFromYouTubeHidden) {
-            // More from YouTube toggle mismatch, retrying...
-            moreFromYouTubeSwitch.checked = moreFromYouTubeHidden;
-        }
-
-        // Ensure grayscale toggle persisted
-        const grayscaleEl = document.getElementById('grayscaleSwitch');
-        if (grayscaleEl && grayscaleEl.checked !== grayscaleEnabled) {
-            grayscaleEl.checked = grayscaleEnabled;
-        }
-
-        // Verify new features
-        const actualHideChannelState = hideChannelSwitch ? hideChannelSwitch.checked : false;
-        const actualButtonsBarState = buttonsBarSwitch ? buttonsBarSwitch.checked : false;
-        const actualHideDescriptionState = hideDescriptionSwitch ? hideDescriptionSwitch.checked : false;
-
-        if (hideChannelSwitch && actualHideChannelState !== hideChannelHidden) {
-            // Hide channel toggle mismatch, retrying...
-            hideChannelSwitch.checked = hideChannelHidden;
-        }
-        if (buttonsBarSwitch && actualButtonsBarState !== buttonsBarHidden) {
-            // Buttons bar toggle mismatch, retrying...
-            buttonsBarSwitch.checked = buttonsBarHidden;
-        }
-        if (hideDescriptionSwitch && actualHideDescriptionState !== hideDescriptionHidden) {
-            // Hide description toggle mismatch, retrying...
-            hideDescriptionSwitch.checked = hideDescriptionHidden;
-        }
-    }, 50);
-
-    // Update status
-    updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, shopHidden);
-}
-
-// Function to update status UI
-function updateStatusUI(progressHidden, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, shopHidden) {
-    if (!status) return;
-
-    // If parameters not provided, get current state from switches
-    if (progressHidden === undefined && toggleSwitch) {
-        progressHidden = toggleSwitch.checked;
-    }
-
-    if (durationHidden === undefined && durationSwitch) {
-        durationHidden = durationSwitch.checked;
-    }
-
-    if (shortsHidden === undefined && shortsSwitch) {
-        shortsHidden = shortsSwitch.checked;
-    }
-
-    if (homeFeedHidden === undefined && homeFeedSwitch) {
-        homeFeedHidden = homeFeedSwitch.checked;
-    }
-
-    if (videoSidebarHidden === undefined && videoSidebarSwitch) {
-        videoSidebarHidden = videoSidebarSwitch.checked;
-    }
-
-    if (commentsHidden === undefined && commentsSwitch) {
-        commentsHidden = commentsSwitch.checked;
-    }
-
-    if (notificationsBellHidden === undefined && notificationsBellSwitch) {
-        notificationsBellHidden = notificationsBellSwitch.checked;
-    }
-
-    if (topHeaderHidden === undefined && topHeaderSwitch) {
-        topHeaderHidden = topHeaderSwitch.checked;
-    }
-
-    if (shopHidden === undefined && shopSwitch) {
-        shopHidden = shopSwitch.checked;
-    }
-
-    // Update status
-    if (progressHidden || durationHidden || shortsHidden || homeFeedHidden || videoSidebarHidden || commentsHidden || notificationsBellHidden || topHeaderHidden || shopHidden) {
-        const features = [];
-        if (progressHidden) features.push(translations[currentLang].progressBar);
-        if (durationHidden) features.push(translations[currentLang].duration);
-        if (shortsHidden) features.push(translations[currentLang].shorts);
-        if (homeFeedHidden) features.push(translations[currentLang].homeFeed);
-        if (videoSidebarHidden) features.push(translations[currentLang].videoSidebar || 'video sidebar');
-        if (commentsHidden) features.push(translations[currentLang].comments || 'comments');
-        if (notificationsBellHidden) features.push(translations[currentLang].notificationsBell || 'notifications bell');
-        if (topHeaderHidden) features.push(translations[currentLang].topHeader || 'top header');
-        if (exploreSectionHidden) features.push(translations[currentLang].exploreSection || 'explore section');
-        if (shopHidden) features.push(translations[currentLang].shop || 'YouTube Shop');
-
-        const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
-        statusBadge.setAttribute('variant', 'success');
-        statusBadge.textContent = `${translations[currentLang].hidingFeatures}: ${features.join(', ')}`;
-
-        if (!status.contains(statusBadge)) {
-            status.innerHTML = '';
-            status.appendChild(statusBadge);
-        }
-
-        status.className = 'status enabled';
-    } else {
-        const statusBadge = status.querySelector('ui-badge') || document.createElement('ui-badge');
-        statusBadge.setAttribute('variant', 'warning');
-        statusBadge.textContent = translations[currentLang].allDisabled;
-
-        if (!status.contains(statusBadge)) {
-            status.innerHTML = '';
-            status.appendChild(statusBadge);
-        }
-
-        status.className = 'status disabled';
-    }
-}
-
-// Function to apply theme from localStorage or system preference
-function applyInitialTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-    } else {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.classList.toggle('dark', prefersDark);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize theme according to previous settings or system theme
-    initializeTheme();
-
-    // Initialize language according to previous settings
-    initializeLanguage();
-
-    // Handle toggle switches
-    initializeSwitches();
-
-    // Handle collapsible sections with state persistence
-    initializeCollapsibleSections();
-
-    // Theme toggle button
-    document.querySelector('.theme-toggle').addEventListener('click', function() {
-        document.documentElement.classList.toggle('dark');
-        saveThemeSetting(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-    });
-
-    // Language selection
-    // Language selection handled above during initialization
-
-    // Initialize global variables
-    toggleSwitch = document.getElementById('progressSwitch');
-    durationSwitch = document.getElementById('durationSwitch');
-    shortsSwitch = document.getElementById('shortsSwitch');
-    homeFeedSwitch = document.getElementById('homeFeedSwitch');
-    videoSidebarSwitch = document.getElementById('videoSidebarSwitch');
-    commentsSwitch = document.getElementById('commentsSwitch');
-    notificationsBellSwitch = document.getElementById('notificationsBellSwitch');
-    topHeaderSwitch = document.getElementById('topHeaderSwitch');
-    exploreSectionSwitch = document.getElementById('exploreSectionSwitch');
-    endScreenCardsSwitch = document.getElementById('endScreenCardsSwitch');
-    moreFromYouTubeSwitch = document.getElementById('moreFromYouTubeSwitch');
-    hideChannelSwitch = document.getElementById('hideChannelSwitch');
-    buttonsBarSwitch = document.getElementById('buttonsBarSwitch');
-    hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
-    grayscaleSwitch = document.getElementById('grayscaleSwitch');
-    shopSwitch = document.getElementById('shopSwitch');
-    extensionEnabledSwitch = document.getElementById('extensionEnabledSwitch');
-    status = document.getElementById('status');
-    const langVi = document.getElementById('lang-vi');
-    const langEn = document.getElementById('lang-en');
-
-    // DOM elements initialized
-
-    // Translation object
-    translations = {
-        vi: {
-            title: 'TubeTuner',
-            subtitle: 'Ẩn thanh tiến trình & thời lượng',
-            hideProgressBar: 'Ẩn thanh tiến trình',
-            hideDuration: 'Ẩn thời lượng video',
-            hideShorts: 'Ẩn Shorts',
-            extensionEnabled: 'Bật/Tắt Extension',
-            extensionDisabledTitle: 'Extension đã tắt',
-            extensionDisabledDesc: 'TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy chỉnh YouTube.',
-            statusActive: 'Đang hoạt động',
-            hidingFeatures: 'Đang ẩn',
-            progressBar: 'thanh tiến trình',
-            duration: 'thời lượng',
-            shorts: 'shorts',
-            homeFeed: 'trang chủ',
-            videoSidebar: 'thanh bên video',
-            notificationsBell: 'chuông thông báo',
-            topHeader: 'thanh điều hướng trên',
-            exploreSection: 'phần khám phá',
-            allDisabled: 'Đã tắt tất cả',
-            infoTitle: 'Giới thiệu',
-            extensionInfo: 'Extension giúp bạn tập trung vào nội dung video mà không bị phân tâm bởi:',
-            controlsInfo: 'Tất cả các chức năng điều khiển khác như âm lượng, play/pause vẫn hoạt động bình thường.',
-            importantNote: 'Lưu ý quan trọng: Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.',
-            settingsManagement: 'Quản lý cài đặt',
-            exportSettings: 'Xuất cài đặt',
-            importSettings: 'Nhập cài đặt',
-            exportSuccess: 'Đã xuất cài đặt thành công!',
-            importSuccess: 'Đã nhập cài đặt thành công! Đang tải lại...',
-            importError: 'Lỗi: File cài đặt không hợp lệ!',
-            exporting: 'Đang xuất...',
-            importing: 'Đang nhập...',
-            confirmImport: 'Bạn có chắc muốn nhập cài đặt mới? Điều này sẽ ghi đè lên cài đặt hiện tại.',
-            backupCreated: 'Đã tạo bản sao lưu tự động',
-            invalidFileType: 'Chỉ chấp nhận file JSON!',
-            fileTooLarge: 'File quá lớn (tối đa 5MB)!',
-            noSettingsToExport: 'Không có cài đặt nào để xuất!'
-            ,
-            // New translation entries for grayscale feature
-            grayscale: 'Giao diện đen trắng',
-            enableGrayscale: 'Bật giao diện đen trắng',
-            disableGrayscale: 'Tắt giao diện đen trắng',
-            // Shop feature translations
-            shop: 'YouTube Shop',
-            hideShop: 'Ẩn YouTube Shop',
-            // Preset UI
-            presetsLabel: 'Cài đặt sẵn',
-            applyPreset: 'Áp dụng preset',
-            confirmApplyPreset: 'Bạn có muốn áp dụng preset? Điều này sẽ ghi đè cài đặt hiện tại.',
-            presetApplied: 'Preset đã được áp dụng',
-            presetNone: 'Không',
-            presetBalanced: 'Cân bằng',
-            presetFocus: 'Tập trung',
-            builtInGroup: 'Mặc định',
-            customGroup: 'Tùy chỉnh',
-            presetNamePlaceholder: 'Tên preset',
-            savePreset: 'Lưu preset',
-            deletePreset: 'Xóa preset',
-            importPresets: 'Nhập preset',
-            exportPresets: 'Xuất preset',
-            presetSaved: 'Đã lưu preset',
-            presetDeleted: 'Đã xóa preset',
-            presetsImported: 'Đã nhập preset',
-            // About section translations
-            aboutTitle: 'Giới thiệu',
-            aboutDescription: 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
-            aboutFeaturesTitle: 'Tính năng chính:',
-            aboutFeature1: '✨ Ẩn/hiện các phần tử giao diện YouTube',
-            aboutFeature2: '🎨 Chế độ giao diện đen trắng',
-            aboutFeature3: '🔄 Đồng bộ cài đặt giữa các tab',
-            aboutFeature4: '💾 Sao lưu/khôi phục cài đặt',
-            aboutFeature5: '🌐 Hỗ trợ đa ngôn ngữ (VI/EN)',
-            aboutGithubLink: 'GitHub Repository'
-        },
-        en: {
-            title: 'TubeTuner',
-            subtitle: 'Hide progress bar & duration',
-            hideProgressBar: 'Hide progress bar',
-            hideDuration: 'Hide video duration',
-            hideShorts: 'Hide Shorts',
-            extensionEnabled: 'Enable/Disable Extension',
-            extensionDisabledTitle: 'Extension Disabled',
-            extensionDisabledDesc: 'TubeTuner is currently disabled. Enable it to use YouTube customization features.',
-            statusActive: 'Active',
-            hidingFeatures: 'Hiding',
-            progressBar: 'progress bar',
-            duration: 'duration',
-            shorts: 'shorts',
-            homeFeed: 'home feed',
-            videoSidebar: 'video sidebar',
-            notificationsBell: 'notifications bell',
-            topHeader: 'top header',
-            exploreSection: 'explore section',
-            allDisabled: 'All features disabled',
-            infoTitle: 'Introduction',
-            extensionInfo: 'This extension helps you focus on video content without distractions from:',
-            controlsInfo: 'All other control features like volume and play/pause buttons still work normally.',
-            importantNote: 'Important note: For the best experience, enable the extension before visiting YouTube.',
-            settingsManagement: 'Settings Management',
-            exportSettings: 'Export Settings',
-            importSettings: 'Import Settings',
-            exportSuccess: 'Settings exported successfully!',
-            importSuccess: 'Settings imported successfully! Reloading...',
-            importError: 'Error: Invalid settings file!',
-            exporting: 'Exporting...',
-            importing: 'Importing...',
-            confirmImport: 'Are you sure you want to import new settings? This will overwrite current settings.',
-            backupCreated: 'Auto backup created',
-            invalidFileType: 'Only JSON files are accepted!',
-            fileTooLarge: 'File too large (max 5MB)!',
-            noSettingsToExport: 'No settings to export!',
-            // Shop feature translations
-            shop: 'YouTube Shop',
-            hideShop: 'Hide YouTube Shop'
-            ,
-            // Preset UI
-            presetsLabel: 'Presets',
-            applyPreset: 'Apply preset',
-            confirmApplyPreset: 'Apply selected preset? This will overwrite current settings.',
-            presetApplied: 'Preset applied'
-            ,savePreset: 'Save preset',
-            deletePreset: 'Delete preset',
-            importPresets: 'Import presets',
-            exportPresets: 'Export presets',
-            presetSaved: 'Preset saved',
-            presetDeleted: 'Preset deleted',
-            presetsImported: 'Presets imported'
-            ,builtInGroup: 'Built-in',
-            customGroup: 'Custom',
-            presetNamePlaceholder: 'Preset name'
-        }
+    // Update all switches
+    const switchStates = {
+        progressBarHidden,
+        durationHidden,
+        shortsHidden,
+        homeFeedHidden,
+        videoSidebarHidden,
+        commentsHidden,
+        notificationsBellHidden,
+        topHeaderHidden,
+        exploreSectionHidden,
+        endScreenCardsHidden,
+        moreFromYouTubeHidden,
+        hideChannelHidden,
+        buttonsBarHidden,
+        hideDescriptionHidden,
+        grayscaleEnabled,
+        shopHidden
     };
 
-    // Get current state with improved error handling and timing
-    chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden', 'language', 'theme', 'sectionStates'], function(result) {
-        currentExtensionEnabled = result.extensionEnabled !== false; // Default is true
-        const isEnabled = result.progressBarHidden === true; // Default is false
-        const durationHidden = result.durationHidden === true; // Default is false
-        const shortsHidden = result.shortsHidden === true; // Default is false
-        const homeFeedHidden = result.homeFeedHidden === true; // Default is false
-        const videoSidebarHidden = result.videoSidebarHidden === true; // Default is false
-        const commentsHidden = result.commentsHidden === true; // Default is false
-        const notificationsBellHidden = result.notificationsBellHidden === true; // Default is false
-        const topHeaderHidden = result.topHeaderHidden === true; // Default is false
-        const exploreSectionHidden = result.exploreSectionHidden === true; // Default is false
-        const endScreenCardsHidden = result.endScreenCardsHidden === true; // Default is false
-        const moreFromYouTubeHidden = result.moreFromYouTubeHidden === true; // Default is false
-        const hideChannelHidden = result.hideChannelHidden === true; // Default is false
-        const buttonsBarHidden = result.buttonsBarHidden === true; // Default is false
-        const hideDescriptionHidden = result.hideDescriptionHidden === true; // Default is false
-        const grayscaleEnabled = result.grayscaleEnabled === true; // Default is false
-        const shopHidden = result.shopHidden === true; // Default is false
-
-        // Loaded stored states
-
-        // Verify DOM elements are available before updating UI
-        if (!toggleSwitch || !durationSwitch || !shortsSwitch || !homeFeedSwitch || !videoSidebarSwitch || !commentsSwitch || !notificationsBellSwitch || !topHeaderSwitch || !hideChannelSwitch || !buttonsBarSwitch || !hideDescriptionSwitch || !shopSwitch) {
-            // DOM elements not ready, retrying in 100ms...
-            setTimeout(() => {
-                // Re-initialize DOM elements
-                toggleSwitch = document.getElementById('progressSwitch');
-                durationSwitch = document.getElementById('durationSwitch');
-                shortsSwitch = document.getElementById('shortsSwitch');
-                homeFeedSwitch = document.getElementById('homeFeedSwitch');
-                videoSidebarSwitch = document.getElementById('videoSidebarSwitch');
-                commentsSwitch = document.getElementById('commentsSwitch');
-                notificationsBellSwitch = document.getElementById('notificationsBellSwitch');
-                topHeaderSwitch = document.getElementById('topHeaderSwitch');
-                hideChannelSwitch = document.getElementById('hideChannelSwitch');
-                buttonsBarSwitch = document.getElementById('buttonsBarSwitch');
-                hideDescriptionSwitch = document.getElementById('hideDescriptionSwitch');
-                grayscaleSwitch = document.getElementById('grayscaleSwitch');
-                shopSwitch = document.getElementById('shopSwitch');
-                status = document.getElementById('status');
-
-                // Retrying UI update with elements
-
-                updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, grayscaleEnabled, shopHidden);
-            }, 100);
-        } else {
-            // DOM elements ready, updating UI immediately
-            updateUI(isEnabled, durationHidden, shortsHidden, homeFeedHidden, videoSidebarHidden, commentsHidden, notificationsBellHidden, topHeaderHidden, exploreSectionHidden, endScreenCardsHidden, moreFromYouTubeHidden, hideChannelHidden, buttonsBarHidden, hideDescriptionHidden, grayscaleEnabled, shopHidden);
+    SWITCH_CONFIG.forEach(config => {
+        const switchEl = AppState.switches.get(config.key);
+        if (switchEl && switchStates.hasOwnProperty(config.key)) {
+            switchEl.checked = switchStates[config.key];
         }
-
-        // Set language
-        if (result.language) {
-            currentLang = result.language;
-            // Loaded saved language preference
-        } else {
-            // No saved language preference, using default
-        }
-
-        // Sync theme from storage with localStorage
-        if (result.theme) {
-            localStorage.setItem('theme', result.theme);
-            document.documentElement.classList.toggle('dark', result.theme === 'dark');
-            // Synced theme from storage
-        }
-
-        updateLanguageUI();
     });
-    
-    // Handle extension enabled toggle click
-    if (extensionEnabledSwitch) {
-        extensionEnabledSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-            currentExtensionEnabled = newState; // Update global state
 
-            // Save state
-            chrome.storage.sync.set({ extensionEnabled: newState });
-
-            // Update UI immediately
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
-                // Updated UI after extension enabled toggle
-            });
-
-            handleToggleChange('toggleExtensionEnabled', newState);
-        });
-    }
-
-    // Handle toggle extension click
-    if (toggleSwitch) {
-        toggleSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ progressBarHidden: newState });
-
-            // Update UI
-            chrome.storage.sync.get(['durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
-                const currentHomeFeedHidden = result.homeFeedHidden === true;
-                const currentVideoSidebarHidden = result.videoSidebarHidden === true;
-                const currentCommentsHidden = result.commentsHidden === true;
-                const currentNotificationsBellHidden = result.notificationsBellHidden === true;
-                const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreSectionHidden = result.exploreSectionHidden === true;
-                const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
-                const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                const currentHideChannelHidden = result.hideChannelHidden === true;
-                const currentButtonsBarHidden = result.buttonsBarHidden === true;
-                const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                const currentShopHidden = result.shopHidden === true;
-                updateUI(newState, result.durationHidden === true, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
-                // Updated UI after progress bar toggle
-            });
-
-            handleToggleChange('toggleProgressBar', newState);
-        });
-    }
-
-    
-    // Handle toggle duration click
-    if (durationSwitch) {
-        durationSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ durationHidden: newState });
-
-            // Update UI
-            chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
-                const currentExtensionEnabled = result.extensionEnabled !== false;
-                const currentHomeFeedHidden = result.homeFeedHidden === true;
-                const currentVideoSidebarHidden = result.videoSidebarHidden === true;
-                const currentCommentsHidden = result.commentsHidden === true;
-                const currentNotificationsBellHidden = result.notificationsBellHidden === true;
-                const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreSectionHidden = result.exploreSectionHidden === true;
-                const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
-                const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                const currentHideChannelHidden = result.hideChannelHidden === true;
-                const currentButtonsBarHidden = result.buttonsBarHidden === true;
-                const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                const currentShopHidden = result.shopHidden === true;
-                updateUI(result.progressBarHidden === true, newState, result.shortsHidden === true, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
-                // Updated UI after duration toggle
-            });
-
-            handleToggleChange('toggleDuration', newState);
-        });
-    }
-    
-    // Handle toggle shorts click
-    if (shortsSwitch) {
-        shortsSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ shortsHidden: newState });
-
-            // Update UI
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
-                const currentHomeFeedHidden = result.homeFeedHidden === true;
-                const currentVideoSidebarHidden = result.videoSidebarHidden === true;
-                const currentCommentsHidden = result.commentsHidden === true;
-                const currentNotificationsBellHidden = result.notificationsBellHidden === true;
-                const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreSectionHidden = result.exploreSectionHidden === true;
-                const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
-                const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                const currentHideChannelHidden = result.hideChannelHidden === true;
-                const currentButtonsBarHidden = result.buttonsBarHidden === true;
-                const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                const currentShopHidden = result.shopHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, newState, currentHomeFeedHidden, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
-                // Updated UI after shorts toggle
-            });
-
-            handleToggleChange('toggleShorts', newState);
-        });
-    }
-
-    // Handle toggle home feed click
-    if (homeFeedSwitch) {
-        homeFeedSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ homeFeedHidden: newState }, function() {
-                // Home Feed state saved to storage
-            });
-
-            // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'], function(result) {
-                const currentVideoSidebarHidden = result.videoSidebarHidden === true;
-                const currentCommentsHidden = result.commentsHidden === true;
-                const currentNotificationsBellHidden = result.notificationsBellHidden === true;
-                const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreSectionHidden = result.exploreSectionHidden === true;
-                const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
-                const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                const currentHideChannelHidden = result.hideChannelHidden === true;
-                const currentButtonsBarHidden = result.buttonsBarHidden === true;
-                const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                const currentShopHidden = result.shopHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, newState, currentVideoSidebarHidden, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
-                // Updated UI after home feed toggle
-            });
-
-            handleToggleChange('toggleHomeFeed', newState);
-        });
-    }
-
-    // Handle toggle video sidebar click
-    if (videoSidebarSwitch) {
-        videoSidebarSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ videoSidebarHidden: newState }, function() {
-                // Video Sidebar state saved to storage
-            });
-
-            // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
-                const currentCommentsHidden = result.commentsHidden === true;
-                const currentNotificationsBellHidden = result.notificationsBellHidden === true;
-                const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreSectionHidden = result.exploreSectionHidden === true;
-                const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
-                const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                const currentHideChannelHidden = result.hideChannelHidden === true;
-                const currentButtonsBarHidden = result.buttonsBarHidden === true;
-                const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                const currentShopHidden = result.shopHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, newState, currentCommentsHidden, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
-                // Updated UI after video sidebar toggle
-            });
-
-            handleToggleChange('toggleVideoSidebar', newState);
-        });
-    }
-
-    // Handle toggle comments click
-    if (commentsSwitch) {
-        commentsSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ commentsHidden: newState });
-
-            // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
-                const currentNotificationsBellHidden = result.notificationsBellHidden === true;
-                const currentTopHeaderHidden = result.topHeaderHidden === true;
-                const currentExploreSectionHidden = result.exploreSectionHidden === true;
-                const currentEndScreenCardsHidden = result.endScreenCardsHidden === true;
-                const currentMoreFromYouTubeHidden = result.moreFromYouTubeHidden === true;
-                const currentHideChannelHidden = result.hideChannelHidden === true;
-                const currentButtonsBarHidden = result.buttonsBarHidden === true;
-                const currentHideDescriptionHidden = result.hideDescriptionHidden === true;
-                const currentShopHidden = result.shopHidden === true;
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, newState, currentNotificationsBellHidden, currentTopHeaderHidden, currentExploreSectionHidden, currentEndScreenCardsHidden, currentMoreFromYouTubeHidden, currentHideChannelHidden, currentButtonsBarHidden, currentHideDescriptionHidden, result.grayscaleEnabled === true, currentShopHidden);
-                // Updated UI after comments toggle
-            });
-
-            handleToggleChange('toggleComments', newState);
-        });
-    }
-
-    // Handle toggle notifications bell click
-    if (notificationsBellSwitch) {
-        notificationsBellSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ notificationsBellHidden: newState });
-
-            // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, newState, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
-                // Updated UI after notifications bell toggle
-            });
-
-            handleToggleChange('toggleNotificationsBell', newState);
-        });
-    }
-
-    // Handle toggle top header click
-    if (topHeaderSwitch) {
-        topHeaderSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ topHeaderHidden: newState });
-
-            // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, newState, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
-                // Updated UI after top header toggle
-            });
-
-            handleToggleChange('toggleTopHeader', newState);
-        });
-    }
-
-    // Handle toggle explore section click
-    if (exploreSectionSwitch) {
-        exploreSectionSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ exploreSectionHidden: newState });
-
-            // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, newState, result.endScreenCardsHidden === true, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
-                // Updated UI after explore section toggle
-            });
-
-            handleToggleChange('toggleExploreSection', newState);
-        });
-    }
-
-    // Handle toggle end screen cards click
-    if (endScreenCardsSwitch) {
-        endScreenCardsSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ endScreenCardsHidden: newState });
-
-            // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, newState, result.moreFromYouTubeHidden === true, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
-                // Updated UI after end screen cards toggle
-            });
-
-            handleToggleChange('toggleEndScreenCards', newState);
-        });
-    }
-
-    // Handle toggle more from YouTube click
-    if (moreFromYouTubeSwitch) {
-        moreFromYouTubeSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ moreFromYouTubeHidden: newState });
-
-            // Update UI immediately with new state
-            chrome.storage.sync.get(['progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], function(result) {
-                updateUI(result.progressBarHidden === true, result.durationHidden === true, result.shortsHidden === true, result.homeFeedHidden === true, result.videoSidebarHidden === true, result.commentsHidden === true, result.notificationsBellHidden === true, result.topHeaderHidden === true, result.exploreSectionHidden === true, result.endScreenCardsHidden === true, newState, result.hideChannelHidden === true, result.buttonsBarHidden === true, result.hideDescriptionHidden === true, result.grayscaleEnabled === true, result.shopHidden === true);
-                // Updated UI after more from YouTube toggle
-            });
-
-            handleToggleChange('toggleMoreFromYouTube', newState);
-        });
-    }
-
-    // Handle toggle hide channel click
-    if (hideChannelSwitch) {
-        hideChannelSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ hideChannelHidden: newState });
-
-            handleToggleChange('toggleHideChannel', newState);
-        });
-    }
-
-    // Handle toggle buttons bar click
-    if (buttonsBarSwitch) {
-        buttonsBarSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ buttonsBarHidden: newState });
-
-            handleToggleChange('toggleButtonsBar', newState);
-        });
-    }
-
-    // Handle toggle hide description click
-    if (hideDescriptionSwitch) {
-        hideDescriptionSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ hideDescriptionHidden: newState });
-
-            handleToggleChange('toggleHideDescription', newState);
-        });
-    }
-
-    // Handle toggle grayscale click
-    if (grayscaleSwitch) {
-        grayscaleSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ grayscaleEnabled: newState });
-
-            handleToggleChange('toggleGrayscale', newState);
-        });
-    }
-
-    // Handle toggle shop click
-    if (shopSwitch) {
-        shopSwitch.addEventListener('change', function(e) {
-            const newState = e.target.checked;
-
-            // Save state
-            chrome.storage.sync.set({ shopHidden: newState });
-
-            handleToggleChange('toggleShop', newState);
-        });
-    }
-
-    // Add click event for language buttons
-    const lv = document.getElementById('lang-vi');
-    const le = document.getElementById('lang-en');
-
-    if (lv) {
-        lv.addEventListener('click', function() {
-            changeLanguage('vi');
-        });
-    }
-    
-    if (le) {
-        le.addEventListener('click', function() {
-            changeLanguage('en');
-        });
-    }
-    
-    // Function to handle toggle changes with multi-tab synchronization
-    function handleToggleChange(action, enabled) {
-        // Toggle action changed
-
-        // Send message to current tab immediately
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
-                chrome.tabs.sendMessage(tabs[0].id, {
-                    action: action,
-                    enabled: enabled
-                }).catch(error => {
-                    // Could not send message to current tab
-                });
+    // Verify state after update
+    setTimeout(() => {
+        SWITCH_CONFIG.forEach(config => {
+            const switchEl = AppState.switches.get(config.key);
+            if (switchEl && switchStates.hasOwnProperty(config.key) && switchEl.checked !== switchStates[config.key]) {
+                switchEl.checked = switchStates[config.key];
             }
         });
+    }, 50);
 
-        // Send message to background script to sync with all other tabs
-        chrome.runtime.sendMessage({
-            action: 'syncToAllTabs',
-            toggleAction: action,
-            enabled: enabled
-        }).catch(error => {
-            // Could not send sync message to background
-        });
+    // Update status UI
+    updateStatusUI(switchStates);
+}
+
+/**
+ * Update status message based on current settings
+ */
+function updateStatusUI(settings) {
+    if (!AppState.statusElement) return;
+
+    const enabledFeatures = [];
+
+    if (settings.progressBarHidden) enabledFeatures.push(t('progressBar'));
+    if (settings.durationHidden) enabledFeatures.push(t('duration'));
+    if (settings.shortsHidden) enabledFeatures.push(t('shorts'));
+    if (settings.homeFeedHidden) enabledFeatures.push(t('homeFeed'));
+    if (settings.videoSidebarHidden) enabledFeatures.push(t('videoSidebar'));
+    if (settings.commentsHidden) enabledFeatures.push('comments');
+    if (settings.notificationsBellHidden) enabledFeatures.push(t('notificationsBell'));
+    if (settings.topHeaderHidden) enabledFeatures.push(t('topHeader'));
+    if (settings.exploreSectionHidden) enabledFeatures.push(t('exploreSection'));
+    if (settings.shopHidden) enabledFeatures.push(t('shop'));
+
+    const statusBadge = AppState.statusElement.querySelector('ui-badge') || document.createElement('ui-badge');
+    statusBadge.setAttribute('variant', enabledFeatures.length > 0 ? 'success' : 'warning');
+
+    if (enabledFeatures.length > 0) {
+        statusBadge.textContent = `${t('hidingFeatures')}: ${enabledFeatures.join(', ')}`;
+        AppState.statusElement.className = 'status enabled';
+    } else {
+        statusBadge.textContent = t('allDisabled');
+        AppState.statusElement.className = 'status disabled';
     }
 
-    // Setup Export/Import Settings event listeners
-    const exportBtn = document.getElementById('exportSettingsBtn');
-    const importBtn = document.getElementById('importSettingsBtn');
-    const importFileInput = document.getElementById('importFileInput');
-    const presetSelect = document.getElementById('presetSelect');
+    if (!AppState.statusElement.contains(statusBadge)) {
+        AppState.statusElement.innerHTML = '';
+        AppState.statusElement.appendChild(statusBadge);
+    }
+}
+
+
+function updateLanguageUI() {
+    // Update title
+    const titleEl = document.querySelector('.ext-title');
+    const subtitleEl = document.querySelector('.ext-subtitle');
+    if (titleEl) titleEl.textContent = t('title');
+    if (subtitleEl) subtitleEl.textContent = t('subtitle');
+
+    // Update section titles
+    const sectionTitles = document.querySelectorAll('.ext-section-title');
+    const titleMap = [
+        t('aboutTitle'),
+        t('contentFeedControlsTitle'),
+        t('interfaceElementsTitle'),
+        t('videoControlsTitle')
+    ];
+    sectionTitles.forEach((el, idx) => {
+        if (titleMap[idx]) el.textContent = titleMap[idx];
+    });
+
+    // Update control labels
+    const labelMappings = [
+        { id: 'homeFeedSwitch', text: t('hideHomeFeed') },
+        { id: 'videoSidebarSwitch', text: t('hideVideoSidebar') },
+        { id: 'shortsSwitch', text: t('hideShorts') },
+        { id: 'commentsSwitch', text: t('hideComments') },
+        { id: 'hideChannelSwitch', text: t('hideChannel') },
+        { id: 'topHeaderSwitch', text: t('hideTopHeader') },
+        { id: 'notificationsBellSwitch', text: t('hideNotificationsBell') },
+        { id: 'exploreSectionSwitch', text: t('hideExploreSection') },
+        { id: 'moreFromYouTubeSwitch', text: t('hideMoreFromYouTube') },
+        { id: 'buttonsBarSwitch', text: t('hideButtonsBar') },
+        { id: 'progressSwitch', text: t('hideProgressBar') },
+        { id: 'durationSwitch', text: t('hideDuration') },
+        { id: 'endScreenCardsSwitch', text: t('hideEndScreenCards') },
+        { id: 'hideDescriptionSwitch', text: t('hideDescription') },
+        { id: 'grayscaleSwitch', text: t('grayscale') },
+        { id: 'shopSwitch', text: t('hideShop') },
+        { id: 'extensionEnabledSwitch', text: t('extensionEnabled') }
+    ];
+
+    labelMappings.forEach(({ id, text }) => {
+        const switchEl = document.getElementById(id);
+        if (switchEl) {
+            const label = switchEl.closest('.ext-control-item')?.querySelector('.ext-control-label');
+            if (label) label.textContent = text;
+        }
+    });
+
+    // Update settings section
+    const settingsTitle = document.querySelector('.ext-settings-title');
+    const exportBtn = document.querySelector('#exportSettingsBtn span');
+    const importBtn = document.querySelector('#importSettingsBtn span');
+    if (settingsTitle) settingsTitle.textContent = t('settingsManagement');
+    if (exportBtn) exportBtn.textContent = t('exportSettings');
+    if (importBtn) importBtn.textContent = t('importSettings');
+
+    // Update presets
+    const presetsLabel = document.querySelector('.ext-presets-label');
     const applyPresetBtn = document.getElementById('applyPresetBtn');
-    const presetNameInput = document.getElementById('presetNameInput');
+    if (presetsLabel) presetsLabel.textContent = t('presetsLabel');
+    if (applyPresetBtn) applyPresetBtn.textContent = t('applyPreset');
+
     const savePresetBtn = document.getElementById('savePresetBtn');
     const deletePresetBtn = document.getElementById('deletePresetBtn');
     const importPresetsBtn = document.getElementById('importPresetsBtn');
-    const importPresetsFileInput = document.getElementById('importPresetsFileInput');
     const exportPresetsBtn = document.getElementById('exportPresetsBtn');
+    if (savePresetBtn) savePresetBtn.textContent = t('savePreset');
+    if (deletePresetBtn) deletePresetBtn.textContent = t('deletePreset');
+    if (importPresetsBtn) importPresetsBtn.textContent = t('importPresets');
+    if (exportPresetsBtn) exportPresetsBtn.textContent = t('exportPresets');
+
+    const presetNameInput = document.getElementById('presetNameInput');
+    if (presetNameInput) presetNameInput.placeholder = t('presetNamePlaceholder');
+
+    // Update preset options
+    const presetSelect = document.getElementById('presetSelect');
+    if (presetSelect) {
+        const noneOpt = presetSelect.querySelector('option[value="builtin:none"]') || presetSelect.querySelector('option[value="none"]');
+        const balancedOpt = presetSelect.querySelector('option[value="builtin:balanced"]') || presetSelect.querySelector('option[value="balanced"]');
+        const focusOpt = presetSelect.querySelector('option[value="builtin:focus"]') || presetSelect.querySelector('option[value="focus"]');
+        if (noneOpt) noneOpt.textContent = t('presetNone');
+        if (balancedOpt) balancedOpt.textContent = t('presetBalanced');
+        if (focusOpt) focusOpt.textContent = t('presetFocus');
+
+        const optgroups = presetSelect.querySelectorAll('optgroup');
+        if (optgroups[0]) optgroups[0].label = t('builtInGroup');
+        if (optgroups[1]) optgroups[1].label = t('customGroup');
+    }
+}
+
+
+function setupEventListeners() {
+    SWITCH_CONFIG.forEach(config => {
+        const switchEl = document.getElementById(config.id);
+        if (!switchEl) return;
+
+        // Store reference in AppState
+        AppState.switches.set(config.key, switchEl);
+
+        switchEl.addEventListener('change', function(e) {
+            const newState = e.target.checked;
+            const storageObj = { [config.key]: newState };
+
+            // Save to storage
+            chrome.storage.sync.set(storageObj);
+
+            // Handle extension enabled toggle specially
+            if (config.key === 'extensionEnabled') {
+                AppState.currentExtensionEnabled = newState;
+                const sectionsContainer = document.getElementById('sectionsContainer');
+                const disabledNotice = document.getElementById('disabledNotice');
+                if (sectionsContainer) sectionsContainer.style.display = newState ? 'block' : 'none';
+                if (disabledNotice) disabledNotice.style.display = newState ? 'none' : 'block';
+            }
+
+            // Sync to YouTube tabs
+            handleToggleChange(config.key, newState);
+
+            // Update status
+            chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), function(result) {
+                updateStatusUI(result);
+            });
+        });
+    });
+
+    // Setup language buttons
+    const langVi = document.getElementById('lang-vi');
+    const langEn = document.getElementById('lang-en');
+    if (langVi) langVi.addEventListener('click', () => changeLanguage('vi'));
+    if (langEn) langEn.addEventListener('click', () => changeLanguage('en'));
+
+    // Theme toggle
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            chrome.storage.sync.set({ theme: isDark ? 'dark' : 'light' });
+        });
+    }
+}
+
+/**
+ * Handle toggle changes and sync to YouTube tabs
+ */
+function handleToggleChange(key, enabled) {
+    // Send to current active tab
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+        if (tabs[0]?.url?.includes('youtube.com')) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+                action: key,
+                enabled: enabled
+            }).catch(() => {});
+        }
+    });
+
+    // Sync to all YouTube tabs
+    chrome.runtime.sendMessage({
+        action: 'syncToAllTabs',
+        toggleAction: key,
+        enabled: enabled
+    }).catch(() => {});
+}
+
+
+function initializeTheme() {
+    chrome.storage.sync.get('theme', function(data) {
+        const savedTheme = data.theme || 'auto';
+
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.classList.toggle('dark', prefersDark);
+        }
+    });
+}
+
+/**
+ * Initialize language from storage
+ */
+function initializeLanguage() {
+    chrome.storage.sync.get('language', function(data) {
+        const savedLanguage = data.language || 'en';
+        setLanguage(savedLanguage, false);
+    });
+}
+
+/**
+ * Initialize collapsible sections
+ */
+function initializeCollapsibleSections() {
+    const sections = document.querySelectorAll('.ext-collapsible-section');
+
+    chrome.storage.sync.get('sectionStates', function(result) {
+        const savedStates = result.sectionStates || {};
+
+        sections.forEach(section => {
+            const titleElement = section.querySelector('.ext-section-title');
+            if (!titleElement) return;
+
+            const sectionId = titleElement.textContent.trim().toLowerCase()
+                .replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+            section.setAttribute('data-section-id', sectionId);
+
+            const header = section.querySelector('.ext-section-header');
+            if (!header) return;
+
+            const isOpen = savedStates[sectionId] !== undefined ? savedStates[sectionId] : (sectionId === 'content-feed-controls');
+
+            section.classList.add('no-animation');
+            if (isOpen) section.classList.add('open');
+
+            setTimeout(() => section.classList.remove('no-animation'), 100);
+
+            header.addEventListener('click', () => {
+                const wasOpen = section.classList.contains('open');
+                section.classList.toggle('open');
+                saveSectionState(sectionId, !wasOpen);
+            });
+        });
+    });
+}
+
+function saveSectionState(sectionId, isOpen) {
+    chrome.storage.sync.get('sectionStates', function(result) {
+        const sectionStates = result.sectionStates || {};
+        sectionStates[sectionId] = isOpen;
+        chrome.storage.sync.set({ sectionStates });
+    });
+}
+
+
+
+const VALID_SETTING_KEYS = [
+    'extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden',
+    'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden',
+    'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden',
+    'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled',
+    'shopHidden', 'language', 'theme'
+];
+
+
+function exportSettings() {
+    const exportBtn = document.getElementById('exportSettingsBtn');
+    const originalText = exportBtn.innerHTML;
+    exportBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${t('exporting')}</span>`;
+    exportBtn.disabled = true;
+
+    chrome.storage.sync.get(VALID_SETTING_KEYS, function(result) {
+        const settingsToExport = {};
+        let count = 0;
+
+        VALID_SETTING_KEYS.forEach(key => {
+            if (result.hasOwnProperty(key)) {
+                settingsToExport[key] = result[key];
+                count++;
+            }
+        });
+
+        if (count === 0) {
+            showNotification(t('noSettingsToExport'), 'info');
+            exportBtn.innerHTML = originalText;
+            exportBtn.disabled = false;
+            return;
+        }
+
+        const settingsExport = {
+            metadata: {
+                exportDate: new Date().toISOString(),
+                extensionName: 'TubeTuner',
+                extensionVersion: '1.2',
+                formatVersion: '1.0',
+                settingsCount: count
+            },
+            settings: settingsToExport
+        };
+
+        const blob = new Blob([JSON.stringify(settingsExport, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const timestamp = new Date().toISOString().replace(/:/g, '-').split('.')[0];
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `TubeTuner-settings-${timestamp}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showNotification(t('exportSuccess'), 'success');
+
+        setTimeout(() => {
+            exportBtn.innerHTML = originalText;
+            exportBtn.disabled = false;
+        }, 1000);
+    });
+}
+
+
+function importSettings(file) {
+    const importBtn = document.getElementById('importSettingsBtn');
+    const originalText = importBtn.innerHTML;
+    importBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${t('importing')}</span>`;
+    importBtn.disabled = true;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+
+            if (!importedData || typeof importedData !== 'object') {
+                throw new Error('Invalid file format');
+            }
+
+            if (!importedData.metadata || !importedData.settings) {
+                throw new Error('File missing metadata or settings');
+            }
+
+            if (importedData.metadata.extensionName && importedData.metadata.extensionName !== 'TubeTuner') {
+                throw new Error('File is not from TubeTuner');
+            }
+
+            const settings = importedData.settings;
+            const settingsToImport = {};
+            let validCount = 0;
+
+            VALID_SETTING_KEYS.forEach(key => {
+                if (settings.hasOwnProperty(key)) {
+                    const value = settings[key];
+                    const expectedType = typeof value;
+                    if (expectedType === 'boolean' || expectedType === 'string') {
+                        settingsToImport[key] = value;
+                        validCount++;
+                    }
+                }
+            });
+
+            if (validCount === 0) {
+                throw new Error('No valid settings found in file');
+            }
+
+            chrome.storage.sync.set(settingsToImport, function() {
+                showNotification(t('importSuccess'), 'success');
+                chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
+                    tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                });
+                setTimeout(() => window.location.reload(), 1500);
+            });
+
+        } catch (error) {
+            showNotification(error.message || t('importError'), 'error');
+            importBtn.innerHTML = originalText;
+            importBtn.disabled = false;
+        }
+    };
+
+    reader.onerror = () => {
+        showNotification(t('importError'), 'error');
+        importBtn.innerHTML = originalText;
+        importBtn.disabled = false;
+    };
+
+    reader.readAsText(file);
+}
+
+
+function showNotification(message, type = 'info') {
+    const existingNotification = document.querySelector('.ext-notification');
+    if (existingNotification) existingNotification.remove();
+
+    const notification = document.createElement('div');
+    notification.className = `ext-notification ext-notification-${type}`;
+    notification.textContent = message;
+
+    const container = document.querySelector('.ext-container');
+    if (container) {
+        container.appendChild(notification);
+        setTimeout(() => {
+            if (notification.parentNode) notification.remove();
+        }, 3000);
+    }
+}
+
+
+function loadPresetOptions() {
+    const presetSelect = document.getElementById('presetSelect');
+    if (!presetSelect) return;
+
+    chrome.storage.sync.get(['customPresets'], function(result) {
+        const customs = result.customPresets || {};
+
+        while (presetSelect.firstChild) presetSelect.removeChild(presetSelect.firstChild);
+
+        const optgroupBuilt = document.createElement('optgroup');
+        optgroupBuilt.label = t('builtInGroup');
+        Object.keys(PRESET_DEFINITIONS).forEach(key => {
+            const opt = document.createElement('option');
+            opt.value = `builtin:${key}`;
+            opt.textContent = t(`preset${key.charAt(0).toUpperCase() + key.slice(1)}`);
+            optgroupBuilt.appendChild(opt);
+        });
+        presetSelect.appendChild(optgroupBuilt);
+
+        const customNames = Object.keys(customs);
+        if (customNames.length > 0) {
+            const optgroupCustom = document.createElement('optgroup');
+            optgroupCustom.label = t('customGroup');
+            customNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = `custom:${name}`;
+                opt.textContent = name;
+                optgroupCustom.appendChild(opt);
+            });
+            presetSelect.appendChild(optgroupCustom);
+        }
+
+        try {
+            updateLanguageUI();
+        } catch (e) {}
+    });
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize core settings
+    initializeTheme();
+    initializeLanguage();
+    initializeCollapsibleSections();
+
+    // Cache status element
+    AppState.statusElement = document.getElementById('status');
+
+    // Setup all event listeners
+    setupEventListeners();
+
+    // Load initial settings
+    const allKeys = SWITCH_CONFIG.map(c => c.key).concat(['sectionStates']);
+    chrome.storage.sync.get(allKeys, function(result) {
+        AppState.currentExtensionEnabled = result.extensionEnabled !== false;
+        updateUI(result);
+    });
+
+    // Setup export/import
+    const exportBtn = document.getElementById('exportSettingsBtn');
+    const importBtn = document.getElementById('importSettingsBtn');
+    const importFileInput = document.getElementById('importFileInput');
 
     if (exportBtn) {
-        exportBtn.addEventListener('click', function() {
-            // Export settings button clicked
-            exportSettings();
-        });
+        exportBtn.addEventListener('click', exportSettings);
     }
 
     if (importBtn && importFileInput) {
-        importBtn.addEventListener('click', function() {
-            // Import settings button clicked
-            importFileInput.click();
-        });
+        importBtn.addEventListener('click', () => importFileInput.click());
 
         importFileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                // File selected for import
-
-                // Validate file type
                 if (!file.name.toLowerCase().endsWith('.json')) {
-                    showNotification(
-                        translations[currentLang].invalidFileType,
-                        'error'
-                    );
+                    showNotification(t('invalidFileType'), 'error');
                     e.target.value = '';
                     return;
                 }
 
-                // Validate file size (max 5MB)
                 if (file.size > 5 * 1024 * 1024) {
-                    showNotification(
-                        translations[currentLang].fileTooLarge,
-                        'error'
-                    );
+                    showNotification(t('fileTooLarge'), 'error');
                     e.target.value = '';
                     return;
                 }
 
-                // Show confirmation dialog
-                if (confirm(translations[currentLang].confirmImport)) {
+                if (confirm(t('confirmImport'))) {
                     importSettings(file);
                 }
-                // Reset file input
                 e.target.value = '';
             }
         });
     }
 
-    // Populate preset select options and wire up apply button
-    if (presetSelect) {
-        // Make sure select options are consistent if needed
-        // Option texts are defined in translation update, so keep values only
-    }
+    // Setup preset management
+    const presetSelect = document.getElementById('presetSelect');
+    const applyPresetBtn = document.getElementById('applyPresetBtn');
+    const savePresetBtn = document.getElementById('savePresetBtn');
+    const deletePresetBtn = document.getElementById('deletePresetBtn');
+    const importPresetsBtn = document.getElementById('importPresetsBtn');
+    const importPresetsFileInput = document.getElementById('importPresetsFileInput');
+    const exportPresetsBtn = document.getElementById('exportPresetsBtn');
+    const presetNameInput = document.getElementById('presetNameInput');
+
+    if (presetSelect) loadPresetOptions();
 
     if (applyPresetBtn && presetSelect) {
         applyPresetBtn.addEventListener('click', function() {
             const selected = presetSelect.value;
             if (!selected) return;
 
-            if (!confirm(translations[currentLang].confirmApplyPreset || 'Apply selected preset? This will overwrite current settings.')) {
-                return;
-            }
+            if (!confirm(t('confirmApplyPreset'))) return;
+
             let settings = null;
+
             if (selected.startsWith('builtin:')) {
                 const key = selected.split(':')[1];
-                if (!PRESET_DEFINITIONS[key]) return;
-                settings = Object.assign({}, PRESET_DEFINITIONS[key], { extensionEnabled: true });
+                if (PRESET_DEFINITIONS[key]) {
+                    settings = Object.assign({}, PRESET_DEFINITIONS[key], { extensionEnabled: true });
+                }
             } else if (selected.startsWith('custom:')) {
                 const name = selected.split(':')[1];
                 chrome.storage.sync.get(['customPresets'], function(result) {
                     const customs = result.customPresets || {};
-                    if (!customs[name]) return;
-                    settings = Object.assign({}, customs[name], { extensionEnabled: true });
-
-                    // Apply the found custom preset
-                    chrome.storage.sync.set(settings, function() {
-                        showNotification(translations[currentLang].presetApplied || 'Preset applied', 'success');
-                        updateUI(settings.progressBarHidden === true, settings.durationHidden === true, settings.shortsHidden === true, settings.homeFeedHidden === true, settings.videoSidebarHidden === true, settings.commentsHidden === true, settings.notificationsBellHidden === true, settings.topHeaderHidden === true, settings.exploreSectionHidden === true, settings.endScreenCardsHidden === true, settings.moreFromYouTubeHidden === true, settings.hideChannelHidden === true, settings.buttonsBarHidden === true, settings.hideDescriptionHidden === true, settings.grayscaleEnabled === true, settings.shopHidden === true);
-                        chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
-                            tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                    if (customs[name]) {
+                        const customSettings = Object.assign({}, customs[name], { extensionEnabled: true });
+                        chrome.storage.sync.set(customSettings, function() {
+                            showNotification(t('presetApplied'), 'success');
+                            updateUI(customSettings);
+                            chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
+                                tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                            });
                         });
-                    });
+                    }
                 });
                 return;
             }
-            // Apply preset: set storage and notify content scripts
-            chrome.storage.sync.set(settings, function() {
-                // Show success
-                showNotification(translations[currentLang].presetApplied || 'Preset applied', 'success');
 
-                // Update UI immediately
-                updateUI(settings.progressBarHidden === true, settings.durationHidden === true, settings.shortsHidden === true, settings.homeFeedHidden === true, settings.videoSidebarHidden === true, settings.commentsHidden === true, settings.notificationsBellHidden === true, settings.topHeaderHidden === true, settings.exploreSectionHidden === true, settings.endScreenCardsHidden === true, settings.moreFromYouTubeHidden === true, settings.hideChannelHidden === true, settings.buttonsBarHidden === true, settings.hideDescriptionHidden === true, settings.grayscaleEnabled === true, settings.shopHidden === true);
-
-                // Notify YouTube tabs to refresh features
-                chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
-                    tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+            if (settings) {
+                chrome.storage.sync.set(settings, function() {
+                    showNotification(t('presetApplied'), 'success');
+                    updateUI(settings);
+                    chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
+                        tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                    });
                 });
-            });
-        });
-    }
-
-    // Helper to load presets into select (built-in + custom)
-    function loadPresetOptions() {
-        chrome.storage.sync.get(['customPresets'], function(result) {
-            const customs = result.customPresets || {};
-            // Clear existing options
-            while (presetSelect.firstChild) presetSelect.removeChild(presetSelect.firstChild);
-
-            // Built-in group
-            const optgroupBuilt = document.createElement('optgroup');
-            optgroupBuilt.label = 'Built-in';
-            Object.keys(PRESET_DEFINITIONS).forEach(key => {
-                const opt = document.createElement('option');
-                opt.value = `builtin:${key}`;
-                opt.textContent = key.charAt(0).toUpperCase() + key.slice(1);
-                optgroupBuilt.appendChild(opt);
-            });
-            presetSelect.appendChild(optgroupBuilt);
-
-            // Custom group
-            const customNames = Object.keys(customs || {});
-            if (customNames.length > 0) {
-                const optgroupCustom = document.createElement('optgroup');
-                optgroupCustom.label = 'Custom';
-                customNames.forEach(name => {
-                    const opt = document.createElement('option');
-                    opt.value = `custom:${name}`;
-                    opt.textContent = name;
-                    optgroupCustom.appendChild(opt);
-                });
-                presetSelect.appendChild(optgroupCustom);
             }
-            // Ensure language text is applied to new options
-            try { updateLanguageUI(); } catch (e) {}
         });
     }
 
-    // Save current UI as a custom preset
     if (savePresetBtn) {
         savePresetBtn.addEventListener('click', function() {
-            const name = presetNameInput && presetNameInput.value && presetNameInput.value.trim();
+            const name = presetNameInput?.value?.trim();
             if (!name) {
                 alert('Please enter a name for the preset.');
                 return;
             }
 
-            // Build a preset object from current UI values
-            const preset = {
-                progressBarHidden: toggleSwitch.checked === true,
-                durationHidden: durationSwitch.checked === true,
-                shortsHidden: shortsSwitch.checked === true,
-                homeFeedHidden: homeFeedSwitch.checked === true,
-                videoSidebarHidden: videoSidebarSwitch.checked === true,
-                commentsHidden: commentsSwitch.checked === true,
-                notificationsBellHidden: notificationsBellSwitch.checked === true,
-                topHeaderHidden: topHeaderSwitch.checked === true,
-                exploreSectionHidden: exploreSectionSwitch ? exploreSectionSwitch.checked === true : false,
-                endScreenCardsHidden: endScreenCardsSwitch ? endScreenCardsSwitch.checked === true : false,
-                moreFromYouTubeHidden: moreFromYouTubeSwitch ? moreFromYouTubeSwitch.checked === true : false,
-                hideChannelHidden: hideChannelSwitch ? hideChannelSwitch.checked === true : false,
-                buttonsBarHidden: buttonsBarSwitch ? buttonsBarSwitch.checked === true : false,
-                hideDescriptionHidden: hideDescriptionSwitch ? hideDescriptionSwitch.checked === true : false,
-                grayscaleEnabled: grayscaleSwitch ? grayscaleSwitch.checked === true : false,
-                shopHidden: shopSwitch ? shopSwitch.checked === true : false
-            };
+            const preset = {};
+            SWITCH_CONFIG.forEach(config => {
+                const switchEl = AppState.switches.get(config.key);
+                if (switchEl) {
+                    preset[config.key] = switchEl.checked;
+                }
+            });
 
-            // Persist into storage
             chrome.storage.sync.get(['customPresets'], function(result) {
                 const customs = result.customPresets || {};
                 customs[name] = preset;
                 chrome.storage.sync.set({ customPresets: customs }, function() {
-                    showNotification(translations[currentLang].presetSaved || 'Preset saved', 'success');
+                    showNotification(t('presetSaved'), 'success');
+                    presetNameInput.value = '';
                     loadPresetOptions();
-                    // Select the newly created preset
-                    setTimeout(() => {
-                        const val = `custom:${name}`;
-                        const opt = Array.from(presetSelect.options).find(o => o.value === val);
-                        if (opt) presetSelect.value = val;
-                    }, 50);
                 });
             });
         });
     }
 
-    // Delete selected custom preset
     if (deletePresetBtn) {
         deletePresetBtn.addEventListener('click', function() {
             const selected = presetSelect.value;
@@ -1378,66 +1038,57 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             const name = selected.split(':')[1];
             if (!confirm(`Delete preset "${name}"?`)) return;
+
             chrome.storage.sync.get(['customPresets'], function(result) {
                 const customs = result.customPresets || {};
                 if (customs[name]) delete customs[name];
                 chrome.storage.sync.set({ customPresets: customs }, function() {
-                    showNotification(translations[currentLang].presetDeleted || 'Preset deleted', 'success');
+                    showNotification(t('presetDeleted'), 'success');
                     loadPresetOptions();
                 });
             });
         });
     }
 
-    // Import presets from JSON (merge)
     if (importPresetsBtn && importPresetsFileInput) {
-        importPresetsBtn.addEventListener('click', function() {
-            importPresetsFileInput.click();
-        });
+        importPresetsBtn.addEventListener('click', () => importPresetsFileInput.click());
 
         importPresetsFileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
+
             if (!file.name.toLowerCase().endsWith('.json')) {
-                showNotification(translations[currentLang].invalidFileType, 'error');
+                showNotification(t('invalidFileType'), 'error');
                 e.target.value = '';
                 return;
             }
+
             const reader = new FileReader();
             reader.onload = function(evt) {
                 try {
                     const data = JSON.parse(evt.target.result);
                     let toMerge = {};
+
                     if (Array.isArray(data)) {
-                        // Array of {name, preset}
                         data.forEach(item => {
                             if (item && item.name && item.preset) toMerge[item.name] = item.preset;
                         });
                     } else if (typeof data === 'object') {
-                        // Object map name->preset
                         toMerge = data;
                     } else {
                         throw new Error('Invalid format');
                     }
 
-                    // Basic validation: ensure preset objects contain at least one expected key
-                    const validKeys = Object.keys(PRESET_DEFINITIONS.none);
-                    Object.keys(toMerge).forEach(k => {
-                        const presetObj = toMerge[k];
-                        const hasKey = validKeys.some(v => Object.prototype.hasOwnProperty.call(presetObj, v));
-                        if (!hasKey) delete toMerge[k];
-                    });
-
                     chrome.storage.sync.get(['customPresets'], function(result) {
                         const customs = result.customPresets || {};
                         Object.assign(customs, toMerge);
                         chrome.storage.sync.set({ customPresets: customs }, function() {
-                            showNotification(translations[currentLang].presetsImported || 'Presets imported', 'success');
+                            showNotification(t('presetsImported'), 'success');
                             loadPresetOptions();
                         });
                     });
                 } catch (err) {
-                    showNotification(translations[currentLang].importError || 'Invalid presets file', 'error');
+                    showNotification(t('importError'), 'error');
                 }
             };
             reader.readAsText(file);
@@ -1445,7 +1096,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Export custom presets
     if (exportPresetsBtn) {
         exportPresetsBtn.addEventListener('click', function() {
             chrome.storage.sync.get(['customPresets'], function(result) {
@@ -1462,827 +1112,4 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
-    // Initial load of presets
-    if (presetSelect) loadPresetOptions();
 });
-
-// Initialize theme based on saved settings or system preference
-function initializeTheme() {
-    chrome.storage.sync.get('theme', function(data) {
-        const savedTheme = data.theme || 'auto';
-        
-        if (savedTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else if (savedTheme === 'light') {
-            document.documentElement.classList.remove('dark');
-        } else {
-            // Auto mode - use system preference
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark');
-            }
-        }
-    });
-}
-
-// Save theme setting
-function saveThemeSetting(theme) {
-    chrome.storage.sync.set({ theme: theme });
-}
-
-// Initialize language
-function initializeLanguage() {
-    chrome.storage.sync.get('language', function(data) {
-        const savedLanguage = data.language || 'en';
-        setLanguage(savedLanguage, false);
-    });
-}
-
-// Set language and update UI
-function setLanguage(lang, save = true) {
-    // Update global language state so other functions that rely on
-    // `currentLang` and `translations` will reflect the new language.
-    currentLang = lang;
-
-    // Remove active class from all language buttons
-    document.querySelectorAll('.ext-lang-button').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    // Add active class to selected language button
-    document.getElementById(`lang-${lang}`).classList.add('active');
-    
-    translations = {
-        'vi': {
-            'title': 'TubeTuner',
-            'subtitle': 'Ẩn các phần tử YouTube không mong muốn',
-            // Content & Feed Controls
-            'contentFeedControlsTitle': 'Content & Feed Controls',
-            'hideHomeFeed': 'Ẩn trang chủ',
-            'hideVideoSidebar': 'Ẩn thanh bên video',
-            'hideShorts': 'Ẩn Shorts',
-            'hideComments': 'Ẩn phần bình luận',
-            'hideChannel': 'Ẩn kênh',
-            // Interface Elements
-            'interfaceElementsTitle': 'Interface Elements',
-            'hideTopHeader': 'Ẩn thanh điều hướng trên',
-            'hideNotificationsBell': 'Ẩn chuông thông báo',
-            'hideExploreSection': 'Ẩn phần Khám phá',
-            'hideMoreFromYouTube': 'Ẩn "Thêm từ YouTube"',
-            'hideButtonsBar': 'Ẩn thanh nút bấm',
-            // Video Controls
-            'videoControlsTitle': 'Video Controls',
-            'hideProgressBar': 'Ẩn thanh tiến trình',
-            'hideDuration': 'Ẩn thời lượng video',
-            'hideEndScreenCards': 'Ẩn thẻ cuối video',
-            'hideDescription': 'Ẩn mô tả video',
-
-
-            // General
-            'active': 'Đang hoạt động',
-            'inactive': 'Đã tắt',
-            'infoTitle': 'Giới thiệu',
-            'infoContent': 'Extension giúp bạn tập trung vào nội dung video mà không bị phân tâm bởi:',
-            'featureProgress': 'Các phần tử giao diện không cần thiết',
-            'featureDuration': 'Nội dung đề xuất và quảng cáo',
-            'featureShorts': 'Các tính năng gây xao nhãng',
-            'homeFeed': 'Trang chủ',
-            'infoExtra': 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với 14 tùy chọn ẩn/hiện.',
-            'noticeTitle': 'Lưu ý quan trọng',
-            'noticeDesc': 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.'
-            ,
-            // Grayscale feature translations
-            'grayscale': 'Giao diện đen trắng',
-            'enableGrayscale': 'Bật giao diện đen trắng',
-            'disableGrayscale': 'Tắt giao diện đen trắng',
-            // Shop feature translations
-            'shop': 'YouTube Shop',
-            'hideShop': 'Ẩn YouTube Shop',
-            // Presets UI
-            'presetsLabel': 'Cài đặt sẵn',
-            'applyPreset': 'Áp dụng preset',
-            'confirmApplyPreset': 'Bạn có muốn áp dụng preset? Điều này sẽ ghi đè cài đặt hiện tại.',
-            'presetApplied': 'Preset đã được áp dụng',
-            'presetNone': 'Không',
-            'presetBalanced': 'Cân bằng',
-            'presetFocus': 'Tập trung',
-            'builtInGroup': 'Mặc định',
-            'customGroup': 'Tùy chỉnh',
-            'presetNamePlaceholder': 'Tên preset',
-            'savePreset': 'Lưu preset',
-            'deletePreset': 'Xóa preset',
-            'importPresets': 'Nhập preset',
-            'exportPresets': 'Xuất preset',
-            'presetSaved': 'Đã lưu preset',
-            'presetDeleted': 'Đã xóa preset',
-            'presetsImported': 'Đã nhập preset',
-            // Settings management
-            'settingsManagement': 'Quản lý cài đặt',
-            'exportSettings': 'Xuất cài đặt',
-            'importSettings': 'Nhập cài đặt',
-            'exportSuccess': 'Đã xuất cài đặt thành công!',
-            'importSuccess': 'Đã nhập cài đặt thành công! Đang tải lại...',
-            'importError': 'Lỗi: File cài đặt không hợp lệ!',
-            'exporting': 'Đang xuất...',
-            'importing': 'Đang nhập...',
-            'confirmImport': 'Bạn có chắc muốn nhập cài đặt mới? Điều này sẽ ghi đè lên cài đặt hiện tại.',
-            'backupCreated': 'Đã tạo bản sao lưu tự động',
-            'invalidFileType': 'Chỉ chấp nhận file JSON!',
-            'fileTooLarge': 'File quá lớn (tối đa 5MB)!',
-            'noSettingsToExport': 'Không có cài đặt nào để xuất!',
-            'extensionEnabled': 'Bật/Tắt Extension',
-            'extensionDisabledTitle': 'Extension đã tắt',
-            'extensionDisabledDesc': 'TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy chỉnh YouTube.',
-            // About section translations
-            'aboutTitle': 'Giới thiệu',
-            'aboutDescription': 'TubeTuner là extension giúp bạn tùy chỉnh trải nghiệm YouTube theo ý muốn. Ẩn các phần tử không cần thiết như thanh tiến trình, Shorts, quảng cáo, và nhiều thành phần khác để tập trung vào nội dung quan trọng.',
-            'aboutFeaturesTitle': 'Tính năng chính:',
-            'aboutFeature1': '✨ Ẩn/hiện các phần tử giao diện YouTube',
-            'aboutFeature2': '🎨 Chế độ giao diện đen trắng',
-            'aboutFeature3': '🔄 Đồng bộ cài đặt giữa các tab',
-            'aboutFeature4': '💾 Sao lưu/khôi phục cài đặt',
-            'aboutFeature5': '🌐 Hỗ trợ đa ngôn ngữ (VI/EN)',
-            'aboutGithubLink': 'GitHub Repository'
-        },
-        'en': {
-            'title': 'TubeTuner',
-            'subtitle': 'Hide unwanted YouTube elements',
-            // Content & Feed Controls
-            'contentFeedControlsTitle': 'Content & Feed Controls',
-            'hideHomeFeed': 'Hide Home Feed',
-            'hideVideoSidebar': 'Hide Video Sidebar',
-            'hideShorts': 'Hide Shorts',
-            'hideComments': 'Hide Comments Section',
-            'hideChannel': 'Hide Channel',
-            // Interface Elements
-            'interfaceElementsTitle': 'Interface Elements',
-            'hideTopHeader': 'Hide Top Header/Navigation Bar',
-            'hideNotificationsBell': 'Hide Notifications Bell',
-            'hideExploreSection': 'Hide Explore Section',
-            'hideMoreFromYouTube': 'Hide "More from YouTube" Section',
-            'hideButtonsBar': 'Hide Buttons Bar',
-            // Video Controls
-            'videoControlsTitle': 'Video Controls',
-            'hideProgressBar': 'Hide progress bar',
-            'hideDuration': 'Hide video duration',
-            'hideEndScreenCards': 'Hide End Screen Cards/Annotations',
-            'hideDescription': 'Hide Video Description',
-
-
-            // General
-            'active': 'Active',
-            'inactive': 'Inactive',
-            'infoTitle': 'Introduction',
-            'infoContent': 'This extension helps you focus on video content without distractions from:',
-            'featureProgress': 'Unnecessary interface elements',
-            'featureDuration': 'Recommended content and ads',
-            'featureShorts': 'Distracting features',
-            'homeFeed': 'Home Feed',
-            'infoExtra': 'Customize your YouTube experience with 14 hide/show options.',
-            'noticeTitle': 'Important Notice',
-            'noticeDesc': 'For the best experience, please enable the extension before visiting YouTube.'
-            ,
-            // Grayscale feature translations
-            'grayscale': 'Grayscale interface',
-            'enableGrayscale': 'Enable grayscale interface',
-            'disableGrayscale': 'Disable grayscale interface',
-            // Shop feature translations
-            'shop': 'YouTube Shop',
-            'hideShop': 'Hide YouTube Shop',
-            // Presets UI
-            'presetsLabel': 'Presets',
-            'applyPreset': 'Apply preset',
-            'confirmApplyPreset': 'Apply selected preset? This will overwrite current settings.',
-            'presetApplied': 'Preset applied',
-            'presetNone': 'None',
-            'presetBalanced': 'Balanced',
-            'presetFocus': 'Focus',
-            'builtInGroup': 'Built-in',
-            'customGroup': 'Custom',
-            'presetNamePlaceholder': 'Preset name',
-            'savePreset': 'Save preset',
-            'deletePreset': 'Delete preset',
-            'importPresets': 'Import presets',
-            'exportPresets': 'Export presets',
-            'presetSaved': 'Preset saved',
-            'presetDeleted': 'Preset deleted',
-            'presetsImported': 'Presets imported',
-            // Settings management
-            'settingsManagement': 'Settings Management',
-            'exportSettings': 'Export Settings',
-            'importSettings': 'Import Settings',
-            'exportSuccess': 'Settings exported successfully!',
-            'importSuccess': 'Settings imported successfully! Reloading...',
-            'importError': 'Error: Invalid settings file!',
-            'exporting': 'Exporting...',
-            'importing': 'Importing...',
-            'confirmImport': 'Are you sure you want to import new settings? This will overwrite current settings.',
-            'backupCreated': 'Auto backup created',
-            'invalidFileType': 'Only JSON files are accepted!',
-            'fileTooLarge': 'File too large (max 5MB)!',
-            'noSettingsToExport': 'No settings to export!',
-            'extensionEnabled': 'Enable/Disable Extension',
-            'extensionDisabledTitle': 'Extension Disabled',
-            'extensionDisabledDesc': 'TubeTuner is currently disabled. Enable it to use YouTube customization features.',
-            // About section translations
-            'aboutTitle': 'About',
-            'aboutDescription': 'TubeTuner is an extension that helps you customize your YouTube experience as you wish. Hide unnecessary elements like progress bars, Shorts, ads, and many other components to focus on important content.',
-            'aboutFeaturesTitle': 'Key Features:',
-            'aboutFeature1': '✨ Show/hide YouTube interface elements',
-            'aboutFeature2': '🎨 Grayscale interface mode',
-            'aboutFeature3': '🔄 Sync settings across tabs',
-            'aboutFeature4': '💾 Backup/restore settings',
-            'aboutFeature5': '🌐 Multi-language support (VI/EN)',
-            'aboutGithubLink': 'GitHub Repository'
-        }
-    };
-    
-    // Update UI text based on selected language
-    const t = translations[lang];
-
-    // Header
-    document.querySelector('.ext-title').textContent = t.title;
-    document.querySelector('.ext-subtitle').textContent = t.subtitle;
-
-    // Section titles
-    const sectionTitles = document.querySelectorAll('.ext-section-title');
-    if (sectionTitles[0]) sectionTitles[0].textContent = t.aboutTitle;
-    if (sectionTitles[1]) sectionTitles[1].textContent = t.contentFeedControlsTitle;
-    if (sectionTitles[2]) sectionTitles[2].textContent = t.interfaceElementsTitle;
-    if (sectionTitles[3]) sectionTitles[3].textContent = t.videoControlsTitle;
-    if (sectionTitles[4]) sectionTitles[4].textContent = t.otherFeaturesTitle;
-
-    // About section content
-    const aboutDescription = document.querySelector('.ext-about-description');
-    if (aboutDescription) aboutDescription.textContent = t.aboutDescription;
-    
-    const aboutFeaturesTitle = document.querySelector('.ext-about-features-title');
-    if (aboutFeaturesTitle) aboutFeaturesTitle.textContent = t.aboutFeaturesTitle;
-    
-    const aboutFeaturesList = document.querySelectorAll('.ext-about-features-list li');
-    if (aboutFeaturesList.length >= 5) {
-        aboutFeaturesList[0].textContent = t.aboutFeature1;
-        aboutFeaturesList[1].textContent = t.aboutFeature2;
-        aboutFeaturesList[2].textContent = t.aboutFeature3;
-        aboutFeaturesList[3].textContent = t.aboutFeature4;
-        aboutFeaturesList[4].textContent = t.aboutFeature5;
-    }
-    
-    const aboutGithubLink = document.querySelector('.ext-about-link');
-    if (aboutGithubLink) {
-        const linkText = aboutGithubLink.childNodes[aboutGithubLink.childNodes.length - 1];
-        if (linkText && linkText.nodeType === Node.TEXT_NODE) {
-            linkText.textContent = t.aboutGithubLink;
-        }
-    }
-
-    // Control labels - using a mapping approach for better maintainability
-    const labelMappings = [
-        // Content & Feed Controls
-        { id: 'homeFeedSwitch', text: t.hideHomeFeed },
-        { id: 'videoSidebarSwitch', text: t.hideVideoSidebar },
-        { id: 'shortsSwitch', text: t.hideShorts },
-        { id: 'commentsSwitch', text: t.hideComments },
-        { id: 'hideChannelSwitch', text: t.hideChannel },
-        // Interface Elements
-        { id: 'topHeaderSwitch', text: t.hideTopHeader },
-        { id: 'notificationsBellSwitch', text: t.hideNotificationsBell },
-        { id: 'exploreSectionSwitch', text: t.hideExploreSection },
-        { id: 'moreFromYouTubeSwitch', text: t.hideMoreFromYouTube },
-        { id: 'buttonsBarSwitch', text: t.hideButtonsBar },
-        // Video Controls
-        { id: 'progressSwitch', text: t.hideProgressBar },
-        { id: 'durationSwitch', text: t.hideDuration },
-        { id: 'endScreenCardsSwitch', text: t.hideEndScreenCards },
-        { id: 'hideDescriptionSwitch', text: t.hideDescription },
-        // Grayscale
-        { id: 'grayscaleSwitch', text: t.grayscale },
-        // Shop
-        { id: 'shopSwitch', text: t.hideShop },
-        // Extension Enabled
-        { id: 'extensionEnabledSwitch', text: t.extensionEnabled },
-
-
-    ];
-
-    // Update all control labels
-    labelMappings.forEach(mapping => {
-        const switchElement = document.getElementById(mapping.id);
-        if (switchElement) {
-            const label = switchElement.closest('.ext-control-item')?.querySelector('.ext-control-label');
-            if (label) {
-                label.textContent = mapping.text;
-            }
-        }
-    });
-
-    // Update settings management section
-    const settingsTitle = document.querySelector('.ext-settings-title');
-    const exportBtn = document.querySelector('#exportSettingsBtn span');
-    const importBtn = document.querySelector('#importSettingsBtn span');
-
-    if (settingsTitle) {
-        settingsTitle.textContent = t.settingsManagement;
-    }
-    if (exportBtn) {
-        exportBtn.textContent = t.exportSettings;
-    }
-    if (importBtn) {
-        importBtn.textContent = t.importSettings;
-    }
-
-    // Update presets UI text
-    const presetsLabelEl = document.querySelector('.ext-presets-label');
-    const presetSelectEl = document.getElementById('presetSelect');
-    const applyPresetBtnEl = document.getElementById('applyPresetBtn');
-
-    if (presetsLabelEl) {
-        presetsLabelEl.textContent = t.presetsLabel || translations[currentLang].presetsLabel || 'Presets';
-    }
-    if (applyPresetBtnEl) {
-        applyPresetBtnEl.textContent = t.applyPreset || translations[currentLang].applyPreset || 'Apply preset';
-    }
-    if (presetSelectEl) {
-        // Update option text for built-in values while keeping values
-        // Support both generated values (builtin:...) and initial static values (none/balanced/focus)
-        const noneOpt = presetSelectEl.querySelector('option[value="builtin:none"]') || presetSelectEl.querySelector('option[value="none"]');
-        const balancedOpt = presetSelectEl.querySelector('option[value="builtin:balanced"]') || presetSelectEl.querySelector('option[value="balanced"]');
-        const focusOpt = presetSelectEl.querySelector('option[value="builtin:focus"]') || presetSelectEl.querySelector('option[value="focus"]');
-        if (noneOpt) noneOpt.textContent = t.presetNone || translations[currentLang].presetNone || 'None';
-        if (balancedOpt) balancedOpt.textContent = t.presetBalanced || translations[currentLang].presetBalanced || 'Balanced';
-        if (focusOpt) focusOpt.textContent = t.presetFocus || translations[currentLang].presetFocus || 'Focus';
-    }
-
-    // Update preset management buttons
-    const savePresetBtnEl = document.getElementById('savePresetBtn');
-    const deletePresetBtnEl = document.getElementById('deletePresetBtn');
-    const importPresetsBtnEl = document.getElementById('importPresetsBtn');
-    const exportPresetsBtnEl = document.getElementById('exportPresetsBtn');
-    const presetNameInputEl = document.getElementById('presetNameInput');
-    if (savePresetBtnEl) savePresetBtnEl.textContent = t.savePreset || translations[currentLang].savePreset || 'Save preset';
-    if (deletePresetBtnEl) deletePresetBtnEl.textContent = t.deletePreset || translations[currentLang].deletePreset || 'Delete preset';
-    if (importPresetsBtnEl) importPresetsBtnEl.textContent = t.importPresets || translations[currentLang].importPresets || 'Import presets';
-    if (exportPresetsBtnEl) exportPresetsBtnEl.textContent = t.exportPresets || translations[currentLang].exportPresets || 'Export presets';
-    if (presetNameInputEl) presetNameInputEl.placeholder = t.presetNamePlaceholder || translations[currentLang].presetNamePlaceholder || 'Preset name';
-
-    // Update optgroup labels
-    const optgroups = presetSelectEl ? presetSelectEl.querySelectorAll('optgroup') : [];
-    if (optgroups.length > 0) optgroups[0].label = t.builtInGroup || translations[currentLang].builtInGroup || 'Built-in';
-    if (optgroups.length > 1) optgroups[1].label = t.customGroup || translations[currentLang].customGroup || 'Custom';
-
-    // Other UI elements
-    document.querySelector('#status').textContent = t.active;
-    document.querySelector('.ext-info-title').textContent = t.infoTitle;
-    document.querySelector('.ext-info-content').firstChild.textContent = t.infoContent;
-    document.querySelectorAll('.ext-feature-item')[0].textContent = t.featureProgress;
-    document.querySelectorAll('.ext-feature-item')[1].textContent = t.featureDuration;
-    document.querySelectorAll('.ext-feature-item')[2].textContent = t.featureShorts;
-    document.querySelector('.ext-info-content p').textContent = t.infoExtra;
-
-    // Save language preference if needed
-    if (save) {
-        chrome.storage.sync.set({ language: lang });
-    }
-
-    // Ensure the rest of the UI which may use the older updateLanguageUI
-    // flow is refreshed as well.
-    if (typeof updateLanguageUI === 'function') {
-        try { updateLanguageUI(); } catch (e) { /* ignore */ }
-    }
-
-    if (typeof updateStatus === 'function') {
-        try { updateStatus(); } catch (e) { /* ignore */ }
-    }
-}
-
-// Initialize collapsible sections with state persistence
-function initializeCollapsibleSections() {
-    // Get section identifiers based on their titles
-    const sections = document.querySelectorAll('.ext-collapsible-section');
-    const sectionIds = [];
-
-    sections.forEach((section, index) => {
-        const titleElement = section.querySelector('.ext-section-title');
-        if (titleElement) {
-            // Create a unique ID based on the section title
-            const sectionId = titleElement.textContent.trim().toLowerCase()
-                .replace(/[^a-z0-9]/g, '-')
-                .replace(/-+/g, '-')
-                .replace(/^-|-$/g, '');
-            section.setAttribute('data-section-id', sectionId);
-            sectionIds.push(sectionId);
-        }
-    });
-
-    // Load saved section states
-    chrome.storage.sync.get('sectionStates', function(result) {
-        const savedStates = result.sectionStates || {};
-        // Loading saved section states
-
-        sections.forEach(section => {
-            const sectionId = section.getAttribute('data-section-id');
-            const header = section.querySelector('.ext-section-header');
-
-            if (sectionId && header) {
-                // Apply saved state or use default (Content & Feed Controls open by default)
-                const isOpen = savedStates[sectionId] !== undefined ? savedStates[sectionId] : (sectionId === 'content-feed-controls');
-
-                // Add no-animation class for initial state
-                section.classList.add('no-animation');
-
-                if (isOpen) {
-                    section.classList.add('open');
-                } else {
-                    section.classList.remove('open');
-                }
-
-                // Remove no-animation class after a short delay to enable transitions for user interactions
-                setTimeout(() => {
-                    section.classList.remove('no-animation');
-                }, 100);
-
-                // Add click event listener
-                header.addEventListener('click', () => {
-                    const wasOpen = section.classList.contains('open');
-                    section.classList.toggle('open');
-
-                    // Save the new state
-                    saveSectionState(sectionId, !wasOpen);
-
-                    // Section toggled
-                });
-            }
-        });
-    });
-}
-
-// Save section state to storage
-function saveSectionState(sectionId, isOpen) {
-    chrome.storage.sync.get('sectionStates', function(result) {
-        const sectionStates = result.sectionStates || {};
-        sectionStates[sectionId] = isOpen;
-
-        chrome.storage.sync.set({ sectionStates: sectionStates }, function() {
-            // Saved section state
-        });
-    });
-}
-
-// Initialize switches based on saved settings
-function initializeSwitches() {
-    const switches = [
-        { id: 'progressSwitch', setting: 'hideProgressBar', default: true },
-        { id: 'durationSwitch', setting: 'hideDuration', default: true },
-        { id: 'shortsSwitch', setting: 'hideShorts', default: false },
-        { id: 'grayscaleSwitch', setting: 'grayscaleEnabled', default: false }
-    ];
-
-    // Get all settings at once
-    chrome.storage.sync.get(['hideProgressBar', 'hideDuration', 'hideShorts', 'grayscaleEnabled'], function(data) {
-        switches.forEach(switchItem => {
-            const switchElement = document.getElementById(switchItem.id);
-            const isEnabled = data[switchItem.setting] !== undefined ? data[switchItem.setting] : switchItem.default;
-
-            if (switchElement) {
-                switchElement.checked = isEnabled;
-
-                // Add event listener
-                switchElement.addEventListener('change', function() {
-                    const setting = {};
-                    setting[switchItem.setting] = this.checked;
-                    chrome.storage.sync.set(setting);
-
-                    // Update status message
-                    updateStatus();
-
-                    // Send specific message for grayscale, otherwise request a general update
-                    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-                        if (tabs[0] && tabs[0].url && tabs[0].url.includes('youtube.com')) {
-                            if (switchItem.setting === 'grayscaleEnabled') {
-                                chrome.tabs.sendMessage(tabs[0].id, { action: 'toggleGrayscale', enabled: switchElement.checked }).catch(() => {});
-                            } else {
-                                chrome.tabs.sendMessage(tabs[0].id, { action: 'updateSettings' }).catch(() => {});
-                            }
-                        }
-                    });
-                });
-            }
-        });
-
-        // Initial status update
-        updateStatus();
-    });
-}
-
-// Update status message based on current settings
-function updateStatus() {
-    chrome.storage.sync.get(['hideProgressBar', 'hideDuration', 'hideShorts'], function(data) {
-        const anyFeatureEnabled = data.hideProgressBar || data.hideDuration || data.hideShorts;
-        const statusElement = document.getElementById('status');
-
-        if (anyFeatureEnabled) {
-            statusElement.className = 'ext-status enabled';
-            statusElement.textContent = document.getElementById('lang-vi').classList.contains('active') ?
-                'Đang hoạt động' : 'Active';
-        } else {
-            statusElement.className = 'ext-status disabled';
-            statusElement.textContent = document.getElementById('lang-vi').classList.contains('active') ?
-                'Đã tắt' : 'Inactive';
-        }
-    });
-}
-
-// Export Settings functionality
-function exportSettings() {
-    // Show loading state
-    const exportBtn = document.getElementById('exportSettingsBtn');
-    const originalText = exportBtn.innerHTML;
-    exportBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${translations[currentLang].exporting}</span>`;
-    exportBtn.disabled = true;
-
-    // Define all valid setting keys
-    const validSettingKeys = [
-        'extensionEnabled',
-        'progressBarHidden',
-        'durationHidden',
-        'shortsHidden',
-        'homeFeedHidden',
-        'videoSidebarHidden',
-        'commentsHidden',
-        'notificationsBellHidden',
-        'topHeaderHidden',
-        'exploreSectionHidden',
-        'endScreenCardsHidden',
-        'moreFromYouTubeHidden',
-        'hideChannelHidden',
-        'buttonsBarHidden',
-        'hideDescriptionHidden',
-        'grayscaleEnabled',
-        'shopHidden',
-        'language',
-        'theme'
-    ];
-
-    // Get all settings from chrome storage
-    chrome.storage.sync.get(validSettingKeys, function(result) {
-        if (chrome.runtime.lastError) {
-            console.error('Error getting settings:', chrome.runtime.lastError);
-            showNotification(
-                currentLang === 'vi' ? 'Lỗi khi lấy cài đặt!' : 'Error getting settings!',
-                'error'
-            );
-            exportBtn.innerHTML = originalText;
-            exportBtn.disabled = false;
-            return;
-        }
-
-        // Filter only existing settings
-        const settingsToExport = {};
-        let settingsCount = 0;
-        
-        for (const key of validSettingKeys) {
-            if (result.hasOwnProperty(key)) {
-                settingsToExport[key] = result[key];
-                settingsCount++;
-            }
-        }
-
-        // Check if there are any settings to export
-        if (settingsCount === 0) {
-            showNotification(
-                translations[currentLang].noSettingsToExport,
-                'info'
-            );
-            exportBtn.innerHTML = originalText;
-            exportBtn.disabled = false;
-            return;
-        }
-
-        // Create settings object with metadata
-        const settingsExport = {
-            metadata: {
-                exportDate: new Date().toISOString(),
-                extensionName: "TubeTuner",
-                extensionVersion: "1.2",
-                formatVersion: "1.0",
-                settingsCount: settingsCount
-            },
-            settings: settingsToExport
-        };
-
-        // Convert to JSON string with pretty formatting
-        const jsonString = JSON.stringify(settingsExport, null, 2);
-
-        // Create blob and download
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-
-        // Create download link with timestamp
-        const timestamp = new Date().toISOString().replace(/:/g, '-').split('.')[0];
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `TubeTuner-settings-${timestamp}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        // Clean up
-        URL.revokeObjectURL(url);
-
-        // Show success message
-        showNotification(
-            translations[currentLang].exportSuccess,
-            'success'
-        );
-
-        // Restore button state
-        setTimeout(() => {
-            exportBtn.innerHTML = originalText;
-            exportBtn.disabled = false;
-        }, 1000);
-    });
-}
-
-// Import Settings functionality
-function importSettings(file) {
-    // Show loading state
-    const importBtn = document.getElementById('importSettingsBtn');
-    const originalText = importBtn.innerHTML;
-    importBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${translations[currentLang].importing}</span>`;
-    importBtn.disabled = true;
-
-    // Define all valid setting keys with their expected types
-    const validSettings = {
-        'extensionEnabled': 'boolean',
-        'progressBarHidden': 'boolean',
-        'durationHidden': 'boolean',
-        'shortsHidden': 'boolean',
-        'homeFeedHidden': 'boolean',
-        'videoSidebarHidden': 'boolean',
-        'commentsHidden': 'boolean',
-        'notificationsBellHidden': 'boolean',
-        'topHeaderHidden': 'boolean',
-        'exploreSectionHidden': 'boolean',
-        'endScreenCardsHidden': 'boolean',
-        'moreFromYouTubeHidden': 'boolean',
-        'hideChannelHidden': 'boolean',
-        'buttonsBarHidden': 'boolean',
-        'hideDescriptionHidden': 'boolean',
-        'grayscaleEnabled': 'boolean',
-        'shopHidden': 'boolean',
-        'language': 'string',
-        'theme': 'string'
-    };
-
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-        try {
-            // Parse JSON
-            const importedData = JSON.parse(e.target.result);
-
-            // Validate file structure
-            if (!importedData || typeof importedData !== 'object') {
-                throw new Error(currentLang === 'vi' ? 'Định dạng file không hợp lệ' : 'Invalid file format');
-            }
-
-            // Check metadata
-            if (!importedData.metadata || !importedData.settings) {
-                throw new Error(currentLang === 'vi' ? 'File thiếu thông tin metadata hoặc settings' : 'File missing metadata or settings');
-            }
-
-            // Verify extension name
-            if (importedData.metadata.extensionName && 
-                importedData.metadata.extensionName !== "TubeTuner") {
-                throw new Error(currentLang === 'vi' ? 'File không phải từ TubeTuner' : 'File is not from TubeTuner');
-            }
-
-            const settings = importedData.settings;
-
-            // Validate and filter settings
-            const settingsToImport = {};
-            let validCount = 0;
-
-            for (const [key, expectedType] of Object.entries(validSettings)) {
-                if (settings.hasOwnProperty(key)) {
-                    const value = settings[key];
-                    const actualType = typeof value;
-
-                    // Type validation
-                    if (actualType !== expectedType) {
-                        console.warn(`Skipping ${key}: expected ${expectedType}, got ${actualType}`);
-                        continue;
-                    }
-
-                    // Additional validation for specific keys
-                    if (key === 'language') {
-                        if (!['vi', 'en'].includes(value)) {
-                            console.warn(`Skipping ${key}: invalid language value '${value}'`);
-                            continue;
-                        }
-                    } else if (key === 'theme') {
-                        if (!['light', 'dark', 'auto'].includes(value)) {
-                            console.warn(`Skipping ${key}: invalid theme value '${value}'`);
-                            continue;
-                        }
-                    }
-
-                    settingsToImport[key] = value;
-                    validCount++;
-                }
-            }
-
-            // Check if we have any valid settings to import
-            if (validCount === 0) {
-                throw new Error(currentLang === 'vi' ? 'Không tìm thấy cài đặt hợp lệ nào trong file' : 'No valid settings found in file');
-            }
-
-            // Apply imported settings
-            chrome.storage.sync.set(settingsToImport, function() {
-                if (chrome.runtime.lastError) {
-                    console.error('Error saving settings:', chrome.runtime.lastError);
-                    showNotification(
-                        currentLang === 'vi' ? 'Lỗi khi lưu cài đặt!' : 'Error saving settings!',
-                        'error'
-                    );
-                    importBtn.innerHTML = originalText;
-                    importBtn.disabled = false;
-                    return;
-                }
-
-                // Success message
-                const successMsg = currentLang === 'vi' ?
-                    `Đã nhập ${validCount} cài đặt thành công! Đang tải lại...` :
-                    `Successfully imported ${validCount} settings! Reloading...`;
-
-                showNotification(successMsg, 'success');
-
-                // Update content scripts on active YouTube tabs
-                chrome.tabs.query({url: '*://*.youtube.com/*'}, function(tabs) {
-                    tabs.forEach(tab => {
-                        chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {
-                            // Tab may not have content script loaded yet
-                        });
-                    });
-                });
-
-                // Reload popup after a short delay
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1500);
-            });
-
-        } catch (error) {
-            console.error('Error importing settings:', error);
-            
-            let errorMessage = translations[currentLang].importError;
-            if (error.message) {
-                errorMessage = error.message;
-            }
-            
-            showNotification(errorMessage, 'error');
-
-            // Restore button state
-            importBtn.innerHTML = originalText;
-            importBtn.disabled = false;
-        }
-    };
-
-    reader.onerror = function() {
-        showNotification(
-            currentLang === 'vi' ? 'Lỗi đọc file!' : 'Error reading file!',
-            'error'
-        );
-
-        // Restore button state
-        importBtn.innerHTML = originalText;
-        importBtn.disabled = false;
-    };
-
-    reader.readAsText(file);
-}
-
-// Show notification message
-function showNotification(message, type = 'info') {
-    // Remove existing notification if any
-    const existingNotification = document.querySelector('.ext-notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `ext-notification ext-notification-${type}`;
-    notification.textContent = message;
-
-    // Add to DOM
-    const container = document.querySelector('.ext-container');
-    container.appendChild(notification);
-
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.remove();
-        }
-    }, 3000);
-}
