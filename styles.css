@@ -829,3 +829,25 @@ body.youtube-hide-description-hidden #info-contents {
   display: none !important;
 }
 
+/* ===== YOUTUBE SHOP HIDING ===== */
+
+/* Hide shopping timely shelf content */
+body.youtube-shop-hidden yt-shopping-timely-shelf-content-view-model,
+body.youtube-shop-hidden .ytShoppingTimelyShelfContentViewModelHost {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Hide shopping shelf container and related elements */
+body.youtube-shop-hidden ytd-shopping-shelf-renderer,
+body.youtube-shop-hidden .shopping-shelf {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+

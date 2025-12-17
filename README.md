@@ -57,7 +57,7 @@ TubeTuner
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-TubeTuner is a comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 14 different hide/show options.
+TubeTuner is a comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 16 different hide/show options, plus utility features like presets and export/import for backups.
 
 ### Main Features
 
@@ -73,6 +73,7 @@ TubeTuner is a comprehensive Chrome extension to customize your YouTube interfac
 ✅ **Hide Notifications Bell** - Hide notification bell <br>
 ✅ **Hide Explore & Trending** - Hide Explore and Trending tabs <br>
 ✅ **Hide More from YouTube** - Hide "More from YouTube" section <br>
+✅ **Hide Shop** - Hide YouTube Shop section <br>
 ✅ **Hide Buttons Bar** - Hide buttons bar <br>
 
 #### 🎥 Video Controls
@@ -82,12 +83,23 @@ TubeTuner is a comprehensive Chrome extension to customize your YouTube interfac
 ✅ **Hide Description** - Hide video description <br>
 
 #### 🔧 Other Features
-✅ **Export/Import Settings** - Backup and share configurations <br>
+✅ **Export/Import Settings** - Export settings to a file for backups and import to restore or share configurations <br>
 ✅ **Modern UI** - Beautiful interface with 3 collapsible sections <br>
 ✅ **Dark mode** - Support for dark mode, automatically follows system <br>
 ✅ **Multi-language** - Support for Vietnamese and English <br>
 ✅ **Independent toggles** - Separate toggle for each feature <br>
 ✅ **No performance impact** - Lightweight and optimized extension <br>
+✅ **Presets** - Apply pre-made presets (None, Balanced, Focus) or create custom presets to quickly switch multiple settings. <br>
+✅ **Grayscale** - Apply a grayscale filter to the YouTube UI <br>
+✅ **Enable/Disable Extension** - Quickly enable or disable the extension from the popup
+
+### New Features
+
+- ✅ **Grayscale** — Apply a grayscale filter to the YouTube UI
+- ✅ **Enable/Disable Extension** — Turn the extension on or off from the popup
+- ✅ **Hide YouTube Shop** — Hide the Shop section on YouTube
+- ✅ **Preset options** — Use built-in presets or create and save custom presets
+- ✅ **Export to file (Backup)** — Export settings to a local file for backup and restore
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -134,12 +146,24 @@ To get a local copy up and running follow these simple example steps.
 2. **Click on the extension icon** in the toolbar
 3. **Explore 3 main sections**:
    - **Content & Feed Controls**: Hide/show Home Feed, Video Sidebar, Comments, Shorts, Channel
-   - **Interface Elements**: Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar
+   - **Interface Elements**: Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Shop
    - **Video Controls**: Hide/show Progress Bar, Duration, End Screen Cards, Description
 4. **Toggle switches** to enable/disable each feature individually
 5. **Toggle theme**: Click the sun/moon button at the top to switch Light/Dark mode
 6. **Export/Import Settings**: Use buttons in settings section to backup/restore configurations
 7. Extension will automatically apply changes and remember section states
+8. **Presets**: Choose a predefined preset (None, Balanced, Focus) in the settings to apply multiple hide/show options at once.
+
+9. **Custom Presets**: Create your own named presets by configuring the toggles and clicking "Save preset". Use "Import preset (.json)" to load presets from a JSON file (merges with existing custom presets), or "Export preset" to download your custom presets as JSON. Delete a custom preset by selecting it and clicking "Delete preset".
+
+### Manual QA (Presets)
+
+1. Open the popup and toggle some settings. Click "Save preset" with a name.
+2. Ensure the new preset appears in the Presets dropdown under "Custom".
+3. Select the custom preset and click "Apply" — the UI should update accordingly.
+4. Use "Export preset" to download your custom presets and verify the JSON contains your saved presets.
+5. Remove a preset by selecting it and clicking "Delete preset".
+6. Use "Import preset (.json)" with a valid JSON file to merge presets and verify they appear in the list.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
