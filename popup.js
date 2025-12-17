@@ -473,6 +473,12 @@ function updateLanguageUI() {
     if (titleEl) titleEl.textContent = t('title');
     if (subtitleEl) subtitleEl.textContent = t('subtitle');
 
+    // Update disabled notice
+    const disabledNoticeTitle = document.querySelector('.ext-disabled-notice .ext-notice-title');
+    const disabledNoticeDesc = document.querySelector('.ext-disabled-notice .ext-notice-description');
+    if (disabledNoticeTitle) disabledNoticeTitle.textContent = t('extensionDisabledTitle');
+    if (disabledNoticeDesc) disabledNoticeDesc.textContent = t('extensionDisabledDesc');
+
     // Update section titles
     const sectionTitles = document.querySelectorAll('.ext-section-title');
     const titleMap = [
