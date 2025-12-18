@@ -415,7 +415,14 @@
     </div>
     </div>
 
-    <script src="popup.js"></script>
+    <!-- Load modules in correct order -->
+    <script src="popup/modules/state.js"></script>
+    <script src="popup/modules/i18n.js"></script>
+    <script src="popup/modules/utils.js"></script>
+    <script src="popup/modules/presets.js"></script>
+    <script src="popup/modules/settings.js"></script>
+    <script src="popup/modules/ui.js"></script>
+    <script src="popup/modules/main.js"></script>
 </body>
 
 </html>
