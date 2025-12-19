@@ -97,10 +97,10 @@ function setupSettingsEventListeners() {
                     return;
                 }
 
-                if (confirm(I18nModule.t('confirmImport'))) {
+                showConfirmDialog(I18nModule.t('confirmImport'), () => {
                     SettingsModule.importSettings(file);
-                }
-                e.target.value = '';
+                    e.target.value = '';
+                });
             }
         });
     }
@@ -123,9 +123,14 @@ function setupPresetEventListeners() {
             const selected = presetSelect.value;
             if (!selected) return;
 
-            if (!confirm(I18nModule.t('confirmApplyPreset'))) return;
+            // Get the display text of the selected option
+            const selectedOption = presetSelect.options[presetSelect.selectedIndex];
+            const displayText = selectedOption.text;
+            const confirmMessage = `${I18nModule.t('confirmApplyPreset')} "${displayText}"?`;
 
-            PresetsModule.applyPreset(selected);
+            showConfirmDialog(confirmMessage, () => {
+                PresetsModule.applyPreset(selected);
+            });
         });
     }
 
@@ -133,7 +138,7 @@ function setupPresetEventListeners() {
         savePresetBtn.addEventListener('click', function() {
             const name = presetNameInput?.value?.trim();
             if (!name) {
-                alert('Please enter a name for the preset.');
+                showNotification(I18nModule.t('presetNameRequired'), 'error');
                 return;
             }
 
@@ -154,13 +159,19 @@ function setupPresetEventListeners() {
         deletePresetBtn.addEventListener('click', function() {
             const selected = presetSelect.value;
             if (!selected || !selected.startsWith('custom:')) {
-                alert('Select a custom preset to delete.');
+                showNotification(I18nModule.t('selectPresetToDelete'), 'error');
                 return;
             }
+            
+            // Get the display text of the selected option
+            const selectedOption = presetSelect.options[presetSelect.selectedIndex];
+            const displayText = selectedOption.text;
             const name = selected.split(':')[1];
-            if (!confirm(`Delete preset "${name}"?`)) return;
-
-            PresetsModule.deletePreset(name);
+            const confirmMessage = `${I18nModule.t('confirmDeletePreset')} "${displayText}"?`;
+            
+            showConfirmDialog(confirmMessage, () => {
+                PresetsModule.deletePreset(name);
+            });
         });
     }
 

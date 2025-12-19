@@ -198,9 +198,7 @@ const TRANSLATIONS = {
     }
 };
 
-/**
- * Preset definitions for quick configuration
- */
+// Preset definitions for quick configuration
 const PRESET_DEFINITIONS = {
     none: {
         progressBarHidden: false,
@@ -324,7 +322,7 @@ function setLanguage(lang, save = true) {
 
 function verifyToggleStates() {
     const keys = Array.from(AppState.switches.keys());
-    chrome.storage.sync.get(keys, function(result) {
+    chrome.storage.sync.get(keys, function (result) {
         const mismatches = [];
         keys.forEach(key => {
             const switchEl = AppState.switches.get(key);
@@ -342,10 +340,6 @@ window.verifyToggleStates = verifyToggleStates;
 
 
 
-/**
- * Update UI based on settings object
- * @param {Object} settings -
- */
 function updateUI(settings) {
     const {
         extensionEnabled = AppState.currentExtensionEnabled,
@@ -565,7 +559,7 @@ function setupEventListeners() {
         // Store reference in AppState
         AppState.switches.set(config.key, switchEl);
 
-        switchEl.addEventListener('change', function(e) {
+        switchEl.addEventListener('change', function (e) {
             const newState = e.target.checked;
             const storageObj = { [config.key]: newState };
 
@@ -585,7 +579,7 @@ function setupEventListeners() {
             handleToggleChange(config.key, newState);
 
             // Update status
-            chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), function(result) {
+            chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), function (result) {
                 updateStatusUI(result);
             });
         });
@@ -600,7 +594,7 @@ function setupEventListeners() {
     // Theme toggle
     const themeToggle = document.querySelector('.theme-toggle');
     if (themeToggle) {
-        themeToggle.addEventListener('click', function() {
+        themeToggle.addEventListener('click', function () {
             const isDark = document.documentElement.classList.toggle('dark');
             chrome.storage.sync.set({ theme: isDark ? 'dark' : 'light' });
         });
@@ -612,12 +606,12 @@ function setupEventListeners() {
  */
 function handleToggleChange(key, enabled) {
     // Send to current active tab
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         if (tabs[0]?.url?.includes('youtube.com')) {
             chrome.tabs.sendMessage(tabs[0].id, {
                 action: key,
                 enabled: enabled
-            }).catch(() => {});
+            }).catch(() => { });
         }
     });
 
@@ -626,12 +620,12 @@ function handleToggleChange(key, enabled) {
         action: 'syncToAllTabs',
         toggleAction: key,
         enabled: enabled
-    }).catch(() => {});
+    }).catch(() => { });
 }
 
 
 function initializeTheme() {
-    chrome.storage.sync.get('theme', function(data) {
+    chrome.storage.sync.get('theme', function (data) {
         const savedTheme = data.theme || 'auto';
 
         if (savedTheme === 'dark') {
@@ -645,23 +639,19 @@ function initializeTheme() {
     });
 }
 
-/**
- * Initialize language from storage
- */
+// Initialize language from storage
 function initializeLanguage() {
-    chrome.storage.sync.get('language', function(data) {
+    chrome.storage.sync.get('language', function (data) {
         const savedLanguage = data.language || 'en';
         setLanguage(savedLanguage, false);
     });
 }
 
-/**
- * Initialize collapsible sections
- */
+
 function initializeCollapsibleSections() {
     const sections = document.querySelectorAll('.ext-collapsible-section');
 
-    chrome.storage.sync.get('sectionStates', function(result) {
+    chrome.storage.sync.get('sectionStates', function (result) {
         const savedStates = result.sectionStates || {};
 
         sections.forEach(section => {
@@ -692,7 +682,7 @@ function initializeCollapsibleSections() {
 }
 
 function saveSectionState(sectionId, isOpen) {
-    chrome.storage.sync.get('sectionStates', function(result) {
+    chrome.storage.sync.get('sectionStates', function (result) {
         const sectionStates = result.sectionStates || {};
         sectionStates[sectionId] = isOpen;
         chrome.storage.sync.set({ sectionStates });
@@ -716,7 +706,7 @@ function exportSettings() {
     exportBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${t('exporting')}</span>`;
     exportBtn.disabled = true;
 
-    chrome.storage.sync.get(VALID_SETTING_KEYS, function(result) {
+    chrome.storage.sync.get(VALID_SETTING_KEYS, function (result) {
         const settingsToExport = {};
         let count = 0;
 
@@ -774,7 +764,7 @@ function importSettings(file) {
 
     const reader = new FileReader();
 
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         try {
             const importedData = JSON.parse(e.target.result);
 
@@ -809,10 +799,10 @@ function importSettings(file) {
                 throw new Error('No valid settings found in file');
             }
 
-            chrome.storage.sync.set(settingsToImport, function() {
+            chrome.storage.sync.set(settingsToImport, function () {
                 showNotification(t('importSuccess'), 'success');
-                chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
-                    tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                chrome.tabs.query({ url: '*://*.youtube.com/*' }, function (tabs) {
+                    tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => { }));
                 });
                 setTimeout(() => window.location.reload(), 1500);
             });
@@ -856,7 +846,7 @@ function loadPresetOptions() {
     const presetSelect = document.getElementById('presetSelect');
     if (!presetSelect) return;
 
-    chrome.storage.sync.get(['customPresets'], function(result) {
+    chrome.storage.sync.get(['customPresets'], function (result) {
         const customs = result.customPresets || {};
 
         while (presetSelect.firstChild) presetSelect.removeChild(presetSelect.firstChild);
@@ -886,12 +876,12 @@ function loadPresetOptions() {
 
         try {
             updateLanguageUI();
-        } catch (e) {}
+        } catch (e) { }
     });
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Initialize core settings
     initializeTheme();
     initializeLanguage();
@@ -905,7 +895,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load initial settings
     const allKeys = SWITCH_CONFIG.map(c => c.key).concat(['sectionStates']);
-    chrome.storage.sync.get(allKeys, function(result) {
+    chrome.storage.sync.get(allKeys, function (result) {
         AppState.currentExtensionEnabled = result.extensionEnabled !== false;
         updateUI(result);
     });
@@ -922,7 +912,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (importBtn && importFileInput) {
         importBtn.addEventListener('click', () => importFileInput.click());
 
-        importFileInput.addEventListener('change', function(e) {
+        importFileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
                 if (!file.name.toLowerCase().endsWith('.json')) {
@@ -958,7 +948,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (presetSelect) loadPresetOptions();
 
     if (applyPresetBtn && presetSelect) {
-        applyPresetBtn.addEventListener('click', function() {
+        applyPresetBtn.addEventListener('click', function () {
             const selected = presetSelect.value;
             if (!selected) return;
 
@@ -973,15 +963,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } else if (selected.startsWith('custom:')) {
                 const name = selected.split(':')[1];
-                chrome.storage.sync.get(['customPresets'], function(result) {
+                chrome.storage.sync.get(['customPresets'], function (result) {
                     const customs = result.customPresets || {};
                     if (customs[name]) {
                         const customSettings = Object.assign({}, customs[name], { extensionEnabled: true });
-                        chrome.storage.sync.set(customSettings, function() {
+                        chrome.storage.sync.set(customSettings, function () {
                             showNotification(t('presetApplied'), 'success');
                             updateUI(customSettings);
-                            chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
-                                tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                            chrome.tabs.query({ url: '*://*.youtube.com/*' }, function (tabs) {
+                                tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => { }));
                             });
                         });
                     }
@@ -990,11 +980,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (settings) {
-                chrome.storage.sync.set(settings, function() {
+                chrome.storage.sync.set(settings, function () {
                     showNotification(t('presetApplied'), 'success');
                     updateUI(settings);
-                    chrome.tabs.query({ url: '*://*.youtube.com/*' }, function(tabs) {
-                        tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                    chrome.tabs.query({ url: '*://*.youtube.com/*' }, function (tabs) {
+                        tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => { }));
                     });
                 });
             }
@@ -1002,7 +992,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (savePresetBtn) {
-        savePresetBtn.addEventListener('click', function() {
+        savePresetBtn.addEventListener('click', function () {
             const name = presetNameInput?.value?.trim();
             if (!name) {
                 alert('Please enter a name for the preset.');
@@ -1017,10 +1007,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            chrome.storage.sync.get(['customPresets'], function(result) {
+            chrome.storage.sync.get(['customPresets'], function (result) {
                 const customs = result.customPresets || {};
                 customs[name] = preset;
-                chrome.storage.sync.set({ customPresets: customs }, function() {
+                chrome.storage.sync.set({ customPresets: customs }, function () {
                     showNotification(t('presetSaved'), 'success');
                     presetNameInput.value = '';
                     loadPresetOptions();
@@ -1030,7 +1020,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (deletePresetBtn) {
-        deletePresetBtn.addEventListener('click', function() {
+        deletePresetBtn.addEventListener('click', function () {
             const selected = presetSelect.value;
             if (!selected || !selected.startsWith('custom:')) {
                 alert('Select a custom preset to delete.');
@@ -1039,10 +1029,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const name = selected.split(':')[1];
             if (!confirm(`Delete preset "${name}"?`)) return;
 
-            chrome.storage.sync.get(['customPresets'], function(result) {
+            chrome.storage.sync.get(['customPresets'], function (result) {
                 const customs = result.customPresets || {};
                 if (customs[name]) delete customs[name];
-                chrome.storage.sync.set({ customPresets: customs }, function() {
+                chrome.storage.sync.set({ customPresets: customs }, function () {
                     showNotification(t('presetDeleted'), 'success');
                     loadPresetOptions();
                 });
@@ -1053,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (importPresetsBtn && importPresetsFileInput) {
         importPresetsBtn.addEventListener('click', () => importPresetsFileInput.click());
 
-        importPresetsFileInput.addEventListener('change', function(e) {
+        importPresetsFileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (!file) return;
 
@@ -1064,7 +1054,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const reader = new FileReader();
-            reader.onload = function(evt) {
+            reader.onload = function (evt) {
                 try {
                     const data = JSON.parse(evt.target.result);
                     let toMerge = {};
@@ -1079,10 +1069,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         throw new Error('Invalid format');
                     }
 
-                    chrome.storage.sync.get(['customPresets'], function(result) {
+                    chrome.storage.sync.get(['customPresets'], function (result) {
                         const customs = result.customPresets || {};
                         Object.assign(customs, toMerge);
-                        chrome.storage.sync.set({ customPresets: customs }, function() {
+                        chrome.storage.sync.set({ customPresets: customs }, function () {
                             showNotification(t('presetsImported'), 'success');
                             loadPresetOptions();
                         });
@@ -1097,8 +1087,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (exportPresetsBtn) {
-        exportPresetsBtn.addEventListener('click', function() {
-            chrome.storage.sync.get(['customPresets'], function(result) {
+        exportPresetsBtn.addEventListener('click', function () {
+            chrome.storage.sync.get(['customPresets'], function (result) {
                 const customs = result.customPresets || {};
                 const blob = new Blob([JSON.stringify(customs, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
