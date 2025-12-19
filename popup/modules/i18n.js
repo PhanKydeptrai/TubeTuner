@@ -6,21 +6,21 @@ const TRANSLATIONS = {
         title: 'TubeTuner',
         subtitle: 'Ẩn các phần tử YouTube không mong muốn',
         // Content & Feed Controls
-        contentFeedControlsTitle: 'Content & Feed Controls',
+        contentFeedControlsTitle: 'Quản lý Nội dung & Bảng tin',
         hideHomeFeed: 'Ẩn trang chủ',
         hideVideoSidebar: 'Ẩn thanh bên video',
         hideShorts: 'Ẩn Shorts',
         hideComments: 'Ẩn phần bình luận',
         hideChannel: 'Ẩn kênh',
         // Interface Elements
-        interfaceElementsTitle: 'Interface Elements',
+        interfaceElementsTitle: 'Thành Phần Giao Diện',
         hideTopHeader: 'Ẩn thanh điều hướng trên',
         hideNotificationsBell: 'Ẩn chuông thông báo',
         hideExploreSection: 'Ẩn phần Khám phá',
         hideMoreFromYouTube: 'Ẩn "Thêm từ YouTube"',
         hideButtonsBar: 'Ẩn thanh nút bấm',
         // Video Controls
-        videoControlsTitle: 'Video Controls',
+        videoControlsTitle: 'Trình phát Video',
         hideProgressBar: 'Ẩn thanh tiến trình',
         hideDuration: 'Ẩn thời lượng video',
         hideEndScreenCards: 'Ẩn thẻ cuối video',
@@ -261,6 +261,25 @@ const I18nModule = {
         sectionTitles.forEach((el, idx) => {
             if (titleMap[idx]) el.textContent = titleMap[idx];
         });
+
+        // Update About section
+        const aboutDescription = document.getElementById('aboutDescription');
+        const aboutFeaturesTitle = document.getElementById('aboutFeaturesTitle');
+        const aboutFeatures = ['aboutFeature1', 'aboutFeature2', 'aboutFeature3', 'aboutFeature4', 'aboutFeature5'];
+        const aboutGithubLinkText = document.getElementById('aboutGithubLinkText');
+        
+        if (aboutDescription) aboutDescription.textContent = this.t('aboutDescription');
+        if (aboutFeaturesTitle) aboutFeaturesTitle.textContent = this.t('aboutFeaturesTitle');
+        
+        aboutFeatures.forEach((featureId) => {
+            const featureEl = document.getElementById(featureId);
+            if (featureEl) {
+                const translationKey = featureId;
+                featureEl.textContent = this.t(translationKey);
+            }
+        });
+        
+        if (aboutGithubLinkText) aboutGithubLinkText.textContent = this.t('aboutGithubLink');
 
         // Update control labels
         const labelMappings = [

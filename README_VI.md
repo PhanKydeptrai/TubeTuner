@@ -76,7 +76,7 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 ✅ **Ẩn Shop** - Ẩn phần Shop của YouTube <br>
 ✅ **Ẩn Buttons Bar** - Ẩn thanh nút bấm <br>
 
-#### 🎥 Điều khiển video
+#### 🎥 Trình phát Video
 ✅ **Ẩn thanh tiến trình video** - Loại bỏ thanh progress bar khi xem video <br>
 ✅ **Ẩn thời lượng video** - Ẩn thông tin thời gian hiện tại/tổng thời lượng video <br>
 ✅ **Ẩn End Screen Cards** - Ẩn thẻ cuối video <br>
@@ -147,7 +147,7 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 3. **Khám phá 3 phần chính**:
    - **Điều khiển Nội dung & Nguồn cấp dữ liệu**: Ẩn/hiện Home Feed, Video Sidebar, Comments, Shorts, Channel
    - **Các yếu tố giao diện**: Ẩn/hiện Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Shop
-   - **Điều khiển video**: Ẩn/hiện Progress Bar, Duration, End Screen Cards, Description
+   - **Trình phát Video**: Ẩn/hiện Progress Bar, Duration, End Screen Cards, Description
 4. **Gạt các công tắc** để bật/tắt từng tính năng riêng lẻ
 5. **Chuyển đổi giao diện**: Nhấp vào nút mặt trời/mặt trăng ở trên cùng để chuyển đổi chế độ Sáng/Tối
 6. **Xuất/Nhập Cài đặt**: Sử dụng các nút trong phần cài đặt để sao lưu/khôi phục cấu hình
