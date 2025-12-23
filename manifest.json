@@ -4,16 +4,24 @@
     "version": "1.2",
     "description": "Customize YouTube interface with 16 hide/show options: progress bar, duration, Shorts, home feed, comments, and more",
     "icons": {
-      "16": "images/icons/icon16.png",
-      "32": "images/icons/icon32.png",
-      "48": "images/icons/icon48.png",
-      "128": "images/icons/icon128.png"
+      "16": "src/images/icons/icon16.png",
+      "32": "src/images/icons/icon32.png",
+      "48": "src/images/icons/icon48.png",
+      "128": "src/images/icons/icon128.png"
     },
     "permissions": [
       "storage"
     ],
     "background": {
-      "service_worker": "background.js"
+      "scripts": ["src/background.js"], 
+      "service_worker": "src/background.js",
+      "type": "module"
+    },
+    "browser_specific_settings": {
+      "gecko": {
+        "id": "8aec21ca-47ea-4ca1-b62f-068fb3ec4069",
+        "strict_min_version": "109.0" 
+      }
     },
     "host_permissions": [
       "*://*.youtube.com/*"
@@ -25,25 +33,25 @@
           "*://youtube.com/*"
         ],
         "js": [
-          "features/progressBar.js",
-          "features/duration.js",
-          "features/shorts.js",
-          "features/homeFeed.js",
-          "features/videoSidebar.js",
-          "features/comments.js",
-          "features/notificationsBell.js",
-          "features/topHeader.js",
-          "features/exploreSection.js",
-          "features/endScreenCards.js",
-          "features/moreFromYouTube.js",
-          "features/hideChannel.js",
-          "features/buttonsBar.js",
-          "features/hideDescription.js",
-          "features/grayscale.js",
-          "features/shop.js",
-          "content.js"
+          "src/features/progressBar.js",
+          "src/features/duration.js",
+          "src/features/shorts.js",
+          "src/features/homeFeed.js",
+          "src/features/videoSidebar.js",
+          "src/features/comments.js",
+          "src/features/notificationsBell.js",
+          "src/features/topHeader.js",
+          "src/features/exploreSection.js",
+          "src/features/endScreenCards.js",
+          "src/features/moreFromYouTube.js",
+          "src/features/hideChannel.js",
+          "src/features/buttonsBar.js",
+          "src/features/hideDescription.js",
+          "src/features/grayscale.js",
+          "src/features/shop.js",
+          "src/content.js"
         ],
-        "css": ["styles.css"],
+        "css": ["src/styles.css"],
         "run_at": "document_start"
       }
     ],
@@ -51,10 +59,10 @@
       "default_popup": "popup.html",
       "default_title": "TubeTuner",
       "default_icon": {
-        "16": "images/icons/icon16.png",
-        "32": "images/icons/icon32.png",
-        "48": "images/icons/icon48.png",
-        "128": "images/icons/icon128.png"
+        "16": "src/images/icons/icon16.png",
+        "32": "src/images/icons/icon32.png",
+        "48": "src/images/icons/icon48.png",
+        "128": "src/images/icons/icon128.png"
       }
     }
   }
