@@ -1,0 +1,43 @@
+import { defineConfig } from 'vite';
+import { crx } from '@crxjs/vite-plugin';
+import manifestBase from './src/manifest.json';
+import { resolve } from 'path';
+
+export default defineConfig(({ mode }) => {
+  const isFirefox = mode === 'firefox';
+
+  // Create a copy of the manifest to customize for each browser
+  const manifest = { ...manifestBase };
+
+  if (isFirefox) {
+    // Automatically add Firefox-specific configuration
+    manifest.browser_specific_settings = {
+      gecko: {
+        id: "8aec21ca-47ea-4ca1-b62f-068fb3ec4069", // Your ID
+        strict_min_version: "109.0"
+      }
+    };
+    // Ensure Firefox platform receives the correct background script
+    manifest.background = {
+      scripts: ["background.js"],
+      type: "module"
+    };
+  }
+
+  return {
+    root: resolve(__dirname, 'src'), // Set the root of the source code to the src directory
+    build: {
+      outDir: resolve(__dirname, isFirefox ? 'dist/firefox' : 'dist/chrome'),
+      emptyOutDir: true,
+      rollupOptions: {
+        input: {
+          // Declare HTML pages if Vite does not automatically detect them
+          popup: resolve(__dirname, 'src/popup.html'),
+        },
+      },
+    },
+    plugins: [
+      crx({ manifest }),
+    ],
+  };
+});
