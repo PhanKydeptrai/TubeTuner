@@ -1,7 +1,7 @@
 // Utility Functions Module
 // Common utility functions
 
-function showNotification(message, type = 'info') {
+export function showNotification(message, type = 'info') {
     const existingNotification = document.querySelector('.ext-notification');
     if (existingNotification) existingNotification.remove();
 
@@ -18,7 +18,7 @@ function showNotification(message, type = 'info') {
     }
 }
 
-function showConfirmDialog(message, onConfirm, onCancel) {
+export function showConfirmDialog(message, onConfirm, onCancel) {
     const existingDialog = document.querySelector('.ext-confirm-dialog-overlay');
     if (existingDialog) existingDialog.remove();
 
@@ -80,7 +80,7 @@ function showConfirmDialog(message, onConfirm, onCancel) {
     confirmBtn.focus();
 }
 
-function verifyToggleStates() {
+export function verifyToggleStates() {
     const keys = Array.from(AppState.switches.keys());
     chrome.storage.sync.get(keys, function(result) {
         const mismatches = [];

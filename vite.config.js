@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { crx } from '@crxjs/vite-plugin';
 import manifestBase from './src/manifest.json';
 import { resolve } from 'path';
+import fs from 'fs';
 
 export default defineConfig(({ mode }) => {
   const isFirefox = mode === 'firefox';
@@ -13,7 +14,7 @@ export default defineConfig(({ mode }) => {
     // Automatically add Firefox-specific configuration
     manifest.browser_specific_settings = {
       gecko: {
-        id: "8aec21ca-47ea-4ca1-b62f-068fb3ec4069", // Your ID
+        id: "8aec21ca-47ea-4ca1-b62f-068fb3ec4069",
         strict_min_version: "109.0"
       }
     };
@@ -37,6 +38,17 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [
+      {
+        name: 'copy-css',
+        generateBundle() {
+          const cssContent = fs.readFileSync(resolve(__dirname, 'src/styles.css'), 'utf-8');
+          this.emitFile({
+            type: 'asset',
+            fileName: 'styles.css',
+            source: cssContent
+          });
+        }
+      },
       crx({ manifest }),
     ],
   };

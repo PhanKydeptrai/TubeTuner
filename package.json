@@ -4,7 +4,11 @@
   "description": "<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 --> <a id=\"readme-top\"></a>",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:chrome": "vite build --mode chrome",
+    "build:firefox": "vite build --mode firefox",
+    "zip:chrome": "npm run build:chrome && npx web-ext build --source-dir ./dist/chrome --artifacts-dir ./packages/chrome",
+    "zip:firefox": "npm run build:firefox && npx web-ext build --source-dir ./dist/firefox --artifacts-dir ./packages/firefox"
   },
   "repository": {
     "type": "git",

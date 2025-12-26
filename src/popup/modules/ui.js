@@ -1,7 +1,7 @@
 // UI Module
 // Manages UI updates and rendering
 
-const SWITCH_CONFIG = [
+export const SWITCH_CONFIG = [
     { id: 'extensionEnabledSwitch', key: 'extensionEnabled', default: true },
     { id: 'progressSwitch', key: 'progressBarHidden', default: false },
     { id: 'durationSwitch', key: 'durationHidden', default: false },
@@ -21,7 +21,7 @@ const SWITCH_CONFIG = [
     { id: 'shopSwitch', key: 'shopHidden', default: false }
 ];
 
-const UIModule = {
+export const UIModule = {
     updateUI(settings) {
         const {
             extensionEnabled = AppState.currentExtensionEnabled,
