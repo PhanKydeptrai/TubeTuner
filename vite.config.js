@@ -41,11 +41,17 @@ export default defineConfig(({ mode }) => {
       {
         name: 'copy-css',
         generateBundle() {
-          const cssContent = fs.readFileSync(resolve(__dirname, 'src/styles.css'), 'utf-8');
+          const stylesCss = fs.readFileSync(resolve(__dirname, 'src/styles.css'), 'utf-8');
           this.emitFile({
             type: 'asset',
             fileName: 'styles.css',
-            source: cssContent
+            source: stylesCss
+          });
+          const interfaceCss = fs.readFileSync(resolve(__dirname, 'src/interface.css'), 'utf-8');
+          this.emitFile({
+            type: 'asset',
+            fileName: 'interface.css',
+            source: interfaceCss
           });
         }
       },
