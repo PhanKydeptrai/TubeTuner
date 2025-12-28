@@ -214,6 +214,15 @@ export function setupPresetEventListeners() {
     }
 }
 
+export function loadAndApplySettings() {
+    // Load settings from chrome.storage.sync and apply to UI
+    const allKeys = SWITCH_CONFIG.map(c => c.key).concat(['sectionStates']);
+    chrome.storage.sync.get(allKeys, (result) => {
+        AppState.currentExtensionEnabled = result.extensionEnabled !== false;
+        UIModule.updateUI(result);
+    });
+}
+
 export function initializeApp() {
     // Initialize core settings
     UIModule.initializeTheme();
@@ -229,11 +238,7 @@ export function initializeApp() {
     setupPresetEventListeners();
 
     // Load initial settings
-    const allKeys = SWITCH_CONFIG.map(c => c.key).concat(['sectionStates']);
-    chrome.storage.sync.get(allKeys, (result) => {
-        AppState.currentExtensionEnabled = result.extensionEnabled !== false;
-        UIModule.updateUI(result);
-    });
+    loadAndApplySettings();
 }
 
 // Initialize when DOM is ready

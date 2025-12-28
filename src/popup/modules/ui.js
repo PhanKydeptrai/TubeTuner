@@ -1,6 +1,9 @@
 // UI Module
 // Manages UI updates and rendering
 
+import { AppState } from './state.js';
+import { I18nModule } from './i18n.js';
+
 export const SWITCH_CONFIG = [
     { id: 'extensionEnabledSwitch', key: 'extensionEnabled', default: true },
     { id: 'progressSwitch', key: 'progressBarHidden', default: false },
@@ -23,28 +26,19 @@ export const SWITCH_CONFIG = [
 
 export const UIModule = {
     updateUI(settings) {
-        const {
-            extensionEnabled = AppState.currentExtensionEnabled,
-            progressBarHidden = false,
-            durationHidden = false,
-            shortsHidden = false,
-            homeFeedHidden = false,
-            videoSidebarHidden = false,
-            commentsHidden = false,
-            notificationsBellHidden = false,
-            topHeaderHidden = false,
-            exploreSectionHidden = false,
-            endScreenCardsHidden = false,
-            moreFromYouTubeHidden = false,
-            hideChannelHidden = false,
-            buttonsBarHidden = false,
-            hideDescriptionHidden = false,
-            grayscaleEnabled = false,
-            shopHidden = false
-        } = settings;
+        // Set default values for all settings
+        const defaultSettings = {};
+        SWITCH_CONFIG.forEach(config => {
+            defaultSettings[config.key] = config.default;
+        });
+        
+        // Merge provided settings with defaults
+        const mergedSettings = { ...defaultSettings, ...settings };
 
         // Update extension enabled state
+        const extensionEnabled = mergedSettings.extensionEnabled;
         AppState.currentExtensionEnabled = extensionEnabled;
+        
         const extensionSwitch = AppState.switches.get('extensionEnabled');
         if (extensionSwitch) {
             extensionSwitch.checked = extensionEnabled;
@@ -60,49 +54,40 @@ export const UIModule = {
             disabledNotice.style.display = extensionEnabled ? 'none' : 'block';
         }
 
-        if (!extensionEnabled) {
-            return;
-        }
-
-        // Update all switches
-        const switchStates = {
-            progressBarHidden,
-            durationHidden,
-            shortsHidden,
-            homeFeedHidden,
-            videoSidebarHidden,
-            commentsHidden,
-            notificationsBellHidden,
-            topHeaderHidden,
-            exploreSectionHidden,
-            endScreenCardsHidden,
-            moreFromYouTubeHidden,
-            hideChannelHidden,
-            buttonsBarHidden,
-            hideDescriptionHidden,
-            grayscaleEnabled,
-            shopHidden
-        };
-
+        // Update all switches (both enabled and disabled state)
+        const switchStates = {};
         SWITCH_CONFIG.forEach(config => {
-            const switchEl = AppState.switches.get(config.key);
-            if (switchEl && switchStates.hasOwnProperty(config.key)) {
-                switchEl.checked = switchStates[config.key];
+            if (config.key !== 'extensionEnabled') {
+                switchStates[config.key] = mergedSettings[config.key];
             }
         });
 
-        // Verify state after update
+        // Set the checked state for all switches
+        SWITCH_CONFIG.forEach(config => {
+            if (config.key === 'extensionEnabled') return; // Already handled above
+            
+            const switchEl = AppState.switches.get(config.key);
+            if (switchEl) {
+                const shouldBeChecked = switchStates[config.key];
+                switchEl.checked = shouldBeChecked;
+            }
+        });
+
+        // Verify state after update - set a small delay to ensure DOM has updated
         setTimeout(() => {
             SWITCH_CONFIG.forEach(config => {
+                if (config.key === 'extensionEnabled') return;
+                
                 const switchEl = AppState.switches.get(config.key);
                 if (switchEl && switchStates.hasOwnProperty(config.key) && switchEl.checked !== switchStates[config.key]) {
+                    console.warn(`State mismatch for ${config.key}, correcting...`);
                     switchEl.checked = switchStates[config.key];
                 }
             });
         }, 50);
 
         // Update status UI
-        this.updateStatusUI(switchStates);
+        this.updateStatusUI(mergedSettings);
     },
 
     updateStatusUI(settings) {
