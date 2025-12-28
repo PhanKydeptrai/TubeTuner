@@ -1,7 +1,7 @@
 // State Management Module
 // Manages application state
 
-const AppState = {
+export const AppState = {
     currentLang: 'en',
     currentExtensionEnabled: true,
     switches: new Map(),

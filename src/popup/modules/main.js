@@ -1,7 +1,14 @@
 // Main Module
 // Initialization and event listeners
 
-function handleToggleChange(key, enabled) {
+import { AppState } from './state.js';
+import { I18nModule } from './i18n.js';
+import { showNotification, showConfirmDialog } from './utils.js';
+import { PresetsModule } from './presets.js';
+import { SettingsModule } from './settings.js';
+import { UIModule, SWITCH_CONFIG } from './ui.js';
+
+export function handleToggleChange(key, enabled) {
     // Send to current active tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs[0]?.url?.includes('youtube.com')) {
@@ -20,7 +27,7 @@ function handleToggleChange(key, enabled) {
     }).catch(() => {});
 }
 
-function setupEventListeners() {
+export function setupEventListeners() {
     SWITCH_CONFIG.forEach(config => {
         const switchEl = document.getElementById(config.id);
         if (!switchEl) return;
@@ -70,7 +77,7 @@ function setupEventListeners() {
     }
 }
 
-function setupSettingsEventListeners() {
+export function setupSettingsEventListeners() {
     const exportBtn = document.getElementById('exportSettingsBtn');
     const importBtn = document.getElementById('importSettingsBtn');
     const importFileInput = document.getElementById('importFileInput');
@@ -106,7 +113,7 @@ function setupSettingsEventListeners() {
     }
 }
 
-function setupPresetEventListeners() {
+export function setupPresetEventListeners() {
     const presetSelect = document.getElementById('presetSelect');
     const applyPresetBtn = document.getElementById('applyPresetBtn');
     const savePresetBtn = document.getElementById('savePresetBtn');
@@ -207,7 +214,7 @@ function setupPresetEventListeners() {
     }
 }
 
-function initializeApp() {
+export function initializeApp() {
     // Initialize core settings
     UIModule.initializeTheme();
     I18nModule.initializeLanguage();

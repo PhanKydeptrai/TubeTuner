@@ -1,7 +1,7 @@
 // Internationalization (i18n) Module
 // Handles translations and language management
 
-const TRANSLATIONS = {
+export const TRANSLATIONS = {
     vi: {
         title: 'TubeTuner',
         subtitle: 'Ẩn các phần tử YouTube không mong muốn',
@@ -208,7 +208,7 @@ const TRANSLATIONS = {
     }
 };
 
-const I18nModule = {
+export const I18nModule = {
     currentLang: 'en',
 
     t(key) {

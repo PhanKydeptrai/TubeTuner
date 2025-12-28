@@ -1,7 +1,7 @@
 // Presets Module
 // Manages preset definitions and operations
 
-const PRESET_DEFINITIONS = {
+export const PRESET_DEFINITIONS = {
     none: {
         progressBarHidden: false,
         durationHidden: false,
@@ -58,7 +58,7 @@ const PRESET_DEFINITIONS = {
     }
 };
 
-const PresetsModule = {
+export const PresetsModule = {
     loadPresetOptions() {
         const presetSelect = document.getElementById('presetSelect');
         if (!presetSelect) return;

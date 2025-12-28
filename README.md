@@ -11,7 +11,7 @@
 <!-- PROJECT LOGO -->
 <h1 align="center">
 
-![](images/banners/banner.png)
+![](src/images/banners/banner.png)
 <br/>
 TubeTuner
 

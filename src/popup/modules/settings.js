@@ -1,7 +1,7 @@
 // Settings Module
 // Manages settings export and import
 
-const VALID_SETTING_KEYS = [
+export const VALID_SETTING_KEYS = [
     'extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden',
     'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden',
     'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden',
@@ -9,7 +9,7 @@ const VALID_SETTING_KEYS = [
     'shopHidden', 'language', 'theme'
 ];
 
-const SettingsModule = {
+export const SettingsModule = {
     exportSettings() {
         const exportBtn = document.getElementById('exportSettingsBtn');
         const originalText = exportBtn.innerHTML;
