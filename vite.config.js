@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
     // Automatically add Firefox-specific configuration
     manifest.browser_specific_settings = {
       gecko: {
-        id: "8aec21ca-47ea-4ca1-b62f-068fb3ec4069",
+        id: "{8aec21ca-47ea-4ca1-b62f-068fb3ec4069}",
         strict_min_version: "109.0"
       }
     };
