@@ -26,6 +26,7 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
+    base: './',
     root: resolve(__dirname, 'src'), // Set the root of the source code to the src directory
     build: {
       outDir: resolve(__dirname, isFirefox ? 'dist/firefox' : 'dist/chrome'),
@@ -46,12 +47,6 @@ export default defineConfig(({ mode }) => {
             type: 'asset',
             fileName: 'styles.css',
             source: stylesCss
-          });
-          const interfaceCss = fs.readFileSync(resolve(__dirname, 'src/interface.css'), 'utf-8');
-          this.emitFile({
-            type: 'asset',
-            fileName: 'interface.css',
-            source: interfaceCss
           });
         }
       },

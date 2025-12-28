@@ -1,6 +1,13 @@
 // Main Module
 // Initialization and event listeners
 
+import { AppState } from './state.js';
+import { I18nModule } from './i18n.js';
+import { showNotification, showConfirmDialog } from './utils.js';
+import { PresetsModule } from './presets.js';
+import { SettingsModule } from './settings.js';
+import { UIModule, SWITCH_CONFIG } from './ui.js';
+
 export function handleToggleChange(key, enabled) {
     // Send to current active tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
