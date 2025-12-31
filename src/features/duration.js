@@ -1,21 +1,11 @@
 // TubeTuner - Duration Feature
-(function() {
-    'use strict';
 
-    // Function to toggle video duration
-    function toggleDuration(hide) {
-        // debug: toggle duration
-        settings.durationHidden = hide;
+// Function to toggle video duration
+export function toggleDuration(hide) {
 
-        if (hide) {
-            document.body.classList.add('youtube-duration-hidden');
-            // added class youtube-duration-hidden
-        } else {
-            document.body.classList.remove('youtube-duration-hidden');
-            // removed class youtube-duration-hidden
-        }
+    if (hide) {
+        document.body.classList.add('youtube-duration-hidden');
+    } else {
+        document.body.classList.remove('youtube-duration-hidden');
     }
-
-    // Expose to global scope for content.js
-    window.toggleDuration = toggleDuration;
-})();
+}

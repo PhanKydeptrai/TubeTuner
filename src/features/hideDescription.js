@@ -1,65 +1,42 @@
 // TubeTuner - Hide Description Feature
-(function() {
-    'use strict';
 
-    // Function to toggle Hide Description
-    function toggleHideDescription(hide) {
-        // debug: toggle hide description
-        settings.hideDescriptionHidden = hide;
-
-        if (hide) {
-            document.body.classList.add('youtube-hide-description-hidden');
-            // added class youtube-hide-description-hidden
-            applyHideDescriptionFixes();
-        } else {
-            document.body.classList.remove('youtube-hide-description-hidden');
-            // removed class youtube-hide-description-hidden
-            restoreHideDescription();
-        }
+// Function to toggle Hide Description
+export function toggleHideDescription(hide) {
+    if (hide) {
+        document.body.classList.add('youtube-hide-description-hidden');
+        applyHideDescriptionFixes();
+    } else {
+        document.body.classList.remove('youtube-hide-description-hidden');
+        restoreHideDescription();
     }
+}
 
-    // Function to apply additional fixes for Hide Description hiding
-    function applyHideDescriptionFixes() {
-        if (!settings.hideDescriptionHidden) return;
+// Function to apply additional fixes for Hide Description hiding
+function applyHideDescriptionFixes() {
+    let hiddenCount = 0;
 
-        // applying hide description fixes
+    // Hide video description
+    const descriptionSelectors = [
+        'ytd-video-secondary-info-renderer',
+        '#description',
+        '#meta-contents',
+        'ytd-expandable-video-description-body-renderer',
+        '#description-inner',
+        '#expand'
+    ];
 
-        let hiddenCount = 0;
-
-        // Hide video description
-        const descriptionSelectors = [
-            'ytd-video-secondary-info-renderer',
-            '#description',
-            '#meta-contents',
-            'ytd-expandable-video-description-body-renderer',
-            '#description-inner',
-            '#expand'
-        ];
-
-        descriptionSelectors.forEach(selector => {
-            document.querySelectorAll(selector).forEach(element => {
-                element.setAttribute('hide-description-element', 'true');
-                hiddenCount++;
-            });
+    descriptionSelectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(element => {
+            element.setAttribute('hide-description-element', 'true');
+            hiddenCount++;
         });
+    });
+}
 
-        // marked description elements for hiding: %d
-    }
-
-    // Restore Hide Description
-    function restoreHideDescription() {
-        // restoring description elements
-
-        // Remove hiding markers
-        document.querySelectorAll('[hide-description-element="true"]').forEach(element => {
-            element.removeAttribute('hide-description-element');
-        });
-
-        // description elements restored
-    }
-
-    // Expose to global scope for content.js
-    window.toggleHideDescription = toggleHideDescription;
-    window.applyHideDescriptionFixes = applyHideDescriptionFixes;
-    window.restoreHideDescription = restoreHideDescription;
-})();
+// Restore Hide Description
+function restoreHideDescription() {
+    // Remove hiding markers
+    document.querySelectorAll('[hide-description-element="true"]').forEach(element => {
+        element.removeAttribute('hide-description-element');
+    });
+}
