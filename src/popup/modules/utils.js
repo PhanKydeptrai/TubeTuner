@@ -1,6 +1,9 @@
 // Utility Functions Module
 // Common utility functions
 
+import { I18nModule } from './i18n.js';
+import { AppState } from './state.js';
+
 export function showNotification(message, type = 'info') {
     const existingNotification = document.querySelector('.ext-notification');
     if (existingNotification) existingNotification.remove();

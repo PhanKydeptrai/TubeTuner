@@ -4,7 +4,7 @@
 import { AppState } from './state.js';
 import { I18nModule } from './i18n.js';
 import { showNotification, showConfirmDialog } from './utils.js';
-import { PresetsModule } from './presets.js';
+import { PresetsModule, PRESET_DEFINITIONS } from './presets.js';
 import { SettingsModule } from './settings.js';
 import { UIModule, SWITCH_CONFIG } from './ui.js';
 
@@ -130,7 +130,7 @@ export function setupPresetEventListeners() {
             const selected = presetSelect.value;
             if (!selected) return;
 
-            // Get the display text of the selected option
+            showNotification(I18nModule.t('applyingPreset'), 'info');
             const selectedOption = presetSelect.options[presetSelect.selectedIndex];
             const displayText = selectedOption.text;
             const confirmMessage = `${I18nModule.t('confirmApplyPreset')} "${displayText}"?`;
@@ -149,6 +149,12 @@ export function setupPresetEventListeners() {
                 return;
             }
 
+            // Check if name conflicts with built-in presets
+            if (PRESET_DEFINITIONS && PRESET_DEFINITIONS[name]) {
+                showNotification(I18nModule.t('presetNameReserved'), 'error');
+                return;
+            }
+
             const preset = {};
             SWITCH_CONFIG.forEach(config => {
                 const switchEl = AppState.switches.get(config.key);
@@ -157,8 +163,19 @@ export function setupPresetEventListeners() {
                 }
             });
 
-            PresetsModule.savePreset(name, preset);
-            presetNameInput.value = '';
+            // Check if custom preset already exists
+            chrome.storage.sync.get(['customPresets'], (result) => {
+                const customs = result.customPresets || {};
+                if (customs[name]) {
+                    showConfirmDialog(I18nModule.t('confirmOverwritePreset').replace('%s', name), () => {
+                        PresetsModule.savePreset(name, preset);
+                        presetNameInput.value = '';
+                    });
+                } else {
+                    PresetsModule.savePreset(name, preset);
+                    presetNameInput.value = '';
+                }
+            });
         });
     }
 
