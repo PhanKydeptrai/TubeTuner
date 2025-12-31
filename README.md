@@ -118,15 +118,33 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-1. **Open Chrome and go to Extensions page:**
-   - Type `chrome://extensions/` in the address bar
-   - Or go to Menu → More tools → Extensions
-2. **Enable Developer mode:**
-   - Switch on the "Developer mode" toggle in the top right corner
-3. **Load extension:**
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/PhanKydeptrai/TubeTuner.git
+   ```
+2. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+3. **Build the extension:**
+   - For Chrome:
+     ```sh
+     npm run build:chrome
+     ```
+   - For Firefox:
+     ```sh
+     npm run build:firefox
+     ```
+4. **Load extension in Chrome:**
+   - Open `chrome://extensions/`
+   - Enable "Developer mode" (top right)
    - Click "Load unpacked"
-   - Select the `TubeTuner` folder
-   - The extension will be installed and appear in the list
+   - Select the `dist/chrome` folder
+
+5. **Load extension in Firefox:**
+   - Open `about:debugging#/runtime/this-firefox`
+   - Click "Load Temporary Add-on..."
+   - Select any file in the `dist/firefox` folder (e.g., `manifest.json`)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
