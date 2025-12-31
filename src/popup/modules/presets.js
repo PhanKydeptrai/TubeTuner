@@ -1,6 +1,9 @@
 // Presets Module
 // Manages preset definitions and operations
 
+import { I18nModule } from './i18n.js';
+import { showNotification } from './utils.js';
+
 export const PRESET_DEFINITIONS = {
     none: {
         progressBarHidden: false,
