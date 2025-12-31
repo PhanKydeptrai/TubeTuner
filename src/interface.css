@@ -1028,6 +1028,76 @@ button:focus,
   flex-wrap: wrap;
 }
 
+/* Presets control */
+.ext-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+.ext-presets-label {
+  font-size: var(--font-size-body);
+  color: var(--muted-foreground);
+  font-weight: var(--font-weight-medium);
+}
+.ext-presets-controls {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+.ext-select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 8px 36px 8px 12px;
+  min-height: 36px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  flex: 1 1 auto;
+  transition: box-shadow 0.15s ease, transform 0.08s ease, background 0.15s ease;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6880' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 12px;
+}
+.ext-select:hover {
+  background: var(--muted);
+}
+.ext-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(138,121,171,0.12);
+  border-color: var(--primary);
+}
+.ext-presets-controls .ext-btn {
+  min-width: 96px;
+  flex: 0 0 auto;
+}
+
+.ext-presets-management {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.ext-presets-management .ext-input {
+  padding: 6px 8px;
+  min-height: 34px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  flex: 1 1 150px;
+}
+
+.dark .ext-select {
+  background: var(--card);
+  color: var(--foreground);
+}
+
 .ext-btn {
   display: flex;
   align-items: center;
@@ -1083,6 +1153,15 @@ button:focus,
   flex-shrink: 0;
 }
 
+.ext-btn-apply {
+  background: linear-gradient(135deg, var(--primary), oklch(from var(--primary) calc(l + 0.08) c h));
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+.ext-btn-apply:hover {
+  background: linear-gradient(135deg, oklch(from var(--primary) calc(l + 0.08) c h), oklch(from var(--primary) calc(l + 0.14) c h));
+}
+
 /* Dark mode styles for settings section */
 .dark .ext-settings-section {
   background: var(--card);
@@ -1101,6 +1180,12 @@ button:focus,
 
 .dark .ext-btn:hover {
   background: var(--muted);
+  border-color: var(--primary);
+}
+
+.dark .ext-btn-apply {
+  background: linear-gradient(135deg, var(--primary), oklch(from var(--primary) calc(l + 0.08) c h));
+  color: var(--primary-foreground);
   border-color: var(--primary);
 }
 
@@ -1276,4 +1361,136 @@ button:focus,
 /* About icon color */
 .about-icon svg {
   color: var(--icon-purple);
+}
+/* Confirm Dialog Styles */
+.ext-confirm-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.ext-confirm-dialog {
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  padding: 0;
+  animation: slideUp 0.3s ease-out;
+}
+
+.ext-confirm-dialog-content {
+  padding: var(--space-lg);
+}
+
+.ext-confirm-dialog-message {
+  margin: 0 0 var(--space-lg) 0;
+  font-size: var(--font-size-body);
+  color: var(--foreground);
+  line-height: var(--line-height-relaxed);
+  text-align: center;
+}
+
+.ext-confirm-dialog-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+}
+
+.ext-confirm-btn-cancel,
+.ext-confirm-btn-confirm {
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  border-radius: 6px;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+  text-align: center;
+}
+
+.ext-confirm-btn-cancel {
+  background: var(--secondary);
+  color: var(--foreground);
+}
+
+.ext-confirm-btn-cancel:hover {
+  background: var(--border);
+  transform: translateY(-1px);
+}
+
+.ext-confirm-btn-confirm {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.ext-confirm-btn-confirm:hover {
+  background: var(--ring);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(138, 121, 171, 0.4);
+}
+
+.ext-confirm-btn-cancel:active,
+.ext-confirm-btn-confirm:active {
+  transform: translateY(0);
+}
+
+/* Dark mode confirm dialog */
+.dark .ext-confirm-dialog {
+  background: #2a2938;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.dark .ext-confirm-dialog-message {
+  color: #e0e0e0;
+}
+
+.dark .ext-confirm-btn-cancel {
+  background: rgba(208, 208, 220, 0.1);
+  color: #e0e0e0;
+}
+
+.dark .ext-confirm-btn-cancel:hover {
+  background: rgba(208, 208, 220, 0.2);
+}
+
+.dark .ext-confirm-btn-confirm {
+  background: rgba(138, 121, 171, 0.8);
+  color: #f0f0f5;
+}
+
+.dark .ext-confirm-btn-confirm:hover {
+  background: rgba(138, 121, 171, 1);
+  box-shadow: 0 4px 12px rgba(138, 121, 171, 0.6);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
