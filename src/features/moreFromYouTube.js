@@ -5,8 +5,6 @@ let moreFromYouTubeTimeout = null;
 
 // Function to toggle More from YouTube Section
 export function toggleMoreFromYouTube(hide) {
-    // settings.moreFromYouTubeHidden = hide;
-
     if (hide) {
         document.body.classList.add('youtube-more-from-youtube-hidden');
         applyMoreFromYouTubeFixes();
@@ -18,9 +16,6 @@ export function toggleMoreFromYouTube(hide) {
 
 // Function to apply fixes for hiding More from YouTube
 function applyMoreFromYouTubeFixes() {
-    // if (!settings.moreFromYouTubeHidden) return;
-
-    console.log('[TubeTuner] Applying More from YouTube hiding');
 
     const hideMoreFromYouTubeSection = () => {
         // Target guide sections that contain "More from YouTube" text
@@ -36,7 +31,6 @@ function applyMoreFromYouTubeFixes() {
                 sectionText.includes('get youtube') ||
                 sectionText.includes('youtube premium')) {
 
-                console.log('[TubeTuner] Hiding More from YouTube section');
                 section.classList.add('youtube-more-from-hidden');
             }
         });
@@ -54,7 +48,6 @@ function applyMoreFromYouTubeFixes() {
                 entryText.includes('get youtube') ||
                 entryText.includes('youtube premium')) {
 
-                console.log('[TubeTuner] Hiding More from YouTube entry');
                 entry.classList.add('youtube-more-from-hidden');
             }
         });
@@ -69,7 +62,6 @@ function applyMoreFromYouTubeFixes() {
             if (shelfText.includes('more from youtube') ||
                 shelfText.includes('thêm từ youtube')) {
 
-                console.log('[TubeTuner] Hiding More from YouTube shelf');
                 shelf.classList.add('youtube-more-from-hidden');
             }
         });
@@ -94,7 +86,6 @@ function applyMoreFromYouTubeFixes() {
             });
 
             if (shouldCheck) {
-                console.log('[TubeTuner] DOM changes detected, re-checking More from YouTube');
                 clearTimeout(moreFromYouTubeTimeout);
                 moreFromYouTubeTimeout = setTimeout(hideMoreFromYouTubeSection, 500);
             }
@@ -109,8 +100,6 @@ function applyMoreFromYouTubeFixes() {
 
 // Function to restore More from YouTube elements
 function restoreMoreFromYouTube() {
-    console.log('[TubeTuner] Restoring More from YouTube elements');
-
     // Remove hiding class
     document.querySelectorAll('.youtube-more-from-hidden').forEach(element => {
         element.classList.remove('youtube-more-from-hidden');

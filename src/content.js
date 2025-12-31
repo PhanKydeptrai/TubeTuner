@@ -38,11 +38,9 @@ let settings = {
     grayscaleEnabled: false
 };
 
-// Khởi tạo extension
+// Initialize extension
 function initialize() {
-    // Lấy trạng thái từ storage
     chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], (result) => {
-        // Cập nhật settings object
         settings.extensionEnabled = result.extensionEnabled !== false; // Default is true
         settings.progressBarHidden = result.progressBarHidden === true;
         settings.durationHidden = result.durationHidden === true;
@@ -61,9 +59,6 @@ function initialize() {
         settings.grayscaleEnabled = result.grayscaleEnabled === true;
         settings.shopHidden = result.shopHidden === true;
 
-        // Settings loaded
-
-        // Áp dụng ngay
         setTimeout(() => {
             if (settings.extensionEnabled) {
                 toggleProgressBar(settings.progressBarHidden);
@@ -86,14 +81,11 @@ function initialize() {
         }, 1000);
     });
 
-    // Theo dõi thay đổi URL (YouTube SPA)
     let currentUrl = location.href;
     const urlObserver = new MutationObserver(() => {
         if (location.href !== currentUrl) {
             currentUrl = location.href;
-            // URL changed, reapplying extension
             setTimeout(() => {
-                // Áp dụng lại tất cả settings
                 if (settings.extensionEnabled) {
                     if (settings.progressBarHidden) toggleProgressBar(true);
                     if (settings.durationHidden) toggleDuration(true);
@@ -125,18 +117,13 @@ function initialize() {
 chrome.storage.onChanged.addListener((changes, namespace) => {
     if (namespace !== 'sync') return;
 
-    // Storage changed in this tab, applying changes
-
-    // Apply changes immediately
     for (const [key, change] of Object.entries(changes)) {
         const newValue = change.newValue;
 
         switch (key) {
             case 'extensionEnabled':
                 settings.extensionEnabled = newValue !== false;
-                // If extension is disabled, remove all applied changes
                 if (!settings.extensionEnabled) {
-                    // Disable all features
                     toggleProgressBar(false);
                     toggleDuration(false);
                     toggleShorts(false);
@@ -154,7 +141,6 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
                     toggleGrayscale(false);
                     toggleShop(false);
                 } else {
-                    // Re-enable features based on current settings
                     toggleProgressBar(settings.progressBarHidden);
                     toggleDuration(settings.durationHidden);
                     toggleShorts(settings.shortsHidden);
@@ -230,7 +216,6 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
                 toggleHideDescription(settings.hideDescriptionHidden);
                 break;
             case 'grayscaleEnabled':
-                // New grayscale setting from storage change
                 settings.grayscaleEnabled = newValue === true;
                 toggleGrayscale(settings.grayscaleEnabled);
                 break;
@@ -242,22 +227,14 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
     }
 });
 
-// Lắng nghe message từ popup và background script
+// Listen for messages from popup and background script
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-    // Received message
-
-    // Handle sync messages from background script
     if (request.action === 'syncSettings') {
-        // Syncing settings from background script
-
-        // Apply all changed settings
         for (const [key, value] of Object.entries(request.changes)) {
             switch (key) {
                 case 'extensionEnabled':
                     settings.extensionEnabled = value !== false;
-                    // If extension is disabled, remove all applied changes
                     if (!settings.extensionEnabled) {
-                        // Disable all features
                         toggleProgressBar(false);
                         toggleDuration(false);
                         toggleShorts(false);
@@ -275,7 +252,6 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
                         toggleGrayscale(false);
                         toggleShop(false);
                     } else {
-                        // Re-enable features based on current settings
                         toggleProgressBar(settings.progressBarHidden);
                         toggleDuration(settings.durationHidden);
                         toggleShorts(settings.shortsHidden);
@@ -365,9 +341,8 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
         return true;
     }
 
-    // Handle direct toggle messages from popup
     if (request.action === 'toggleProgressBar') {
-        settings.progressBarHidden = request.enabled; // Update local state for consistency
+        settings.progressBarHidden = request.enabled;
         toggleProgressBar(request.enabled);
         sendResponse({ success: true, willRefresh: false });
 
@@ -438,7 +413,6 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
 
     } else if (request.action === 'toggleGrayscale') {
         settings.grayscaleEnabled = request.enabled;
-        // Direct toggle command from popup
         toggleGrayscale(request.enabled);
         sendResponse({ success: true, willRefresh: false });
     } else if (request.action === 'toggleShop') {
@@ -449,21 +423,17 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
         sendResponse(settings);
     }
 
-    // Return true để giữ message channel mở cho async response
     return true;
 });
 
-// Chạy khi document ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initialize);
 } else {
     initialize();
 }
 
-// Backup khi window load
 window.addEventListener('load', () => {
     setTimeout(() => {
-        // Window loaded, reapplying extension
         if (settings.progressBarHidden) toggleProgressBar(true);
         if (settings.durationHidden) toggleDuration(true);
         if (settings.shortsHidden) toggleShorts(true);

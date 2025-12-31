@@ -5,27 +5,19 @@ let exploreSectionObserver = null;
 
 // Function to toggle Explore Section
 export function toggleExploreSection(hide) {
-    // debug: toggle explore section
-    // settings.exploreSectionHidden = hide;
-
     if (hide) {
         document.body.classList.add('youtube-explore-section-hidden');
         document.body.setAttribute('data-explore-section-hidden', 'true');
-        // added class youtube-explore-section-hidden
         applyExploreSectionFixes();
     } else {
         document.body.classList.remove('youtube-explore-section-hidden');
         document.body.removeAttribute('data-explore-section-hidden');
-        // removed class youtube-explore-section-hidden
         restoreExploreSection();
     }
 }
 
 // Function to apply additional fixes for Explore Section hiding
 function applyExploreSectionFixes() {
-    // if (!settings.exploreSectionHidden) return;
-
-    // applying Explore Section hiding
 
     const hideExploreSections = () => {
         // Find and hide the Explore section renderer
@@ -39,10 +31,8 @@ function applyExploreSectionFixes() {
         });
     };
 
-    // Run immediately
     hideExploreSections();
 
-    // Set up MutationObserver to monitor DOM changes for new guide sections
     if (!exploreSectionObserver) {
         exploreSectionObserver = new MutationObserver((mutations) => {
             let shouldReapply = false;
@@ -63,7 +53,6 @@ function applyExploreSectionFixes() {
             });
 
             if (shouldReapply) {
-                // new guide sections detected, reapplying fixes
                 setTimeout(hideExploreSections, 100);
             }
         });
@@ -77,18 +66,13 @@ function applyExploreSectionFixes() {
 
 // Function to restore Explore Section
 function restoreExploreSection() {
-    // restoring Explore Section
-
     // Remove hidden attributes from Explore section renderers
     document.querySelectorAll('ytd-guide-section-renderer[hidden="true"]').forEach(element => {
         element.removeAttribute('hidden');
     });
 
-    // Disconnect observer if it exists
     if (exploreSectionObserver) {
         exploreSectionObserver.disconnect();
         exploreSectionObserver = null;
     }
-
-    // Explore Section restored
 }

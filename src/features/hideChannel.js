@@ -2,26 +2,17 @@
 
 // Function to toggle Hide Channel
 export function toggleHideChannel(hide) {
-    // debug: toggle hide channel
-    // settings.hideChannelHidden = hide;
-
     if (hide) {
         document.body.classList.add('youtube-hide-channel-hidden');
-        // added class youtube-hide-channel-hidden
         applyHideChannelFixes();
     } else {
         document.body.classList.remove('youtube-hide-channel-hidden');
-        // removed class youtube-hide-channel-hidden
         restoreHideChannel();
     }
 }
 
 // Function to apply additional fixes for Hide Channel hiding
 function applyHideChannelFixes() {
-    // if (!settings.hideChannelHidden) return;
-
-    // applying hide channel fixes
-
     let hiddenCount = 0;
 
     // Hide channel name, avatar, and subscribe button in video pages
@@ -46,18 +37,12 @@ function applyHideChannelFixes() {
             hiddenCount++;
         });
     });
-
-    // marked channel elements for hiding: %d
 }
 
 // Restore Hide Channel
 function restoreHideChannel() {
-    // restoring channel elements
-
     // Remove hiding markers
     document.querySelectorAll('[hide-channel-element="true"]').forEach(element => {
         element.removeAttribute('hide-channel-element');
     });
-
-    // channel elements restored
 }

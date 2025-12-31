@@ -2,16 +2,11 @@
 
 // Function to toggle Shorts
 export function toggleShorts(hide) {
-    // debug: toggle shorts
-    // settings.shortsHidden = hide; // Removed global dependency
-
     if (hide) {
         document.body.classList.add('youtube-shorts-hidden');
-        // added class youtube-shorts-hidden
         applyShortsFixes(true);
     } else {
         document.body.classList.remove('youtube-shorts-hidden');
-        // removed class youtube-shorts-hidden
         restoreShorts();
     }
 }

@@ -2,7 +2,6 @@
 
 // Function to toggle Grayscale (black & white) mode
 export function toggleGrayscale(enabled) {
-    // settings.grayscaleEnabled = enabled;
 
     const styleId = 'tubetuner-grayscale-style';
 

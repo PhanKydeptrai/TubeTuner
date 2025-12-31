@@ -2,27 +2,19 @@
 
 // Function to toggle End Screen Cards/Annotations
 export function toggleEndScreenCards(hide) {
-    // debug: toggle end screen cards
-    // settings.endScreenCardsHidden = hide;
-
     if (hide) {
         document.body.classList.add('youtube-end-screen-cards-hidden');
         document.body.setAttribute('data-end-screen-cards-hidden', 'true');
-        // added class youtube-end-screen-cards-hidden
         applyEndScreenCardsFixes();
     } else {
         document.body.classList.remove('youtube-end-screen-cards-hidden');
         document.body.removeAttribute('data-end-screen-cards-hidden');
-        // removed class youtube-end-screen-cards-hidden
         restoreEndScreenCards();
     }
 }
 
 // Function to apply additional fixes for End Screen Cards hiding
 function applyEndScreenCardsFixes() {
-    // if (!settings.endScreenCardsHidden) return;
-
-    // applying End Screen Cards hiding
 
     const markEndScreenElements = () => {
         let hiddenCount = 0;
@@ -66,8 +58,6 @@ function applyEndScreenCardsFixes() {
                 }
             });
         });
-
-        // marked end screen cards/annotation elements for hiding: %d
     };
 
     // Run immediately and set up MutationObserver to monitor DOM changes
@@ -93,7 +83,6 @@ function applyEndScreenCardsFixes() {
         });
 
         if (shouldReapply) {
-            // new end screen elements detected, reapplying fixes
             setTimeout(markEndScreenElements, 100);
         }
     });
@@ -102,14 +91,10 @@ function applyEndScreenCardsFixes() {
         childList: true,
         subtree: true
     });
-
-    // End Screen Cards hiding applied with observer
 }
 
 // Restore End Screen Cards
 function restoreEndScreenCards() {
-    // restoring end screen cards elements
-
     // Remove all custom attributes
     document.querySelectorAll('[end-screen-element]').forEach(element => {
         element.removeAttribute('end-screen-element');
@@ -118,6 +103,4 @@ function restoreEndScreenCards() {
     document.querySelectorAll('[card-element]').forEach(element => {
         element.removeAttribute('card-element');
     });
-
-    // end screen cards elements restored
 }
