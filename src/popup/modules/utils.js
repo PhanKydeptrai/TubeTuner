@@ -30,22 +30,27 @@ export function showConfirmDialog(message, onConfirm, onCancel) {
 
     const dialog = document.createElement('div');
     dialog.className = 'ext-confirm-dialog';
-    
-    dialog.innerHTML = `
-        <div class="ext-confirm-dialog-content">
-            <p class="ext-confirm-dialog-message">${message}</p>
-            <div class="ext-confirm-dialog-buttons">
-                <button class="ext-confirm-btn-cancel">${I18nModule?.t?.('cancel') || 'Cancel'}</button>
-                <button class="ext-confirm-btn-confirm">${I18nModule?.t?.('confirm') || 'Confirm'}</button>
-            </div>
-        </div>
-    `;
+    const content = document.createElement('div');
+    content.className = 'ext-confirm-dialog-content';
+    const messageP = document.createElement('p');
+    messageP.className = 'ext-confirm-dialog-message';
+    messageP.textContent = message;
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.className = 'ext-confirm-dialog-buttons';
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'ext-confirm-btn-cancel';
+    cancelBtn.textContent = I18nModule?.t?.('cancel') || 'Cancel';
+    const confirmBtn = document.createElement('button');
+    confirmBtn.className = 'ext-confirm-btn-confirm';
+    confirmBtn.textContent = I18nModule?.t?.('confirm') || 'Confirm';
+    buttonsDiv.appendChild(cancelBtn);
+    buttonsDiv.appendChild(confirmBtn);
+    content.appendChild(messageP);
+    content.appendChild(buttonsDiv);
+    dialog.appendChild(content);
 
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
-
-    const cancelBtn = dialog.querySelector('.ext-confirm-btn-cancel');
-    const confirmBtn = dialog.querySelector('.ext-confirm-btn-confirm');
 
     const cleanup = () => {
         if (overlay.parentNode) overlay.remove();
@@ -85,7 +90,7 @@ export function showConfirmDialog(message, onConfirm, onCancel) {
 
 export function verifyToggleStates() {
     const keys = Array.from(AppState.switches.keys());
-    chrome.storage.sync.get(keys, function(result) {
+    chrome.storage.sync.get(keys, function (result) {
         const mismatches = [];
         keys.forEach(key => {
             const switchEl = AppState.switches.get(key);
