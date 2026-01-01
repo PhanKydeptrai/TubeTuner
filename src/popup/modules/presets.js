@@ -1,6 +1,10 @@
 // Presets Module
 // Manages preset definitions and operations
 
+import { I18nModule } from './i18n.js';
+import { showNotification } from './utils.js';
+import { UIModule } from './ui.js';
+
 export const PRESET_DEFINITIONS = {
     none: {
         progressBarHidden: false,
@@ -59,12 +63,68 @@ export const PRESET_DEFINITIONS = {
 };
 
 export const PresetsModule = {
+    getCurrentPreset() {
+        return new Promise((resolve) => {
+            const settingKeys = Object.keys(PRESET_DEFINITIONS.none);
+            chrome.storage.sync.get(settingKeys.concat(['customPresets']), (result) => {
+                const customs = result.customPresets || {};
+                
+                // Check built-in presets
+                for (const [presetName, presetSettings] of Object.entries(PRESET_DEFINITIONS)) {
+                    const matches = Object.keys(presetSettings).every(key => {
+                        return result[key] === presetSettings[key];
+                    });
+                    
+                    if (matches) {
+                        resolve(`builtin:${presetName}`);
+                        return;
+                    }
+                }
+                
+                // Check custom presets - must match ALL setting keys in PRESET_DEFINITIONS.none
+                for (const [customName, customSettings] of Object.entries(customs)) {
+                    const matches = settingKeys.every(key => {
+                        // Get the value from customSettings, or use the value from PRESET_DEFINITIONS.none as default
+                        const customValue = customSettings.hasOwnProperty(key) ? customSettings[key] : PRESET_DEFINITIONS.none[key];
+                        return result[key] === customValue;
+                    });
+                    
+                    if (matches) {
+                        resolve(`custom:${customName}`);
+                        return;
+                    }
+                }
+                
+                // No preset matches current settings
+                resolve(null);
+            });
+        });
+    },
+
     loadPresetOptions() {
         const presetSelect = document.getElementById('presetSelect');
         if (!presetSelect) return;
 
         chrome.storage.sync.get(['customPresets'], (result) => {
             const customs = result.customPresets || {};
+            const settingKeys = Object.keys(PRESET_DEFINITIONS.none);
+
+            // Normalize custom presets: ensure they have all setting keys
+            let needsUpdate = false;
+            for (const customName of Object.keys(customs)) {
+                const customSettings = customs[customName];
+                for (const key of settingKeys) {
+                    if (!customSettings.hasOwnProperty(key)) {
+                        customSettings[key] = PRESET_DEFINITIONS.none[key];
+                        needsUpdate = true;
+                    }
+                }
+            }
+
+            // Save normalized presets if needed
+            if (needsUpdate) {
+                chrome.storage.sync.set({ customPresets: customs }, () => {});
+            }
 
             while (presetSelect.firstChild) presetSelect.removeChild(presetSelect.firstChild);
 
@@ -91,6 +151,13 @@ export const PresetsModule = {
                 presetSelect.appendChild(optgroupCustom);
             }
 
+            // Set the current preset
+            this.getCurrentPreset().then(currentPreset => {
+                if (currentPreset) {
+                    presetSelect.value = currentPreset;
+                }
+            }).catch(() => {});
+
             try {
                 I18nModule.updateLanguageUI();
             } catch (e) {}
@@ -115,7 +182,7 @@ export const PresetsModule = {
                         showNotification(I18nModule.t('presetApplied'), 'success');
                         UIModule.updateUI(customSettings);
                         chrome.tabs.query({ url: '*://*.youtube.com/*' }, (tabs) => {
-                            tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                            tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'syncSettings', changes: customSettings }).catch(() => {}));
                         });
                     });
                 }
@@ -128,7 +195,7 @@ export const PresetsModule = {
                 showNotification(I18nModule.t('presetApplied'), 'success');
                 UIModule.updateUI(settings);
                 chrome.tabs.query({ url: '*://*.youtube.com/*' }, (tabs) => {
-                    tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                    tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'syncSettings', changes: settings }).catch(() => {}));
                 });
             });
         }

@@ -12,8 +12,30 @@ export const VALID_SETTING_KEYS = [
 export const SettingsModule = {
     exportSettings() {
         const exportBtn = document.getElementById('exportSettingsBtn');
-        const originalText = exportBtn.innerHTML;
-        exportBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${I18nModule.t('exporting')}</span>`;
+        const originalTextContent = exportBtn.textContent;
+        
+        // Create spinner and loading text safely
+        exportBtn.textContent = '';
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("width", "16");
+        svg.setAttribute("height", "16");
+        svg.setAttribute("viewBox", "0 0 24 24");
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("stroke", "currentColor");
+        svg.setAttribute("stroke-width", "2");
+        svg.setAttribute("stroke-linecap", "round");
+        svg.setAttribute("stroke-linejoin", "round");
+        svg.classList.add("animate-spin");
+        
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", "M21 12a9 9 0 11-6.219-8.56");
+        svg.appendChild(path);
+        
+        const span = document.createElement("span");
+        span.textContent = I18nModule.t('exporting');
+        
+        exportBtn.appendChild(svg);
+        exportBtn.appendChild(span);
         exportBtn.disabled = true;
 
         chrome.storage.sync.get(VALID_SETTING_KEYS, (result) => {
@@ -29,7 +51,7 @@ export const SettingsModule = {
 
             if (count === 0) {
                 showNotification(I18nModule.t('noSettingsToExport'), 'info');
-                exportBtn.innerHTML = originalText;
+                exportBtn.textContent = originalTextContent;
                 exportBtn.disabled = false;
                 return;
             }
@@ -59,7 +81,7 @@ export const SettingsModule = {
             showNotification(I18nModule.t('exportSuccess'), 'success');
 
             setTimeout(() => {
-                exportBtn.innerHTML = originalText;
+                exportBtn.textContent = originalTextContent;
                 exportBtn.disabled = false;
             }, 1000);
         });
@@ -67,8 +89,30 @@ export const SettingsModule = {
 
     importSettings(file) {
         const importBtn = document.getElementById('importSettingsBtn');
-        const originalText = importBtn.innerHTML;
-        importBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>${I18nModule.t('importing')}</span>`;
+        const originalTextContent = importBtn.textContent;
+        
+        // Create spinner and loading text safely
+        importBtn.textContent = '';
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("width", "16");
+        svg.setAttribute("height", "16");
+        svg.setAttribute("viewBox", "0 0 24 24");
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("stroke", "currentColor");
+        svg.setAttribute("stroke-width", "2");
+        svg.setAttribute("stroke-linecap", "round");
+        svg.setAttribute("stroke-linejoin", "round");
+        svg.classList.add("animate-spin");
+        
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", "M21 12a9 9 0 11-6.219-8.56");
+        svg.appendChild(path);
+        
+        const span = document.createElement("span");
+        span.textContent = I18nModule.t('importing');
+        
+        importBtn.appendChild(svg);
+        importBtn.appendChild(span);
         importBtn.disabled = true;
 
         const reader = new FileReader();
@@ -118,14 +162,14 @@ export const SettingsModule = {
 
             } catch (error) {
                 showNotification(error.message || I18nModule.t('importError'), 'error');
-                importBtn.innerHTML = originalText;
+                importBtn.textContent = originalTextContent;
                 importBtn.disabled = false;
             }
         };
 
         reader.onerror = () => {
             showNotification(I18nModule.t('importError'), 'error');
-            importBtn.innerHTML = originalText;
+            importBtn.textContent = originalTextContent;
             importBtn.disabled = false;
         };
 

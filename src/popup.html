@@ -74,8 +74,8 @@
                     </svg>
                 </div>
                 <div class="ext-notice-content">
-                    <h3 class="ext-notice-title">Extension đã tắt</h3>
-                    <p class="ext-notice-description">TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy
+                    <h3 id="extensionDisabledTitle" class="ext-notice-title">Extension đã tắt</h3>
+                    <p id="extensionDisabledDesc" class="ext-notice-description">TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy
                         chỉnh YouTube.</p>
                 </div>
             </div>
@@ -392,15 +392,11 @@
             <div class="ext-presets">
                 <label for="presetSelect" class="ext-presets-label">Preset</label>
                 <div class="ext-presets-controls">
-                    <select id="presetSelect" class="ext-select">
-                        <option value="none">None</option>
-                        <option value="balanced">Balanced</option>
-                        <option value="focus">Focus</option>
-                    </select>
+                    <select id="presetSelect" class="ext-select"></select>
                     <button id="applyPresetBtn" class="ext-btn ext-btn-apply">Áp dụng</button>
                 </div>
                 <div class="ext-presets-management">
-                    <input type="text" id="presetNameInput" placeholder="Preset name" class="ext-input" />
+                    <input type="text" id="presetNameInput" placeholder="Preset name" class="ext-input" maxlength="30" />
                     <button id="savePresetBtn" class="ext-btn">Lưu preset</button>
                     <button id="deletePresetBtn" class="ext-btn">Xóa preset</button>
                     <button id="importPresetsBtn" class="ext-btn">Nhập preset (.json)</button>

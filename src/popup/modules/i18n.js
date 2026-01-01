@@ -48,7 +48,8 @@ export const TRANSLATIONS = {
         presetsLabel: 'Cài đặt sẵn',
         applyPreset: 'Áp dụng preset',
         confirmApplyPreset: 'Bạn có muốn áp dụng preset? Điều này sẽ ghi đè cài đặt hiện tại.',
-        presetApplied: 'Preset đã được áp dụng',
+        presetApplied: 'Áp dụng thành công',
+        applyingPreset: 'Đang áp dụng preset...',
         confirm: 'Xác nhận',
         cancel: 'Hủy',
         presetNone: 'Không',
@@ -66,6 +67,9 @@ export const TRANSLATIONS = {
         presetsImported: 'Đã nhập preset',
         presetNameRequired: 'Vui lòng nhập tên cho preset',
         selectPresetToDelete: 'Vui lòng chọn một preset tùy chỉnh để xóa',
+        confirmOverwritePreset: 'Preset "%s" đã tồn tại. Bạn có muốn ghi đè?',
+        presetNameReserved: 'Tên này được dành riêng cho hệ thống',
+        confirmDeletePreset: 'Bạn có chắc chắn muốn xóa preset',
         // Settings management
         settingsManagement: 'Quản lý cài đặt',
         exportSettings: 'Xuất cài đặt',
@@ -150,7 +154,8 @@ export const TRANSLATIONS = {
         presetsLabel: 'Presets',
         applyPreset: 'Apply preset',
         confirmApplyPreset: 'Apply selected preset? This will overwrite current settings.',
-        presetApplied: 'Preset applied',
+        presetApplied: 'Applied successfully',
+        applyingPreset: 'Applying preset...',
         confirm: 'Confirm',
         cancel: 'Cancel',
         presetNone: 'None',
@@ -168,6 +173,9 @@ export const TRANSLATIONS = {
         presetsImported: 'Presets imported',
         presetNameRequired: 'Please enter a name for the preset',
         selectPresetToDelete: 'Please select a custom preset to delete',
+        confirmOverwritePreset: 'Preset "%s" already exists. Overwrite?',
+        presetNameReserved: 'This name is reserved by the system',
+        confirmDeletePreset: 'Are you sure you want to delete preset',
         // Settings management
         settingsManagement: 'Settings Management',
         exportSettings: 'Export Settings',
@@ -280,6 +288,12 @@ export const I18nModule = {
         });
         
         if (aboutGithubLinkText) aboutGithubLinkText.textContent = this.t('aboutGithubLink');
+
+        // Update extension disabled notice
+        const extensionDisabledTitle = document.getElementById('extensionDisabledTitle');
+        const extensionDisabledDesc = document.getElementById('extensionDisabledDesc');
+        if (extensionDisabledTitle) extensionDisabledTitle.textContent = this.t('extensionDisabledTitle');
+        if (extensionDisabledDesc) extensionDisabledDesc.textContent = this.t('extensionDisabledDesc');
 
         // Update control labels
         const labelMappings = [

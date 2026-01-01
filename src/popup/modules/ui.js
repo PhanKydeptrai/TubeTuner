@@ -31,14 +31,14 @@ export const UIModule = {
         SWITCH_CONFIG.forEach(config => {
             defaultSettings[config.key] = config.default;
         });
-        
+
         // Merge provided settings with defaults
         const mergedSettings = { ...defaultSettings, ...settings };
 
         // Update extension enabled state
         const extensionEnabled = mergedSettings.extensionEnabled;
         AppState.currentExtensionEnabled = extensionEnabled;
-        
+
         const extensionSwitch = AppState.switches.get('extensionEnabled');
         if (extensionSwitch) {
             extensionSwitch.checked = extensionEnabled;
@@ -65,7 +65,7 @@ export const UIModule = {
         // Set the checked state for all switches
         SWITCH_CONFIG.forEach(config => {
             if (config.key === 'extensionEnabled') return; // Already handled above
-            
+
             const switchEl = AppState.switches.get(config.key);
             if (switchEl) {
                 const shouldBeChecked = switchStates[config.key];
@@ -77,7 +77,7 @@ export const UIModule = {
         setTimeout(() => {
             SWITCH_CONFIG.forEach(config => {
                 if (config.key === 'extensionEnabled') return;
-                
+
                 const switchEl = AppState.switches.get(config.key);
                 if (switchEl && switchStates.hasOwnProperty(config.key) && switchEl.checked !== switchStates[config.key]) {
                     console.warn(`State mismatch for ${config.key}, correcting...`);
@@ -118,7 +118,8 @@ export const UIModule = {
         }
 
         if (!AppState.statusElement.contains(statusBadge)) {
-            AppState.statusElement.innerHTML = '';
+            // Clear status
+            AppState.statusElement.textContent = '';
             AppState.statusElement.appendChild(statusBadge);
         }
     },

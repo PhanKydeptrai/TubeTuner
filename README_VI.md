@@ -118,15 +118,33 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 
 ### Cài đặt
 
-1. **Mở Chrome và truy cập trang Tiện ích mở rộng:**
-   - Gõ `chrome://extensions/` vào thanh địa chỉ
-   - Hoặc vào Menu → Công cụ khác → Tiện ích mở rộng
-2. **Bật Chế độ nhà phát triển:**
-   - Bật công tắc "Chế độ nhà phát triển" ở góc trên bên phải
-3. **Tải tiện ích mở rộng:**
-   - Nhấp vào "Tải tiện ích đã giải nén"
-   - Chọn thư mục `TubeTuner`
-   - Tiện ích sẽ được cài đặt và xuất hiện trong danh sách
+1. **Clone dự án:**
+   ```sh
+   git clone https://github.com/PhanKydeptrai/TubeTuner.git
+   ```
+2. **Cài đặt các gói phụ thuộc:**
+   ```sh
+   npm install
+   ```
+3. **Build tiện ích:**
+   - Cho Chrome:
+     ```sh
+     npm run build:chrome
+     ```
+   - Cho Firefox:
+     ```sh
+     npm run build:firefox
+     ```
+4. **Cài đặt trên Chrome:**
+   - Mở `chrome://extensions/`
+   - Bật "Chế độ nhà phát triển" (Developer mode) ở góc phải
+   - Nhấn "Tải tiện ích đã giải nén" (Load unpacked)
+   - Chọn thư mục `dist/chrome`
+
+5. **Cài đặt trên Firefox:**
+   - Mở `about:debugging#/runtime/this-firefox`
+   - Nhấn "Load Temporary Add-on..."
+   - Chọn bất kỳ file nào trong thư mục `dist/firefox` (ví dụ: `manifest.json`)
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
@@ -152,6 +170,17 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 5. **Chuyển đổi giao diện**: Nhấp vào nút mặt trời/mặt trăng ở trên cùng để chuyển đổi chế độ Sáng/Tối
 6. **Xuất/Nhập Cài đặt**: Sử dụng các nút trong phần cài đặt để sao lưu/khôi phục cấu hình
 7. Tiện ích sẽ tự động áp dụng các thay đổi và ghi nhớ trạng thái các phần
+8. **Presets**: Chọn một preset có sẵn (Không, Cân bằng, Tập trung) trong phần cài đặt để áp dụng nhiều tùy chọn ẩn/hiện cùng lúc.
+9. **Preset tùy chỉnh**: Tạo preset riêng của bạn bằng cách định cấu hình các công tắc và nhấp vào "Lưu preset". Sử dụng "Nhập preset (.json)" để tải các preset từ tệp JSON (gộp với các preset tùy chỉnh hiện có), hoặc "Xuất preset" để tải xuống các preset tùy chỉnh của bạn dưới dạng JSON. Xóa một preset tùy chỉnh bằng cách chọn nó và nhấp vào "Xóa preset".
+
+### Kiểm tra tính năng Presets (QA)
+
+1. Mở popup và bật/tắt một số cài đặt. Nhấp "Lưu preset" và đặt tên.
+2. Đảm bảo preset mới xuất hiện trong danh sách thả xuống Presets ở mục "Tùy chỉnh".
+3. Chọn preset tùy chỉnh và nhấp "Áp dụng preset" — giao diện sẽ cập nhật tương ứng.
+4. Sử dụng "Xuất preset" để tải xuống các preset tùy chỉnh của bạn và xác minh tệp JSON có chứa các preset đã lưu.
+5. Xóa một preset bằng cách chọn nó và nhấp "Xóa preset".
+6. Sử dụng "Nhập preset (.json)" với tệp JSON hợp lệ để gộp các preset và xác minh chúng xuất hiện trong danh sách.
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 

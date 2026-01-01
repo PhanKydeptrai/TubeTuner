@@ -15,7 +15,10 @@ export default defineConfig(({ mode }) => {
     manifest.browser_specific_settings = {
       gecko: {
         id: "{8aec21ca-47ea-4ca1-b62f-068fb3ec4069}",
-        strict_min_version: "109.0"
+        strict_min_version: "112.0",
+        data_collection_permissions: {
+          required: ["none"]
+        }
       }
     };
     // Ensure Firefox platform receives the correct background script
