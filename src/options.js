@@ -166,6 +166,16 @@ function setupPresetEventListeners() {
     }
 }
 
+function setupThemeEventListeners() {
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            chrome.storage.sync.set({ theme: isDark ? 'dark' : 'light' });
+        });
+    }
+}
+
 function initializeOptions() {
     UIModule.initializeTheme();
     I18nModule.initializeLanguage();
@@ -178,12 +188,13 @@ function initializeOptions() {
         const settingsTitle = document.getElementById('settingsTitle');
         if (settingsTitle) settingsTitle.textContent = I18nModule.t('settingsManagement');
         
-        const openSettingsTitle = document.querySelector('.options-title');
-        if (openSettingsTitle) openSettingsTitle.textContent = I18nModule.t('title') + ' ' + I18nModule.t('advancedSettings');
+        // const openSettingsTitle = document.querySelector('.options-title');
+        // if (openSettingsTitle) openSettingsTitle.textContent = I18nModule.t('title') + ' ' + I18nModule.t('advancedSettings');
     }, 100);
 
     setupSettingsEventListeners();
     setupPresetEventListeners();
+    setupThemeEventListeners();
 }
 
 document.addEventListener('DOMContentLoaded', initializeOptions);

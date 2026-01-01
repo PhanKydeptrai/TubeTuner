@@ -1057,7 +1057,8 @@ button:focus,
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
-  flex: 1 1 auto;
+  flex: 1;
+  min-width: 0;
   transition: box-shadow 0.15s ease, transform 0.08s ease, background 0.15s ease;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6880' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
   background-repeat: no-repeat;
@@ -1091,6 +1092,7 @@ button:focus,
   background: var(--card);
   color: var(--foreground);
   flex: 1 1 150px;
+  min-width: 0;
 }
 
 .dark .ext-select {
