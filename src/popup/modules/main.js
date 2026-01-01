@@ -77,157 +77,16 @@ export function setupEventListeners() {
     }
 }
 
-export function setupSettingsEventListeners() {
-    const exportBtn = document.getElementById('exportSettingsBtn');
-    const importBtn = document.getElementById('importSettingsBtn');
-    const importFileInput = document.getElementById('importFileInput');
-
-    if (exportBtn) {
-        exportBtn.addEventListener('click', () => SettingsModule.exportSettings());
-    }
-
-    if (importBtn && importFileInput) {
-        importBtn.addEventListener('click', () => importFileInput.click());
-
-        importFileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                if (!file.name.toLowerCase().endsWith('.json')) {
-                    showNotification(I18nModule.t('invalidFileType'), 'error');
-                    e.target.value = '';
-                    return;
-                }
-
-                if (file.size > 5 * 1024 * 1024) {
-                    showNotification(I18nModule.t('fileTooLarge'), 'error');
-                    e.target.value = '';
-                    return;
-                }
-
-                showConfirmDialog(I18nModule.t('confirmImport'), () => {
-                    SettingsModule.importSettings(file);
-                    e.target.value = '';
-                });
+export function setupOptionsLink() {
+    const openSettingsBtn = document.getElementById('openSettingsBtn');
+    if (openSettingsBtn) {
+        openSettingsBtn.addEventListener('click', () => {
+            if (chrome.runtime.openOptionsPage) {
+                chrome.runtime.openOptionsPage();
+            } else {
+                window.open(chrome.runtime.getURL('options.html'));
             }
         });
-    }
-}
-
-export function setupPresetEventListeners() {
-    const presetSelect = document.getElementById('presetSelect');
-    const applyPresetBtn = document.getElementById('applyPresetBtn');
-    const savePresetBtn = document.getElementById('savePresetBtn');
-    const deletePresetBtn = document.getElementById('deletePresetBtn');
-    const importPresetsBtn = document.getElementById('importPresetsBtn');
-    const importPresetsFileInput = document.getElementById('importPresetsFileInput');
-    const exportPresetsBtn = document.getElementById('exportPresetsBtn');
-    const presetNameInput = document.getElementById('presetNameInput');
-
-    if (presetSelect) PresetsModule.loadPresetOptions();
-
-    if (applyPresetBtn && presetSelect) {
-        applyPresetBtn.addEventListener('click', function() {
-            const selected = presetSelect.value;
-            if (!selected) return;
-
-            showNotification(I18nModule.t('applyingPreset'), 'info');
-            const selectedOption = presetSelect.options[presetSelect.selectedIndex];
-            const displayText = selectedOption.text;
-            const confirmMessage = `${I18nModule.t('confirmApplyPreset')} "${displayText}"?`;
-
-            showConfirmDialog(confirmMessage, () => {
-                PresetsModule.applyPreset(selected);
-            });
-        });
-    }
-
-    if (savePresetBtn) {
-        savePresetBtn.addEventListener('click', function() {
-            const name = presetNameInput?.value?.trim();
-            if (!name) {
-                showNotification(I18nModule.t('presetNameRequired'), 'error');
-                return;
-            }
-
-            // Check if name conflicts with built-in presets
-            if (PRESET_DEFINITIONS && PRESET_DEFINITIONS[name]) {
-                showNotification(I18nModule.t('presetNameReserved'), 'error');
-                return;
-            }
-
-            const preset = {};
-            SWITCH_CONFIG.forEach(config => {
-                const switchEl = AppState.switches.get(config.key);
-                if (switchEl) {
-                    preset[config.key] = switchEl.checked;
-                }
-            });
-
-            // Check if custom preset already exists
-            chrome.storage.sync.get(['customPresets'], (result) => {
-                const customs = result.customPresets || {};
-                if (customs[name]) {
-                    showConfirmDialog(I18nModule.t('confirmOverwritePreset').replace('%s', name), () => {
-                        PresetsModule.savePreset(name, preset);
-                        presetNameInput.value = '';
-                    });
-                } else {
-                    PresetsModule.savePreset(name, preset);
-                    presetNameInput.value = '';
-                }
-            });
-        });
-    }
-
-    if (deletePresetBtn) {
-        deletePresetBtn.addEventListener('click', function() {
-            const selected = presetSelect.value;
-            if (!selected || !selected.startsWith('custom:')) {
-                showNotification(I18nModule.t('selectPresetToDelete'), 'error');
-                return;
-            }
-            
-            // Get the display text of the selected option
-            const selectedOption = presetSelect.options[presetSelect.selectedIndex];
-            const displayText = selectedOption.text;
-            const name = selected.split(':')[1];
-            const confirmMessage = `${I18nModule.t('confirmDeletePreset')} "${displayText}"?`;
-            
-            showConfirmDialog(confirmMessage, () => {
-                PresetsModule.deletePreset(name);
-            });
-        });
-    }
-
-    if (importPresetsBtn && importPresetsFileInput) {
-        importPresetsBtn.addEventListener('click', () => importPresetsFileInput.click());
-
-        importPresetsFileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            if (!file.name.toLowerCase().endsWith('.json')) {
-                showNotification(I18nModule.t('invalidFileType'), 'error');
-                e.target.value = '';
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                try {
-                    const data = JSON.parse(evt.target.result);
-                    PresetsModule.importPresets(data);
-                } catch (err) {
-                    showNotification(I18nModule.t('importError'), 'error');
-                }
-            };
-            reader.readAsText(file);
-            e.target.value = '';
-        });
-    }
-
-    if (exportPresetsBtn) {
-        exportPresetsBtn.addEventListener('click', () => PresetsModule.exportPresets());
     }
 }
 
@@ -251,8 +110,7 @@ export function initializeApp() {
 
     // Setup all event listeners
     setupEventListeners();
-    setupSettingsEventListeners();
-    setupPresetEventListeners();
+    setupOptionsLink();
 
     // Load initial settings
     loadAndApplySettings();

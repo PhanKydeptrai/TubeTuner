@@ -75,7 +75,8 @@
                 </div>
                 <div class="ext-notice-content">
                     <h3 id="extensionDisabledTitle" class="ext-notice-title">Extension đã tắt</h3>
-                    <p id="extensionDisabledDesc" class="ext-notice-description">TubeTuner hiện đang được tắt. Bật lại để sử dụng các tính năng tùy
+                    <p id="extensionDisabledDesc" class="ext-notice-description">TubeTuner hiện đang được tắt. Bật lại
+                        để sử dụng các tính năng tùy
                         chỉnh YouTube.</p>
                 </div>
             </div>
@@ -336,80 +337,26 @@
                                 <label for="hideDescriptionSwitch" class="ext-switch-label"></label>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
-
-
+                <div class="ext-settings-section">
+                    <button id="openSettingsBtn" class="ext-btn"
+                        style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-gear" viewBox="0 0 16 16">
+                            <path
+                                d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                            <path
+                                d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                        </svg>
+                        <span id="openSettingsText">Cài đặt nâng cao</span>
+                    </button>
+                </div>
             </div>
         </div>
 
     </div>
     <!-- End ext-sections-container -->
-
-    <!-- Status indicator -->
-    <!-- <div class="ext-status enabled" id="status">
-        Đang hoạt động
-    </div> -->
-
-    <!-- Settings Export/Import Section -->
-    <div class="ext-settings-section">
-        <div class="ext-settings-header">
-            <div class="ext-settings-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
-                    <path
-                        d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
-                </svg>
-            </div>
-            <h3 class="ext-settings-title">Quản lý cài đặt</h3>
-        </div>
-        <div class="ext-settings-content">
-            <div class="ext-settings-buttons">
-                <button class="ext-btn ext-btn-export" id="exportSettingsBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="17 8 12 3 7 8"></polyline>
-                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                    </svg>
-                    <span>Xuất cài đặt</span>
-                </button>
-                <button class="ext-btn ext-btn-import" id="importSettingsBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                        class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1z" />
-                        <path fill-rule="evenodd"
-                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
-                    </svg>
-                    <span>Nhập cài đặt</span>
-                </button>
-            </div>
-            <div class="ext-presets">
-                <label for="presetSelect" class="ext-presets-label">Preset</label>
-                <div class="ext-presets-controls">
-                    <select id="presetSelect" class="ext-select"></select>
-                    <button id="applyPresetBtn" class="ext-btn ext-btn-apply">Áp dụng</button>
-                </div>
-                <div class="ext-presets-management">
-                    <input type="text" id="presetNameInput" placeholder="Preset name" class="ext-input" maxlength="30" />
-                    <button id="savePresetBtn" class="ext-btn">Lưu preset</button>
-                    <button id="deletePresetBtn" class="ext-btn">Xóa preset</button>
-                    <button id="importPresetsBtn" class="ext-btn">Nhập preset (.json)</button>
-                    <button id="exportPresetsBtn" class="ext-btn">Xuất preset</button>
-                </div>
-            </div>
-            <input type="file" id="importFileInput" accept=".json" style="display: none;">
-            <input type="file" id="importPresetsFileInput" accept=".json" style="display: none;">
-        </div>
-    </div>
-
-    </div>
-    </div>
 
     <script type="module" src="popup/modules/main.js"></script>
 </body>

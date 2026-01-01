@@ -1,6 +1,9 @@
 // Settings Module
 // Manages settings export and import
 
+import { I18nModule } from './i18n.js';
+import { showNotification } from './utils.js';
+
 export const VALID_SETTING_KEYS = [
     'extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden',
     'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden',
