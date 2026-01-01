@@ -41,7 +41,8 @@ export const SettingsModule = {
         exportBtn.appendChild(span);
         exportBtn.disabled = true;
 
-        chrome.storage.sync.get(VALID_SETTING_KEYS, (result) => {
+        const keysToFetch = [...VALID_SETTING_KEYS, 'customPresets'];
+        chrome.storage.sync.get(keysToFetch, (result) => {
             const settingsToExport = {};
             let count = 0;
 
@@ -52,7 +53,13 @@ export const SettingsModule = {
                 }
             });
 
-            if (count === 0) {
+            // Count custom presets if they exist
+            let presetsCount = 0;
+            if (result.customPresets && Object.keys(result.customPresets).length > 0) {
+                presetsCount = Object.keys(result.customPresets).length;
+            }
+
+            if (count === 0 && presetsCount === 0) {
                 showNotification(I18nModule.t('noSettingsToExport'), 'info');
                 exportBtn.textContent = originalTextContent;
                 exportBtn.disabled = false;
@@ -65,9 +72,11 @@ export const SettingsModule = {
                     extensionName: 'TubeTuner',
                     extensionVersion: '1.2',
                     formatVersion: '1.0',
-                    settingsCount: count
+                    settingsCount: count,
+                    presetsCount: presetsCount
                 },
-                settings: settingsToExport
+                settings: settingsToExport,
+                customPresets: result.customPresets || {}
             };
 
             const blob = new Blob([JSON.stringify(settingsExport, null, 2)], { type: 'application/json' });
@@ -151,17 +160,35 @@ export const SettingsModule = {
                     }
                 });
 
-                if (validCount === 0) {
+                const importedPresets = importedData.customPresets;
+                let presetsCount = 0;
+                if (importedPresets && typeof importedPresets === 'object') {
+                    presetsCount = Object.keys(importedPresets).length;
+                }
+
+                if (validCount === 0 && presetsCount === 0) {
                     throw new Error('No valid settings found in file');
                 }
 
-                chrome.storage.sync.set(settingsToImport, () => {
-                    showNotification(I18nModule.t('importSuccess'), 'success');
-                    chrome.tabs.query({ url: '*://*.youtube.com/*' }, (tabs) => {
-                        tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                const finalizeImport = () => {
+                    chrome.storage.sync.set(settingsToImport, () => {
+                        showNotification(I18nModule.t('importSuccess'), 'success');
+                        chrome.tabs.query({ url: '*://*.youtube.com/*' }, (tabs) => {
+                            tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                        });
+                        setTimeout(() => window.location.reload(), 1500);
                     });
-                    setTimeout(() => window.location.reload(), 1500);
-                });
+                };
+
+                if (presetsCount > 0) {
+                    chrome.storage.sync.get(['customPresets'], (result) => {
+                        const existingPresets = result.customPresets || {};
+                        settingsToImport.customPresets = { ...existingPresets, ...importedPresets };
+                        finalizeImport();
+                    });
+                } else {
+                    finalizeImport();
+                }
 
             } catch (error) {
                 showNotification(error.message || I18nModule.t('importError'), 'error');
