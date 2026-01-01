@@ -97,6 +97,7 @@ export const TRANSLATIONS = {
         aboutFeature4: '💾 Sao lưu/khôi phục cài đặt',
         aboutFeature5: '🌐 Hỗ trợ đa ngôn ngữ (VI/EN)',
         aboutGithubLink: 'GitHub Repository',
+        advancedSettings: 'Cài đặt nâng cao',
         // Status
         hidingFeatures: 'Đang ẩn',
         progressBar: 'thanh tiến trình',
@@ -203,6 +204,7 @@ export const TRANSLATIONS = {
         aboutFeature4: '💾 Backup/restore settings',
         aboutFeature5: '🌐 Multi-language support (VI/EN)',
         aboutGithubLink: 'GitHub Repository',
+        advancedSettings: 'Advanced Settings',
         // Status
         hidingFeatures: 'Hiding',
         progressBar: 'progress bar',
@@ -294,6 +296,10 @@ export const I18nModule = {
         const extensionDisabledDesc = document.getElementById('extensionDisabledDesc');
         if (extensionDisabledTitle) extensionDisabledTitle.textContent = this.t('extensionDisabledTitle');
         if (extensionDisabledDesc) extensionDisabledDesc.textContent = this.t('extensionDisabledDesc');
+
+        // Update Advanced Settings button
+        const openSettingsText = document.getElementById('openSettingsText');
+        if (openSettingsText) openSettingsText.textContent = this.t('advancedSettings');
 
         // Update control labels
         const labelMappings = [
