@@ -4,10 +4,10 @@
 export function toggleComments(hide) {
 
     if (hide) {
-        document.body.classList.add('youtube-comments-hidden');
-        document.body.setAttribute('data-comments-hidden', 'true');
+        document.documentElement.classList.add('youtube-comments-hidden');
+        document.documentElement.setAttribute('data-comments-hidden', 'true');
     } else {
-        document.body.classList.remove('youtube-comments-hidden');
-        document.body.removeAttribute('data-comments-hidden');
+        document.documentElement.classList.remove('youtube-comments-hidden');
+        document.documentElement.removeAttribute('data-comments-hidden');
     }
 }

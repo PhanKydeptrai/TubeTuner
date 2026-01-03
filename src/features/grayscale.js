@@ -6,7 +6,7 @@ export function toggleGrayscale(enabled) {
     const styleId = 'tubetuner-grayscale-style';
 
     if (enabled) {
-        document.body.classList.add('youtube-grayscale-enabled');
+        document.documentElement.classList.add('youtube-grayscale-enabled');
 
         // Inject style to apply grayscale only to specific elements without affecting layout
         if (!document.getElementById(styleId)) {
@@ -101,7 +101,7 @@ export function toggleGrayscale(enabled) {
             document.head.appendChild(style);
         }
     } else {
-        document.body.classList.remove('youtube-grayscale-enabled');
+        document.documentElement.classList.remove('youtube-grayscale-enabled');
 
         const existing = document.getElementById(styleId);
         if (existing && existing.parentNode) existing.parentNode.removeChild(existing);

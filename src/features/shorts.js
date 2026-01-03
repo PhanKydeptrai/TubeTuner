@@ -3,10 +3,10 @@
 // Function to toggle Shorts
 export function toggleShorts(hide) {
     if (hide) {
-        document.body.classList.add('youtube-shorts-hidden');
+        document.documentElement.classList.add('youtube-shorts-hidden');
         applyShortsFixes(true);
     } else {
-        document.body.classList.remove('youtube-shorts-hidden');
+        document.documentElement.classList.remove('youtube-shorts-hidden');
         restoreShorts();
     }
 }
@@ -185,7 +185,7 @@ function applyShortsFixes(isHidden) {
     });
 
     // Configure and start observer
-    observer.observe(document.body, {
+    observer.observe(document.documentElement, {
         childList: true,
         subtree: true
     });

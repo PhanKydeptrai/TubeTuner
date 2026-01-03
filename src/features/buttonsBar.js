@@ -3,10 +3,10 @@
 // Function to toggle Buttons Bar
 export function toggleButtonsBar(hide) {
     if (hide) {
-        document.body.classList.add('youtube-buttons-bar-hidden');
+        document.documentElement.classList.add('youtube-buttons-bar-hidden');
         applyButtonsBarFixes();
     } else {
-        document.body.classList.remove('youtube-buttons-bar-hidden');
+        document.documentElement.classList.remove('youtube-buttons-bar-hidden');
         restoreButtonsBar();
     }
 }

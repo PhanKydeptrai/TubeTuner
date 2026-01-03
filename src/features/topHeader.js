@@ -3,12 +3,12 @@
 // Function to toggle Top Header/Navigation Bar
 export function toggleTopHeader(hide) {
     if (hide) {
-        document.body.classList.add('youtube-top-header-hidden');
-        document.body.setAttribute('data-top-header-hidden', 'true');
+        document.documentElement.classList.add('youtube-top-header-hidden');
+        document.documentElement.setAttribute('data-top-header-hidden', 'true');
         applyTopHeaderFixes();
     } else {
-        document.body.classList.remove('youtube-top-header-hidden');
-        document.body.removeAttribute('data-top-header-hidden');
+        document.documentElement.classList.remove('youtube-top-header-hidden');
+        document.documentElement.removeAttribute('data-top-header-hidden');
         restoreTopHeader();
     }
 }

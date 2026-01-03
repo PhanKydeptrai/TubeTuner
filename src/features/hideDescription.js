@@ -3,10 +3,10 @@
 // Function to toggle Hide Description
 export function toggleHideDescription(hide) {
     if (hide) {
-        document.body.classList.add('youtube-hide-description-hidden');
+        document.documentElement.classList.add('youtube-hide-description-hidden');
         applyHideDescriptionFixes();
     } else {
-        document.body.classList.remove('youtube-hide-description-hidden');
+        document.documentElement.classList.remove('youtube-hide-description-hidden');
         restoreHideDescription();
     }
 }

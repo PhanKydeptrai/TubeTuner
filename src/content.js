@@ -59,51 +59,47 @@ function initialize() {
         settings.grayscaleEnabled = result.grayscaleEnabled === true;
         settings.shopHidden = result.shopHidden === true;
 
-        setTimeout(() => {
-            if (settings.extensionEnabled) {
-                toggleProgressBar(settings.progressBarHidden);
-                toggleDuration(settings.durationHidden);
-                toggleShorts(settings.shortsHidden);
-                toggleHomeFeed(settings.homeFeedHidden);
-                toggleVideoSidebar(settings.videoSidebarHidden);
-                toggleComments(settings.commentsHidden);
-                toggleNotificationsBell(settings.notificationsBellHidden);
-                toggleTopHeader(settings.topHeaderHidden);
-                toggleExploreSection(settings.exploreSectionHidden);
-                toggleEndScreenCards(settings.endScreenCardsHidden);
-                toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
-                toggleHideChannel(settings.hideChannelHidden);
-                toggleButtonsBar(settings.buttonsBarHidden);
-                toggleHideDescription(settings.hideDescriptionHidden);
-                toggleGrayscale(settings.grayscaleEnabled);
-                toggleShop(settings.shopHidden);
-            }
-        }, 1000);
+        if (settings.extensionEnabled) {
+            toggleProgressBar(settings.progressBarHidden);
+            toggleDuration(settings.durationHidden);
+            toggleShorts(settings.shortsHidden);
+            toggleHomeFeed(settings.homeFeedHidden);
+            toggleVideoSidebar(settings.videoSidebarHidden);
+            toggleComments(settings.commentsHidden);
+            toggleNotificationsBell(settings.notificationsBellHidden);
+            toggleTopHeader(settings.topHeaderHidden);
+            toggleExploreSection(settings.exploreSectionHidden);
+            toggleEndScreenCards(settings.endScreenCardsHidden);
+            toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
+            toggleHideChannel(settings.hideChannelHidden);
+            toggleButtonsBar(settings.buttonsBarHidden);
+            toggleHideDescription(settings.hideDescriptionHidden);
+            toggleGrayscale(settings.grayscaleEnabled);
+            toggleShop(settings.shopHidden);
+        }
     });
 
     let currentUrl = location.href;
     const urlObserver = new MutationObserver(() => {
         if (location.href !== currentUrl) {
             currentUrl = location.href;
-            setTimeout(() => {
-                if (settings.extensionEnabled) {
-                    if (settings.progressBarHidden) toggleProgressBar(true);
-                    if (settings.durationHidden) toggleDuration(true);
-                    if (settings.shortsHidden) toggleShorts(true);
-                    if (settings.homeFeedHidden) toggleHomeFeed(true);
-                    if (settings.videoSidebarHidden) toggleVideoSidebar(true);
-                    if (settings.commentsHidden) toggleComments(true);
-                    if (settings.notificationsBellHidden) toggleNotificationsBell(true);
-                    if (settings.topHeaderHidden) toggleTopHeader(true);
-                    if (settings.exploreSectionHidden) toggleExploreSection(true);
-                    if (settings.endScreenCardsHidden) toggleEndScreenCards(true);
-                    if (settings.moreFromYouTubeHidden) toggleMoreFromYouTube(true);
-                    if (settings.hideChannelHidden) toggleHideChannel(true);
-                    if (settings.buttonsBarHidden) toggleButtonsBar(true);
-                    if (settings.hideDescriptionHidden) toggleHideDescription(true);
-                    if (settings.shopHidden) toggleShop(true);
-                }
-            }, 2000);
+            if (settings.extensionEnabled) {
+                if (settings.progressBarHidden) toggleProgressBar(true);
+                if (settings.durationHidden) toggleDuration(true);
+                if (settings.shortsHidden) toggleShorts(true);
+                if (settings.homeFeedHidden) toggleHomeFeed(true);
+                if (settings.videoSidebarHidden) toggleVideoSidebar(true);
+                if (settings.commentsHidden) toggleComments(true);
+                if (settings.notificationsBellHidden) toggleNotificationsBell(true);
+                if (settings.topHeaderHidden) toggleTopHeader(true);
+                if (settings.exploreSectionHidden) toggleExploreSection(true);
+                if (settings.endScreenCardsHidden) toggleEndScreenCards(true);
+                if (settings.moreFromYouTubeHidden) toggleMoreFromYouTube(true);
+                if (settings.hideChannelHidden) toggleHideChannel(true);
+                if (settings.buttonsBarHidden) toggleButtonsBar(true);
+                if (settings.hideDescriptionHidden) toggleHideDescription(true);
+                if (settings.shopHidden) toggleShop(true);
+            }
         }
     });
 
@@ -119,111 +115,59 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 
     for (const [key, change] of Object.entries(changes)) {
         const newValue = change.newValue;
+        if (key === 'extensionEnabled') settings.extensionEnabled = newValue !== false;
+        else if (key === 'progressBarHidden') settings.progressBarHidden = newValue === true;
+        else if (key === 'durationHidden') settings.durationHidden = newValue === true;
+        else if (key === 'shortsHidden') settings.shortsHidden = newValue === true;
+        else if (key === 'homeFeedHidden') settings.homeFeedHidden = newValue === true;
+        else if (key === 'videoSidebarHidden') settings.videoSidebarHidden = newValue === true;
+        else if (key === 'commentsHidden') settings.commentsHidden = newValue === true;
+        else if (key === 'notificationsBellHidden') settings.notificationsBellHidden = newValue === true;
+        else if (key === 'topHeaderHidden') settings.topHeaderHidden = newValue === true;
+        else if (key === 'exploreSectionHidden') settings.exploreSectionHidden = newValue === true;
+        else if (key === 'endScreenCardsHidden') settings.endScreenCardsHidden = newValue === true;
+        else if (key === 'moreFromYouTubeHidden') settings.moreFromYouTubeHidden = newValue === true;
+        else if (key === 'hideChannelHidden') settings.hideChannelHidden = newValue === true;
+        else if (key === 'buttonsBarHidden') settings.buttonsBarHidden = newValue === true;
+        else if (key === 'hideDescriptionHidden') settings.hideDescriptionHidden = newValue === true;
+        else if (key === 'grayscaleEnabled') settings.grayscaleEnabled = newValue === true;
+        else if (key === 'shopHidden') settings.shopHidden = newValue === true;
+    }
 
-        switch (key) {
-            case 'extensionEnabled':
-                settings.extensionEnabled = newValue !== false;
-                if (!settings.extensionEnabled) {
-                    toggleProgressBar(false);
-                    toggleDuration(false);
-                    toggleShorts(false);
-                    toggleHomeFeed(false);
-                    toggleVideoSidebar(false);
-                    toggleComments(false);
-                    toggleNotificationsBell(false);
-                    toggleTopHeader(false);
-                    toggleExploreSection(false);
-                    toggleEndScreenCards(false);
-                    toggleMoreFromYouTube(false);
-                    toggleHideChannel(false);
-                    toggleButtonsBar(false);
-                    toggleHideDescription(false);
-                    toggleGrayscale(false);
-                    toggleShop(false);
-                } else {
-                    toggleProgressBar(settings.progressBarHidden);
-                    toggleDuration(settings.durationHidden);
-                    toggleShorts(settings.shortsHidden);
-                    toggleHomeFeed(settings.homeFeedHidden);
-                    toggleVideoSidebar(settings.videoSidebarHidden);
-                    toggleComments(settings.commentsHidden);
-                    toggleNotificationsBell(settings.notificationsBellHidden);
-                    toggleTopHeader(settings.topHeaderHidden);
-                    toggleExploreSection(settings.exploreSectionHidden);
-                    toggleEndScreenCards(settings.endScreenCardsHidden);
-                    toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
-                    toggleHideChannel(settings.hideChannelHidden);
-                    toggleButtonsBar(settings.buttonsBarHidden);
-                    toggleHideDescription(settings.hideDescriptionHidden);
-                    toggleGrayscale(settings.grayscaleEnabled);
-                    toggleShop(settings.shopHidden);
-                }
-                break;
-            case 'progressBarHidden':
-                settings.progressBarHidden = newValue === true;
-                toggleProgressBar(settings.progressBarHidden);
-                break;
-            case 'durationHidden':
-                settings.durationHidden = newValue === true;
-                toggleDuration(settings.durationHidden);
-                break;
-            case 'shortsHidden':
-                settings.shortsHidden = newValue === true;
-                toggleShorts(settings.shortsHidden);
-                break;
-            case 'homeFeedHidden':
-                settings.homeFeedHidden = newValue === true;
-                toggleHomeFeed(settings.homeFeedHidden);
-                break;
-            case 'videoSidebarHidden':
-                settings.videoSidebarHidden = newValue === true;
-                toggleVideoSidebar(settings.videoSidebarHidden);
-                break;
-            case 'commentsHidden':
-                settings.commentsHidden = newValue === true;
-                toggleComments(settings.commentsHidden);
-                break;
-            case 'notificationsBellHidden':
-                settings.notificationsBellHidden = newValue === true;
-                toggleNotificationsBell(settings.notificationsBellHidden);
-                break;
-            case 'topHeaderHidden':
-                settings.topHeaderHidden = newValue === true;
-                toggleTopHeader(settings.topHeaderHidden);
-                break;
-            case 'exploreSectionHidden':
-                settings.exploreSectionHidden = newValue === true;
-                toggleExploreSection(settings.exploreSectionHidden);
-                break;
-            case 'endScreenCardsHidden':
-                settings.endScreenCardsHidden = newValue === true;
-                toggleEndScreenCards(settings.endScreenCardsHidden);
-                break;
-            case 'moreFromYouTubeHidden':
-                settings.moreFromYouTubeHidden = newValue === true;
-                toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
-                break;
-            case 'hideChannelHidden':
-                settings.hideChannelHidden = newValue === true;
-                toggleHideChannel(settings.hideChannelHidden);
-                break;
-            case 'buttonsBarHidden':
-                settings.buttonsBarHidden = newValue === true;
-                toggleButtonsBar(settings.buttonsBarHidden);
-                break;
-            case 'hideDescriptionHidden':
-                settings.hideDescriptionHidden = newValue === true;
-                toggleHideDescription(settings.hideDescriptionHidden);
-                break;
-            case 'grayscaleEnabled':
-                settings.grayscaleEnabled = newValue === true;
-                toggleGrayscale(settings.grayscaleEnabled);
-                break;
-            case 'shopHidden':
-                settings.shopHidden = newValue === true;
-                toggleShop(settings.shopHidden);
-                break;
-        }
+    if (!settings.extensionEnabled) {
+        toggleProgressBar(false);
+        toggleDuration(false);
+        toggleShorts(false);
+        toggleHomeFeed(false);
+        toggleVideoSidebar(false);
+        toggleComments(false);
+        toggleNotificationsBell(false);
+        toggleTopHeader(false);
+        toggleExploreSection(false);
+        toggleEndScreenCards(false);
+        toggleMoreFromYouTube(false);
+        toggleHideChannel(false);
+        toggleButtonsBar(false);
+        toggleHideDescription(false);
+        toggleGrayscale(false);
+        toggleShop(false);
+    } else {
+        toggleProgressBar(settings.progressBarHidden);
+        toggleDuration(settings.durationHidden);
+        toggleShorts(settings.shortsHidden);
+        toggleHomeFeed(settings.homeFeedHidden);
+        toggleVideoSidebar(settings.videoSidebarHidden);
+        toggleComments(settings.commentsHidden);
+        toggleNotificationsBell(settings.notificationsBellHidden);
+        toggleTopHeader(settings.topHeaderHidden);
+        toggleExploreSection(settings.exploreSectionHidden);
+        toggleEndScreenCards(settings.endScreenCardsHidden);
+        toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
+        toggleHideChannel(settings.hideChannelHidden);
+        toggleButtonsBar(settings.buttonsBarHidden);
+        toggleHideDescription(settings.hideDescriptionHidden);
+        toggleGrayscale(settings.grayscaleEnabled);
+        toggleShop(settings.shopHidden);
     }
 });
 
@@ -231,110 +175,59 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     if (request.action === 'syncSettings') {
         for (const [key, value] of Object.entries(request.changes)) {
-            switch (key) {
-                case 'extensionEnabled':
-                    settings.extensionEnabled = value !== false;
-                    if (!settings.extensionEnabled) {
-                        toggleProgressBar(false);
-                        toggleDuration(false);
-                        toggleShorts(false);
-                        toggleHomeFeed(false);
-                        toggleVideoSidebar(false);
-                        toggleComments(false);
-                        toggleNotificationsBell(false);
-                        toggleTopHeader(false);
-                        toggleExploreSection(false);
-                        toggleEndScreenCards(false);
-                        toggleMoreFromYouTube(false);
-                        toggleHideChannel(false);
-                        toggleButtonsBar(false);
-                        toggleHideDescription(false);
-                        toggleGrayscale(false);
-                        toggleShop(false);
-                    } else {
-                        toggleProgressBar(settings.progressBarHidden);
-                        toggleDuration(settings.durationHidden);
-                        toggleShorts(settings.shortsHidden);
-                        toggleHomeFeed(settings.homeFeedHidden);
-                        toggleVideoSidebar(settings.videoSidebarHidden);
-                        toggleComments(settings.commentsHidden);
-                        toggleNotificationsBell(settings.notificationsBellHidden);
-                        toggleTopHeader(settings.topHeaderHidden);
-                        toggleExploreSection(settings.exploreSectionHidden);
-                        toggleEndScreenCards(settings.endScreenCardsHidden);
-                        toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
-                        toggleHideChannel(settings.hideChannelHidden);
-                        toggleButtonsBar(settings.buttonsBarHidden);
-                        toggleHideDescription(settings.hideDescriptionHidden);
-                        toggleGrayscale(settings.grayscaleEnabled);
-                        toggleShop(settings.shopHidden);
-                    }
-                    break;
-                case 'progressBarHidden':
-                    settings.progressBarHidden = value === true;
-                    toggleProgressBar(settings.progressBarHidden);
-                    break;
-                case 'durationHidden':
-                    settings.durationHidden = value === true;
-                    toggleDuration(settings.durationHidden);
-                    break;
-                case 'shortsHidden':
-                    settings.shortsHidden = value === true;
-                    toggleShorts(settings.shortsHidden);
-                    break;
-                case 'homeFeedHidden':
-                    settings.homeFeedHidden = value === true;
-                    toggleHomeFeed(settings.homeFeedHidden);
-                    break;
-                case 'videoSidebarHidden':
-                    settings.videoSidebarHidden = value === true;
-                    toggleVideoSidebar(settings.videoSidebarHidden);
-                    break;
-                case 'commentsHidden':
-                    settings.commentsHidden = value === true;
-                    toggleComments(settings.commentsHidden);
-                    break;
-                case 'notificationsBellHidden':
-                    settings.notificationsBellHidden = value === true;
-                    toggleNotificationsBell(settings.notificationsBellHidden);
-                    break;
-                case 'topHeaderHidden':
-                    settings.topHeaderHidden = value === true;
-                    toggleTopHeader(settings.topHeaderHidden);
-                    break;
-                case 'exploreSectionHidden':
-                    settings.exploreSectionHidden = value === true;
-                    toggleExploreSection(settings.exploreSectionHidden);
-                    break;
-                case 'endScreenCardsHidden':
-                    settings.endScreenCardsHidden = value === true;
-                    toggleEndScreenCards(settings.endScreenCardsHidden);
-                    break;
-                case 'moreFromYouTubeHidden':
-                    settings.moreFromYouTubeHidden = value === true;
-                    toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
-                    break;
-                case 'hideChannelHidden':
-                    settings.hideChannelHidden = value === true;
-                    toggleHideChannel(settings.hideChannelHidden);
-                    break;
-                case 'buttonsBarHidden':
-                    settings.buttonsBarHidden = value === true;
-                    toggleButtonsBar(settings.buttonsBarHidden);
-                    break;
-                case 'hideDescriptionHidden':
-                    settings.hideDescriptionHidden = value === true;
-                    toggleHideDescription(settings.hideDescriptionHidden);
-                    break;
-                case 'grayscaleEnabled':
-                    settings.grayscaleEnabled = value === true;
-                    toggleGrayscale(settings.grayscaleEnabled);
-                    break;
-                case 'shopHidden':
-                    settings.shopHidden = value === true;
-                    toggleShop(settings.shopHidden);
-                    break;
-            }
+            if (key === 'extensionEnabled') settings.extensionEnabled = value !== false;
+            else if (key === 'progressBarHidden') settings.progressBarHidden = value === true;
+            else if (key === 'durationHidden') settings.durationHidden = value === true;
+            else if (key === 'shortsHidden') settings.shortsHidden = value === true;
+            else if (key === 'homeFeedHidden') settings.homeFeedHidden = value === true;
+            else if (key === 'videoSidebarHidden') settings.videoSidebarHidden = value === true;
+            else if (key === 'commentsHidden') settings.commentsHidden = value === true;
+            else if (key === 'notificationsBellHidden') settings.notificationsBellHidden = value === true;
+            else if (key === 'topHeaderHidden') settings.topHeaderHidden = value === true;
+            else if (key === 'exploreSectionHidden') settings.exploreSectionHidden = value === true;
+            else if (key === 'endScreenCardsHidden') settings.endScreenCardsHidden = value === true;
+            else if (key === 'moreFromYouTubeHidden') settings.moreFromYouTubeHidden = value === true;
+            else if (key === 'hideChannelHidden') settings.hideChannelHidden = value === true;
+            else if (key === 'buttonsBarHidden') settings.buttonsBarHidden = value === true;
+            else if (key === 'hideDescriptionHidden') settings.hideDescriptionHidden = value === true;
+            else if (key === 'grayscaleEnabled') settings.grayscaleEnabled = value === true;
+            else if (key === 'shopHidden') settings.shopHidden = value === true;
+        }
+
+        if (!settings.extensionEnabled) {
+            toggleProgressBar(false);
+            toggleDuration(false);
+            toggleShorts(false);
+            toggleHomeFeed(false);
+            toggleVideoSidebar(false);
+            toggleComments(false);
+            toggleNotificationsBell(false);
+            toggleTopHeader(false);
+            toggleExploreSection(false);
+            toggleEndScreenCards(false);
+            toggleMoreFromYouTube(false);
+            toggleHideChannel(false);
+            toggleButtonsBar(false);
+            toggleHideDescription(false);
+            toggleGrayscale(false);
+            toggleShop(false);
+        } else {
+            toggleProgressBar(settings.progressBarHidden);
+            toggleDuration(settings.durationHidden);
+            toggleShorts(settings.shortsHidden);
+            toggleHomeFeed(settings.homeFeedHidden);
+            toggleVideoSidebar(settings.videoSidebarHidden);
+            toggleComments(settings.commentsHidden);
+            toggleNotificationsBell(settings.notificationsBellHidden);
+            toggleTopHeader(settings.topHeaderHidden);
+            toggleExploreSection(settings.exploreSectionHidden);
+            toggleEndScreenCards(settings.endScreenCardsHidden);
+            toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
+            toggleHideChannel(settings.hideChannelHidden);
+            toggleButtonsBar(settings.buttonsBarHidden);
+            toggleHideDescription(settings.hideDescriptionHidden);
+            toggleGrayscale(settings.grayscaleEnabled);
+            toggleShop(settings.shopHidden);
         }
 
         sendResponse({ success: true });
@@ -426,29 +319,4 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     return true;
 });
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initialize);
-} else {
-    initialize();
-}
-
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        if (settings.progressBarHidden) toggleProgressBar(true);
-        if (settings.durationHidden) toggleDuration(true);
-        if (settings.shortsHidden) toggleShorts(true);
-        if (settings.homeFeedHidden) toggleHomeFeed(true);
-        if (settings.videoSidebarHidden) toggleVideoSidebar(true);
-        if (settings.commentsHidden) toggleComments(true);
-        if (settings.notificationsBellHidden) toggleNotificationsBell(true);
-        if (settings.topHeaderHidden) toggleTopHeader(true);
-        if (settings.exploreSectionHidden) toggleExploreSection(true);
-        if (settings.endScreenCardsHidden) toggleEndScreenCards(true);
-        if (settings.moreFromYouTubeHidden) toggleMoreFromYouTube(true);
-        if (settings.hideChannelHidden) toggleHideChannel(true);
-        if (settings.buttonsBarHidden) toggleButtonsBar(true);
-        if (settings.hideDescriptionHidden) toggleHideDescription(true);
-        if (settings.grayscaleEnabled) toggleGrayscale(true);
-        if (settings.shopHidden) toggleShop(true);
-    }, 2000);
-});
+initialize();

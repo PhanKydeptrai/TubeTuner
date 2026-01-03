@@ -59,7 +59,7 @@
             (tab.url.includes('youtube.com'))) {
 
             chrome.storage.sync.get([
-                'progressBarHidden', 'durationHidden', 'shortsHidden', 
+                'extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 
                 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden',
                 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden',
                 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden',

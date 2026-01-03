@@ -6,12 +6,12 @@ let exploreSectionObserver = null;
 // Function to toggle Explore Section
 export function toggleExploreSection(hide) {
     if (hide) {
-        document.body.classList.add('youtube-explore-section-hidden');
-        document.body.setAttribute('data-explore-section-hidden', 'true');
+        document.documentElement.classList.add('youtube-explore-section-hidden');
+        document.documentElement.setAttribute('data-explore-section-hidden', 'true');
         applyExploreSectionFixes();
     } else {
-        document.body.classList.remove('youtube-explore-section-hidden');
-        document.body.removeAttribute('data-explore-section-hidden');
+        document.documentElement.classList.remove('youtube-explore-section-hidden');
+        document.documentElement.removeAttribute('data-explore-section-hidden');
         restoreExploreSection();
     }
 }
@@ -57,7 +57,7 @@ function applyExploreSectionFixes() {
             }
         });
 
-        exploreSectionObserver.observe(document.body, {
+        exploreSectionObserver.observe(document.documentElement, {
             childList: true,
             subtree: true
         });
