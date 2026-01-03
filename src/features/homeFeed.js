@@ -6,10 +6,10 @@ export function toggleHomeFeed(hide) {
     // settings.homeFeedHidden = hide; // Removed global dependency
 
     if (hide) {
-        document.body.classList.add('youtube-home-feed-hidden');
-        document.body.setAttribute('data-home-feed-hidden', 'true');
+        document.documentElement.classList.add('youtube-home-feed-hidden');
+        document.documentElement.setAttribute('data-home-feed-hidden', 'true');
     } else {
-        document.body.classList.remove('youtube-home-feed-hidden');
-        document.body.removeAttribute('data-home-feed-hidden');
+        document.documentElement.classList.remove('youtube-home-feed-hidden');
+        document.documentElement.removeAttribute('data-home-feed-hidden');
     }
 }

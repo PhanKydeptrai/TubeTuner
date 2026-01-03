@@ -6,10 +6,10 @@ let moreFromYouTubeTimeout = null;
 // Function to toggle More from YouTube Section
 export function toggleMoreFromYouTube(hide) {
     if (hide) {
-        document.body.classList.add('youtube-more-from-youtube-hidden');
+        document.documentElement.classList.add('youtube-more-from-youtube-hidden');
         applyMoreFromYouTubeFixes();
     } else {
-        document.body.classList.remove('youtube-more-from-youtube-hidden');
+        document.documentElement.classList.remove('youtube-more-from-youtube-hidden');
         restoreMoreFromYouTube();
     }
 }
@@ -91,7 +91,7 @@ function applyMoreFromYouTubeFixes() {
             }
         });
 
-        moreFromYouTubeObserver.observe(document.body, {
+        moreFromYouTubeObserver.observe(document.documentElement, {
             childList: true,
             subtree: true
         });

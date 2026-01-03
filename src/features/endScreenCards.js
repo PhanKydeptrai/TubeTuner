@@ -3,12 +3,12 @@
 // Function to toggle End Screen Cards/Annotations
 export function toggleEndScreenCards(hide) {
     if (hide) {
-        document.body.classList.add('youtube-end-screen-cards-hidden');
-        document.body.setAttribute('data-end-screen-cards-hidden', 'true');
+        document.documentElement.classList.add('youtube-end-screen-cards-hidden');
+        document.documentElement.setAttribute('data-end-screen-cards-hidden', 'true');
         applyEndScreenCardsFixes();
     } else {
-        document.body.classList.remove('youtube-end-screen-cards-hidden');
-        document.body.removeAttribute('data-end-screen-cards-hidden');
+        document.documentElement.classList.remove('youtube-end-screen-cards-hidden');
+        document.documentElement.removeAttribute('data-end-screen-cards-hidden');
         restoreEndScreenCards();
     }
 }
@@ -87,7 +87,7 @@ function applyEndScreenCardsFixes() {
         }
     });
 
-    endScreenObserver.observe(document.body, {
+    endScreenObserver.observe(document.documentElement, {
         childList: true,
         subtree: true
     });

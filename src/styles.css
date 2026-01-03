@@ -123,58 +123,58 @@
 
 /* YouTube specific styles */
 /* Ẩn progress bar khi extension bật */
-body.youtube-progress-hidden .ytp-progress-bar-container {
+html.youtube-progress-hidden .ytp-progress-bar-container {
   display: none !important;
 }
 
-body.youtube-progress-hidden .ytp-progress-bar {
+html.youtube-progress-hidden .ytp-progress-bar {
   display: none !important;
 }
 
-body.youtube-progress-hidden .ytp-scrubber-container {
+html.youtube-progress-hidden .ytp-scrubber-container {
   display: none !important;
 }
 
-body.youtube-progress-hidden .ytp-hover-progress {
+html.youtube-progress-hidden .ytp-hover-progress {
   display: none !important;
 }
 
-body.youtube-progress-hidden .ytp-load-progress {
+html.youtube-progress-hidden .ytp-load-progress {
   display: none !important;
 }
 
-body.youtube-progress-hidden .ytp-play-progress {
+html.youtube-progress-hidden .ytp-play-progress {
   display: none !important;
 }
 
 /* Ẩn thời lượng video khi extension bật */
-body.youtube-duration-hidden .ytp-time-display {
+html.youtube-duration-hidden .ytp-time-display {
   display: none !important;
 }
 
-body.youtube-duration-hidden .ytp-time-current {
+html.youtube-duration-hidden .ytp-time-current {
   display: none !important;
 }
 
-body.youtube-duration-hidden .ytp-time-separator {
+html.youtube-duration-hidden .ytp-time-separator {
   display: none !important;
 }
 
-body.youtube-duration-hidden .ytp-time-duration {
+html.youtube-duration-hidden .ytp-time-duration {
   display: none !important;
 }
 
 /* Ẩn thời lượng trong thumbnail và info */
-body.youtube-duration-hidden .ytd-thumbnail-overlay-time-status-renderer {
+html.youtube-duration-hidden .ytd-thumbnail-overlay-time-status-renderer {
   display: none !important;
 }
 
-body.youtube-duration-hidden .badge-style-type-simple {
+html.youtube-duration-hidden .badge-style-type-simple {
   display: none !important;
 }
 
-body.youtube-duration-hidden .ytp-bound-time-left,
-body.youtube-duration-hidden .ytp-bound-time-right {
+html.youtube-duration-hidden .ytp-bound-time-left,
+html.youtube-duration-hidden .ytp-bound-time-right {
   display: none !important;
 }
 
@@ -204,452 +204,452 @@ body.youtube-duration-hidden .ytp-bound-time-right {
 /* ===== COMPREHENSIVE YOUTUBE SHORTS HIDING ===== */
 
 /* 1. SIDEBAR NAVIGATION - Hide Shorts button/link completely */
-body.youtube-shorts-hidden ytd-guide-entry-renderer a[title="Shorts"],
-body.youtube-shorts-hidden ytd-guide-entry-renderer a[title*="Shorts"],
-body.youtube-shorts-hidden ytd-guide-entry-renderer a[title*="shorts"],
-body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[title="Shorts"],
-body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[title*="Shorts"],
-body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[title*="shorts"],
-body.youtube-shorts-hidden ytd-guide-entry-renderer a[href="/shorts"],
-body.youtube-shorts-hidden ytd-guide-entry-renderer a[href*="/shorts"],
-body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[href="/shorts"],
-body.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[href*="/shorts"] {
+html.youtube-shorts-hidden ytd-guide-entry-renderer a[title="Shorts"],
+html.youtube-shorts-hidden ytd-guide-entry-renderer a[title*="Shorts"],
+html.youtube-shorts-hidden ytd-guide-entry-renderer a[title*="shorts"],
+html.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[title="Shorts"],
+html.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[title*="Shorts"],
+html.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[title*="shorts"],
+html.youtube-shorts-hidden ytd-guide-entry-renderer a[href="/shorts"],
+html.youtube-shorts-hidden ytd-guide-entry-renderer a[href*="/shorts"],
+html.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[href="/shorts"],
+html.youtube-shorts-hidden ytd-mini-guide-entry-renderer a[href*="/shorts"] {
   display: none !important;
 }
 
 /* Hide entire guide entry containers that contain Shorts */
-body.youtube-shorts-hidden ytd-guide-entry-renderer[shorts-hidden="true"],
-body.youtube-shorts-hidden ytd-mini-guide-entry-renderer[shorts-hidden="true"] {
+html.youtube-shorts-hidden ytd-guide-entry-renderer[shorts-hidden="true"],
+html.youtube-shorts-hidden ytd-mini-guide-entry-renderer[shorts-hidden="true"] {
   display: none !important;
 }
 
 /* Additional sidebar hiding */
-body.youtube-shorts-hidden ytd-guide-section-renderer ytd-guide-entry-renderer a[href="/shorts"],
-body.youtube-shorts-hidden ytd-guide-section-renderer ytd-guide-entry-renderer a[href*="/shorts"] {
+html.youtube-shorts-hidden ytd-guide-section-renderer ytd-guide-entry-renderer a[href="/shorts"],
+html.youtube-shorts-hidden ytd-guide-section-renderer ytd-guide-entry-renderer a[href*="/shorts"] {
   display: none !important;
 }
 
 /* 2. HOMEPAGE SHORTS SECTIONS - Hide entire Shorts areas */
-body.youtube-shorts-hidden ytd-rich-section-renderer ytd-rich-shelf-renderer[is-shorts],
-body.youtube-shorts-hidden ytd-rich-section-renderer[shorts-section="true"],
-body.youtube-shorts-hidden ytd-shelf-renderer[shorts-section="true"] {
+html.youtube-shorts-hidden ytd-rich-section-renderer ytd-rich-shelf-renderer[is-shorts],
+html.youtube-shorts-hidden ytd-rich-section-renderer[shorts-section="true"],
+html.youtube-shorts-hidden ytd-shelf-renderer[shorts-section="true"] {
   display: none !important;
 }
 
-body.youtube-shorts-hidden ytd-reel-shelf-renderer,
-body.youtube-shorts-hidden ytd-shorts-shelf-renderer,
-body.youtube-shorts-hidden ytd-shorts {
+html.youtube-shorts-hidden ytd-reel-shelf-renderer,
+html.youtube-shorts-hidden ytd-shorts-shelf-renderer,
+html.youtube-shorts-hidden ytd-shorts {
   display: none !important;
 }
 
 /* 3. INDIVIDUAL SHORTS VIDEOS - Hide all video containers with Shorts */
-body.youtube-shorts-hidden ytd-rich-grid-media[is-short="true"],
-body.youtube-shorts-hidden ytd-rich-grid-media[shorts-video="true"] {
+html.youtube-shorts-hidden ytd-rich-grid-media[is-short="true"],
+html.youtube-shorts-hidden ytd-rich-grid-media[shorts-video="true"] {
   display: none !important;
 }
 
-body.youtube-shorts-hidden ytd-thumbnail[is-short="true"],
-body.youtube-shorts-hidden ytd-thumbnail[shorts-video="true"] {
+html.youtube-shorts-hidden ytd-thumbnail[is-short="true"],
+html.youtube-shorts-hidden ytd-thumbnail[shorts-video="true"] {
   display: none !important;
 }
 
 /* Hide video renderers containing Shorts */
-body.youtube-shorts-hidden ytd-grid-video-renderer[is-short="true"],
-body.youtube-shorts-hidden ytd-compact-video-renderer[is-short="true"],
-body.youtube-shorts-hidden ytd-video-renderer[is-short="true"],
-body.youtube-shorts-hidden ytd-rich-item-renderer[is-short="true"] {
+html.youtube-shorts-hidden ytd-grid-video-renderer[is-short="true"],
+html.youtube-shorts-hidden ytd-compact-video-renderer[is-short="true"],
+html.youtube-shorts-hidden ytd-video-renderer[is-short="true"],
+html.youtube-shorts-hidden ytd-rich-item-renderer[is-short="true"] {
   display: none !important;
 }
 
 /* 4. URL-BASED HIDING - Hide any element linking to Shorts */
 /* Hide containers that contain Shorts links */
-body.youtube-shorts-hidden ytd-grid-video-renderer:has(a[href*="/shorts/"]),
-body.youtube-shorts-hidden ytd-compact-video-renderer:has(a[href*="/shorts/"]),
-body.youtube-shorts-hidden ytd-video-renderer:has(a[href*="/shorts/"]),
-body.youtube-shorts-hidden ytd-rich-item-renderer:has(a[href*="/shorts/"]),
-body.youtube-shorts-hidden ytd-rich-grid-media:has(a[href*="/shorts/"]) {
+html.youtube-shorts-hidden ytd-grid-video-renderer:has(a[href*="/shorts/"]),
+html.youtube-shorts-hidden ytd-compact-video-renderer:has(a[href*="/shorts/"]),
+html.youtube-shorts-hidden ytd-video-renderer:has(a[href*="/shorts/"]),
+html.youtube-shorts-hidden ytd-rich-item-renderer:has(a[href*="/shorts/"]),
+html.youtube-shorts-hidden ytd-rich-grid-media:has(a[href*="/shorts/"]) {
   display: none !important;
 }
 
 /* Fallback: Hide the links themselves */
-body.youtube-shorts-hidden a[href*="/shorts/"] {
+html.youtube-shorts-hidden a[href*="/shorts/"] {
   display: none !important;
 }
 
 /* Hide specific video containers with Shorts links */
-body.youtube-shorts-hidden ytd-grid-video-renderer a[href*="/shorts/"],
-body.youtube-shorts-hidden ytd-compact-video-renderer a[href*="/shorts/"],
-body.youtube-shorts-hidden ytd-video-renderer a[href*="/shorts/"],
-body.youtube-shorts-hidden ytd-rich-item-renderer a[href*="/shorts/"] {
+html.youtube-shorts-hidden ytd-grid-video-renderer a[href*="/shorts/"],
+html.youtube-shorts-hidden ytd-compact-video-renderer a[href*="/shorts/"],
+html.youtube-shorts-hidden ytd-video-renderer a[href*="/shorts/"],
+html.youtube-shorts-hidden ytd-rich-item-renderer a[href*="/shorts/"] {
   display: none !important;
 }
 
 /* 5. CHANNEL PAGES - Hide Shorts tabs and content */
-body.youtube-shorts-hidden tp-yt-paper-tab[tab-id="shorts"],
-body.youtube-shorts-hidden yt-tab-shape[tab-title*="Shorts"],
-body.youtube-shorts-hidden yt-tab-shape[tab-title*="shorts"] {
+html.youtube-shorts-hidden tp-yt-paper-tab[tab-id="shorts"],
+html.youtube-shorts-hidden yt-tab-shape[tab-title*="Shorts"],
+html.youtube-shorts-hidden yt-tab-shape[tab-title*="shorts"] {
   display: none !important;
 }
 
 /* Hide Shorts shelf in sidebar */
-body.youtube-shorts-hidden .ytGridShelfViewModelHost.ytd-item-section-renderer.ytGridShelfViewModelHostHasBottomButton {
+html.youtube-shorts-hidden .ytGridShelfViewModelHost.ytd-item-section-renderer.ytGridShelfViewModelHostHasBottomButton {
   display: none !important;
 }
 
 /* Hide the time badge on thumbnails */
-body.youtube-duration-hidden .yt-thumbnail-overlay-badge-view-model.yt-thumbnail-overlay-badge-view-model--bottom-end.yt-thumbnail-overlay-badge-view-model--medium {
+html.youtube-duration-hidden .yt-thumbnail-overlay-badge-view-model.yt-thumbnail-overlay-badge-view-model--bottom-end.yt-thumbnail-overlay-badge-view-model--medium {
   display: none !important;
 }
 
-body.youtube-duration-hidden .yt-badge-shape.yt-badge-shape--thumbnail-default.yt-badge-shape--thumbnail-badge {
+html.youtube-duration-hidden .yt-badge-shape.yt-badge-shape--thumbnail-default.yt-badge-shape--thumbnail-badge {
   display: none !important;
 }
 
 /* Hide Shorts in channel video grids */
-body.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer:has(a[href*="/shorts/"]),
-body.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer a[href*="/shorts/"] {
+html.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer:has(a[href*="/shorts/"]),
+html.youtube-shorts-hidden ytd-two-column-browse-results-renderer[page-subtype="channels"] ytd-grid-renderer ytd-grid-video-renderer a[href*="/shorts/"] {
   display: none !important;
 }
 
 /* 6. SEARCH RESULTS - Hide Shorts in search */
-body.youtube-shorts-hidden ytd-search ytd-video-renderer:has(a[href*="/shorts/"]),
-body.youtube-shorts-hidden ytd-search ytd-video-renderer a[href*="/shorts/"],
-body.youtube-shorts-hidden ytd-item-section-renderer ytd-video-renderer:has(a[href*="/shorts/"]) {
+html.youtube-shorts-hidden ytd-search ytd-video-renderer:has(a[href*="/shorts/"]),
+html.youtube-shorts-hidden ytd-search ytd-video-renderer a[href*="/shorts/"],
+html.youtube-shorts-hidden ytd-item-section-renderer ytd-video-renderer:has(a[href*="/shorts/"]) {
   display: none !important;
 }
 
 /* 7. PLAYLISTS AND OTHER AREAS */
-body.youtube-shorts-hidden ytd-playlist-panel-video-renderer:has(a[href*="/shorts/"]),
-body.youtube-shorts-hidden ytd-playlist-panel-video-renderer a[href*="/shorts/"] {
+html.youtube-shorts-hidden ytd-playlist-panel-video-renderer:has(a[href*="/shorts/"]),
+html.youtube-shorts-hidden ytd-playlist-panel-video-renderer a[href*="/shorts/"] {
   display: none !important;
 }
 
 /* 8. GENERAL SHORTS SECTIONS */
-body.youtube-shorts-hidden [is-shorts="true"],
-body.youtube-shorts-hidden [shorts-section="true"] {
+html.youtube-shorts-hidden [is-shorts="true"],
+html.youtube-shorts-hidden [shorts-section="true"] {
   display: none !important;
 }
 
 /* 9. JAVASCRIPT-MARKED ELEMENTS */
-body.youtube-shorts-hidden ytd-rich-section-renderer.ytd-shorts-section,
-body.youtube-shorts-hidden ytd-shelf-renderer.ytd-shorts-section {
+html.youtube-shorts-hidden ytd-rich-section-renderer.ytd-shorts-section,
+html.youtube-shorts-hidden ytd-shelf-renderer.ytd-shorts-section {
   display: none !important;
 }
 
 /* 10. ALL SHORTS COMPONENTS */
-body.youtube-shorts-hidden ytd-shorts,
-body.youtube-shorts-hidden ytd-shorts-shelf-renderer,
-body.youtube-shorts-hidden ytd-reel-shelf-renderer,
-body.youtube-shorts-hidden ytd-shorts-compact-video-renderer,
-body.youtube-shorts-hidden ytd-shorts-video-renderer,
-body.youtube-shorts-hidden ytd-reel-item-renderer {
+html.youtube-shorts-hidden ytd-shorts,
+html.youtube-shorts-hidden ytd-shorts-shelf-renderer,
+html.youtube-shorts-hidden ytd-reel-shelf-renderer,
+html.youtube-shorts-hidden ytd-shorts-compact-video-renderer,
+html.youtube-shorts-hidden ytd-shorts-video-renderer,
+html.youtube-shorts-hidden ytd-reel-item-renderer {
   display: none !important;
 }
 
 /* 11. ATTRIBUTE-BASED HIDING - Only specific YouTube elements */
-body.youtube-shorts-hidden ytd-guide-entry-renderer[aria-label*="Shorts"],
-body.youtube-shorts-hidden ytd-mini-guide-entry-renderer[aria-label*="Shorts"],
-body.youtube-shorts-hidden ytd-guide-entry-renderer[title*="Shorts"],
-body.youtube-shorts-hidden ytd-mini-guide-entry-renderer[title*="Shorts"],
-body.youtube-shorts-hidden tp-yt-paper-tab[aria-label*="Shorts"],
-body.youtube-shorts-hidden yt-tab-shape[aria-label*="Shorts"] {
+html.youtube-shorts-hidden ytd-guide-entry-renderer[aria-label*="Shorts"],
+html.youtube-shorts-hidden ytd-mini-guide-entry-renderer[aria-label*="Shorts"],
+html.youtube-shorts-hidden ytd-guide-entry-renderer[title*="Shorts"],
+html.youtube-shorts-hidden ytd-mini-guide-entry-renderer[title*="Shorts"],
+html.youtube-shorts-hidden tp-yt-paper-tab[aria-label*="Shorts"],
+html.youtube-shorts-hidden yt-tab-shape[aria-label*="Shorts"] {
   display: none !important;
 }
 
 /* 12. MOBILE AND RESPONSIVE */
-body.youtube-shorts-hidden ytm-shorts-lockup-view-model,
-body.youtube-shorts-hidden ytm-reel-item-renderer,
-body.youtube-shorts-hidden ytm-shorts-shelf-renderer {
+html.youtube-shorts-hidden ytm-shorts-lockup-view-model,
+html.youtube-shorts-hidden ytm-reel-item-renderer,
+html.youtube-shorts-hidden ytm-shorts-shelf-renderer {
   display: none !important;
 }
 
 /* 13. JAVASCRIPT-MARKED ELEMENTS - Elements marked by JavaScript */
-body.youtube-shorts-hidden [shorts-link="true"],
-body.youtube-shorts-hidden [shorts-element="true"],
-body.youtube-shorts-hidden [shorts-component="true"],
-body.youtube-shorts-hidden [shorts-tab="true"] {
+html.youtube-shorts-hidden [shorts-link="true"],
+html.youtube-shorts-hidden [shorts-element="true"],
+html.youtube-shorts-hidden [shorts-component="true"],
+html.youtube-shorts-hidden [shorts-tab="true"] {
   display: none !important;
 }
 
 /* 14. SPECIFIC FALLBACK RULES - Only target actual Shorts elements */
-body.youtube-shorts-hidden [class*="shorts-"]:not([class*="shortcut"]):not([class*="shorthand"]),
-body.youtube-shorts-hidden [id*="shorts-"]:not([id*="shortcut"]):not([id*="shorthand"]) {
+html.youtube-shorts-hidden [class*="shorts-"]:not([class*="shortcut"]):not([class*="shorthand"]),
+html.youtube-shorts-hidden [id*="shorts-"]:not([id*="shortcut"]):not([id*="shorthand"]) {
   display: none !important;
 }
 
 /* ===== SIMPLE YOUTUBE HOME FEED HIDING ===== */
 
 /* Hide only the main content area on home page - simple and effective */
-body.youtube-home-feed-hidden ytd-browse[page-subtype="home"] #primary {
+html.youtube-home-feed-hidden ytd-browse[page-subtype="home"] #primary {
   display: none !important;
 }
 
 /* ===== YOUTUBE VIDEO SIDEBAR HIDING ===== */
 
 /* Hide the entire secondary column on video watch pages */
-body.youtube-video-sidebar-hidden ytd-watch-flexy #secondary {
+html.youtube-video-sidebar-hidden ytd-watch-flexy #secondary {
   display: none !important;
 }
 
 /* Hide secondary column in different YouTube layouts */
-body.youtube-video-sidebar-hidden ytd-watch-flexy #secondary-inner {
+html.youtube-video-sidebar-hidden ytd-watch-flexy #secondary-inner {
   display: none !important;
 }
 
 /* Hide related videos panel */
-body.youtube-video-sidebar-hidden ytd-watch-next-secondary-results-renderer {
+html.youtube-video-sidebar-hidden ytd-watch-next-secondary-results-renderer {
   display: none !important;
 }
 
 /* Hide video recommendations sidebar */
-body.youtube-video-sidebar-hidden ytd-compact-video-renderer {
+html.youtube-video-sidebar-hidden ytd-compact-video-renderer {
   display: none !important;
 }
 
 /* Hide autoplay toggle and related elements in sidebar */
-body.youtube-video-sidebar-hidden ytd-compact-autoplay-renderer {
+html.youtube-video-sidebar-hidden ytd-compact-autoplay-renderer {
   display: none !important;
 }
 
 /* Hide playlist panel in sidebar */
-body.youtube-video-sidebar-hidden ytd-playlist-panel-renderer {
+html.youtube-video-sidebar-hidden ytd-playlist-panel-renderer {
   display: none !important;
 }
 
 /* Hide live chat panel when in sidebar */
-body.youtube-video-sidebar-hidden ytd-live-chat-frame {
+html.youtube-video-sidebar-hidden ytd-live-chat-frame {
   display: none !important;
 }
 
 /* Hide engagement panels (comments, etc.) when in sidebar */
-body.youtube-video-sidebar-hidden ytd-engagement-panel-section-list-renderer {
+html.youtube-video-sidebar-hidden ytd-engagement-panel-section-list-renderer {
   display: none !important;
 }
 
 /* Hide merch shelf in sidebar */
-body.youtube-video-sidebar-hidden ytd-merch-shelf-renderer {
+html.youtube-video-sidebar-hidden ytd-merch-shelf-renderer {
   display: none !important;
 }
 
 /* Hide donation shelf in sidebar */
-body.youtube-video-sidebar-hidden ytd-donation-shelf-renderer {
+html.youtube-video-sidebar-hidden ytd-donation-shelf-renderer {
   display: none !important;
 }
 
 /* Hide ticket shelf in sidebar */
-body.youtube-video-sidebar-hidden ytd-ticket-shelf-renderer {
+html.youtube-video-sidebar-hidden ytd-ticket-shelf-renderer {
   display: none !important;
 }
 
 /* Hide any secondary content containers */
-body.youtube-video-sidebar-hidden #related,
-body.youtube-video-sidebar-hidden #watch-sidebar,
-body.youtube-video-sidebar-hidden .watch-sidebar {
+html.youtube-video-sidebar-hidden #related,
+html.youtube-video-sidebar-hidden #watch-sidebar,
+html.youtube-video-sidebar-hidden .watch-sidebar {
   display: none !important;
 }
 
 /* Ensure main video content takes full width when sidebar is hidden */
-body.youtube-video-sidebar-hidden ytd-watch-flexy #primary {
+html.youtube-video-sidebar-hidden ytd-watch-flexy #primary {
   width: 100% !important;
   max-width: none !important;
 }
 
 /* Adjust theater mode layout when sidebar is hidden */
-body.youtube-video-sidebar-hidden ytd-watch-flexy[theater] #primary {
+html.youtube-video-sidebar-hidden ytd-watch-flexy[theater] #primary {
   width: 100% !important;
 }
 
 /* Hide sidebar in mobile/responsive layouts */
-body.youtube-video-sidebar-hidden ytm-watch ytm-item-section-renderer[data-content-type="related"] {
+html.youtube-video-sidebar-hidden ytm-watch ytm-item-section-renderer[data-content-type="related"] {
   display: none !important;
 }
 
 /* Hide sidebar recommendations in mobile */
-body.youtube-video-sidebar-hidden ytm-compact-video-renderer {
+html.youtube-video-sidebar-hidden ytm-compact-video-renderer {
   display: none !important;
 }
 
 /* ===== YOUTUBE COMMENTS SECTION HIDING ===== */
 
 /* Hide the main comments section container */
-body.youtube-comments-hidden ytd-comments {
+html.youtube-comments-hidden ytd-comments {
   display: none !important;
 }
 
 /* Hide comments section in different layouts */
-body.youtube-comments-hidden ytd-comments-header-renderer {
+html.youtube-comments-hidden ytd-comments-header-renderer {
   display: none !important;
 }
 
 /* Hide individual comment threads */
-body.youtube-comments-hidden ytd-comment-thread-renderer {
+html.youtube-comments-hidden ytd-comment-thread-renderer {
   display: none !important;
 }
 
 /* Hide comment replies */
-body.youtube-comments-hidden ytd-comment-replies-renderer {
+html.youtube-comments-hidden ytd-comment-replies-renderer {
   display: none !important;
 }
 
 /* Hide comment input/compose area */
-body.youtube-comments-hidden ytd-comment-simplebox-renderer {
+html.youtube-comments-hidden ytd-comment-simplebox-renderer {
   display: none !important;
 }
 
 /* Hide comments continuation (load more comments) */
-body.youtube-comments-hidden ytd-continuation-item-renderer {
+html.youtube-comments-hidden ytd-continuation-item-renderer {
   display: none !important;
 }
 
 /* Hide comments section header */
-body.youtube-comments-hidden #comments-header {
+html.youtube-comments-hidden #comments-header {
   display: none !important;
 }
 
 /* Hide comments count and sort options */
-body.youtube-comments-hidden ytd-comments-header-renderer {
+html.youtube-comments-hidden ytd-comments-header-renderer {
   display: none !important;
 }
 
 /* Hide comment engagement panels */
-body.youtube-comments-hidden ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"] {
+html.youtube-comments-hidden ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"] {
   display: none !important;
 }
 
 /* Hide comments in engagement panels */
-body.youtube-comments-hidden ytd-engagement-panel-section-list-renderer ytd-comments {
+html.youtube-comments-hidden ytd-engagement-panel-section-list-renderer ytd-comments {
   display: none !important;
 }
 
 /* Hide comment action buttons area */
-body.youtube-comments-hidden ytd-comment-action-buttons-renderer {
+html.youtube-comments-hidden ytd-comment-action-buttons-renderer {
   display: none !important;
 }
 
 /* Hide pinned comments */
-body.youtube-comments-hidden ytd-pinned-comment-badge-renderer {
+html.youtube-comments-hidden ytd-pinned-comment-badge-renderer {
   display: none !important;
 }
 
 /* Hide comments section in mobile layout */
-body.youtube-comments-hidden ytm-comment-section-renderer {
+html.youtube-comments-hidden ytm-comment-section-renderer {
   display: none !important;
 }
 
 /* Hide mobile comment threads */
-body.youtube-comments-hidden ytm-comment-thread-renderer {
+html.youtube-comments-hidden ytm-comment-thread-renderer {
   display: none !important;
 }
 
 /* Hide mobile comment input */
-body.youtube-comments-hidden ytm-comment-simplebox-renderer {
+html.youtube-comments-hidden ytm-comment-simplebox-renderer {
   display: none !important;
 }
 
 /* Hide comments in item section renderer */
-body.youtube-comments-hidden ytd-item-section-renderer[section-identifier="comment-item-section"] {
+html.youtube-comments-hidden ytd-item-section-renderer[section-identifier="comment-item-section"] {
   display: none !important;
 }
 
 /* Hide any element with comments-related IDs */
-body.youtube-comments-hidden #comments,
-body.youtube-comments-hidden #comment-teaser,
-body.youtube-comments-hidden #comments-button {
+html.youtube-comments-hidden #comments,
+html.youtube-comments-hidden #comment-teaser,
+html.youtube-comments-hidden #comments-button {
   display: none !important;
 }
 
 /* Hide comments teaser/preview */
-body.youtube-comments-hidden ytd-comment-teaser-renderer {
+html.youtube-comments-hidden ytd-comment-teaser-renderer {
   display: none !important;
 }
 
 /* Hide live chat comments (if in comments area) */
-body.youtube-comments-hidden ytd-live-chat-frame[src*="live_chat"] {
+html.youtube-comments-hidden ytd-live-chat-frame[src*="live_chat"] {
   display: none !important;
 }
 
 /* ===== EXPLORE SECTION HIDING ===== */
 
 /* Hide Explore section renderer */
-body.youtube-explore-section-hidden ytd-guide-section-renderer[hidden="true"] {
+html.youtube-explore-section-hidden ytd-guide-section-renderer[hidden="true"] {
   display: none !important;
 }
 
 /* ===== NOTIFICATIONS BELL HIDING ===== */
 
 /* Hide notifications bell button */
-body.youtube-notifications-bell-hidden ytd-notification-topbar-button-renderer,
-body.youtube-notifications-bell-hidden #notification-button,
-body.youtube-notifications-bell-hidden button[aria-label*="Notifications"],
-body.youtube-notifications-bell-hidden button[aria-label*="notifications"],
-body.youtube-notifications-bell-hidden yt-icon-button[aria-label*="Notifications"],
-body.youtube-notifications-bell-hidden yt-icon-button[aria-label*="notifications"] {
+html.youtube-notifications-bell-hidden ytd-notification-topbar-button-renderer,
+html.youtube-notifications-bell-hidden #notification-button,
+html.youtube-notifications-bell-hidden button[aria-label*="Notifications"],
+html.youtube-notifications-bell-hidden button[aria-label*="notifications"],
+html.youtube-notifications-bell-hidden yt-icon-button[aria-label*="Notifications"],
+html.youtube-notifications-bell-hidden yt-icon-button[aria-label*="notifications"] {
   display: none !important;
 }
 
 /* Hide notifications bell using attribute marking */
-body.youtube-notifications-bell-hidden [notifications-bell-element="true"] {
+html.youtube-notifications-bell-hidden [notifications-bell-element="true"] {
   display: none !important;
 }
 
 /* Hide notifications bell in different contexts */
-body.youtube-notifications-bell-hidden ytd-topbar-menu-button-renderer:has(button[aria-label*="Notifications"]),
-body.youtube-notifications-bell-hidden ytd-topbar-menu-button-renderer:has(button[aria-label*="notifications"]) {
+html.youtube-notifications-bell-hidden ytd-topbar-menu-button-renderer:has(button[aria-label*="Notifications"]),
+html.youtube-notifications-bell-hidden ytd-topbar-menu-button-renderer:has(button[aria-label*="notifications"]) {
   display: none !important;
 }
 
 /* Hide notifications bell icon specifically */
-body.youtube-notifications-bell-hidden yt-icon[icon="yt-icons:notifications"],
-body.youtube-notifications-bell-hidden yt-icon[icon="yt-icons:notifications_active"] {
+html.youtube-notifications-bell-hidden yt-icon[icon="yt-icons:notifications"],
+html.youtube-notifications-bell-hidden yt-icon[icon="yt-icons:notifications_active"] {
   display: none !important;
 }
 
 /* Mobile notifications bell hiding */
-body.youtube-notifications-bell-hidden ytm-notification-topbar-button-renderer {
+html.youtube-notifications-bell-hidden ytm-notification-topbar-button-renderer {
   display: none !important;
 }
 
 /* ===== TOP HEADER/NAVIGATION BAR HIDING ===== */
 
 /* Hide the main YouTube header/masthead */
-body.youtube-top-header-hidden ytd-masthead#masthead,
-body.youtube-top-header-hidden #masthead-container,
-body.youtube-top-header-hidden header#header.ytd-app,
-body.youtube-top-header-hidden div#masthead {
+html.youtube-top-header-hidden ytd-masthead#masthead,
+html.youtube-top-header-hidden #masthead-container,
+html.youtube-top-header-hidden header#header.ytd-app,
+html.youtube-top-header-hidden div#masthead {
   display: none !important;
 }
 
 /* Hide top header using attribute marking */
-body.youtube-top-header-hidden [top-header-element="true"] {
+html.youtube-top-header-hidden [top-header-element="true"] {
   display: none !important;
 }
 
 /* Adjust page layout when header is hidden */
-body.youtube-top-header-hidden ytd-app {
+html.youtube-top-header-hidden ytd-app {
   padding-top: 0 !important;
   margin-top: 0 !important;
 }
 
 /* Adjust content positioning when header is hidden */
-body.youtube-top-header-hidden #page-manager {
+html.youtube-top-header-hidden #page-manager {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
 
 /* Ensure content starts from top when header is hidden */
-body.youtube-top-header-hidden ytd-page-manager {
+html.youtube-top-header-hidden ytd-page-manager {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
 
 /* Hide mobile header as well */
-body.youtube-top-header-hidden ytm-mobile-topbar-renderer,
-body.youtube-top-header-hidden ytm-topbar-renderer {
+html.youtube-top-header-hidden ytm-mobile-topbar-renderer,
+html.youtube-top-header-hidden ytm-topbar-renderer {
   display: none !important;
 }
 
 /* Adjust mobile layout when header is hidden */
-body.youtube-top-header-hidden ytm-app {
+html.youtube-top-header-hidden ytm-app {
   padding-top: 0 !important;
   margin-top: 0 !important;
 }
@@ -657,62 +657,62 @@ body.youtube-top-header-hidden ytm-app {
 /* ===== YOUTUBE END SCREEN CARDS/ANNOTATIONS HIDING ===== */
 
 /* Hide YouTube end screen elements */
-body.youtube-end-screen-cards-hidden .ytp-ce-element,
-body.youtube-end-screen-cards-hidden .ytp-ce-video,
-body.youtube-end-screen-cards-hidden .ytp-ce-playlist,
-body.youtube-end-screen-cards-hidden .ytp-ce-channel,
-body.youtube-end-screen-cards-hidden .ytp-ce-website,
-body.youtube-end-screen-cards-hidden .ytp-endscreen-content,
-body.youtube-end-screen-cards-hidden .ytp-ce-covering-overlay,
-body.youtube-end-screen-cards-hidden .ytp-ce-expanding-overlay {
+html.youtube-end-screen-cards-hidden .ytp-ce-element,
+html.youtube-end-screen-cards-hidden .ytp-ce-video,
+html.youtube-end-screen-cards-hidden .ytp-ce-playlist,
+html.youtube-end-screen-cards-hidden .ytp-ce-channel,
+html.youtube-end-screen-cards-hidden .ytp-ce-website,
+html.youtube-end-screen-cards-hidden .ytp-endscreen-content,
+html.youtube-end-screen-cards-hidden .ytp-ce-covering-overlay,
+html.youtube-end-screen-cards-hidden .ytp-ce-expanding-overlay {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
 }
 
 /* Hide YouTube cards and annotations */
-body.youtube-end-screen-cards-hidden .ytp-cards-teaser,
-body.youtube-end-screen-cards-hidden .ytp-cards-button,
-body.youtube-end-screen-cards-hidden .iv-card,
-body.youtube-end-screen-cards-hidden .annotation,
-body.youtube-end-screen-cards-hidden .ytp-cards-button-icon,
-body.youtube-end-screen-cards-hidden .ytp-cards-teaser-box {
+html.youtube-end-screen-cards-hidden .ytp-cards-teaser,
+html.youtube-end-screen-cards-hidden .ytp-cards-button,
+html.youtube-end-screen-cards-hidden .iv-card,
+html.youtube-end-screen-cards-hidden .annotation,
+html.youtube-end-screen-cards-hidden .ytp-cards-button-icon,
+html.youtube-end-screen-cards-hidden .ytp-cards-teaser-box {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
 }
 
 /* Hide elements marked by our script */
-body.youtube-end-screen-cards-hidden [end-screen-element="true"],
-body.youtube-end-screen-cards-hidden [card-element="true"] {
+html.youtube-end-screen-cards-hidden [end-screen-element="true"],
+html.youtube-end-screen-cards-hidden [card-element="true"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
 }
 
 /* Hide end screen overlay containers */
-body.youtube-end-screen-cards-hidden .ytp-ce-overlay,
-body.youtube-end-screen-cards-hidden .ytp-ce-size-1280,
-body.youtube-end-screen-cards-hidden .ytp-ce-size-853,
-body.youtube-end-screen-cards-hidden .ytp-ce-size-640 {
+html.youtube-end-screen-cards-hidden .ytp-ce-overlay,
+html.youtube-end-screen-cards-hidden .ytp-ce-size-1280,
+html.youtube-end-screen-cards-hidden .ytp-ce-size-853,
+html.youtube-end-screen-cards-hidden .ytp-ce-size-640 {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
 }
 
 /* Hide cards panel and related elements */
-body.youtube-end-screen-cards-hidden .ytp-cards-panel,
-body.youtube-end-screen-cards-hidden .ytp-cards-panel-container,
-body.youtube-end-screen-cards-hidden .ytp-cards-shelf {
+html.youtube-end-screen-cards-hidden .ytp-cards-panel,
+html.youtube-end-screen-cards-hidden .ytp-cards-panel-container,
+html.youtube-end-screen-cards-hidden .ytp-cards-shelf {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
 }
 
 /* Hide annotation elements */
-body.youtube-end-screen-cards-hidden .annotation-close-button,
-body.youtube-end-screen-cards-hidden .annotation-link,
-body.youtube-end-screen-cards-hidden .annotation-text {
+html.youtube-end-screen-cards-hidden .annotation-close-button,
+html.youtube-end-screen-cards-hidden .annotation-link,
+html.youtube-end-screen-cards-hidden .annotation-text {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -721,17 +721,17 @@ body.youtube-end-screen-cards-hidden .annotation-text {
 /* ===== YOUTUBE MORE FROM YOUTUBE SECTION HIDING ===== */
 
 /* Hide "More from YouTube" guide section in sidebar */
-body.youtube-more-from-youtube-hidden ytd-guide-section-renderer.style-scope.ytd-guide-renderer[modern-typography][guide-persistent-and-visible].youtube-more-from-hidden {
+html.youtube-more-from-youtube-hidden ytd-guide-section-renderer.style-scope.ytd-guide-renderer[modern-typography][guide-persistent-and-visible].youtube-more-from-hidden {
   display: none !important;
 }
 
 /* Hide guide entries marked as more from YouTube */
-body.youtube-more-from-youtube-hidden ytd-guide-entry-renderer.youtube-more-from-hidden {
+html.youtube-more-from-youtube-hidden ytd-guide-entry-renderer.youtube-more-from-hidden {
   display: none !important;
 }
 
 /* Fallback: Hide any element marked as more from YouTube */
-body.youtube-more-from-youtube-hidden .youtube-more-from-hidden {
+html.youtube-more-from-youtube-hidden .youtube-more-from-hidden {
   display: none !important;
   visibility: hidden !important;
   height: 0 !important;
@@ -742,98 +742,98 @@ body.youtube-more-from-youtube-hidden .youtube-more-from-hidden {
 /* ===== HIDE CHANNEL ELEMENTS ===== */
 
 /* Hide channel name and avatar in video pages */
-body.youtube-hide-channel-hidden ytd-channel-name,
-body.youtube-hide-channel-hidden #owner-container,
-body.youtube-hide-channel-hidden #channel-name,
-body.youtube-hide-channel-hidden ytd-video-owner-renderer,
-body.youtube-hide-channel-hidden #upload-info #owner-container,
-body.youtube-hide-channel-hidden #meta #owner,
-body.youtube-hide-channel-hidden ytd-video-secondary-info-renderer #owner {
+html.youtube-hide-channel-hidden ytd-channel-name,
+html.youtube-hide-channel-hidden #owner-container,
+html.youtube-hide-channel-hidden #channel-name,
+html.youtube-hide-channel-hidden ytd-video-owner-renderer,
+html.youtube-hide-channel-hidden #upload-info #owner-container,
+html.youtube-hide-channel-hidden #meta #owner,
+html.youtube-hide-channel-hidden ytd-video-secondary-info-renderer #owner {
   display: none !important;
 }
 
 /* Hide elements marked by our script */
-body.youtube-hide-channel-hidden [hide-channel-element="true"] {
+html.youtube-hide-channel-hidden [hide-channel-element="true"] {
   display: none !important;
 }
 
 /* Hide channel avatar/profile picture */
-body.youtube-hide-channel-hidden ytd-video-owner-renderer #avatar,
-body.youtube-hide-channel-hidden #owner #avatar,
-body.youtube-hide-channel-hidden ytd-channel-name #avatar {
+html.youtube-hide-channel-hidden ytd-video-owner-renderer #avatar,
+html.youtube-hide-channel-hidden #owner #avatar,
+html.youtube-hide-channel-hidden ytd-channel-name #avatar {
   display: none !important;
 }
 
 /* Hide channel subscriber count */
-body.youtube-hide-channel-hidden #owner-sub-count,
-body.youtube-hide-channel-hidden ytd-video-owner-renderer #subscriber-count {
+html.youtube-hide-channel-hidden #owner-sub-count,
+html.youtube-hide-channel-hidden ytd-video-owner-renderer #subscriber-count {
   display: none !important;
 }
 
 /* Hide subscribe button */
-body.youtube-hide-channel-hidden ytd-subscribe-button-renderer,
-body.youtube-hide-channel-hidden #subscribe-button,
-body.youtube-hide-channel-hidden ytd-button-renderer#subscribe-button,
-body.youtube-hide-channel-hidden paper-button#subscribe-button,
-body.youtube-hide-channel-hidden yt-button-shape#subscribe-button,
-body.youtube-hide-channel-hidden ytd-video-owner-renderer ytd-subscribe-button-renderer {
+html.youtube-hide-channel-hidden ytd-subscribe-button-renderer,
+html.youtube-hide-channel-hidden #subscribe-button,
+html.youtube-hide-channel-hidden ytd-button-renderer#subscribe-button,
+html.youtube-hide-channel-hidden paper-button#subscribe-button,
+html.youtube-hide-channel-hidden yt-button-shape#subscribe-button,
+html.youtube-hide-channel-hidden ytd-video-owner-renderer ytd-subscribe-button-renderer {
   display: none !important;
 }
 
 /* ===== HIDE BUTTONS BAR ELEMENTS ===== */
 
 /* Hide specific ytd-menu-renderer in watch metadata */
-body.youtube-buttons-bar-hidden ytd-menu-renderer.style-scope.ytd-watch-metadata {
+html.youtube-buttons-bar-hidden ytd-menu-renderer.style-scope.ytd-watch-metadata {
   display: none !important;
 }
 
 /* Hide elements marked by our script */
-body.youtube-buttons-bar-hidden [buttons-bar-element="true"] {
+html.youtube-buttons-bar-hidden [buttons-bar-element="true"] {
   display: none !important;
 }
 
 /* ===== HIDE DESCRIPTION ELEMENTS ===== */
 
 /* Hide video description */
-body.youtube-hide-description-hidden ytd-video-secondary-info-renderer,
-body.youtube-hide-description-hidden #description,
-body.youtube-hide-description-hidden #meta-contents,
-body.youtube-hide-description-hidden ytd-expandable-video-description-body-renderer,
-body.youtube-hide-description-hidden #description-inner,
-body.youtube-hide-description-hidden #expand {
+html.youtube-hide-description-hidden ytd-video-secondary-info-renderer,
+html.youtube-hide-description-hidden #description,
+html.youtube-hide-description-hidden #meta-contents,
+html.youtube-hide-description-hidden ytd-expandable-video-description-body-renderer,
+html.youtube-hide-description-hidden #description-inner,
+html.youtube-hide-description-hidden #expand {
   display: none !important;
 }
 
 /* Hide elements marked by our script */
-body.youtube-hide-description-hidden [hide-description-element="true"] {
+html.youtube-hide-description-hidden [hide-description-element="true"] {
   display: none !important;
 }
 
 /* Hide description expand/collapse buttons */
-body.youtube-hide-description-hidden #expand-button,
-body.youtube-hide-description-hidden #collapse-button,
-body.youtube-hide-description-hidden ytd-text-inline-expander-renderer {
+html.youtube-hide-description-hidden #expand-button,
+html.youtube-hide-description-hidden #collapse-button,
+html.youtube-hide-description-hidden ytd-text-inline-expander-renderer {
   display: none !important;
 }
 
 /* Hide description content containers */
-body.youtube-hide-description-hidden #description-text,
-body.youtube-hide-description-hidden #content-text,
-body.youtube-hide-description-hidden ytd-video-secondary-info-renderer #description {
+html.youtube-hide-description-hidden #description-text,
+html.youtube-hide-description-hidden #content-text,
+html.youtube-hide-description-hidden ytd-video-secondary-info-renderer #description {
   display: none !important;
 }
 
 /* Hide video info panel that contains description */
-body.youtube-hide-description-hidden ytd-video-secondary-info-renderer #info,
-body.youtube-hide-description-hidden #info-contents {
+html.youtube-hide-description-hidden ytd-video-secondary-info-renderer #info,
+html.youtube-hide-description-hidden #info-contents {
   display: none !important;
 }
 
 /* ===== YOUTUBE SHOP HIDING ===== */
 
 /* Hide shopping timely shelf content */
-body.youtube-shop-hidden yt-shopping-timely-shelf-content-view-model,
-body.youtube-shop-hidden .ytShoppingTimelyShelfContentViewModelHost {
+html.youtube-shop-hidden yt-shopping-timely-shelf-content-view-model,
+html.youtube-shop-hidden .ytShoppingTimelyShelfContentViewModelHost {
   display: none !important;
   visibility: hidden !important;
   height: 0 !important;
@@ -842,8 +842,8 @@ body.youtube-shop-hidden .ytShoppingTimelyShelfContentViewModelHost {
 }
 
 /* Hide shopping shelf container and related elements */
-body.youtube-shop-hidden ytd-shopping-shelf-renderer,
-body.youtube-shop-hidden .shopping-shelf {
+html.youtube-shop-hidden ytd-shopping-shelf-renderer,
+html.youtube-shop-hidden .shopping-shelf {
   display: none !important;
   visibility: hidden !important;
   height: 0 !important;

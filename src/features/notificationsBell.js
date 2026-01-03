@@ -3,12 +3,12 @@
 // Function to toggle Notifications Bell
 export function toggleNotificationsBell(hide) {
     if (hide) {
-        document.body.classList.add('youtube-notifications-bell-hidden');
-        document.body.setAttribute('data-notifications-bell-hidden', 'true');
+        document.documentElement.classList.add('youtube-notifications-bell-hidden');
+        document.documentElement.setAttribute('data-notifications-bell-hidden', 'true');
         applyNotificationsBellFixes();
     } else {
-        document.body.classList.remove('youtube-notifications-bell-hidden');
-        document.body.removeAttribute('data-notifications-bell-hidden');
+        document.documentElement.classList.remove('youtube-notifications-bell-hidden');
+        document.documentElement.removeAttribute('data-notifications-bell-hidden');
         restoreNotificationsBell();
     }
 }

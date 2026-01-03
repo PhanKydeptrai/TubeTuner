@@ -3,10 +3,10 @@
 // Function to toggle Hide Channel
 export function toggleHideChannel(hide) {
     if (hide) {
-        document.body.classList.add('youtube-hide-channel-hidden');
+        document.documentElement.classList.add('youtube-hide-channel-hidden');
         applyHideChannelFixes();
     } else {
-        document.body.classList.remove('youtube-hide-channel-hidden');
+        document.documentElement.classList.remove('youtube-hide-channel-hidden');
         restoreHideChannel();
     }
 }
