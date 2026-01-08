@@ -124,50 +124,40 @@ export const UIModule = {
         }
     },
 
-    initializeTheme() {
-        chrome.storage.sync.get('theme', (data) => {
-            const savedTheme = data.theme || 'auto';
-
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else if (savedTheme === 'light') {
-                document.documentElement.classList.remove('dark');
-            } else {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.classList.toggle('dark', prefersDark);
-            }
-        });
+    initializeTheme(savedTheme) {
+        savedTheme = savedTheme || 'auto';
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.classList.toggle('dark', prefersDark);
+        }
     },
 
-    initializeCollapsibleSections() {
+    initializeCollapsibleSections(savedStates) {
         const sections = document.querySelectorAll('.ext-collapsible-section');
+        savedStates = savedStates || {};
 
-        chrome.storage.sync.get('sectionStates', (result) => {
-            const savedStates = result.sectionStates || {};
+        sections.forEach(section => {
+            const titleElement = section.querySelector('.ext-section-title');
+            if (!titleElement) return;
 
-            sections.forEach(section => {
-                const titleElement = section.querySelector('.ext-section-title');
-                if (!titleElement) return;
+            const sectionId = titleElement.textContent.trim().toLowerCase()
+                .replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+            section.setAttribute('data-section-id', sectionId);
+            const header = section.querySelector('.ext-section-header');
+            if (!header) return;
+            const isOpen = savedStates[sectionId] !== undefined ? savedStates[sectionId] : (sectionId === 'content-feed-controls');
+            section.classList.add('no-animation');
+            if (isOpen) section.classList.add('open');
 
-                const sectionId = titleElement.textContent.trim().toLowerCase()
-                    .replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-                section.setAttribute('data-section-id', sectionId);
-
-                const header = section.querySelector('.ext-section-header');
-                if (!header) return;
-
-                const isOpen = savedStates[sectionId] !== undefined ? savedStates[sectionId] : (sectionId === 'content-feed-controls');
-
-                section.classList.add('no-animation');
-                if (isOpen) section.classList.add('open');
-
-                setTimeout(() => section.classList.remove('no-animation'), 100);
-
-                header.addEventListener('click', () => {
-                    const wasOpen = section.classList.contains('open');
-                    section.classList.toggle('open');
-                    this.saveSectionState(sectionId, !wasOpen);
-                });
+            setTimeout(() => section.classList.remove('no-animation'), 100);
+            header.addEventListener('click', () => {
+                const wasOpen = section.classList.contains('open');
+                section.classList.toggle('open');
+                this.saveSectionState(sectionId, !wasOpen);
             });
         });
     },

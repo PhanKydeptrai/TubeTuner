@@ -372,10 +372,8 @@ export const I18nModule = {
         }
     },
 
-    initializeLanguage() {
-        chrome.storage.sync.get('language', (data) => {
-            const savedLanguage = data.language || 'en';
-            this.setLanguage(savedLanguage, false);
-        });
+    initializeLanguage(savedLanguage) {
+        savedLanguage = savedLanguage || 'en';
+        this.setLanguage(savedLanguage, false);
     }
 };

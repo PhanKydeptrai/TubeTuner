@@ -90,30 +90,44 @@ export function setupOptionsLink() {
     }
 }
 
-export function loadAndApplySettings() {
-    // Load settings from chrome.storage.sync and apply to UI
-    const allKeys = SWITCH_CONFIG.map(c => c.key).concat(['sectionStates']);
-    chrome.storage.sync.get(allKeys, (result) => {
-        AppState.currentExtensionEnabled = result.extensionEnabled !== false;
-        UIModule.updateUI(result);
-    });
-}
-
 export function initializeApp() {
-    // Initialize core settings
-    UIModule.initializeTheme();
-    I18nModule.initializeLanguage();
-    UIModule.initializeCollapsibleSections();
+    // 1. Gather all keys we need to fetch from storage
+    const switchKeys = SWITCH_CONFIG.map(c => c.key);
+    const allKeys = [
+        ...switchKeys,
+        'sectionStates',
+        'theme',
+        'language',
+        'extensionEnabled' // key is redundant with switchKeys but clearer
+    ];
 
-    // Cache status element
-    AppState.statusElement = document.getElementById('status');
+    // 2. Fetch all data in one go
+    chrome.storage.sync.get(allKeys, (result) => {
+        // 3. Initialize core visual settings first (Theme & Language)
+        UIModule.initializeTheme(result.theme);
+        I18nModule.initializeLanguage(result.language);
 
-    // Setup all event listeners
-    setupEventListeners();
-    setupOptionsLink();
+        // 4. Initialize Layout (Collapsible Sections)
+        UIModule.initializeCollapsibleSections(result.sectionStates);
 
-    // Load initial settings
-    loadAndApplySettings();
+        // 5. Apply state settings (Switches & UI Visibility)
+        AppState.currentExtensionEnabled = result.extensionEnabled !== false;
+        
+        // Update UI with the fetched result
+        UIModule.updateUI(result);
+
+        // 6. Setup event listeners
+        AppState.statusElement = document.getElementById('status');
+        setupEventListeners();
+        setupOptionsLink();
+
+        // 7. Finally, reveal the app content
+        // Using requestAnimationFrame to ensure painting happens after DOM updates
+        requestAnimationFrame(() => {
+            document.body.style.visibility = 'visible';
+            document.body.style.opacity = '1';
+        });
+    });
 }
 
 // Initialize when DOM is ready
