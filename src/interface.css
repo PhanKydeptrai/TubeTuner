@@ -4,25 +4,6 @@
   --primary-blue: #1a73e8;
   --warning-red: #E74C3C;
   --warning-background: #FEF2F2;
-  --background: #f8f7fa;
-  --foreground: #3d3c4f;
-  --card: #ffffff;
-  --card-foreground: #3d3c4f;
-  --popover: #ffffff;
-  --popover-foreground: #3d3c4f;
-  --primary: #8a79ab;
-  --primary-foreground: #f8f7fa;
-  --secondary: #dfd9ec;
-  --secondary-foreground: #3d3c4f;
-  --muted: #dcd9e3;
-  --muted-foreground: #6b6880;
-  --accent: #e6a5b8;
-  --accent-foreground: #4b2e36;
-  --destructive: #d95c5c;
-  --destructive-foreground: #f8f7fa;
-  --border: #cec9d9;
-  --input: #eae7f0;
-  --ring: #8a79ab;
   --radius: 0.5rem;
   --background: oklch(0.9779 0.0042 56.3756);
   --foreground: oklch(0.2178 0 0);
@@ -108,6 +89,15 @@
   --border-radius: 12px;
 }
 
+/* Disable ALL transitions and animations during initial popup load */
+body.no-transitions,
+body.no-transitions *,
+body.no-transitions *::before,
+body.no-transitions *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
 /* Dark Mode Variables */
 .dark {
   --primary-blue: #4285F4;
@@ -181,6 +171,36 @@ body {
   margin: 0 auto;
   padding: var(--container-padding);
   transition: background-color 0.2s, color 0.2s;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 5px;
+  border: 2px solid var(--background);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border: 2px solid var(--background);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
 }
 
 /* Container */
@@ -467,16 +487,10 @@ body {
 .section-content {
   padding: 0 var(--space-md) var(--space-md);
   display: none;
-  animation: fadeIn 0.3s ease;
 }
 
 .collapsible-section.expanded .section-content {
   display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 /* Control Item */
@@ -533,15 +547,15 @@ body {
   border-radius: 50%;
 }
 
-.switch-input:checked + .switch-label {
+.switch-input:checked+.switch-label {
   background-color: var(--primary-blue);
 }
 
-.switch-input:checked + .switch-label:before {
+.switch-input:checked+.switch-label:before {
   transform: translateX(20px);
 }
 
-.switch-input:focus + .switch-label {
+.switch-input:focus+.switch-label {
   box-shadow: 0 0 1px var(--primary-blue);
 }
 
@@ -578,6 +592,7 @@ body {
     transform: translateX(20px);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -589,6 +604,7 @@ body {
     transform: translateY(15px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -600,15 +616,15 @@ body {
   body {
     padding: var(--space-sm);
   }
-  
+
   .header-left {
     gap: var(--space-sm);
   }
-  
+
   .header-controls {
     gap: var(--space-xs);
   }
-  
+
   .utility-button,
   .lang-button {
     height: 32px;
@@ -617,7 +633,7 @@ body {
 
 /* Focus States for Accessibility */
 button:focus,
-.switch-input:focus + .switch-label {
+.switch-input:focus+.switch-label {
   outline: 2px solid var(--primary-blue);
   outline-offset: 2px;
 }
@@ -631,7 +647,6 @@ button:focus,
 .ext-header {
   border-bottom: 1px solid var(--border);
   padding: 16px 20px;
-  animation: fadeIn 0.5s ease forwards;
 }
 
 .ext-header-content {
@@ -733,7 +748,6 @@ button:focus,
   border: 1px solid rgba(217, 92, 92, 0.3);
   border-radius: var(--radius);
   margin-bottom: 16px;
-  animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 .ext-notice-icon {
@@ -764,8 +778,6 @@ button:focus,
   border-radius: var(--radius);
   margin-bottom: 12px;
   overflow: hidden;
-  animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
-  animation-delay: calc(var(--animation-order) * 0.1s);
 }
 
 .ext-collapsible-section:nth-child(2) {
@@ -806,7 +818,7 @@ button:focus,
 }
 
 .ext-section-chevron {
-  transition: transform 0.3s ease;
+  transition: transform 0.15s ease;
 }
 
 .ext-collapsible-section.open .ext-section-chevron {
@@ -818,7 +830,7 @@ button:focus,
   background-color: var(--background);
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  transition: max-height 0.15s ease, padding 0.15s ease;
 }
 
 .ext-collapsible-section.open .ext-section-content {
@@ -886,11 +898,11 @@ button:focus,
   border-radius: 50%;
 }
 
-.ext-switch-input:checked + .ext-switch-label {
+.ext-switch-input:checked+.ext-switch-label {
   background-color: var(--primary);
 }
 
-.ext-switch-input:checked + .ext-switch-label:before {
+.ext-switch-input:checked+.ext-switch-label:before {
   transform: translateX(16px);
 }
 
@@ -904,8 +916,6 @@ button:focus,
   text-align: center;
   background-color: var(--secondary);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 .ext-status.enabled {
@@ -925,8 +935,6 @@ button:focus,
   border-radius: var(--radius);
   padding: 16px;
   margin-top: 16px;
-  animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-  animation-delay: 0.3s;
 }
 
 .ext-info-title {
@@ -1035,16 +1043,19 @@ button:focus,
   gap: 8px;
   margin-top: 8px;
 }
+
 .ext-presets-label {
   font-size: var(--font-size-body);
   color: var(--muted-foreground);
   font-weight: var(--font-weight-medium);
 }
+
 .ext-presets-controls {
   display: flex;
   gap: var(--space-sm);
   align-items: center;
 }
+
 .ext-select {
   -webkit-appearance: none;
   appearance: none;
@@ -1065,14 +1076,17 @@ button:focus,
   background-position: right 12px center;
   background-size: 12px 12px;
 }
+
 .ext-select:hover {
   background: var(--muted);
 }
+
 .ext-select:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(138,121,171,0.12);
+  box-shadow: 0 0 0 3px rgba(138, 121, 171, 0.12);
   border-color: var(--primary);
 }
+
 .ext-presets-controls .ext-btn {
   min-width: 96px;
   flex: 0 0 auto;
@@ -1084,6 +1098,7 @@ button:focus,
   align-items: center;
   flex-wrap: wrap;
 }
+
 .ext-presets-management .ext-input {
   padding: 6px 8px;
   min-height: 34px;
@@ -1160,6 +1175,7 @@ button:focus,
   color: var(--primary-foreground);
   border-color: var(--primary);
 }
+
 .ext-btn-apply:hover {
   background: oklch(from var(--primary) calc(l - 0.1) c h);
 }
@@ -1231,6 +1247,7 @@ button:focus,
     opacity: 0;
     transform: translateX(-50%) translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
@@ -1265,6 +1282,7 @@ button:focus,
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -1364,6 +1382,7 @@ button:focus,
 .about-icon svg {
   color: var(--icon-purple);
 }
+
 /* Confirm Dialog Styles */
 .ext-confirm-dialog-overlay {
   position: fixed;
@@ -1479,6 +1498,7 @@ button:focus,
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -1489,6 +1509,7 @@ button:focus,
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
