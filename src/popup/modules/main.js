@@ -15,7 +15,7 @@ export function handleToggleChange(key, enabled) {
             chrome.tabs.sendMessage(tabs[0].id, {
                 action: key,
                 enabled: enabled
-            }).catch(() => {});
+            }).catch(() => { });
         }
     });
 
@@ -24,7 +24,7 @@ export function handleToggleChange(key, enabled) {
         action: 'syncToAllTabs',
         toggleAction: key,
         enabled: enabled
-    }).catch(() => {});
+    }).catch(() => { });
 }
 
 export function setupEventListeners() {
@@ -35,7 +35,7 @@ export function setupEventListeners() {
         // Store reference in AppState
         AppState.switches.set(config.key, switchEl);
 
-        switchEl.addEventListener('change', function(e) {
+        switchEl.addEventListener('change', function (e) {
             const newState = e.target.checked;
             const storageObj = { [config.key]: newState };
 
@@ -70,7 +70,7 @@ export function setupEventListeners() {
     // Theme toggle
     const themeToggle = document.querySelector('.theme-toggle');
     if (themeToggle) {
-        themeToggle.addEventListener('click', function() {
+        themeToggle.addEventListener('click', function () {
             const isDark = document.documentElement.classList.toggle('dark');
             chrome.storage.sync.set({ theme: isDark ? 'dark' : 'light' });
         });
@@ -112,7 +112,7 @@ export function initializeApp() {
 
         // 5. Apply state settings (Switches & UI Visibility)
         AppState.currentExtensionEnabled = result.extensionEnabled !== false;
-        
+
         // Update UI with the fetched result
         UIModule.updateUI(result);
 
@@ -121,12 +121,14 @@ export function initializeApp() {
         setupEventListeners();
         setupOptionsLink();
 
-        // 7. Finally, reveal the app content
-        // Using requestAnimationFrame to ensure painting happens after DOM updates
-        requestAnimationFrame(() => {
-            document.body.style.visibility = 'visible';
-            document.body.style.opacity = '1';
-        });
+        // 7. Finally, reveal the app content immediately after UI is ready
+        document.body.style.visibility = 'visible';
+        document.body.style.opacity = '1';
+
+        // Re-enable transitions after initial render is complete (for user interactions only)
+        setTimeout(() => {
+            document.body.classList.remove('no-transitions');
+        }, 50);
     });
 }
 

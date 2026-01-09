@@ -150,10 +150,7 @@ export const UIModule = {
             const header = section.querySelector('.ext-section-header');
             if (!header) return;
             const isOpen = savedStates[sectionId] !== undefined ? savedStates[sectionId] : (sectionId === 'content-feed-controls');
-            section.classList.add('no-animation');
             if (isOpen) section.classList.add('open');
-
-            setTimeout(() => section.classList.remove('no-animation'), 100);
             header.addEventListener('click', () => {
                 const wasOpen = section.classList.contains('open');
                 section.classList.toggle('open');
