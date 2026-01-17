@@ -154,6 +154,7 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 | Trình duyệt | Liên kết |
 |---------------|--------|
 | Chrome        | [Tải xuống](https://chromewebstore.google.com/detail/tubetuner/ekllndjjhcpljlfhfblfcagbdjnjkbco) |
+| Firefox       | [Tải xuống](https://addons.mozilla.org/vi/firefox/addon/tubetuner/) |
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
