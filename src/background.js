@@ -63,7 +63,7 @@
                 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden',
                 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden',
                 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden',
-                'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled'
+                'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden', 'playlistHidden'
             ], (settings) => {
                 const syncMessage = {
                     action: 'syncSettings',

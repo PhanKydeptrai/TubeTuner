@@ -9,7 +9,7 @@ export const VALID_SETTING_KEYS = [
     'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden',
     'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden',
     'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled',
-    'shopHidden', 'livechatHidden', 'language', 'theme'
+    'shopHidden', 'playlistHidden', 'livechatHidden', 'language', 'theme'
 ];
 
 export const SettingsModule = {

@@ -469,6 +469,24 @@ html.youtube-video-sidebar-hidden ytm-compact-video-renderer {
   display: none !important;
 }
 
+/* ===== HIDE PLAYLIST FEATURE ===== */
+
+/* Hide playlist panel in sidebar when watching video in playlist */
+html.youtube-playlist-hidden ytd-playlist-panel-renderer {
+  display: none !important;
+}
+
+/* Hide playlist panel for mobile YouTube */
+html.youtube-playlist-hidden ytm-playlist-panel-renderer {
+  display: none !important;
+}
+
+/* Additional selectors for playlist container */
+html.youtube-playlist-hidden #playlist,
+html.youtube-playlist-hidden .playlist-items {
+  display: none !important;
+}
+
 /* ===== YOUTUBE COMMENTS SECTION HIDING ===== */
 
 /* Hide the main comments section container */

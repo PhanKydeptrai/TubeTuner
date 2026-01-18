@@ -41,12 +41,16 @@ export const TRANSLATIONS = {
         grayscale: 'Giao diện đen trắng',
         enableGrayscale: 'Bật giao diện đen trắng',
         disableGrayscale: 'Tắt giao diện đen trắng',
-        // Shop feature translations
-        shop: 'YouTube Shop',
-        hideShop: 'Ẩn YouTube Shop',
-        // Livechat feature translations
-        livechat: 'livechat',
-        hideLivechat: 'Ẩn livechat',
+         // Shop feature translations
+         shop: 'YouTube Shop',
+         hideShop: 'Ẩn YouTube Shop',
+         // Playlist feature translations
+         playlist: 'playlist',
+         hidePlaylist: 'Ẩn Playlist',
+         hidePlaylistDesc: 'Ẩn danh sách phát trong thanh bên video',
+         // Livechat feature translations
+         livechat: 'livechat',
+         hideLivechat: 'Ẩn livechat',
         // Presets UI
         presetsLabel: 'Cài đặt sẵn',
         applyPreset: 'Áp dụng preset',
@@ -151,12 +155,16 @@ export const TRANSLATIONS = {
         grayscale: 'Grayscale interface',
         enableGrayscale: 'Enable grayscale interface',
         disableGrayscale: 'Disable grayscale interface',
-        // Shop feature translations
-        shop: 'YouTube Shop',
-        hideShop: 'Hide YouTube Shop',
-        // Livechat feature translations
-        livechat: 'livechat',
-        hideLivechat: 'Hide livechat',
+         // Shop feature translations
+         shop: 'YouTube Shop',
+         hideShop: 'Hide YouTube Shop',
+         // Playlist feature translations
+         playlist: 'playlist',
+         hidePlaylist: 'Hide Playlist',
+         hidePlaylistDesc: 'Hide playlist panel in video sidebar',
+         // Livechat feature translations
+         livechat: 'livechat',
+         hideLivechat: 'Hide livechat',
         // Presets UI
         presetsLabel: 'Presets',
         applyPreset: 'Apply preset',
@@ -323,10 +331,11 @@ export const I18nModule = {
             { id: 'durationSwitch', text: this.t('hideDuration') },
             { id: 'endScreenCardsSwitch', text: this.t('hideEndScreenCards') },
             { id: 'hideDescriptionSwitch', text: this.t('hideDescription') },
-            { id: 'grayscaleSwitch', text: this.t('grayscale') },
-            { id: 'shopSwitch', text: this.t('hideShop') },
-            { id: 'livechatSwitch', text: this.t('hideLivechat') },
-            { id: 'extensionEnabledSwitch', text: this.t('extensionEnabled') }
+             { id: 'grayscaleSwitch', text: this.t('grayscale') },
+             { id: 'shopSwitch', text: this.t('hideShop') },
+             { id: 'playlistSwitch', text: this.t('hidePlaylist') },
+             { id: 'livechatSwitch', text: this.t('hideLivechat') },
+             { id: 'extensionEnabledSwitch', text: this.t('extensionEnabled') }
         ];
 
         labelMappings.forEach(({ id, text }) => {
