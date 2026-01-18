@@ -851,3 +851,9 @@ html.youtube-shop-hidden .shopping-shelf {
   overflow: hidden !important;
 }
 
+/* ===== YOUTUBE LIVECHAT HIDING ===== */
+
+/* Hide livechat elements marked by our script */
+html.youtube-livechat-hidden [livechat-hidden="true"] {
+  display: none !important;
+}

@@ -22,7 +22,8 @@ export const PRESET_DEFINITIONS = {
         buttonsBarHidden: false,
         hideDescriptionHidden: false,
         grayscaleEnabled: false,
-        shopHidden: false
+        shopHidden: false,
+        livechatHidden: false
     },
     balanced: {
         progressBarHidden: false,
@@ -40,7 +41,8 @@ export const PRESET_DEFINITIONS = {
         buttonsBarHidden: false,
         hideDescriptionHidden: false,
         grayscaleEnabled: false,
-        shopHidden: true
+        shopHidden: true,
+        livechatHidden: false
     },
     focus: {
         progressBarHidden: true,
@@ -58,7 +60,8 @@ export const PRESET_DEFINITIONS = {
         buttonsBarHidden: true,
         hideDescriptionHidden: true,
         grayscaleEnabled: true,
-        shopHidden: true
+        shopHidden: true,
+        livechatHidden: true
     }
 };
 

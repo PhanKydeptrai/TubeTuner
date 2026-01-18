@@ -44,6 +44,9 @@ export const TRANSLATIONS = {
         // Shop feature translations
         shop: 'YouTube Shop',
         hideShop: 'Ẩn YouTube Shop',
+        // Livechat feature translations
+        livechat: 'livechat',
+        hideLivechat: 'Ẩn livechat',
         // Presets UI
         presetsLabel: 'Cài đặt sẵn',
         applyPreset: 'Áp dụng preset',
@@ -151,6 +154,9 @@ export const TRANSLATIONS = {
         // Shop feature translations
         shop: 'YouTube Shop',
         hideShop: 'Hide YouTube Shop',
+        // Livechat feature translations
+        livechat: 'livechat',
+        hideLivechat: 'Hide livechat',
         // Presets UI
         presetsLabel: 'Presets',
         applyPreset: 'Apply preset',
@@ -319,6 +325,7 @@ export const I18nModule = {
             { id: 'hideDescriptionSwitch', text: this.t('hideDescription') },
             { id: 'grayscaleSwitch', text: this.t('grayscale') },
             { id: 'shopSwitch', text: this.t('hideShop') },
+            { id: 'livechatSwitch', text: this.t('hideLivechat') },
             { id: 'extensionEnabledSwitch', text: this.t('extensionEnabled') }
         ];
 

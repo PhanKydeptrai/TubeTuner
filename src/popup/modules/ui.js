@@ -21,7 +21,8 @@ export const SWITCH_CONFIG = [
     { id: 'buttonsBarSwitch', key: 'buttonsBarHidden', default: false },
     { id: 'hideDescriptionSwitch', key: 'hideDescriptionHidden', default: false },
     { id: 'grayscaleSwitch', key: 'grayscaleEnabled', default: false },
-    { id: 'shopSwitch', key: 'shopHidden', default: false }
+    { id: 'shopSwitch', key: 'shopHidden', default: false },
+    { id: 'livechatSwitch', key: 'livechatHidden', default: false }
 ];
 
 export const UIModule = {
@@ -105,6 +106,7 @@ export const UIModule = {
         if (settings.topHeaderHidden) enabledFeatures.push(I18nModule.t('topHeader'));
         if (settings.exploreSectionHidden) enabledFeatures.push(I18nModule.t('exploreSection'));
         if (settings.shopHidden) enabledFeatures.push(I18nModule.t('shop'));
+        if (settings.livechatHidden) enabledFeatures.push(I18nModule.t('livechat'));
 
         const statusBadge = AppState.statusElement.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', enabledFeatures.length > 0 ? 'success' : 'warning');
