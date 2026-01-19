@@ -154,6 +154,7 @@ To get a local copy up and running follow these simple example steps.
 | Browser       | Link |
 |---------------|------|
 | Chrome        | [Download](https://chromewebstore.google.com/detail/tubetuner/ekllndjjhcpljlfhfblfcagbdjnjkbco) |
+| Firefox       | [Download](https://addons.mozilla.org/vi/firefox/addon/tubetuner/) |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
