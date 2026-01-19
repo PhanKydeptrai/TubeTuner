@@ -57,13 +57,15 @@ TubeTuner
 <!-- ABOUT THE PROJECT -->
 ## Về dự án
 
-TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉnh giao diện YouTube theo sở thích của bạn. Ẩn các yếu tố gây xao lãng và tập trung vào nội dung video với 16 tùy chọn ẩn/hiện khác nhau, cùng các tính năng tiện ích như preset và xuất/nhập để sao lưu.
+TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉnh giao diện YouTube theo sở thích của bạn. Ẩn các yếu tố gây xao lãng và tập trung vào nội dung video với 19 tùy chọn ẩn/hiện khác nhau, cùng các tính năng tiện ích như preset và xuất/nhập để sao lưu.
 
 ### Tính năng chính
 
 #### 🎬 Điều khiển Nội dung & Nguồn cấp dữ liệu
 ✅ **Ẩn Home Feed** - Ẩn trang chủ YouTube để tránh xao nhãng <br>
 ✅ **Ẩn Video Sidebar** - Ẩn danh sách video đề xuất bên cạnh <br>
+✅ **Ẩn Livechat** - Ẩn phần live chat <br>
+✅ **Ẩn gợi ý video** - Ẩn danh sách video gợi ý <br>
 ✅ **Ẩn Comments** - Ẩn phần bình luận video <br>
 ✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube <br>
 ✅ **Ẩn Channel** - Ẩn thông tin kênh <br>

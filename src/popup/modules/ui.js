@@ -110,6 +110,7 @@ export const UIModule = {
          if (settings.shopHidden) enabledFeatures.push(I18nModule.t('shop'));
          if (settings.playlistHidden) enabledFeatures.push(I18nModule.t('playlist'));
          if (settings.livechatHidden) enabledFeatures.push(I18nModule.t('livechat'));
+         if (settings.recommendationHidden) enabledFeatures.push(I18nModule.t('recommendation'));
 
         const statusBadge = AppState.statusElement.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', enabledFeatures.length > 0 ? 'success' : 'warning');

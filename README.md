@@ -57,13 +57,15 @@ TubeTuner
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-TubeTuner is a comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 16 different hide/show options, plus utility features like presets and export/import for backups.
+TubeTuner is a comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 19 different hide/show options, plus utility features like presets and export/import for backups.
 
 ### Main Features
 
 #### 🎬 Content & Feed Controls
 ✅ **Hide Home Feed** - Hide YouTube homepage to avoid distractions <br>
 ✅ **Hide Video Sidebar** - Hide recommended video list on the side <br>
+✅ **Hide Livechat** - Hide live chat section <br>
+✅ **Hide Recommendation** - Hide recommended videos list <br>
 ✅ **Hide Comments** - Hide video comments section <br>
 ✅ **Hide Shorts** - Completely hide Shorts videos and Shorts section on YouTube <br>
 ✅ **Hide Channel** - Hide channel information <br>

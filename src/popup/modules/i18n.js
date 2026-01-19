@@ -51,6 +51,7 @@ export const TRANSLATIONS = {
          // Livechat feature translations
          livechat: 'livechat',
          hideLivechat: 'Ẩn livechat',
+         hideRecommendation: 'Ẩn gợi ý video',
         // Presets UI
         presetsLabel: 'Cài đặt sẵn',
         applyPreset: 'Áp dụng preset',
@@ -114,6 +115,7 @@ export const TRANSLATIONS = {
         notificationsBell: 'chuông thông báo',
         topHeader: 'thanh điều hướng trên',
         exploreSection: 'phần khám phá',
+        recommendation: 'gợi ý video',
         allDisabled: 'Đã tắt tất cả'
     },
     en: {
@@ -165,6 +167,7 @@ export const TRANSLATIONS = {
          // Livechat feature translations
          livechat: 'livechat',
          hideLivechat: 'Hide livechat',
+         hideRecommendation: 'Hide Video Suggestions',
         // Presets UI
         presetsLabel: 'Presets',
         applyPreset: 'Apply preset',
@@ -228,6 +231,7 @@ export const TRANSLATIONS = {
         notificationsBell: 'notifications bell',
         topHeader: 'top header',
         exploreSection: 'explore section',
+        recommendation: 'video suggestions',
         allDisabled: 'All features disabled'
     }
 };
@@ -335,6 +339,7 @@ export const I18nModule = {
              { id: 'shopSwitch', text: this.t('hideShop') },
              { id: 'playlistSwitch', text: this.t('hidePlaylist') },
              { id: 'livechatSwitch', text: this.t('hideLivechat') },
+             { id: 'recommendationSwitch', text: this.t('hideRecommendation') },
              { id: 'extensionEnabledSwitch', text: this.t('extensionEnabled') }
         ];
 
