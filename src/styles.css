@@ -469,6 +469,33 @@ html.youtube-video-sidebar-hidden ytm-compact-video-renderer {
   display: none !important;
 }
 
+/* ===== YOUTUBE RECOMMENDATION HIDING ===== */
+
+/* Hide the recommendations container specifically */
+html.youtube-recommendation-hidden ytd-watch-next-secondary-results-renderer #items {
+  display: none !important;
+}
+
+/* Hide the recommendation items div */
+html.youtube-recommendation-hidden div#items.style-scope.ytd-watch-next-secondary-results-renderer {
+  display: none !important;
+}
+
+/* Hide individual recommendation videos */
+html.youtube-recommendation-hidden ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer {
+  display: none !important;
+}
+
+/* Hide continuation items (load more) in recommendations */
+html.youtube-recommendation-hidden ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer {
+  display: none !important;
+}
+
+/* Fallback: Hide elements marked by our script */
+html.youtube-recommendation-hidden [recommendation-element="true"] {
+  display: none !important;
+}
+
 /* ===== HIDE PLAYLIST FEATURE ===== */
 
 /* Hide playlist panel in sidebar when watching video in playlist */
