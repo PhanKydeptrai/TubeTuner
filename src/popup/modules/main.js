@@ -8,6 +8,13 @@ import { PresetsModule, PRESET_DEFINITIONS } from './presets.js';
 import { SettingsModule } from './settings.js';
 import { UIModule, SWITCH_CONFIG } from './ui.js';
 
+// Video Sidebar sub-options that are linked to the master switch
+const VIDEO_SIDEBAR_SUB_OPTIONS = [
+    'livechatHidden',
+    'playlistHidden',
+    'recommendationHidden'
+];
+
 export function handleToggleChange(key, enabled) {
     // Send to current active tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -27,6 +34,92 @@ export function handleToggleChange(key, enabled) {
     }).catch(() => { });
 }
 
+// Handle when Video Sidebar master switch is toggled
+function handleVideoSidebarMasterToggle(enabled) {
+    const updates = {
+        videoSidebarHidden: enabled,
+        livechatHidden: enabled,
+        playlistHidden: enabled,
+        recommendationHidden: enabled
+    };
+
+    chrome.storage.sync.set(updates, () => {
+        // Update all sub-switches UI
+        updateSubSwitchesUI(updates);
+
+        // Send messages to content script
+        if (enabled) {
+            handleToggleChange('videoSidebarHidden', true);
+            VIDEO_SIDEBAR_SUB_OPTIONS.forEach(key => {
+                handleToggleChange(key, true);
+            });
+        } else {
+            VIDEO_SIDEBAR_SUB_OPTIONS.forEach(key => {
+                handleToggleChange(key, false);
+            });
+            handleToggleChange('videoSidebarHidden', false);
+        }
+
+        // Update status UI
+        chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+            UIModule.updateStatusUI(result);
+        });
+    });
+}
+
+// Handle when a sub-option is toggled
+function handleSubOptionToggle(key, enabled) {
+    if (!enabled) {
+        // If disabling any sub-option, disable Video Sidebar master
+        const updates = {
+            [key]: false,
+            videoSidebarHidden: false
+        };
+
+        chrome.storage.sync.set(updates, () => {
+            // Update master switch UI
+            const masterSwitch = document.getElementById('videoSidebarSwitch');
+            if (masterSwitch) {
+                masterSwitch.checked = false;
+            }
+
+            handleToggleChange(key, false);
+            handleToggleChange('videoSidebarHidden', false);
+
+            // Update status UI
+            chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                UIModule.updateStatusUI(result);
+            });
+        });
+    } else {
+        // Allow enabling individual sub-options without affecting master
+        const storageObj = { [key]: true };
+        chrome.storage.sync.set(storageObj, () => {
+            handleToggleChange(key, true);
+
+            // Update status UI
+            chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                UIModule.updateStatusUI(result);
+            });
+        });
+    }
+}
+
+// Update UI of sub-switches
+function updateSubSwitchesUI(settings) {
+    const switches = {
+        livechatHidden: document.getElementById('livechatSwitch'),
+        playlistHidden: document.getElementById('playlistSwitch'),
+        recommendationHidden: document.getElementById('recommendationSwitch')
+    };
+
+    Object.entries(switches).forEach(([key, element]) => {
+        if (element && settings.hasOwnProperty(key)) {
+            element.checked = settings[key];
+        }
+    });
+}
+
 export function setupEventListeners() {
     SWITCH_CONFIG.forEach(config => {
         const switchEl = document.getElementById(config.id);
@@ -37,10 +130,6 @@ export function setupEventListeners() {
 
         switchEl.addEventListener('change', function (e) {
             const newState = e.target.checked;
-            const storageObj = { [config.key]: newState };
-
-            // Save to storage
-            chrome.storage.sync.set(storageObj);
 
             // Handle extension enabled toggle specially
             if (config.key === 'extensionEnabled') {
@@ -49,7 +138,34 @@ export function setupEventListeners() {
                 const disabledNotice = document.getElementById('disabledNotice');
                 if (sectionsContainer) sectionsContainer.style.display = newState ? 'block' : 'none';
                 if (disabledNotice) disabledNotice.style.display = newState ? 'none' : 'block';
+
+                const storageObj = { [config.key]: newState };
+                chrome.storage.sync.set(storageObj);
+                handleToggleChange(config.key, newState);
+
+                chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                    UIModule.updateStatusUI(result);
+                });
+                return;
             }
+
+            // Handle Video Sidebar master switch with special logic
+            if (config.key === 'videoSidebarHidden') {
+                handleVideoSidebarMasterToggle(newState);
+                return;
+            }
+
+            // Handle sub-options with bidirectional logic
+            if (VIDEO_SIDEBAR_SUB_OPTIONS.includes(config.key)) {
+                handleSubOptionToggle(config.key, newState);
+                return;
+            }
+
+            // Handle all other switches normally
+            const storageObj = { [config.key]: newState };
+
+            // Save to storage
+            chrome.storage.sync.set(storageObj);
 
             // Sync to YouTube tabs
             handleToggleChange(config.key, newState);

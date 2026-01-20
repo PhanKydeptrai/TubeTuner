@@ -173,7 +173,8 @@
                                 <label for="homeFeedSwitch" class="ext-switch-label"></label>
                             </div>
                         </div>
-                        <div class="ext-control-item">
+                        <!-- Master Control: Hide Video Sidebar -->
+                        <div class="ext-control-item ext-master-control">
                             <span class="ext-control-label">Ẩn thanh bên video</span>
                             <div class="ext-switch">
                                 <input type="checkbox" id="videoSidebarSwitch" class="ext-switch-input">
@@ -181,29 +182,40 @@
                             </div>
                         </div>
 
-                         <div class="ext-control-item">
+                        <!-- Sub-Options Container -->
+                        <div class="ext-sub-options" id="videoSidebarSubOptions">
+                            <div class="ext-control-item ext-sub-control">
+                                <span class="ext-control-label ext-sub-label">Ẩn livechat</span>
+                                <div class="ext-switch">
+                                    <input type="checkbox" id="livechatSwitch" class="ext-switch-input">
+                                    <label for="livechatSwitch" class="ext-switch-label"></label>
+                                </div>
+                            </div>
+
+                            <div class="ext-control-item ext-sub-control">
+                                <span class="ext-control-label ext-sub-label">Ẩn gợi ý video</span>
+                                <div class="ext-switch">
+                                    <input type="checkbox" id="recommendationSwitch" class="ext-switch-input">
+                                    <label for="recommendationSwitch" class="ext-switch-label"></label>
+                                </div>
+                            </div>
+
+                            <div class="ext-control-item ext-sub-control">
+                                <span class="ext-control-label ext-sub-label">Ẩn Playlist</span>
+                                <div class="ext-switch">
+                                    <input type="checkbox" id="playlistSwitch" class="ext-switch-input">
+                                    <label for="playlistSwitch" class="ext-switch-label"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ext-control-item">
                              <span class="ext-control-label">Ẩn phần bình luận</span>
                              <div class="ext-switch">
                                  <input type="checkbox" id="commentsSwitch" class="ext-switch-input">
                                  <label for="commentsSwitch" class="ext-switch-label"></label>
                              </div>
                          </div>
-
-                          <div class="ext-control-item">
-                              <span class="ext-control-label">Ẩn livechat</span>
-                              <div class="ext-switch">
-                                  <input type="checkbox" id="livechatSwitch" class="ext-switch-input">
-                                  <label for="livechatSwitch" class="ext-switch-label"></label>
-                              </div>
-                          </div>
-
-                          <div class="ext-control-item">
-                              <span class="ext-control-label">Ẩn gợi ý video</span>
-                              <div class="ext-switch">
-                                  <input type="checkbox" id="recommendationSwitch" class="ext-switch-input">
-                                  <label for="recommendationSwitch" class="ext-switch-label"></label>
-                              </div>
-                          </div>
 
                          <div class="ext-control-item">
                              <span class="ext-control-label">Ẩn Shorts</span>
@@ -226,14 +238,6 @@
                             <div class="ext-switch">
                                 <input type="checkbox" id="shopSwitch" class="ext-switch-input">
                                 <label for="shopSwitch" class="ext-switch-label"></label>
-                            </div>
-                        </div>
-
-                        <div class="ext-control-item">
-                            <span class="ext-control-label">Ẩn Playlist</span>
-                            <div class="ext-switch">
-                                <input type="checkbox" id="playlistSwitch" class="ext-switch-input">
-                                <label for="playlistSwitch" class="ext-switch-label"></label>
                             </div>
                         </div>
 
