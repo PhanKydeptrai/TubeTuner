@@ -42,7 +42,8 @@ export const UIModule = {
         const extensionEnabled = mergedSettings.extensionEnabled;
         AppState.currentExtensionEnabled = extensionEnabled;
 
-        const extensionSwitch = AppState.switches.get('extensionEnabled');
+        // Get switch from AppState or directly from DOM (for initialization before setupEventListeners)
+        const extensionSwitch = AppState.switches.get('extensionEnabled') || document.getElementById('extensionEnabledSwitch');
         if (extensionSwitch) {
             extensionSwitch.checked = extensionEnabled;
         }
