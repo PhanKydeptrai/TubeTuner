@@ -57,13 +57,22 @@ TubeTuner
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-TubeTuner is a comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 16 different hide/show options, plus utility features like presets and export/import for backups.
+TubeTuner is a comprehensive Chrome extension to customize your YouTube interface according to your preferences. Hide distracting elements and focus on video content with 19 different hide/show options, plus utility features like presets and export/import for backups.
+
+### What's New in v1.2.5
+
+- ✨ **Unified Sidebar Management** — "Hide Video Sidebar" now acts as a primary control that automatically manages Live Chat, Video Suggestions, and Playlist visibility together. When you enable it, all three elements hide as one. Disable any individual element to restore the full sidebar.
+
+- ✨ **Enhanced Visual Hierarchy** — Improved UI with visual grouping and indentation to clearly display the relationship between sidebar controls and their component elements.
 
 ### Main Features
 
 #### 🎬 Content & Feed Controls
 ✅ **Hide Home Feed** - Hide YouTube homepage to avoid distractions <br>
-✅ **Hide Video Sidebar** - Hide recommended video list on the side <br>
+✅ **Hide Video Sidebar** - Hide the entire video sidebar (includes live chat, recommendations, and playlist) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;⮕ **Hide Live Chat** - Control live chat visibility independently <br>
+&nbsp;&nbsp;&nbsp;&nbsp;⮕ **Hide Video Suggestions** - Control video recommendations visibility independently <br>
+&nbsp;&nbsp;&nbsp;&nbsp;⮕ **Hide Playlist** - Control playlist panel visibility independently <br>
 ✅ **Hide Comments** - Hide video comments section <br>
 ✅ **Hide Shorts** - Completely hide Shorts videos and Shorts section on YouTube <br>
 ✅ **Hide Channel** - Hide channel information <br>
@@ -164,7 +173,7 @@ To get a local copy up and running follow these simple example steps.
 1. **Open YouTube** and play any video
 2. **Click on the extension icon** in the toolbar
 3. **Explore 3 main sections**:
-   - **Content & Feed Controls**: Hide/show Home Feed, Video Sidebar, Comments, Shorts, Channel
+   - **Content & Feed Controls**: Hide/show Home Feed, Video Sidebar (with grouped controls for Live Chat, Video Suggestions, Playlist), Comments, Shorts, Channel
    - **Interface Elements**: Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Shop
    - **Video Controls**: Hide/show Progress Bar, Duration, End Screen Cards, Description
 4. **Toggle switches** to enable/disable each feature individually

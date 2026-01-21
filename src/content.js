@@ -16,6 +16,9 @@ import { toggleButtonsBar } from './features/buttonsBar.js';
 import { toggleHideDescription } from './features/hideDescription.js';
 import { toggleGrayscale } from './features/grayscale.js';
 import { toggleShop } from './features/shop.js';
+import { togglePlaylist } from './features/playlist.js';
+import { toggleLivechat } from './features/livechat.js';
+import { toggleRecommendation } from './features/recommendation.js';
 
 // State variables
 let settings = {
@@ -35,12 +38,15 @@ let settings = {
     buttonsBarHidden: false,
     hideDescriptionHidden: false,
     shopHidden: false,
-    grayscaleEnabled: false
+    grayscaleEnabled: false,
+    playlistHidden: false,
+    livechatHidden: false,
+    recommendationHidden: false
 };
 
 // Initialize extension
 function initialize() {
-    chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden'], (result) => {
+    chrome.storage.sync.get(['extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden', 'playlistHidden', 'livechatHidden', 'recommendationHidden'], (result) => {
         settings.extensionEnabled = result.extensionEnabled !== false; // Default is true
         settings.progressBarHidden = result.progressBarHidden === true;
         settings.durationHidden = result.durationHidden === true;
@@ -58,6 +64,9 @@ function initialize() {
         settings.hideDescriptionHidden = result.hideDescriptionHidden === true;
         settings.grayscaleEnabled = result.grayscaleEnabled === true;
         settings.shopHidden = result.shopHidden === true;
+        settings.playlistHidden = result.playlistHidden === true;
+        settings.livechatHidden = result.livechatHidden === true;
+        settings.recommendationHidden = result.recommendationHidden === true;
 
         if (settings.extensionEnabled) {
             toggleProgressBar(settings.progressBarHidden);
@@ -74,12 +83,15 @@ function initialize() {
             toggleHideChannel(settings.hideChannelHidden);
             toggleButtonsBar(settings.buttonsBarHidden);
             toggleHideDescription(settings.hideDescriptionHidden);
-            toggleGrayscale(settings.grayscaleEnabled);
-            toggleShop(settings.shopHidden);
-        }
-    });
+             toggleGrayscale(settings.grayscaleEnabled);
+             toggleShop(settings.shopHidden);
+             togglePlaylist(settings.playlistHidden);
+             toggleLivechat(settings.livechatHidden);
+             toggleRecommendation(settings.recommendationHidden);
+         }
+     });
 
-    let currentUrl = location.href;
+     let currentUrl = location.href;
     const urlObserver = new MutationObserver(() => {
         if (location.href !== currentUrl) {
             currentUrl = location.href;
@@ -97,8 +109,11 @@ function initialize() {
                 if (settings.moreFromYouTubeHidden) toggleMoreFromYouTube(true);
                 if (settings.hideChannelHidden) toggleHideChannel(true);
                 if (settings.buttonsBarHidden) toggleButtonsBar(true);
-                if (settings.hideDescriptionHidden) toggleHideDescription(true);
-                if (settings.shopHidden) toggleShop(true);
+                 if (settings.hideDescriptionHidden) toggleHideDescription(true);
+                 if (settings.shopHidden) toggleShop(true);
+                 if (settings.playlistHidden) togglePlaylist(true);
+                 if (settings.livechatHidden) toggleLivechat(true);
+                 if (settings.recommendationHidden) toggleRecommendation(true);
             }
         }
     });
@@ -130,8 +145,11 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
         else if (key === 'hideChannelHidden') settings.hideChannelHidden = newValue === true;
         else if (key === 'buttonsBarHidden') settings.buttonsBarHidden = newValue === true;
         else if (key === 'hideDescriptionHidden') settings.hideDescriptionHidden = newValue === true;
-        else if (key === 'grayscaleEnabled') settings.grayscaleEnabled = newValue === true;
-        else if (key === 'shopHidden') settings.shopHidden = newValue === true;
+         else if (key === 'grayscaleEnabled') settings.grayscaleEnabled = newValue === true;
+         else if (key === 'shopHidden') settings.shopHidden = newValue === true;
+         else if (key === 'playlistHidden') settings.playlistHidden = newValue === true;
+         else if (key === 'livechatHidden') settings.livechatHidden = newValue === true;
+         else if (key === 'recommendationHidden') settings.recommendationHidden = newValue === true;
     }
 
     if (!settings.extensionEnabled) {
@@ -149,9 +167,11 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
         toggleHideChannel(false);
         toggleButtonsBar(false);
         toggleHideDescription(false);
-        toggleGrayscale(false);
-        toggleShop(false);
-    } else {
+         toggleGrayscale(false);
+         toggleShop(false);
+         togglePlaylist(false);
+         toggleRecommendation(false);
+     } else {
         toggleProgressBar(settings.progressBarHidden);
         toggleDuration(settings.durationHidden);
         toggleShorts(settings.shortsHidden);
@@ -164,11 +184,13 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
         toggleEndScreenCards(settings.endScreenCardsHidden);
         toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
         toggleHideChannel(settings.hideChannelHidden);
-        toggleButtonsBar(settings.buttonsBarHidden);
-        toggleHideDescription(settings.hideDescriptionHidden);
-        toggleGrayscale(settings.grayscaleEnabled);
-        toggleShop(settings.shopHidden);
-    }
+            toggleButtonsBar(settings.buttonsBarHidden);
+             toggleHideDescription(settings.hideDescriptionHidden);
+             toggleGrayscale(settings.grayscaleEnabled);
+             toggleShop(settings.shopHidden);
+             togglePlaylist(settings.playlistHidden);
+             toggleLivechat(settings.livechatHidden);
+         }
 });
 
 // Listen for messages from popup and background script
@@ -190,8 +212,11 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
             else if (key === 'hideChannelHidden') settings.hideChannelHidden = value === true;
             else if (key === 'buttonsBarHidden') settings.buttonsBarHidden = value === true;
             else if (key === 'hideDescriptionHidden') settings.hideDescriptionHidden = value === true;
-            else if (key === 'grayscaleEnabled') settings.grayscaleEnabled = value === true;
-            else if (key === 'shopHidden') settings.shopHidden = value === true;
+              else if (key === 'grayscaleEnabled') settings.grayscaleEnabled = value === true;
+              else if (key === 'shopHidden') settings.shopHidden = value === true;
+              else if (key === 'playlistHidden') settings.playlistHidden = value === true;
+              else if (key === 'livechatHidden') settings.livechatHidden = value === true;
+              else if (key === 'recommendationHidden') settings.recommendationHidden = value === true;
         }
 
         if (!settings.extensionEnabled) {
@@ -211,24 +236,28 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
             toggleHideDescription(false);
             toggleGrayscale(false);
             toggleShop(false);
+            togglePlaylist(false);
         } else {
-            toggleProgressBar(settings.progressBarHidden);
-            toggleDuration(settings.durationHidden);
-            toggleShorts(settings.shortsHidden);
-            toggleHomeFeed(settings.homeFeedHidden);
-            toggleVideoSidebar(settings.videoSidebarHidden);
-            toggleComments(settings.commentsHidden);
-            toggleNotificationsBell(settings.notificationsBellHidden);
-            toggleTopHeader(settings.topHeaderHidden);
-            toggleExploreSection(settings.exploreSectionHidden);
-            toggleEndScreenCards(settings.endScreenCardsHidden);
-            toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
-            toggleHideChannel(settings.hideChannelHidden);
-            toggleButtonsBar(settings.buttonsBarHidden);
-            toggleHideDescription(settings.hideDescriptionHidden);
-            toggleGrayscale(settings.grayscaleEnabled);
-            toggleShop(settings.shopHidden);
-        }
+             toggleProgressBar(settings.progressBarHidden);
+             toggleDuration(settings.durationHidden);
+             toggleShorts(settings.shortsHidden);
+             toggleHomeFeed(settings.homeFeedHidden);
+             toggleVideoSidebar(settings.videoSidebarHidden);
+             toggleComments(settings.commentsHidden);
+             toggleNotificationsBell(settings.notificationsBellHidden);
+             toggleTopHeader(settings.topHeaderHidden);
+             toggleExploreSection(settings.exploreSectionHidden);
+             toggleEndScreenCards(settings.endScreenCardsHidden);
+             toggleMoreFromYouTube(settings.moreFromYouTubeHidden);
+             toggleHideChannel(settings.hideChannelHidden);
+             toggleButtonsBar(settings.buttonsBarHidden);
+             toggleHideDescription(settings.hideDescriptionHidden);
+             toggleGrayscale(settings.grayscaleEnabled);
+             toggleShop(settings.shopHidden);
+             togglePlaylist(settings.playlistHidden);
+             toggleLivechat(settings.livechatHidden);
+             toggleRecommendation(settings.recommendationHidden);
+         }
 
         sendResponse({ success: true });
         return true;
@@ -311,6 +340,18 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     } else if (request.action === 'toggleShop') {
         settings.shopHidden = request.enabled;
         toggleShop(request.enabled);
+        sendResponse({ success: true, willRefresh: false });
+    } else if (request.action === 'togglePlaylist') {
+        settings.playlistHidden = request.enabled;
+        togglePlaylist(request.enabled);
+        sendResponse({ success: true, willRefresh: false });
+    } else if (request.action === 'toggleLivechat') {
+        settings.livechatHidden = request.enabled;
+        toggleLivechat(request.enabled);
+        sendResponse({ success: true, willRefresh: false });
+    } else if (request.action === 'toggleRecommendation') {
+        settings.recommendationHidden = request.enabled;
+        toggleRecommendation(request.enabled);
         sendResponse({ success: true, willRefresh: false });
     } else if (request.action === 'getStatus') {
         sendResponse(settings);

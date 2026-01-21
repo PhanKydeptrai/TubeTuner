@@ -903,7 +903,48 @@ button:focus,
 }
 
 .ext-switch-input:checked+.ext-switch-label:before {
-  transform: translateX(16px);
+   transform: translateX(16px);
+}
+
+/* Master-Slave Controls for Video Sidebar */
+.ext-control-item.ext-master-control {
+   background: rgba(138, 121, 171, 0.08);
+   padding: 12px;
+   border-radius: 8px;
+   margin-bottom: 4px;
+   border: 1px solid rgba(138, 121, 171, 0.15);
+}
+
+/* Sub-options container */
+.ext-sub-options {
+   margin-left: 20px;
+   padding-left: 12px;
+   border-left: 2px solid rgba(138, 121, 171, 0.2);
+   margin-top: 4px;
+   margin-bottom: 12px;
+}
+
+/* Sub-control items - smaller and indented */
+.ext-control-item.ext-sub-control {
+   padding: 8px 0;
+   opacity: 0.9;
+}
+
+.ext-control-label.ext-sub-label {
+   font-size: 0.9em;
+   opacity: 0.85;
+}
+
+/* Disabled state for sub-options */
+.ext-sub-options.disabled {
+   opacity: 0.5;
+   pointer-events: none;
+}
+
+/* Dark mode styling for master control */
+.dark .ext-control-item.ext-master-control {
+   background: rgba(138, 121, 171, 0.12);
+   border-color: rgba(138, 121, 171, 0.25);
 }
 
 /* Status indicator */

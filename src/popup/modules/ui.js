@@ -21,7 +21,10 @@ export const SWITCH_CONFIG = [
     { id: 'buttonsBarSwitch', key: 'buttonsBarHidden', default: false },
     { id: 'hideDescriptionSwitch', key: 'hideDescriptionHidden', default: false },
     { id: 'grayscaleSwitch', key: 'grayscaleEnabled', default: false },
-    { id: 'shopSwitch', key: 'shopHidden', default: false }
+    { id: 'shopSwitch', key: 'shopHidden', default: false },
+    { id: 'playlistSwitch', key: 'playlistHidden', default: false },
+    { id: 'livechatSwitch', key: 'livechatHidden', default: false },
+    { id: 'recommendationSwitch', key: 'recommendationHidden', default: false }
 ];
 
 export const UIModule = {
@@ -39,7 +42,8 @@ export const UIModule = {
         const extensionEnabled = mergedSettings.extensionEnabled;
         AppState.currentExtensionEnabled = extensionEnabled;
 
-        const extensionSwitch = AppState.switches.get('extensionEnabled');
+        // Get switch from AppState or directly from DOM (for initialization before setupEventListeners)
+        const extensionSwitch = AppState.switches.get('extensionEnabled') || document.getElementById('extensionEnabledSwitch');
         if (extensionSwitch) {
             extensionSwitch.checked = extensionEnabled;
         }
@@ -103,8 +107,11 @@ export const UIModule = {
         if (settings.commentsHidden) enabledFeatures.push('comments');
         if (settings.notificationsBellHidden) enabledFeatures.push(I18nModule.t('notificationsBell'));
         if (settings.topHeaderHidden) enabledFeatures.push(I18nModule.t('topHeader'));
-        if (settings.exploreSectionHidden) enabledFeatures.push(I18nModule.t('exploreSection'));
-        if (settings.shopHidden) enabledFeatures.push(I18nModule.t('shop'));
+         if (settings.exploreSectionHidden) enabledFeatures.push(I18nModule.t('exploreSection'));
+         if (settings.shopHidden) enabledFeatures.push(I18nModule.t('shop'));
+         if (settings.playlistHidden) enabledFeatures.push(I18nModule.t('playlist'));
+         if (settings.livechatHidden) enabledFeatures.push(I18nModule.t('livechat'));
+         if (settings.recommendationHidden) enabledFeatures.push(I18nModule.t('recommendation'));
 
         const statusBadge = AppState.statusElement.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', enabledFeatures.length > 0 ? 'success' : 'warning');

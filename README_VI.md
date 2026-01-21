@@ -57,13 +57,22 @@ TubeTuner
 <!-- ABOUT THE PROJECT -->
 ## Về dự án
 
-TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉnh giao diện YouTube theo sở thích của bạn. Ẩn các yếu tố gây xao lãng và tập trung vào nội dung video với 16 tùy chọn ẩn/hiện khác nhau, cùng các tính năng tiện ích như preset và xuất/nhập để sao lưu.
+TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉnh giao diện YouTube theo sở thích của bạn. Ẩn các yếu tố gây xao lãng và tập trung vào nội dung video với 19 tùy chọn ẩn/hiện khác nhau, cùng các tính năng tiện ích như preset và xuất/nhập để sao lưu.
+
+### Có gì mới trong v1.2.5
+
+- ✨ **Quản lý Thanh bên Thống nhất** — "Ẩn thanh bên video" giờ đây hoạt động như điều khiển chính tự động quản lý Live Chat, Gợi ý video và Playlist cùng nhau. Khi bạn bật nó, cả ba thành phần sẽ ẩn cùng một lúc. Tắt bất kỳ thành phần riêng lẻ nào để khôi phục toàn bộ thanh bên.
+
+- ✨ **Cải thiện Phân cấp Trực quan** — Giao diện được cải tiến với nhóm trực quan và thụt lề để thể hiện rõ mối quan hệ giữa điều khiển thanh bên và các thành phần của nó.
 
 ### Tính năng chính
 
 #### 🎬 Điều khiển Nội dung & Nguồn cấp dữ liệu
 ✅ **Ẩn Home Feed** - Ẩn trang chủ YouTube để tránh xao nhãng <br>
-✅ **Ẩn Video Sidebar** - Ẩn danh sách video đề xuất bên cạnh <br>
+✅ **Ẩn Video Sidebar** - Ẩn toàn bộ thanh bên video (bao gồm live chat, gợi ý và playlist) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;⮕ **Ẩn Livechat** - Điều khiển hiển thị live chat độc lập <br>
+&nbsp;&nbsp;&nbsp;&nbsp;⮕ **Ẩn gợi ý video** - Điều khiển gợi ý video độc lập <br>
+&nbsp;&nbsp;&nbsp;&nbsp;⮕ **Ẩn Playlist** - Điều khiển bảng playlist độc lập <br>
 ✅ **Ẩn Comments** - Ẩn phần bình luận video <br>
 ✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube <br>
 ✅ **Ẩn Channel** - Ẩn thông tin kênh <br>
@@ -164,7 +173,7 @@ TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉ
 1. **Mở YouTube** và phát bất kỳ video nào
 2. **Nhấp vào biểu tượng tiện ích** trên thanh công cụ
 3. **Khám phá 3 phần chính**:
-   - **Điều khiển Nội dung & Nguồn cấp dữ liệu**: Ẩn/hiện Home Feed, Video Sidebar, Comments, Shorts, Channel
+   - **Điều khiển Nội dung & Nguồn cấp dữ liệu**: Ẩn/hiện Home Feed, Video Sidebar (với điều khiển nhóm cho Live Chat, Gợi ý video, Playlist), Comments, Shorts, Channel
    - **Các yếu tố giao diện**: Ẩn/hiện Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Shop
    - **Trình phát Video**: Ẩn/hiện Progress Bar, Duration, End Screen Cards, Description
 4. **Gạt các công tắc** để bật/tắt từng tính năng riêng lẻ
