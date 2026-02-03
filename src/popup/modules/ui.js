@@ -76,20 +76,6 @@ export const UIModule = {
                 switchEl.checked = shouldBeChecked;
             }
         });
-
-        // Verify state after update - set a small delay to ensure DOM has updated
-        setTimeout(() => {
-            SWITCH_CONFIG.forEach(config => {
-                if (config.key === 'extensionEnabled') return;
-
-                const switchEl = AppState.switches.get(config.key);
-                if (switchEl && switchStates.hasOwnProperty(config.key) && switchEl.checked !== switchStates[config.key]) {
-                    console.warn(`State mismatch for ${config.key}, correcting...`);
-                    switchEl.checked = switchStates[config.key];
-                }
-            });
-        }, 50);
-
         // Update status UI
         this.updateStatusUI(mergedSettings);
     },
@@ -107,11 +93,11 @@ export const UIModule = {
         if (settings.commentsHidden) enabledFeatures.push('comments');
         if (settings.notificationsBellHidden) enabledFeatures.push(I18nModule.t('notificationsBell'));
         if (settings.topHeaderHidden) enabledFeatures.push(I18nModule.t('topHeader'));
-         if (settings.exploreSectionHidden) enabledFeatures.push(I18nModule.t('exploreSection'));
-         if (settings.shopHidden) enabledFeatures.push(I18nModule.t('shop'));
-         if (settings.playlistHidden) enabledFeatures.push(I18nModule.t('playlist'));
-         if (settings.livechatHidden) enabledFeatures.push(I18nModule.t('livechat'));
-         if (settings.recommendationHidden) enabledFeatures.push(I18nModule.t('recommendation'));
+        if (settings.exploreSectionHidden) enabledFeatures.push(I18nModule.t('exploreSection'));
+        if (settings.shopHidden) enabledFeatures.push(I18nModule.t('shop'));
+        if (settings.playlistHidden) enabledFeatures.push(I18nModule.t('playlist'));
+        if (settings.livechatHidden) enabledFeatures.push(I18nModule.t('livechat'));
+        if (settings.recommendationHidden) enabledFeatures.push(I18nModule.t('recommendation'));
 
         const statusBadge = AppState.statusElement.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', enabledFeatures.length > 0 ? 'success' : 'warning');
