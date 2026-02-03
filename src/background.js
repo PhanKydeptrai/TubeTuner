@@ -1,7 +1,12 @@
 // TubeTuner - Background Script for Tab Synchronization
-(function() {
+(function () {
     'use strict';
 
+    // Constants (replace with production URLs when ready)
+    const WELCOME_URL = 'https://tubetuner.vercel.app/welcome';
+    const UNINSTALL_FEEDBACK_URL = 'https://tubetuner.vercel.app/feedback';
+
+    // Storage change listener - sync settings across all YouTube tabs
     chrome.storage.onChanged.addListener((changes, namespace) => {
         if (namespace !== 'sync') return;
 
@@ -23,7 +28,7 @@
 
             if (Object.keys(syncMessage.changes).length > 0) {
                 tabs.forEach(tab => {
-                    chrome.tabs.sendMessage(tab.id, syncMessage).catch(error => {
+                    chrome.tabs.sendMessage(tab.id, syncMessage).catch(() => {
                         // Ignore errors for tabs that might not have content script loaded yet
                     });
                 });
@@ -31,6 +36,31 @@
         });
     });
 
+    // Installation handler - welcome page + uninstall URL
+    chrome.runtime.onInstalled.addListener(async (details) => {
+        // Set uninstall feedback URL (on every install/update)
+        try {
+            await chrome.runtime.setUninstallURL(UNINSTALL_FEEDBACK_URL);
+            console.log('Uninstall URL set:', UNINSTALL_FEEDBACK_URL);
+        } catch (e) {
+            console.warn('setUninstallURL failed:', e);
+        }
+
+        // Show welcome page only on first install
+        if (details?.reason === 'install') {
+            try {
+                const { welcomeShown } = await chrome.storage.local.get('welcomeShown');
+                if (!welcomeShown) {
+                    await chrome.tabs.create({ url: WELCOME_URL });
+                    await chrome.storage.local.set({ welcomeShown: true });
+                }
+            } catch (e) {
+                console.warn('Welcome flow failed:', e);
+            }
+        }
+    });
+
+    // Message handler - sync to all tabs
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === 'syncToAllTabs') {
             chrome.tabs.query({ url: ['*://www.youtube.com/*', '*://youtube.com/*'] }, (tabs) => {
@@ -42,8 +72,7 @@
                 tabs.forEach(tab => {
                     // Skip the sender tab if specified
                     if (sender.tab && sender.tab.id === tab.id) return;
-
-                    chrome.tabs.sendMessage(tab.id, message).catch(error => {});
+                    chrome.tabs.sendMessage(tab.id, message).catch(() => { });
                 });
             });
 
@@ -53,17 +82,19 @@
         return true; // Keep message channel open for async response
     });
 
+    // Tab update handler - sync settings when YouTube tab loads
     chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-        if (changeInfo.status === 'complete' && 
-            tab.url && 
-            (tab.url.includes('youtube.com'))) {
+        if (changeInfo.status === 'complete' &&
+            tab.url &&
+            tab.url.includes('youtube.com')) {
 
             chrome.storage.sync.get([
-                'extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden', 
+                'extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden',
                 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden',
                 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden',
                 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden',
-                'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled', 'shopHidden', 'playlistHidden', 'livechatHidden', 'recommendationHidden'
+                'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled',
+                'shopHidden', 'playlistHidden', 'livechatHidden', 'recommendationHidden'
             ], (settings) => {
                 const syncMessage = {
                     action: 'syncSettings',
@@ -73,7 +104,7 @@
 
                 // Wait a bit for content script to load
                 setTimeout(() => {
-                    chrome.tabs.sendMessage(tabId, syncMessage).catch(error => {});
+                    chrome.tabs.sendMessage(tabId, syncMessage).catch(() => { });
                 }, 1000);
             });
         }
