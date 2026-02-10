@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
     --background: oklch(0.9779 0.0042 56.3756);
@@ -57,7 +57,7 @@
     --tracking-normal: 0em;
     --spacing: 0.25rem;
   }
- 
+
   .dark {
     --background: oklch(0.2161 0.0061 56.0434);
     --foreground: oklch(0.9699 0.0013 106.4238);
@@ -111,11 +111,12 @@
     --shadow-2xl: 1px 1px 16px -2px hsl(0 63% 18% / 0.30);
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -422,7 +423,7 @@ html.youtube-video-sidebar-hidden ytd-live-chat-frame {
 }
 
 /* Hide engagement panels (comments, etc.) when in sidebar */
-html.youtube-video-sidebar-hidden ytd-engagement-panel-section-list-renderer {
+html.youtube-video-sidebar-hidden #secondary ytd-engagement-panel-section-list-renderer {
   display: none !important;
 }
 
