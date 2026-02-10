@@ -5,7 +5,6 @@ import { PresetsModule, PRESET_DEFINITIONS } from './popup/modules/presets.js';
 import { UIModule, SWITCH_CONFIG } from './popup/modules/ui.js';
 import { showNotification, showConfirmDialog } from './popup/modules/utils.js';
 
-// Setup settings export/import listeners (Identical to main.js)
 function setupSettingsEventListeners() {
     const exportBtn = document.getElementById('exportSettingsBtn');
     const importBtn = document.getElementById('importSettingsBtn');
@@ -42,7 +41,6 @@ function setupSettingsEventListeners() {
     }
 }
 
-// Setup preset listeners (Modified for Options Page)
 function setupPresetEventListeners() {
     const presetSelect = document.getElementById('presetSelect');
     const applyPresetBtn = document.getElementById('applyPresetBtn');
@@ -180,16 +178,11 @@ function initializeOptions() {
     UIModule.initializeTheme();
     I18nModule.initializeLanguage();
     
-    // Initial UI translation update
     setTimeout(() => {
         I18nModule.updateLanguageUI();
         
-        // Custom updates for options page specific elements
         const settingsTitle = document.getElementById('settingsTitle');
         if (settingsTitle) settingsTitle.textContent = I18nModule.t('settingsManagement');
-        
-        // const openSettingsTitle = document.querySelector('.options-title');
-        // if (openSettingsTitle) openSettingsTitle.textContent = I18nModule.t('title') + ' ' + I18nModule.t('advancedSettings');
     }, 100);
 
     setupSettingsEventListeners();

@@ -1,6 +1,3 @@
-// State Management Module
-// Manages application state
-
 export const AppState = {
     currentLang: 'en',
     currentExtensionEnabled: true,
