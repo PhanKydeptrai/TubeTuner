@@ -2,8 +2,8 @@
     'use strict';
 
     // Constants (replace with production URLs when ready)
-    const WELCOME_URL = 'https://tubetuner.vercel.app/welcome';
-    const UNINSTALL_FEEDBACK_URL = 'https://tubetuner.vercel.app/feedback';
+    const WELCOME_URL = import.meta.env.VITE_WELCOME_URL;
+    const UNINSTALL_FEEDBACK_URL = import.meta.env.VITE_UNINSTALL_FEEDBACK_URL;
 
     chrome.storage.onChanged.addListener((changes, namespace) => {
         if (namespace !== 'sync') return;

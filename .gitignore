@@ -47,3 +47,4 @@ temp/
 tmp/
 dev/
 .github/chatmodes/beastmode.chatmode.md
+.env

@@ -7,11 +7,9 @@ import fs from 'fs';
 export default defineConfig(({ mode }) => {
   const isFirefox = mode === 'firefox';
 
-  // Create a copy of the manifest to customize for each browser
   const manifest = { ...manifestBase };
 
   if (isFirefox) {
-    // Automatically add Firefox-specific configuration
     manifest.browser_specific_settings = {
       gecko: {
         id: "{8aec21ca-47ea-4ca1-b62f-068fb3ec4069}",
@@ -21,7 +19,6 @@ export default defineConfig(({ mode }) => {
         }
       }
     };
-    // Ensure Firefox platform receives the correct background script
     manifest.background = {
       scripts: ["background.js"],
       type: "module"
@@ -31,12 +28,12 @@ export default defineConfig(({ mode }) => {
   return {
     base: './',
     root: resolve(__dirname, 'src'), // Set the root of the source code to the src directory
+    envDir: resolve(__dirname), // Load .env from project root
     build: {
       outDir: resolve(__dirname, isFirefox ? 'dist/firefox' : 'dist/chrome'),
       emptyOutDir: true,
       rollupOptions: {
         input: {
-          // Declare HTML pages if Vite does not automatically detect them
           popup: resolve(__dirname, 'src/popup.html'),
         },
       },
