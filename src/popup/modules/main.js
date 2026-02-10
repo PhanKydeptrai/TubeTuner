@@ -1,9 +1,6 @@
 
 import { AppState } from './state.js';
 import { I18nModule } from './i18n.js';
-import { showNotification, showConfirmDialog } from './utils.js';
-import { PresetsModule, PRESET_DEFINITIONS } from './presets.js';
-import { SettingsModule } from './settings.js';
 import { UIModule, SWITCH_CONFIG } from './ui.js';
 
 
@@ -85,9 +82,26 @@ function handleSubOptionToggle(key, enabled) {
         chrome.storage.sync.set(storageObj, () => {
             handleToggleChange(key, true);
 
-            // Update status UI
-            chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
-                UIModule.updateStatusUI(result);
+            // Check if all 3 sub-options are now enabled => auto-enable master toggle
+            chrome.storage.sync.get(VIDEO_SIDEBAR_SUB_OPTIONS, (result) => {
+                const allEnabled = VIDEO_SIDEBAR_SUB_OPTIONS.every(k => result[k] === true);
+                if (allEnabled) {
+                    chrome.storage.sync.set({ videoSidebarHidden: true }, () => {
+                        const masterSwitch = document.getElementById('videoSidebarSwitch');
+                        if (masterSwitch) {
+                            masterSwitch.checked = true;
+                        }
+                        handleToggleChange('videoSidebarHidden', true);
+
+                        chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                            UIModule.updateStatusUI(result);
+                        });
+                    });
+                } else {
+                    chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                        UIModule.updateStatusUI(result);
+                    });
+                }
             });
         });
     }
