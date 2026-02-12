@@ -116,7 +116,8 @@ export const TRANSLATIONS = {
         topHeader: 'thanh điều hướng trên',
         exploreSection: 'phần khám phá',
         recommendation: 'gợi ý video',
-        allDisabled: 'Đã tắt tất cả'
+        allDisabled: 'Đã tắt tất cả',
+        donateText: 'Ủng hộ phát triển TubeTuner'
     },
     en: {
         title: 'TubeTuner',
@@ -232,7 +233,8 @@ export const TRANSLATIONS = {
         topHeader: 'top header',
         exploreSection: 'explore section',
         recommendation: 'video suggestions',
-        allDisabled: 'All features disabled'
+        allDisabled: 'All features disabled',
+        donateText: 'Support TubeTuner Development'
     }
 };
 
@@ -318,6 +320,10 @@ export const I18nModule = {
         // Update Advanced Settings button
         const openSettingsText = document.getElementById('openSettingsText');
         if (openSettingsText) openSettingsText.textContent = this.t('advancedSettings');
+
+        // Update Donate footer text
+        const donateText = document.getElementById('donateText');
+        if (donateText) donateText.textContent = this.t('donateText');
 
         // Update control labels
         const labelMappings = [

@@ -229,6 +229,11 @@ export function initializeApp() {
         setupEventListeners();
         setupOptionsLink();
 
+        const donateLink = document.getElementById('donateLink');
+        if (donateLink) {
+            donateLink.href = import.meta.env.VITE_DONATE_URL;
+        }
+
         document.body.style.visibility = 'visible';
         document.body.style.opacity = '1';
 
