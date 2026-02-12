@@ -1,14 +1,12 @@
-// TubeTuner - Background Script for Tab Synchronization
 (function () {
     'use strict';
 
     // Constants (replace with production URLs when ready)
-    const WELCOME_URL = 'https://tubetuner.vercel.app/welcome';
-    const UNINSTALL_FEEDBACK_URL = 'https://tubetuner.vercel.app/feedback';
+    const WELCOME_URL = import.meta.env.VITE_WELCOME_URL;
+    const UNINSTALL_FEEDBACK_URL = import.meta.env.VITE_UNINSTALL_FEEDBACK_URL;
 
-    // Storage change listener - sync settings across all YouTube tabs
     chrome.storage.onChanged.addListener((changes, namespace) => {
-        if (namespace !== 'sync') return;
+        if (namespace !== 'local') return;
 
         chrome.tabs.query({ url: ['*://www.youtube.com/*', '*://youtube.com/*'] }, (tabs) => {
             if (tabs.length === 0) return;
@@ -19,7 +17,6 @@
             };
 
             for (const [key, change] of Object.entries(changes)) {
-                // Skip non-setting keys like language, theme, sectionStates
                 if (['language', 'theme', 'sectionStates'].includes(key)) {
                     continue;
                 }
@@ -36,9 +33,7 @@
         });
     });
 
-    // Installation handler - welcome page + uninstall URL
     chrome.runtime.onInstalled.addListener(async (details) => {
-        // Set uninstall feedback URL (on every install/update)
         try {
             await chrome.runtime.setUninstallURL(UNINSTALL_FEEDBACK_URL);
             console.log('Uninstall URL set:', UNINSTALL_FEEDBACK_URL);
@@ -46,7 +41,6 @@
             console.warn('setUninstallURL failed:', e);
         }
 
-        // Show welcome page only on first install
         if (details?.reason === 'install') {
             try {
                 const { welcomeShown } = await chrome.storage.local.get('welcomeShown');
@@ -60,7 +54,6 @@
         }
     });
 
-    // Message handler - sync to all tabs
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === 'syncToAllTabs') {
             chrome.tabs.query({ url: ['*://www.youtube.com/*', '*://youtube.com/*'] }, (tabs) => {
@@ -70,7 +63,6 @@
                 };
 
                 tabs.forEach(tab => {
-                    // Skip the sender tab if specified
                     if (sender.tab && sender.tab.id === tab.id) return;
                     chrome.tabs.sendMessage(tab.id, message).catch(() => { });
                 });
@@ -82,13 +74,12 @@
         return true; // Keep message channel open for async response
     });
 
-    // Tab update handler - sync settings when YouTube tab loads
     chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         if (changeInfo.status === 'complete' &&
             tab.url &&
             tab.url.includes('youtube.com')) {
 
-            chrome.storage.sync.get([
+            chrome.storage.local.get([
                 'extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden',
                 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden',
                 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden',

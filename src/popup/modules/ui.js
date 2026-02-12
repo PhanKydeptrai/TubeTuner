@@ -1,6 +1,3 @@
-// UI Module
-// Manages UI updates and rendering
-
 import { AppState } from './state.js';
 import { I18nModule } from './i18n.js';
 
@@ -29,26 +26,21 @@ export const SWITCH_CONFIG = [
 
 export const UIModule = {
     updateUI(settings) {
-        // Set default values for all settings
         const defaultSettings = {};
         SWITCH_CONFIG.forEach(config => {
             defaultSettings[config.key] = config.default;
         });
 
-        // Merge provided settings with defaults
         const mergedSettings = { ...defaultSettings, ...settings };
 
-        // Update extension enabled state
         const extensionEnabled = mergedSettings.extensionEnabled;
         AppState.currentExtensionEnabled = extensionEnabled;
 
-        // Get switch from AppState or directly from DOM (for initialization before setupEventListeners)
         const extensionSwitch = AppState.switches.get('extensionEnabled') || document.getElementById('extensionEnabledSwitch');
         if (extensionSwitch) {
             extensionSwitch.checked = extensionEnabled;
         }
 
-        // Show/hide sections based on extension state
         const sectionsContainer = document.getElementById('sectionsContainer');
         const disabledNotice = document.getElementById('disabledNotice');
         if (sectionsContainer) {
@@ -58,7 +50,6 @@ export const UIModule = {
             disabledNotice.style.display = extensionEnabled ? 'none' : 'block';
         }
 
-        // Update all switches (both enabled and disabled state)
         const switchStates = {};
         SWITCH_CONFIG.forEach(config => {
             if (config.key !== 'extensionEnabled') {
@@ -66,9 +57,8 @@ export const UIModule = {
             }
         });
 
-        // Set the checked state for all switches
         SWITCH_CONFIG.forEach(config => {
-            if (config.key === 'extensionEnabled') return; // Already handled above
+            if (config.key === 'extensionEnabled') return;
 
             const switchEl = AppState.switches.get(config.key);
             if (switchEl) {
@@ -76,7 +66,7 @@ export const UIModule = {
                 switchEl.checked = shouldBeChecked;
             }
         });
-        // Update status UI
+
         this.updateStatusUI(mergedSettings);
     },
 
@@ -111,7 +101,6 @@ export const UIModule = {
         }
 
         if (!AppState.statusElement.contains(statusBadge)) {
-            // Clear status
             AppState.statusElement.textContent = '';
             AppState.statusElement.appendChild(statusBadge);
         }
@@ -153,10 +142,10 @@ export const UIModule = {
     },
 
     saveSectionState(sectionId, isOpen) {
-        chrome.storage.sync.get('sectionStates', (result) => {
+        chrome.storage.local.get('sectionStates', (result) => {
             const sectionStates = result.sectionStates || {};
             sectionStates[sectionId] = isOpen;
-            chrome.storage.sync.set({ sectionStates });
+            chrome.storage.local.set({ sectionStates });
         });
     }
 };

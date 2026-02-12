@@ -1,6 +1,3 @@
-// TubeTuner - Buttons Bar Feature
-
-// Function to toggle Buttons Bar
 export function toggleButtonsBar(hide) {
     if (hide) {
         document.documentElement.classList.add('youtube-buttons-bar-hidden');
@@ -11,7 +8,6 @@ export function toggleButtonsBar(hide) {
     }
 }
 
-// Function to apply additional fixes for Buttons Bar hiding
 function applyButtonsBarFixes() {
     let hiddenCount = 0;
 
@@ -28,9 +24,7 @@ function applyButtonsBarFixes() {
     });
 }
 
-// Restore Buttons Bar
 function restoreButtonsBar() {
-    // Remove hiding markers
     document.querySelectorAll('[buttons-bar-element="true"]').forEach(element => {
         element.removeAttribute('buttons-bar-element');
     });
