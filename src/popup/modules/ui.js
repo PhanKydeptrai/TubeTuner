@@ -66,7 +66,7 @@ export const UIModule = {
                 switchEl.checked = shouldBeChecked;
             }
         });
-        
+
         this.updateStatusUI(mergedSettings);
     },
 
@@ -142,10 +142,10 @@ export const UIModule = {
     },
 
     saveSectionState(sectionId, isOpen) {
-        chrome.storage.sync.get('sectionStates', (result) => {
+        chrome.storage.local.get('sectionStates', (result) => {
             const sectionStates = result.sectionStates || {};
             sectionStates[sectionId] = isOpen;
-            chrome.storage.sync.set({ sectionStates });
+            chrome.storage.local.set({ sectionStates });
         });
     }
 };

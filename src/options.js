@@ -17,7 +17,7 @@ function setupSettingsEventListeners() {
     if (importBtn && importFileInput) {
         importBtn.addEventListener('click', () => importFileInput.click());
 
-        importFileInput.addEventListener('change', function(e) {
+        importFileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
                 if (!file.name.toLowerCase().endsWith('.json')) {
@@ -54,7 +54,7 @@ function setupPresetEventListeners() {
     if (presetSelect) PresetsModule.loadPresetOptions();
 
     if (applyPresetBtn && presetSelect) {
-        applyPresetBtn.addEventListener('click', function() {
+        applyPresetBtn.addEventListener('click', function () {
             const selected = presetSelect.value;
             if (!selected) return;
 
@@ -70,7 +70,7 @@ function setupPresetEventListeners() {
     }
 
     if (savePresetBtn) {
-        savePresetBtn.addEventListener('click', function() {
+        savePresetBtn.addEventListener('click', function () {
             const name = presetNameInput?.value?.trim();
             if (!name) {
                 showNotification(I18nModule.t('presetNameRequired'), 'error');
@@ -85,19 +85,19 @@ function setupPresetEventListeners() {
 
             // DIFFERENT FROM POPUP: Read current settings from storage, not DOM
             const settingKeys = SWITCH_CONFIG.map(c => c.key);
-            chrome.storage.sync.get(settingKeys, (result) => {
+            chrome.storage.local.get(settingKeys, (result) => {
                 const preset = {};
                 settingKeys.forEach(key => {
                     if (result.hasOwnProperty(key)) {
                         preset[key] = result[key];
                     } else {
-                         // Default to false or defined default if key missing
-                         preset[key] = false; 
+                        // Default to false or defined default if key missing
+                        preset[key] = false;
                     }
                 });
 
                 // Check if custom preset already exists
-                chrome.storage.sync.get(['customPresets'], (presetsResult) => {
+                chrome.storage.local.get(['customPresets'], (presetsResult) => {
                     const customs = presetsResult.customPresets || {};
                     if (customs[name]) {
                         showConfirmDialog(I18nModule.t('confirmOverwritePreset').replace('%s', name), () => {
@@ -114,18 +114,18 @@ function setupPresetEventListeners() {
     }
 
     if (deletePresetBtn) {
-        deletePresetBtn.addEventListener('click', function() {
+        deletePresetBtn.addEventListener('click', function () {
             const selected = presetSelect.value;
             if (!selected || !selected.startsWith('custom:')) {
                 showNotification(I18nModule.t('selectPresetToDelete'), 'error');
                 return;
             }
-            
+
             const selectedOption = presetSelect.options[presetSelect.selectedIndex];
             const displayText = selectedOption.text;
             const name = selected.split(':')[1];
             const confirmMessage = `${I18nModule.t('confirmDeletePreset')} "${displayText}"?`;
-            
+
             showConfirmDialog(confirmMessage, () => {
                 PresetsModule.deletePreset(name);
             });
@@ -135,7 +135,7 @@ function setupPresetEventListeners() {
     if (importPresetsBtn && importPresetsFileInput) {
         importPresetsBtn.addEventListener('click', () => importPresetsFileInput.click());
 
-        importPresetsFileInput.addEventListener('change', function(e) {
+        importPresetsFileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (!file) return;
 
@@ -146,7 +146,7 @@ function setupPresetEventListeners() {
             }
 
             const reader = new FileReader();
-            reader.onload = function(evt) {
+            reader.onload = function (evt) {
                 try {
                     const data = JSON.parse(evt.target.result);
                     PresetsModule.importPresets(data);
@@ -167,9 +167,9 @@ function setupPresetEventListeners() {
 function setupThemeEventListeners() {
     const themeToggle = document.querySelector('.theme-toggle');
     if (themeToggle) {
-        themeToggle.addEventListener('click', function() {
+        themeToggle.addEventListener('click', function () {
             const isDark = document.documentElement.classList.toggle('dark');
-            chrome.storage.sync.set({ theme: isDark ? 'dark' : 'light' });
+            chrome.storage.local.set({ theme: isDark ? 'dark' : 'light' });
         });
     }
 }
@@ -177,10 +177,10 @@ function setupThemeEventListeners() {
 function initializeOptions() {
     UIModule.initializeTheme();
     I18nModule.initializeLanguage();
-    
+
     setTimeout(() => {
         I18nModule.updateLanguageUI();
-        
+
         const settingsTitle = document.getElementById('settingsTitle');
         if (settingsTitle) settingsTitle.textContent = I18nModule.t('settingsManagement');
     }, 100);

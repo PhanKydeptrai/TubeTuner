@@ -3,25 +3,25 @@ import * as features from './features/index.js';
 // Configuration registry for all features
 // Maps the action name (from messages) to the settings key and the toggle function
 const featureRegistry = [
-    { action: 'toggleProgressBar',      key: 'progressBarHidden',       func: features.toggleProgressBar },
-    { action: 'toggleDuration',         key: 'durationHidden',          func: features.toggleDuration },
-    { action: 'toggleShorts',           key: 'shortsHidden',            func: features.toggleShorts },
-    { action: 'toggleHomeFeed',         key: 'homeFeedHidden',          func: features.toggleHomeFeed },
-    { action: 'toggleVideoSidebar',     key: 'videoSidebarHidden',      func: features.toggleVideoSidebar },
-    { action: 'toggleComments',         key: 'commentsHidden',          func: features.toggleComments },
-    { action: 'toggleNotificationsBell',key: 'notificationsBellHidden', func: features.toggleNotificationsBell },
-    { action: 'toggleTopHeader',        key: 'topHeaderHidden',         func: features.toggleTopHeader },
-    { action: 'toggleExploreSection',   key: 'exploreSectionHidden',    func: features.toggleExploreSection },
-    { action: 'toggleEndScreenCards',   key: 'endScreenCardsHidden',    func: features.toggleEndScreenCards },
-    { action: 'toggleMoreFromYouTube',  key: 'moreFromYouTubeHidden',   func: features.toggleMoreFromYouTube },
-    { action: 'toggleHideChannel',      key: 'hideChannelHidden',       func: features.toggleHideChannel },
-    { action: 'toggleButtonsBar',       key: 'buttonsBarHidden',        func: features.toggleButtonsBar },
-    { action: 'toggleHideDescription',  key: 'hideDescriptionHidden',   func: features.toggleHideDescription },
-    { action: 'toggleGrayscale',        key: 'grayscaleEnabled',        func: features.toggleGrayscale },
-    { action: 'toggleShop',             key: 'shopHidden',              func: features.toggleShop },
-    { action: 'togglePlaylist',         key: 'playlistHidden',          func: features.togglePlaylist },
-    { action: 'toggleLivechat',         key: 'livechatHidden',          func: features.toggleLivechat },
-    { action: 'toggleRecommendation',   key: 'recommendationHidden',    func: features.toggleRecommendation }
+    { action: 'toggleProgressBar', key: 'progressBarHidden', func: features.toggleProgressBar },
+    { action: 'toggleDuration', key: 'durationHidden', func: features.toggleDuration },
+    { action: 'toggleShorts', key: 'shortsHidden', func: features.toggleShorts },
+    { action: 'toggleHomeFeed', key: 'homeFeedHidden', func: features.toggleHomeFeed },
+    { action: 'toggleVideoSidebar', key: 'videoSidebarHidden', func: features.toggleVideoSidebar },
+    { action: 'toggleComments', key: 'commentsHidden', func: features.toggleComments },
+    { action: 'toggleNotificationsBell', key: 'notificationsBellHidden', func: features.toggleNotificationsBell },
+    { action: 'toggleTopHeader', key: 'topHeaderHidden', func: features.toggleTopHeader },
+    { action: 'toggleExploreSection', key: 'exploreSectionHidden', func: features.toggleExploreSection },
+    { action: 'toggleEndScreenCards', key: 'endScreenCardsHidden', func: features.toggleEndScreenCards },
+    { action: 'toggleMoreFromYouTube', key: 'moreFromYouTubeHidden', func: features.toggleMoreFromYouTube },
+    { action: 'toggleHideChannel', key: 'hideChannelHidden', func: features.toggleHideChannel },
+    { action: 'toggleButtonsBar', key: 'buttonsBarHidden', func: features.toggleButtonsBar },
+    { action: 'toggleHideDescription', key: 'hideDescriptionHidden', func: features.toggleHideDescription },
+    { action: 'toggleGrayscale', key: 'grayscaleEnabled', func: features.toggleGrayscale },
+    { action: 'toggleShop', key: 'shopHidden', func: features.toggleShop },
+    { action: 'togglePlaylist', key: 'playlistHidden', func: features.togglePlaylist },
+    { action: 'toggleLivechat', key: 'livechatHidden', func: features.toggleLivechat },
+    { action: 'toggleRecommendation', key: 'recommendationHidden', func: features.toggleRecommendation }
 ];
 
 const actionMap = {};
@@ -61,7 +61,7 @@ function reapplyHiddens() {
 function initialize() {
     const keysToFetch = ['extensionEnabled', ...featureRegistry.map(item => item.key)];
 
-    chrome.storage.sync.get(keysToFetch, (result) => {
+    chrome.storage.local.get(keysToFetch, (result) => {
         // extensionEnabled defaults to true if undefined (undefined !== false is true)
         settings.extensionEnabled = result.extensionEnabled !== false;
 
@@ -91,7 +91,7 @@ function initialize() {
 }
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace !== 'sync') return;
+    if (namespace !== 'local') return;
 
     for (const [key, change] of Object.entries(changes)) {
         const newValue = change.newValue;

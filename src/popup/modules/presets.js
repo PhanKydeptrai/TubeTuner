@@ -72,21 +72,21 @@ export const PresetsModule = {
     getCurrentPreset() {
         return new Promise((resolve) => {
             const settingKeys = Object.keys(PRESET_DEFINITIONS.none);
-            chrome.storage.sync.get(settingKeys.concat(['customPresets']), (result) => {
+            chrome.storage.local.get(settingKeys.concat(['customPresets']), (result) => {
                 const customs = result.customPresets || {};
-                
+
                 // Check built-in presets
                 for (const [presetName, presetSettings] of Object.entries(PRESET_DEFINITIONS)) {
                     const matches = Object.keys(presetSettings).every(key => {
                         return result[key] === presetSettings[key];
                     });
-                    
+
                     if (matches) {
                         resolve(`builtin:${presetName}`);
                         return;
                     }
                 }
-                
+
                 // Check custom presets - must match ALL setting keys in PRESET_DEFINITIONS.none
                 for (const [customName, customSettings] of Object.entries(customs)) {
                     const matches = settingKeys.every(key => {
@@ -94,13 +94,13 @@ export const PresetsModule = {
                         const customValue = customSettings.hasOwnProperty(key) ? customSettings[key] : PRESET_DEFINITIONS.none[key];
                         return result[key] === customValue;
                     });
-                    
+
                     if (matches) {
                         resolve(`custom:${customName}`);
                         return;
                     }
                 }
-                
+
                 // No preset matches current settings
                 resolve(null);
             });
@@ -111,7 +111,7 @@ export const PresetsModule = {
         const presetSelect = document.getElementById('presetSelect');
         if (!presetSelect) return;
 
-        chrome.storage.sync.get(['customPresets'], (result) => {
+        chrome.storage.local.get(['customPresets'], (result) => {
             const customs = result.customPresets || {};
             const settingKeys = Object.keys(PRESET_DEFINITIONS.none);
 
@@ -129,7 +129,7 @@ export const PresetsModule = {
 
             // Save normalized presets if needed
             if (needsUpdate) {
-                chrome.storage.sync.set({ customPresets: customs }, () => {});
+                chrome.storage.local.set({ customPresets: customs }, () => { });
             }
 
             while (presetSelect.firstChild) presetSelect.removeChild(presetSelect.firstChild);
@@ -162,11 +162,11 @@ export const PresetsModule = {
                 if (currentPreset) {
                     presetSelect.value = currentPreset;
                 }
-            }).catch(() => {});
+            }).catch(() => { });
 
             try {
                 I18nModule.updateLanguageUI();
-            } catch (e) {}
+            } catch (e) { }
         });
     },
 
@@ -180,15 +180,15 @@ export const PresetsModule = {
             }
         } else if (presetId.startsWith('custom:')) {
             const name = presetId.split(':')[1];
-            chrome.storage.sync.get(['customPresets'], (result) => {
+            chrome.storage.local.get(['customPresets'], (result) => {
                 const customs = result.customPresets || {};
                 if (customs[name]) {
                     const customSettings = Object.assign({}, customs[name], { extensionEnabled: true });
-                    chrome.storage.sync.set(customSettings, () => {
+                    chrome.storage.local.set(customSettings, () => {
                         showNotification(I18nModule.t('presetApplied'), 'success');
                         UIModule.updateUI(customSettings);
                         chrome.tabs.query({ url: '*://*.youtube.com/*' }, (tabs) => {
-                            tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'syncSettings', changes: customSettings }).catch(() => {}));
+                            tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'syncSettings', changes: customSettings }).catch(() => { }));
                         });
                     });
                 }
@@ -197,21 +197,21 @@ export const PresetsModule = {
         }
 
         if (settings) {
-            chrome.storage.sync.set(settings, () => {
+            chrome.storage.local.set(settings, () => {
                 showNotification(I18nModule.t('presetApplied'), 'success');
                 UIModule.updateUI(settings);
                 chrome.tabs.query({ url: '*://*.youtube.com/*' }, (tabs) => {
-                    tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'syncSettings', changes: settings }).catch(() => {}));
+                    tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'syncSettings', changes: settings }).catch(() => { }));
                 });
             });
         }
     },
 
     savePreset(name, preset) {
-        chrome.storage.sync.get(['customPresets'], (result) => {
+        chrome.storage.local.get(['customPresets'], (result) => {
             const customs = result.customPresets || {};
             customs[name] = preset;
-            chrome.storage.sync.set({ customPresets: customs }, () => {
+            chrome.storage.local.set({ customPresets: customs }, () => {
                 showNotification(I18nModule.t('presetSaved'), 'success');
                 this.loadPresetOptions();
             });
@@ -219,10 +219,10 @@ export const PresetsModule = {
     },
 
     deletePreset(name) {
-        chrome.storage.sync.get(['customPresets'], (result) => {
+        chrome.storage.local.get(['customPresets'], (result) => {
             const customs = result.customPresets || {};
             if (customs[name]) delete customs[name];
-            chrome.storage.sync.set({ customPresets: customs }, () => {
+            chrome.storage.local.set({ customPresets: customs }, () => {
                 showNotification(I18nModule.t('presetDeleted'), 'success');
                 this.loadPresetOptions();
             });
@@ -242,10 +242,10 @@ export const PresetsModule = {
             throw new Error('Invalid format');
         }
 
-        chrome.storage.sync.get(['customPresets'], (result) => {
+        chrome.storage.local.get(['customPresets'], (result) => {
             const customs = result.customPresets || {};
             Object.assign(customs, toMerge);
-            chrome.storage.sync.set({ customPresets: customs }, () => {
+            chrome.storage.local.set({ customPresets: customs }, () => {
                 showNotification(I18nModule.t('presetsImported'), 'success');
                 this.loadPresetOptions();
             });
@@ -253,7 +253,7 @@ export const PresetsModule = {
     },
 
     exportPresets() {
-        chrome.storage.sync.get(['customPresets'], (result) => {
+        chrome.storage.local.get(['customPresets'], (result) => {
             const customs = result.customPresets || {};
             const blob = new Blob([JSON.stringify(customs, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);

@@ -41,17 +41,17 @@ export const TRANSLATIONS = {
         grayscale: 'Giao diện đen trắng',
         enableGrayscale: 'Bật giao diện đen trắng',
         disableGrayscale: 'Tắt giao diện đen trắng',
-         // Shop feature translations
-         shop: 'YouTube Shop',
-         hideShop: 'Ẩn YouTube Shop',
-         // Playlist feature translations
-         playlist: 'playlist',
-         hidePlaylist: 'Ẩn Playlist',
-         hidePlaylistDesc: 'Ẩn danh sách phát trong thanh bên video',
-         // Livechat feature translations
-         livechat: 'livechat',
-         hideLivechat: 'Ẩn livechat',
-         hideRecommendation: 'Ẩn gợi ý video',
+        // Shop feature translations
+        shop: 'YouTube Shop',
+        hideShop: 'Ẩn YouTube Shop',
+        // Playlist feature translations
+        playlist: 'playlist',
+        hidePlaylist: 'Ẩn Playlist',
+        hidePlaylistDesc: 'Ẩn danh sách phát trong thanh bên video',
+        // Livechat feature translations
+        livechat: 'livechat',
+        hideLivechat: 'Ẩn livechat',
+        hideRecommendation: 'Ẩn gợi ý video',
         // Presets UI
         presetsLabel: 'Cài đặt sẵn',
         applyPreset: 'Áp dụng preset',
@@ -157,17 +157,17 @@ export const TRANSLATIONS = {
         grayscale: 'Grayscale interface',
         enableGrayscale: 'Enable grayscale interface',
         disableGrayscale: 'Disable grayscale interface',
-         // Shop feature translations
-         shop: 'YouTube Shop',
-         hideShop: 'Hide YouTube Shop',
-         // Playlist feature translations
-         playlist: 'playlist',
-         hidePlaylist: 'Hide Playlist',
-         hidePlaylistDesc: 'Hide playlist panel in video sidebar',
-         // Livechat feature translations
-         livechat: 'livechat',
-         hideLivechat: 'Hide livechat',
-         hideRecommendation: 'Hide Video Suggestions',
+        // Shop feature translations
+        shop: 'YouTube Shop',
+        hideShop: 'Hide YouTube Shop',
+        // Playlist feature translations
+        playlist: 'playlist',
+        hidePlaylist: 'Hide Playlist',
+        hidePlaylistDesc: 'Hide playlist panel in video sidebar',
+        // Livechat feature translations
+        livechat: 'livechat',
+        hideLivechat: 'Hide livechat',
+        hideRecommendation: 'Hide Video Suggestions',
         // Presets UI
         presetsLabel: 'Presets',
         applyPreset: 'Apply preset',
@@ -267,7 +267,7 @@ export const I18nModule = {
         this.updateLanguageUI();
 
         if (save) {
-            chrome.storage.sync.set({ language: lang });
+            chrome.storage.local.set({ language: lang });
         }
     },
 
@@ -295,10 +295,10 @@ export const I18nModule = {
         const aboutFeaturesTitle = document.getElementById('aboutFeaturesTitle');
         const aboutFeatures = ['aboutFeature1', 'aboutFeature2', 'aboutFeature3', 'aboutFeature4', 'aboutFeature5'];
         const aboutGithubLinkText = document.getElementById('aboutGithubLinkText');
-        
+
         if (aboutDescription) aboutDescription.textContent = this.t('aboutDescription');
         if (aboutFeaturesTitle) aboutFeaturesTitle.textContent = this.t('aboutFeaturesTitle');
-        
+
         aboutFeatures.forEach((featureId) => {
             const featureEl = document.getElementById(featureId);
             if (featureEl) {
@@ -306,7 +306,7 @@ export const I18nModule = {
                 featureEl.textContent = this.t(translationKey);
             }
         });
-        
+
         if (aboutGithubLinkText) aboutGithubLinkText.textContent = this.t('aboutGithubLink');
 
         // Update extension disabled notice
@@ -335,12 +335,12 @@ export const I18nModule = {
             { id: 'durationSwitch', text: this.t('hideDuration') },
             { id: 'endScreenCardsSwitch', text: this.t('hideEndScreenCards') },
             { id: 'hideDescriptionSwitch', text: this.t('hideDescription') },
-             { id: 'grayscaleSwitch', text: this.t('grayscale') },
-             { id: 'shopSwitch', text: this.t('hideShop') },
-             { id: 'playlistSwitch', text: this.t('hidePlaylist') },
-             { id: 'livechatSwitch', text: this.t('hideLivechat') },
-             { id: 'recommendationSwitch', text: this.t('hideRecommendation') },
-             { id: 'extensionEnabledSwitch', text: this.t('extensionEnabled') }
+            { id: 'grayscaleSwitch', text: this.t('grayscale') },
+            { id: 'shopSwitch', text: this.t('hideShop') },
+            { id: 'playlistSwitch', text: this.t('hidePlaylist') },
+            { id: 'livechatSwitch', text: this.t('hideLivechat') },
+            { id: 'recommendationSwitch', text: this.t('hideRecommendation') },
+            { id: 'extensionEnabledSwitch', text: this.t('extensionEnabled') }
         ];
 
         labelMappings.forEach(({ id, text }) => {

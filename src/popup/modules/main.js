@@ -35,7 +35,7 @@ function handleVideoSidebarMasterToggle(enabled) {
         recommendationHidden: enabled
     };
 
-    chrome.storage.sync.set(updates, () => {
+    chrome.storage.local.set(updates, () => {
         updateSubSwitchesUI(updates);
 
         if (enabled) {
@@ -50,7 +50,7 @@ function handleVideoSidebarMasterToggle(enabled) {
             handleToggleChange('videoSidebarHidden', false);
         }
 
-        chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+        chrome.storage.local.get(SWITCH_CONFIG.map(c => c.key), (result) => {
             UIModule.updateStatusUI(result);
         });
     });
@@ -63,7 +63,7 @@ function handleSubOptionToggle(key, enabled) {
             videoSidebarHidden: false
         };
 
-        chrome.storage.sync.set(updates, () => {
+        chrome.storage.local.set(updates, () => {
             const masterSwitch = document.getElementById('videoSidebarSwitch');
             if (masterSwitch) {
                 masterSwitch.checked = false;
@@ -73,32 +73,32 @@ function handleSubOptionToggle(key, enabled) {
             handleToggleChange('videoSidebarHidden', false);
 
             // Update status UI
-            chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+            chrome.storage.local.get(SWITCH_CONFIG.map(c => c.key), (result) => {
                 UIModule.updateStatusUI(result);
             });
         });
     } else {
         const storageObj = { [key]: true };
-        chrome.storage.sync.set(storageObj, () => {
+        chrome.storage.local.set(storageObj, () => {
             handleToggleChange(key, true);
 
             // Check if all 3 sub-options are now enabled => auto-enable master toggle
-            chrome.storage.sync.get(VIDEO_SIDEBAR_SUB_OPTIONS, (result) => {
+            chrome.storage.local.get(VIDEO_SIDEBAR_SUB_OPTIONS, (result) => {
                 const allEnabled = VIDEO_SIDEBAR_SUB_OPTIONS.every(k => result[k] === true);
                 if (allEnabled) {
-                    chrome.storage.sync.set({ videoSidebarHidden: true }, () => {
+                    chrome.storage.local.set({ videoSidebarHidden: true }, () => {
                         const masterSwitch = document.getElementById('videoSidebarSwitch');
                         if (masterSwitch) {
                             masterSwitch.checked = true;
                         }
                         handleToggleChange('videoSidebarHidden', true);
 
-                        chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                        chrome.storage.local.get(SWITCH_CONFIG.map(c => c.key), (result) => {
                             UIModule.updateStatusUI(result);
                         });
                     });
                 } else {
-                    chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                    chrome.storage.local.get(SWITCH_CONFIG.map(c => c.key), (result) => {
                         UIModule.updateStatusUI(result);
                     });
                 }
@@ -141,10 +141,10 @@ export function setupEventListeners() {
                 if (disabledNotice) disabledNotice.style.display = newState ? 'none' : 'block';
 
                 const storageObj = { [config.key]: newState };
-                chrome.storage.sync.set(storageObj);
+                chrome.storage.local.set(storageObj);
                 handleToggleChange(config.key, newState);
 
-                chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                chrome.storage.local.get(SWITCH_CONFIG.map(c => c.key), (result) => {
                     UIModule.updateStatusUI(result);
                 });
                 return;
@@ -161,12 +161,12 @@ export function setupEventListeners() {
             }
 
             const storageObj = { [config.key]: newState };
-            chrome.storage.sync.set(storageObj);
+            chrome.storage.local.set(storageObj);
 
             handleToggleChange(config.key, newState);
 
 
-            chrome.storage.sync.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+            chrome.storage.local.get(SWITCH_CONFIG.map(c => c.key), (result) => {
                 UIModule.updateStatusUI(result);
             });
         });
@@ -180,7 +180,7 @@ export function setupEventListeners() {
     if (themeToggle) {
         themeToggle.addEventListener('click', function () {
             const isDark = document.documentElement.classList.toggle('dark');
-            chrome.storage.sync.set({ theme: isDark ? 'dark' : 'light' });
+            chrome.storage.local.set({ theme: isDark ? 'dark' : 'light' });
         });
     }
 }
@@ -208,7 +208,7 @@ export function initializeApp() {
         'extensionEnabled'
     ];
 
-    chrome.storage.sync.get(allKeys, (result) => {
+    chrome.storage.local.get(allKeys, (result) => {
         UIModule.initializeTheme(result.theme);
         I18nModule.initializeLanguage(result.language);
 

@@ -90,7 +90,7 @@ export function showConfirmDialog(message, onConfirm, onCancel) {
 
 export function verifyToggleStates() {
     const keys = Array.from(AppState.switches.keys());
-    chrome.storage.sync.get(keys, function (result) {
+    chrome.storage.local.get(keys, function (result) {
         const mismatches = [];
         keys.forEach(key => {
             const switchEl = AppState.switches.get(key);

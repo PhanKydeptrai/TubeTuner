@@ -6,7 +6,7 @@
     const UNINSTALL_FEEDBACK_URL = import.meta.env.VITE_UNINSTALL_FEEDBACK_URL;
 
     chrome.storage.onChanged.addListener((changes, namespace) => {
-        if (namespace !== 'sync') return;
+        if (namespace !== 'local') return;
 
         chrome.tabs.query({ url: ['*://www.youtube.com/*', '*://youtube.com/*'] }, (tabs) => {
             if (tabs.length === 0) return;
@@ -79,7 +79,7 @@
             tab.url &&
             tab.url.includes('youtube.com')) {
 
-            chrome.storage.sync.get([
+            chrome.storage.local.get([
                 'extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden',
                 'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden',
                 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden',

@@ -16,7 +16,7 @@ export const SettingsModule = {
     exportSettings() {
         const exportBtn = document.getElementById('exportSettingsBtn');
         const originalTextContent = exportBtn.textContent;
-        
+
         // Create spinner and loading text safely
         exportBtn.textContent = '';
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -29,20 +29,20 @@ export const SettingsModule = {
         svg.setAttribute("stroke-linecap", "round");
         svg.setAttribute("stroke-linejoin", "round");
         svg.classList.add("animate-spin");
-        
+
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("d", "M21 12a9 9 0 11-6.219-8.56");
         svg.appendChild(path);
-        
+
         const span = document.createElement("span");
         span.textContent = I18nModule.t('exporting');
-        
+
         exportBtn.appendChild(svg);
         exportBtn.appendChild(span);
         exportBtn.disabled = true;
 
         const keysToFetch = [...VALID_SETTING_KEYS, 'customPresets'];
-        chrome.storage.sync.get(keysToFetch, (result) => {
+        chrome.storage.local.get(keysToFetch, (result) => {
             const settingsToExport = {};
             let count = 0;
 
@@ -102,7 +102,7 @@ export const SettingsModule = {
     importSettings(file) {
         const importBtn = document.getElementById('importSettingsBtn');
         const originalTextContent = importBtn.textContent;
-        
+
         // Create spinner and loading text safely
         importBtn.textContent = '';
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -115,14 +115,14 @@ export const SettingsModule = {
         svg.setAttribute("stroke-linecap", "round");
         svg.setAttribute("stroke-linejoin", "round");
         svg.classList.add("animate-spin");
-        
+
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("d", "M21 12a9 9 0 11-6.219-8.56");
         svg.appendChild(path);
-        
+
         const span = document.createElement("span");
         span.textContent = I18nModule.t('importing');
-        
+
         importBtn.appendChild(svg);
         importBtn.appendChild(span);
         importBtn.disabled = true;
@@ -171,17 +171,17 @@ export const SettingsModule = {
                 }
 
                 const finalizeImport = () => {
-                    chrome.storage.sync.set(settingsToImport, () => {
+                    chrome.storage.local.set(settingsToImport, () => {
                         showNotification(I18nModule.t('importSuccess'), 'success');
                         chrome.tabs.query({ url: '*://*.youtube.com/*' }, (tabs) => {
-                            tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => {}));
+                            tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, { action: 'updateSettings' }).catch(() => { }));
                         });
                         setTimeout(() => window.location.reload(), 1500);
                     });
                 };
 
                 if (presetsCount > 0) {
-                    chrome.storage.sync.get(['customPresets'], (result) => {
+                    chrome.storage.local.get(['customPresets'], (result) => {
                         const existingPresets = result.customPresets || {};
                         settingsToImport.customPresets = { ...existingPresets, ...importedPresets };
                         finalizeImport();
