@@ -30,6 +30,7 @@ export default defineConfig(({ mode }) => {
     root: resolve(__dirname, 'src'), // Set the root of the source code to the src directory
     envDir: resolve(__dirname), // Load .env from project root
     build: {
+      target: 'es2015',
       outDir: resolve(__dirname, isFirefox ? 'dist/firefox' : 'dist/chrome'),
       emptyOutDir: true,
       rollupOptions: {
