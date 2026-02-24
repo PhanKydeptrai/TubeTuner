@@ -110,7 +110,13 @@ Follow these steps to set up a local copy of the extension.
    npm install
    ```
 
-3. **Build the extension:**
+3. **Set up environment variables:**
+   Copy the example environment file and update the values if necessary:
+   ```sh
+   cp .env.example .env
+   ```
+
+4. **Build the extension:**
 
    For Chrome:
    ```sh
@@ -122,13 +128,13 @@ Follow these steps to set up a local copy of the extension.
    npm run build:firefox
    ```
 
-4. **Load in Chrome:**
+5. **Load in Chrome:**
    - Open `chrome://extensions/`
    - Enable **Developer mode** (top right)
    - Click **Load unpacked**
    - Select the `dist/chrome` folder
 
-5. **Load in Firefox:**
+6. **Load in Firefox:**
    - Open `about:debugging#/runtime/this-firefox`
    - Click **Load Temporary Add-on...**
    - Select any file in the `dist/firefox` folder (e.g., `manifest.json`)
