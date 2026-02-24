@@ -1,230 +1,216 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a id="readme-top"></a>
 
-<!-- PROJECT SHIELDS -->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![GNU GPL v3][license-shield]][license-url]
 
-<!-- PROJECT LOGO -->
 <h1 align="center">
-
-![](src/images/banners/banner.png)
-<br/>
-TubeTuner
-
+  <img src="src/images/banners/banner.png" alt="TubeTuner Banner" /><br/>
+  TubeTuner
 </h1>
 
-<h3 align="center">Một tiện ích mở rộng Chrome toàn diện để tùy chỉnh giao diện YouTube theo sở thích của bạn.</h3>
+<h4 align="center">
+  <a href="README.md">English</a> |
+  <a href="README_VI.md">Tiếng Việt</a>
+</h4>
+
+<h3 align="center">Tùy chỉnh giao diện YouTube để loại bỏ các yếu tố gây xao nhãng và tạo trải nghiệm xem tập trung, cá nhân hóa</h3>
 
 <p align="center">
-    <a href="https://github.com/PhanKydeptrai/TubeTuner"><strong>Khám phá tài liệu »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/PhanKydeptrai/TubeTuner">Xem Demo</a>
-    ·
-    <a href="https://github.com/PhanKydeptrai/TubeTuner/issues/new?labels=bug&template=bug-report---.md">Báo Lỗi</a>
-    ·
-    <a href="https://github.com/PhanKydeptrai/TubeTuner/issues/new?labels=enhancement&template=feature-request---.md">Yêu Cầu Tính Năng</a>
-  </p>
+  <a href="https://github.com/PhanKydeptrai/TubeTuner"><strong>Khám phá tài liệu »</strong></a>
+  <br /><br />
+  <a href="https://github.com/PhanKydeptrai/TubeTuner">Xem Demo</a>
+  ·
+  <a href="https://github.com/PhanKydeptrai/TubeTuner/issues/new?labels=bug&template=bug-report---.md">Báo Lỗi</a>
+  ·
+  <a href="https://github.com/PhanKydeptrai/TubeTuner/issues/new?labels=enhancement&template=feature-request---.md">Yêu Cầu Tính Năng</a>
+</p>
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Mục lục</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">Về dự án</a>
-      <ul>
-        <li><a href="#built-with">Xây dựng với</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Bắt đầu</a>
-      <ul>
-        <li><a href="#installation">Cài đặt</a></li>
-      </ul>
-    </li>
-    <li><a href="#get-this-extension">✨ Tải tiện ích này</a></li>
-    <li><a href="#usage">Sử dụng</a></li>
-    <li><a href="#contributing">Đóng góp</a></li>
-    <li><a href="#license">Giấy phép</a></li>
-    <li><a href="#contact">Liên hệ</a></li>
-  </ol>
-</details>
+---
 
-<!-- ABOUT THE PROJECT -->
+## Mục lục
+
+1. [Về dự án](#về-dự-án)
+   - [Xây dựng với](#xây-dựng-với)
+2. [Bắt đầu](#bắt-đầu)
+   - [Cài đặt](#cài-đặt)
+3. [Tải Tiện Ích Này](#tải-tiện-ích-này)
+4. [Sử dụng](#sử-dụng)
+5. [Đóng góp](#đóng-góp)
+6. [Giấy phép](#giấy-phép)
+7. [Liên hệ](#liên-hệ)
+
+---
+
 ## Về dự án
 
-TubeTuner là một tiện ích mở rộng Chrome toàn diện để tùy chỉnh giao diện YouTube theo sở thích của bạn. Ẩn các yếu tố gây xao lãng và tập trung vào nội dung video với 19 tùy chọn ẩn/hiện khác nhau, cùng các tính năng tiện ích như preset và xuất/nhập để sao lưu.
+TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn tùy chỉnh giao diện YouTube theo sở thích của mình. Ẩn các yếu tố gây xao nhãng và tập trung vào nội dung video với 19 tùy chọn ẩn/hiện khác nhau, cộng với các tính năng tiện ích như danh sách thiết lập sẵn (presets) và xuất/nhập (export/import) để sao lưu.
 
-### Có gì mới trong v1.2.5
+### Có gì mới trong v1.2.8
+- **Thay Đổi Cơ Chế Lưu Trữ** — Tăng cường dung lượng và hiệu suất bằng cách chuyển đổi lưu trữ của tiện ích từ `sync` sang `local`.
+- **Hỗ Trợ Biến Môi Trường** — Cải thiện trải nghiệm của nhà phát triển với việc thêm cấu hình `.env` cho các API endpoints.
+- **Quản Lý Thanh Bên Thống Nhất** — "Ẩn Thanh Bên Video" giờ đây hoạt động như một điều khiển chính, tự động quản lý sự hiển thị của Trò Chuyện Trực Tiếp (Live Chat), Đề Xuất Video, và Danh Sách Phát.
+- **Phân Cấp Trực Quan Rõ Ràng** — Cải thiện giao diện (UI) với việc nhóm các tính năng và thụt lề để hiển thị rõ mối quan hệ giữa tùy chọn thanh bên và các thành phần bên trong nó.
 
-- ✨ **Quản lý Thanh bên Thống nhất** — "Ẩn thanh bên video" giờ đây hoạt động như điều khiển chính tự động quản lý Live Chat, Gợi ý video và Playlist cùng nhau. Khi bạn bật nó, cả ba thành phần sẽ ẩn cùng một lúc. Tắt bất kỳ thành phần riêng lẻ nào để khôi phục toàn bộ thanh bên.
+### Tính Năng
 
-- ✨ **Cải thiện Phân cấp Trực quan** — Giao diện được cải tiến với nhóm trực quan và thụt lề để thể hiện rõ mối quan hệ giữa điều khiển thanh bên và các thành phần của nó.
+**Điều Khiển Nội Dung & Bảng Tin**
+- Ẩn Bảng Tin Màn Hình Chính (Home Feed) — Tránh xao nhãng từ trang chủ YouTube
+- Ẩn Thanh Bên Video (Video Sidebar) — Ẩn toàn bộ thanh bên của video (bao gồm trò chuyện trực tiếp, đề xuất và danh sách phát)
+  - Ẩn Trò Chuyện Trực Tiếp (Live Chat) — Điều khiển riêng biệt hiển thị trò chuyện trực tiếp
+  - Ẩn Đề Xuất Video (Video Suggestions) — Điều khiển riêng biệt hiển thị đề xuất video
+  - Ẩn Danh Sách Phát (Playlist) — Điều khiển riêng biệt hiển thị bảng danh sách phát
+- Ẩn Bình Luận (Comments) — Ẩn phần bình luận của video
+- Ẩn Shorts — Ẩn hoàn toàn các video Shorts và mục Shorts
+- Ẩn Channel — Ẩn thông tin kênh dưới video
 
-### Tính năng chính
+**Yếu Tố Giao Diện**
+- Ẩn Tiêu Đề Trên Cùng (Top Header) — Ẩn thanh điều hướng trên cùng
+- Ẩn Chuông Thông Báo (Notifications Bell) — Ẩn biểu tượng chuông thông báo
+- Ẩn Khám Phá & Thịnh Hành (Explore & Trending) — Ẩn tab Khám phá và Thịnh hành trên thanh bên
+- Ẩn Thêm Từ YouTube (More from YouTube) — Ẩn phần "Thêm từ YouTube"
+- Ẩn Cửa Hàng (Shop) — Ẩn phần Cửa hàng (Shop) của YouTube
+- Ẩn Thanh Nút (Buttons Bar) — Ẩn thanh nút tác vụ dưới video
 
-#### 🎬 Điều khiển Nội dung & Nguồn cấp dữ liệu
-✅ **Ẩn Home Feed** - Ẩn trang chủ YouTube để tránh xao nhãng <br>
-✅ **Ẩn Video Sidebar** - Ẩn toàn bộ thanh bên video (bao gồm live chat, gợi ý và playlist) <br>
-&nbsp;&nbsp;&nbsp;&nbsp;⮕ **Ẩn Livechat** - Điều khiển hiển thị live chat độc lập <br>
-&nbsp;&nbsp;&nbsp;&nbsp;⮕ **Ẩn gợi ý video** - Điều khiển gợi ý video độc lập <br>
-&nbsp;&nbsp;&nbsp;&nbsp;⮕ **Ẩn Playlist** - Điều khiển bảng playlist độc lập <br>
-✅ **Ẩn Comments** - Ẩn phần bình luận video <br>
-✅ **Ẩn Shorts** - Ẩn hoàn toàn các video Shorts và mục Shorts trên YouTube <br>
-✅ **Ẩn Channel** - Ẩn thông tin kênh <br>
+**Điều Khiển Video**
+- Ẩn Thanh Tiến Trình (Progress Bar) — Xóa thanh tiến trình khi xem video
+- Ẩn Thời Lượng (Duration) — Ẩn thông tin thời gian hiện tại và tổng thời lượng
+- Ẩn Thẻ Màn Hình Cuối (End Screen Cards) — Ẩn các thẻ màn hình xuất hiện ở cuối video
+- Ẩn Mô Tả (Description) — Ẩn phần mô tả video
 
-#### 🎛️ Các yếu tố giao diện
-✅ **Ẩn Top Header** - Ẩn thanh header trên cùng <br>
-✅ **Ẩn Notifications Bell** - Ẩn chuông thông báo <br>
-✅ **Ẩn Explore & Trending** - Ẩn các tab Khám phá và Thịnh hành <br>
-✅ **Ẩn More from YouTube** - Ẩn phần "Thêm từ YouTube" <br>
-✅ **Ẩn Shop** - Ẩn phần Shop của YouTube <br>
-✅ **Ẩn Buttons Bar** - Ẩn thanh nút bấm <br>
-
-#### 🎥 Trình phát Video
-✅ **Ẩn thanh tiến trình video** - Loại bỏ thanh progress bar khi xem video <br>
-✅ **Ẩn thời lượng video** - Ẩn thông tin thời gian hiện tại/tổng thời lượng video <br>
-✅ **Ẩn End Screen Cards** - Ẩn thẻ cuối video <br>
-✅ **Ẩn Description** - Ẩn mô tả video <br>
-
-#### 🔧 Các tính năng khác
-✅ **Xuất/Nhập Cài đặt** - Xuất cài đặt ra file để sao lưu và nhập lại để khôi phục hoặc chia sẻ cấu hình <br>
-✅ **Giao diện Hiện đại** - Giao diện đẹp với 3 phần có thể thu gọn <br>
-✅ **Chế độ tối** - Hỗ trợ chế độ tối, tự động theo hệ thống <br>
-✅ **Đa ngôn ngữ** - Hỗ trợ tiếng Việt và tiếng Anh <br>
-✅ **Công tắc độc lập** - Công tắc riêng cho mỗi tính năng <br>
-✅ **Không ảnh hưởng hiệu suất** - Tiện ích nhẹ và được tối ưu hóa <br>
-✅ **Presets** - Sử dụng preset có sẵn (None, Balanced, Focus) hoặc tạo preset tùy chỉnh <br>
-✅ **Grayscale** - Áp dụng bộ lọc đen trắng cho giao diện YouTube <br>
-✅ **Bật/Tắt Extension** - Bật hoặc tắt tiện ích nhanh từ popup
-
-### Tính năng mới
-
-- ✅ **Grayscale** — Áp dụng bộ lọc đen trắng cho giao diện YouTube
-- ✅ **Bật/Tắt Extension** — Bật hoặc tắt tiện ích nhanh từ popup
-- ✅ **Ẩn Shop** — Ẩn phần Shop trên YouTube
-- ✅ **Tùy chọn Preset** — Sử dụng preset có sẵn hoặc tạo và lưu nhiều preset tùy chỉnh
-- ✅ **Xuất file (Sao lưu)** — Xuất cài đặt ra file để sao lưu và khôi phục
+**Các Tính Năng Khác**
+- Xuất/Nhập Cài Đặt (Export/Import Settings) — Xuất cài đặt ra một file để sao lưu và nhập lại để khôi phục hoặc chia sẻ cấu hình
+- Cài Đặt Sẵn (Presets) — Áp dụng các cài đặt có sẵn (Không, Cân Bằng, Tập Trung) hoặc tạo và lưu cài đặt tùy chỉnh
+- Thang Độ Xám (Grayscale) — Áp dụng bộ lọc xám cho toàn bộ giao diện YouTube
+- Chế Độ Tối (Dark Mode) — Tự động theo giao diện hệ thống của bạn
+- Đa Ngôn Ngữ — Hỗ trợ tiếng Việt và tiếng Anh
+- Bật/Tắt Tiện Ích — Bật/tắt nhanh tình trạng bật của tiện ích trực tiếp trên popup
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
 ### Xây dựng với
 
-* [![JavaScript][JavaScript-shield]][JavaScript-url]
-* [![HTML5][HTML5-shield]][HTML5-url]
-* [![CSS3][CSS3-shield]][CSS3-url]
+- [![JavaScript][JavaScript-shield]][JavaScript-url]
+- [![HTML5][HTML5-shield]][HTML5-url]
+- [![CSS3][CSS3-shield]][CSS3-url]
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
-<!-- GETTING STARTED -->
-## Bắt đầu
+---
 
-Để có bản sao cục bộ và chạy, hãy làm theo các bước ví dụ đơn giản sau.
+## Bắt Đầu
 
-### Cài đặt
+Làm theo các bước sau để thiết lập một bản sao cục bộ của tiện ích.
 
-1. **Clone dự án:**
+### Cài Lặt
+
+1. **Clone repository:**
    ```sh
    git clone https://github.com/PhanKydeptrai/TubeTuner.git
    ```
-2. **Cài đặt các gói phụ thuộc:**
+
+2. **Cài đặt các gói phụ thuộc (dependencies):**
    ```sh
    npm install
    ```
-3. **Build tiện ích:**
-   - Cho Chrome:
-     ```sh
-     npm run build:chrome
-     ```
-   - Cho Firefox:
-     ```sh
-     npm run build:firefox
-     ```
-4. **Cài đặt trên Chrome:**
+
+3. **Thiết lập biến môi trường:**
+   Sao chép tệp biến môi trường mẫu và cập nhật các giá trị nếu cần:
+   ```sh
+   cp .env.example .env
+   ```
+
+4. **Build tiện ích mở rộng:**
+
+   Cho Chrome:
+   ```sh
+   npm run build:chrome
+   ```
+
+   Cho Firefox:
+   ```sh
+   npm run build:firefox
+   ```
+
+5. **Tải lên Chrome:**
    - Mở `chrome://extensions/`
-   - Bật "Chế độ nhà phát triển" (Developer mode) ở góc phải
-   - Nhấn "Tải tiện ích đã giải nén" (Load unpacked)
+   - Bật **Chế độ dành cho nhà phát triển (Developer mode)** ở góc trên bên phải
+   - Nhấp **Tải tiện ích đã giải nén (Load unpacked)**
    - Chọn thư mục `dist/chrome`
 
-5. **Cài đặt trên Firefox:**
+6. **Tải lên Firefox:**
    - Mở `about:debugging#/runtime/this-firefox`
-   - Nhấn "Load Temporary Add-on..."
-   - Chọn bất kỳ file nào trong thư mục `dist/firefox` (ví dụ: `manifest.json`)
+   - Nhấp vào **Load Temporary Add-on...**
+   - Chọn bất kỳ tệp nào trong thư mục `dist/firefox` (ví dụ: `manifest.json`)
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
-<!-- GET THIS EXTENSION -->
-## ✨ Tải tiện ích này
+---
 
-| Trình duyệt | Liên kết |
-|---------------|--------|
-| Chrome        | [Tải xuống](https://chromewebstore.google.com/detail/tubetuner/ekllndjjhcpljlfhfblfcagbdjnjkbco) |
-| Firefox       | [Tải xuống](https://addons.mozilla.org/vi/firefox/addon/tubetuner/) |
+## Tải Tiện Ích Này
 
-<p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
-
-<!-- USAGE EXAMPLES -->
-## Sử dụng
-
-1. **Mở YouTube** và phát bất kỳ video nào
-2. **Nhấp vào biểu tượng tiện ích** trên thanh công cụ
-3. **Khám phá 3 phần chính**:
-   - **Điều khiển Nội dung & Nguồn cấp dữ liệu**: Ẩn/hiện Home Feed, Video Sidebar (với điều khiển nhóm cho Live Chat, Gợi ý video, Playlist), Comments, Shorts, Channel
-   - **Các yếu tố giao diện**: Ẩn/hiện Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Shop
-   - **Trình phát Video**: Ẩn/hiện Progress Bar, Duration, End Screen Cards, Description
-4. **Gạt các công tắc** để bật/tắt từng tính năng riêng lẻ
-5. **Chuyển đổi giao diện**: Nhấp vào nút mặt trời/mặt trăng ở trên cùng để chuyển đổi chế độ Sáng/Tối
-6. **Xuất/Nhập Cài đặt**: Sử dụng các nút trong phần cài đặt để sao lưu/khôi phục cấu hình
-7. Tiện ích sẽ tự động áp dụng các thay đổi và ghi nhớ trạng thái các phần
-8. **Presets**: Chọn một preset có sẵn (Không, Cân bằng, Tập trung) trong phần cài đặt để áp dụng nhiều tùy chọn ẩn/hiện cùng lúc.
-9. **Preset tùy chỉnh**: Tạo preset riêng của bạn bằng cách định cấu hình các công tắc và nhấp vào "Lưu preset". Sử dụng "Nhập preset (.json)" để tải các preset từ tệp JSON (gộp với các preset tùy chỉnh hiện có), hoặc "Xuất preset" để tải xuống các preset tùy chỉnh của bạn dưới dạng JSON. Xóa một preset tùy chỉnh bằng cách chọn nó và nhấp vào "Xóa preset".
-
-### Kiểm tra tính năng Presets (QA)
-
-1. Mở popup và bật/tắt một số cài đặt. Nhấp "Lưu preset" và đặt tên.
-2. Đảm bảo preset mới xuất hiện trong danh sách thả xuống Presets ở mục "Tùy chỉnh".
-3. Chọn preset tùy chỉnh và nhấp "Áp dụng preset" — giao diện sẽ cập nhật tương ứng.
-4. Sử dụng "Xuất preset" để tải xuống các preset tùy chỉnh của bạn và xác minh tệp JSON có chứa các preset đã lưu.
-5. Xóa một preset bằng cách chọn nó và nhấp "Xóa preset".
-6. Sử dụng "Nhập preset (.json)" với tệp JSON hợp lệ để gộp các preset và xác minh chúng xuất hiện trong danh sách.
+| Trình Duyệt | Liên Kết |
+|---------|------|
+| Chrome  | [Chrome Web Store](https://chromewebstore.google.com/detail/tubetuner/ekllndjjhcpljlfhfblfcagbdjnjkbco) |
+| Firefox | [Firefox Add-ons](https://addons.mozilla.org/vi/firefox/addon/tubetuner/) |
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
-<!-- CONTRIBUTING -->
-## Đóng góp
+---
 
-Đóng góp là những gì làm cho cộng đồng nguồn mở trở thành một nơi tuyệt vời để học hỏi, truyền cảm hứng và sáng tạo. Mọi đóng góp của bạn đều được **đánh giá cao**.
+## Sử Dụng
 
-Nếu bạn có đề xuất để làm cho dự án này tốt hơn, vui lòng fork repo và tạo một pull request. Bạn cũng có thể chỉ cần mở một vấn đề với thẻ "enhancement".
-Đừng quên cho dự án một ngôi sao! Cảm ơn một lần nữa!
+1. **Mở YouTube** và bật một video bất kỳ.
+2. **Nhấp vào biểu tượng tiện ích** trong thanh công cụ của trình duyệt.
+3. **Khám phá 3 phần chính:**
+   - **Điều Khiển Nội Dung & Bảng Tin** — Ẩn/hiện Bảng Tin Trang Chủ, Thanh Bên Video (với các nhóm dành cho Trò chuyện trực tiếp, Gợi ý video, Danh sách phát), Bình Luận, Shorts, Channel
+   - **Yếu Tố Giao Diện** — Ẩn/hiện Tiêu Đề Trên Cùng, Chuông Thông Báo, Khám Phá & Thịnh Hành, Thêm Từ YouTube, Thanh Nút, Cửa Hàng
+   - **Điều Khiển Video** — Ẩn/hiện Thanh Tiến Trình, Thời Lượng, Thẻ Màn Hình Cuối, Mô Tả
+4. **Sử dụng các công tắc** để kích hoạt hay vô hiệu hóa từng tính năng riêng biệt.
+5. **Chuyển Đổi Giao Diện** — Nhấp vào nút mặt trời/mặt trăng trên cùng để chuyển giữa chế độ Sáng/Tối.
+6. **Xuất/Nhập Cài Đặt** — Sử dụng các nút trong phần cài đặt để sao lưu/khôi phục lại cấu hình.
+7. **Cài Đặt Sẵn (Presets)** — Chọn một cấu hình có sẵn (Không, Cân Bằng, Tập Trung) để áp dụng nhiều cài đặt cùng lúc.
+8. **Cài Đặt Sẵn Tùy Chỉnh** — Cấu hình các công tắc của bạn và nhấp vào "Lưu preset" để tạo một thiết lập có tên riêng. Sử dụng "Nhập preset (.json)" để tải file gốc, hoặc "Xuất preset" để tải nó xuống máy. Nếu bạn muốn xóa, hãy chọn preset đó và nhấp "Xóa preset".
+
+<p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
+
+---
+
+## Đóng Góp
+
+Những đóng góp chính là động lực làm cho cộng đồng mã nguồn mở trở thành một nơi tuyệt vời để học hỏi, truyền cảm hứng và sáng tạo. Bất kỳ đóng góp nào của bạn cũng đều được **trân trọng và đánh giá cao**.
+
+Nếu bạn có một đề xuất nào, vui lòng fork repository và tạo một pull request, hoặc mở một issue với nhãn `enhancement`. Đừng quên ghé ủng hộ dự án một ngôi sao (star) nhé!
 
 1. Fork dự án
-2. Tạo Chi nhánh Tính năng của bạn (`git checkout -b feature/AmazingFeature`)
-3. Cam kết các thay đổi của bạn (`git commit -m 'Add some AmazingFeature'`)
-4. Đẩy lên Chi nhánh (`git push origin feature/AmazingFeature`)
+2. Tạo nhánh tính năng của bạn (`git checkout -b feature/AmazingFeature`)
+3. Commit những đóng góp của bạn (`git commit -m 'Thêm một AmazingFeature'`)
+4. Đẩy (Push) lên nhánh của bạn (`git push origin feature/AmazingFeature`)
 5. Mở một Pull Request
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
-<!-- LICENSE -->
-## Giấy phép
+---
 
-Được phân phối theo Giấy phép GNU General Public License v3. Xem `LICENSE` để biết thêm thông tin.
+## Giấy Phép
+
+Phân phối dưới Giấy phép GNU General Public License v3. Xem chi tiết trong file `LICENSE`.
+
+<p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
+
+---
+
+## Liên Hệ
+
+Phan Ky — phanky.dev@proton.me
+
+Liên kết Dự án: [https://github.com/PhanKydeptrai/TubeTuner](https://github.com/PhanKydeptrai/TubeTuner)
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
-<!-- CONTACT -->
-## Liên hệ
-
-Phan Ky - phanky.dev@proton.me
-
-Liên kết dự án: [https://github.com/PhanKydeptrai/TubeTuner](https://github.com/PhanKydeptrai/TubeTuner)
-
-<p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
+---
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [contributors-shield]: https://img.shields.io/github/contributors/PhanKydeptrai/TubeTuner.svg?style=for-the-badge

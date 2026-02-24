@@ -11,6 +11,11 @@
   TubeTuner
 </h1>
 
+<h4 align="center">
+  <a href="README.md">English</a> |
+  <a href="README_VI.md">Tiếng Việt</a>
+</h4>
+
 <h3 align="center">Customize the YouTube interface to eliminate distractions and create a focused, personalized viewing experience</h3>
 
 <p align="center">
@@ -43,9 +48,10 @@
 
 TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube interface to match your preferences. Hide distracting elements and focus on video content with 19 different hide/show options, plus utility features like presets and export/import for backups.
 
-### What's New in v1.2.5
-
-- **Unified Sidebar Management** — "Hide Video Sidebar" now acts as a primary control that automatically manages Live Chat, Video Suggestions, and Playlist visibility together. When enabled, all three elements hide as one. Disable any individual element to restore the full sidebar.
+### What's New in v1.2.8
+- **Storage Migration** — Enhanced capacity and performance by migrating extension storage from `sync` to `local`.
+- **Environment Variables Support** — Improved developer experience with `.env` configuration for API endpoints.
+- **Unified Sidebar Management** — "Hide Video Sidebar" now acts as a primary control that automatically manages Live Chat, Video Suggestions, and Playlist visibility together.
 - **Enhanced Visual Hierarchy** — Improved UI with visual grouping and indentation to clearly display the relationship between sidebar controls and their component elements.
 
 ### Features
