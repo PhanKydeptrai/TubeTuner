@@ -543,7 +543,8 @@ html.youtube-comments-hidden ytd-comment-simplebox-renderer {
 }
 
 /* Hide comments continuation (load more comments) */
-html.youtube-comments-hidden ytd-continuation-item-renderer {
+html.youtube-comments-hidden ytd-comments ytd-continuation-item-renderer,
+html.youtube-comments-hidden ytd-item-section-renderer[section-identifier="comment-item-section"] ytd-continuation-item-renderer {
   display: none !important;
 }
 
