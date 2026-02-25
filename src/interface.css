@@ -801,8 +801,10 @@ button:focus,
   transition: background-color 0.2s;
 }
 
+/* hover effects were causing unwanted highlighting on collapsible headers (e.g. About)
+   change to keep same background to effectively disable the effect */
 .ext-section-header:hover {
-  background-color: var(--secondary);
+  background-color: var(--card);
 }
 
 .ext-section-icon {
@@ -1448,7 +1450,7 @@ button:focus,
 
 /* About icon color */
 .about-icon svg {
-  color: var(--icon-purple);
+  color: var(--red);
 }
 
 /* Confirm Dialog Styles */
