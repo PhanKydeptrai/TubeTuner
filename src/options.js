@@ -65,12 +65,33 @@ function setupPresetEventListeners() {
 
             showConfirmDialog(confirmMessage, () => {
                 PresetsModule.applyPreset(selected);
+                // After applying, reset update mode
+                setUpdatePresetMode(false);
             });
         });
     }
 
     if (savePresetBtn) {
         savePresetBtn.addEventListener('click', function () {
+            // If in "update" mode, update the currently selected custom preset directly
+            if (savePresetBtn.dataset.updateMode === 'true') {
+                const selected = presetSelect?.value;
+                if (!selected || !selected.startsWith('custom:')) return;
+
+                const presetName = selected.split(':')[1];
+                const settingKeys = SWITCH_CONFIG.map(c => c.key);
+                chrome.storage.local.get(settingKeys, (result) => {
+                    const preset = {};
+                    settingKeys.forEach(key => {
+                        preset[key] = result.hasOwnProperty(key) ? result[key] : false;
+                    });
+                    PresetsModule.savePreset(presetName, preset);
+                    setUpdatePresetMode(false);
+                });
+                return;
+            }
+
+            // Normal "save new preset" flow
             const name = presetNameInput?.value?.trim();
             if (!name) {
                 showNotification(I18nModule.t('presetNameRequired'), 'error');
@@ -128,6 +149,7 @@ function setupPresetEventListeners() {
 
             showConfirmDialog(confirmMessage, () => {
                 PresetsModule.deletePreset(name);
+                setUpdatePresetMode(false);
             });
         });
     }
@@ -162,6 +184,79 @@ function setupPresetEventListeners() {
     if (exportPresetsBtn) {
         exportPresetsBtn.addEventListener('click', () => PresetsModule.exportPresets());
     }
+
+    // When user manually changes the preset select, reset update mode
+    if (presetSelect) {
+        presetSelect.addEventListener('change', () => {
+            setUpdatePresetMode(false);
+        });
+    }
+
+    // Watch for any storage changes: if a custom preset is selected and settings differ, enter update mode
+    chrome.storage.onChanged.addListener((changes, area) => {
+        if (area !== 'local') return;
+
+        // Ignore changes to customPresets or non-setting keys
+        const settingKeys = SWITCH_CONFIG.map(c => c.key);
+        const hasSettingChange = Object.keys(changes).some(k => settingKeys.includes(k));
+        if (!hasSettingChange) return;
+
+        checkAndSetUpdateMode();
+    });
+}
+
+/**
+ * Checks if the current settings differ from the selected custom preset.
+ * If they do, enters "update" mode; otherwise resets to "save" mode.
+ */
+function checkAndSetUpdateMode() {
+    const presetSelect = document.getElementById('presetSelect');
+    if (!presetSelect) return;
+
+    const selected = presetSelect.value;
+    if (!selected || !selected.startsWith('custom:')) {
+        setUpdatePresetMode(false);
+        return;
+    }
+
+    const presetName = selected.split(':')[1];
+    const settingKeys = SWITCH_CONFIG.map(c => c.key);
+
+    chrome.storage.local.get(['customPresets', ...settingKeys], (result) => {
+        const customs = result.customPresets || {};
+        const savedPreset = customs[presetName];
+        if (!savedPreset) {
+            setUpdatePresetMode(false);
+            return;
+        }
+
+        // Compare current settings with saved preset
+        const isDifferent = settingKeys.some(key => {
+            const currentVal = result.hasOwnProperty(key) ? result[key] : false;
+            const presetVal = savedPreset.hasOwnProperty(key) ? savedPreset[key] : false;
+            return currentVal !== presetVal;
+        });
+
+        setUpdatePresetMode(isDifferent);
+    });
+}
+
+/**
+ * Switches the Save Preset button between "Save" and "Update" modes.
+ */
+function setUpdatePresetMode(active) {
+    const savePresetBtn = document.getElementById('savePresetBtn');
+    if (!savePresetBtn) return;
+
+    if (active) {
+        savePresetBtn.dataset.updateMode = 'true';
+        savePresetBtn.textContent = I18nModule.t('updatePreset');
+        savePresetBtn.classList.add('ext-btn-update');
+    } else {
+        delete savePresetBtn.dataset.updateMode;
+        savePresetBtn.textContent = I18nModule.t('savePreset');
+        savePresetBtn.classList.remove('ext-btn-update');
+    }
 }
 
 function setupThemeEventListeners() {
@@ -188,6 +283,11 @@ function initializeOptions() {
     setupSettingsEventListeners();
     setupPresetEventListeners();
     setupThemeEventListeners();
+
+    // On load, check if current settings already differ from selected custom preset
+    setTimeout(() => {
+        checkAndSetUpdateMode();
+    }, 300);
 }
 
 document.addEventListener('DOMContentLoaded', initializeOptions);

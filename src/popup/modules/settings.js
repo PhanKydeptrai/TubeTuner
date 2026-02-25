@@ -6,7 +6,7 @@ import { showNotification } from './utils.js';
 
 export const VALID_SETTING_KEYS = [
     'extensionEnabled', 'progressBarHidden', 'durationHidden', 'shortsHidden',
-    'homeFeedHidden', 'videoSidebarHidden', 'commentsHidden', 'notificationsBellHidden',
+    'homeFeedHidden', 'videoSidebarHidden', 'videoControlsHidden', 'commentsHidden', 'notificationsBellHidden',
     'topHeaderHidden', 'exploreSectionHidden', 'endScreenCardsHidden', 'moreFromYouTubeHidden',
     'hideChannelHidden', 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled',
     'shopHidden', 'playlistHidden', 'livechatHidden', 'language', 'theme'
@@ -15,7 +15,7 @@ export const VALID_SETTING_KEYS = [
 export const SettingsModule = {
     exportSettings() {
         const exportBtn = document.getElementById('exportSettingsBtn');
-        const originalTextContent = exportBtn.textContent;
+        const originalHTML = exportBtn.innerHTML;
 
         // Create spinner and loading text safely
         exportBtn.textContent = '';
@@ -61,7 +61,7 @@ export const SettingsModule = {
 
             if (count === 0 && presetsCount === 0) {
                 showNotification(I18nModule.t('noSettingsToExport'), 'info');
-                exportBtn.textContent = originalTextContent;
+                exportBtn.innerHTML = originalHTML;
                 exportBtn.disabled = false;
                 return;
             }
@@ -93,7 +93,7 @@ export const SettingsModule = {
             showNotification(I18nModule.t('exportSuccess'), 'success');
 
             setTimeout(() => {
-                exportBtn.textContent = originalTextContent;
+                exportBtn.innerHTML = originalHTML;
                 exportBtn.disabled = false;
             }, 1000);
         });
@@ -101,7 +101,7 @@ export const SettingsModule = {
 
     importSettings(file) {
         const importBtn = document.getElementById('importSettingsBtn');
-        const originalTextContent = importBtn.textContent;
+        const originalHTML = importBtn.innerHTML;
 
         // Create spinner and loading text safely
         importBtn.textContent = '';
@@ -192,14 +192,14 @@ export const SettingsModule = {
 
             } catch (error) {
                 showNotification(error.message || I18nModule.t('importError'), 'error');
-                importBtn.textContent = originalTextContent;
+                importBtn.innerHTML = originalHTML;
                 importBtn.disabled = false;
             }
         };
 
         reader.onerror = () => {
             showNotification(I18nModule.t('importError'), 'error');
-            importBtn.textContent = originalTextContent;
+            importBtn.innerHTML = originalHTML;
             importBtn.disabled = false;
         };
 

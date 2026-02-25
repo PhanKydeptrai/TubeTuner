@@ -21,6 +21,7 @@ export const TRANSLATIONS = {
         hideButtonsBar: 'Ẩn thanh nút bấm',
         // Video Controls
         videoControlsTitle: 'Trình phát Video',
+        hideVideoControls: 'Ẩn điều khiển video',
         hideProgressBar: 'Ẩn thanh tiến trình',
         hideDuration: 'Ẩn thời lượng video',
         hideEndScreenCards: 'Ẩn thẻ cuối video',
@@ -67,6 +68,7 @@ export const TRANSLATIONS = {
         customGroup: 'Tùy chỉnh',
         presetNamePlaceholder: 'Tên preset',
         savePreset: 'Lưu preset',
+        updatePreset: 'Cập nhật preset',
         deletePreset: 'Xóa preset',
         importPresets: 'Nhập preset',
         exportPresets: 'Xuất preset',
@@ -138,6 +140,7 @@ export const TRANSLATIONS = {
         hideButtonsBar: 'Hide Buttons Bar',
         // Video Controls
         videoControlsTitle: 'Video Controls',
+        hideVideoControls: 'Hide video controls',
         hideProgressBar: 'Hide progress bar',
         hideDuration: 'Hide video duration',
         hideEndScreenCards: 'Hide End Screen Cards/Annotations',
@@ -184,6 +187,7 @@ export const TRANSLATIONS = {
         customGroup: 'Custom',
         presetNamePlaceholder: 'Preset name',
         savePreset: 'Save preset',
+        updatePreset: 'Update preset',
         deletePreset: 'Delete preset',
         importPresets: 'Import presets',
         exportPresets: 'Export presets',
@@ -339,6 +343,7 @@ export const I18nModule = {
             { id: 'buttonsBarSwitch', text: this.t('hideButtonsBar') },
             { id: 'progressSwitch', text: this.t('hideProgressBar') },
             { id: 'durationSwitch', text: this.t('hideDuration') },
+            { id: 'videoControlsSwitch', text: this.t('hideVideoControls') },
             { id: 'endScreenCardsSwitch', text: this.t('hideEndScreenCards') },
             { id: 'hideDescriptionSwitch', text: this.t('hideDescription') },
             { id: 'grayscaleSwitch', text: this.t('grayscale') },
@@ -375,7 +380,8 @@ export const I18nModule = {
         const deletePresetBtn = document.getElementById('deletePresetBtn');
         const importPresetsBtn = document.getElementById('importPresetsBtn');
         const exportPresetsBtn = document.getElementById('exportPresetsBtn');
-        if (savePresetBtn) savePresetBtn.textContent = this.t('savePreset');
+        // Only reset savePresetBtn text if it's not in "update" mode
+        if (savePresetBtn && !savePresetBtn.dataset.updateMode) savePresetBtn.textContent = this.t('savePreset');
         if (deletePresetBtn) deletePresetBtn.textContent = this.t('deletePreset');
         if (importPresetsBtn) importPresetsBtn.textContent = this.t('importPresets');
         if (exportPresetsBtn) exportPresetsBtn.textContent = this.t('exportPresets');
