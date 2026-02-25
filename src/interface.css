@@ -801,8 +801,10 @@ button:focus,
   transition: background-color 0.2s;
 }
 
+/* hover effects were causing unwanted highlighting on collapsible headers (e.g. About)
+   change to keep same background to effectively disable the effect */
 .ext-section-header:hover {
-  background-color: var(--secondary);
+  background-color: var(--card);
 }
 
 .ext-section-icon {
@@ -1221,6 +1223,33 @@ button:focus,
   background: oklch(from var(--primary) calc(l - 0.1) c h);
 }
 
+/* Update Preset button - distinct amber/orange color to indicate overwrite action */
+.ext-btn-update {
+  background: #f59e0b;
+  color: #1c1917;
+  border-color: #f59e0b;
+  transition: all 0.2s ease;
+}
+
+.ext-btn-update:hover {
+  background: #d97706;
+  border-color: #d97706;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.dark .ext-btn-update {
+  background: #b45309;
+  color: #fef3c7;
+  border-color: #b45309;
+}
+
+.dark .ext-btn-update:hover {
+  background: #d97706;
+  border-color: #d97706;
+}
+
+
 /* Dark mode styles for settings section */
 .dark .ext-settings-section {
   background: var(--card);
@@ -1421,7 +1450,7 @@ button:focus,
 
 /* About icon color */
 .about-icon svg {
-  color: var(--icon-purple);
+  color: var(--red);
 }
 
 /* Confirm Dialog Styles */
@@ -1465,7 +1494,7 @@ button:focus,
 .ext-confirm-dialog-buttons {
   display: flex;
   gap: var(--space-sm);
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .ext-confirm-btn-cancel,

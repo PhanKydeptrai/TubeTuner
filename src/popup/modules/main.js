@@ -10,6 +10,11 @@ const VIDEO_SIDEBAR_SUB_OPTIONS = [
     'recommendationHidden'
 ];
 
+const VIDEO_CONTROLS_SUB_OPTIONS = [
+    'progressBarHidden',
+    'durationHidden'
+];
+
 export function handleToggleChange(key, enabled) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs[0]?.url?.includes('youtube.com')) {
@@ -121,6 +126,97 @@ function updateSubSwitchesUI(settings) {
     });
 }
 
+function handleVideoControlsMasterToggle(enabled) {
+    const updates = {
+        videoControlsHidden: enabled,
+        progressBarHidden: enabled,
+        durationHidden: enabled
+    };
+
+    chrome.storage.local.set(updates, () => {
+        updateVideoControlsSubSwitchesUI(updates);
+
+        if (enabled) {
+            handleToggleChange('videoControlsHidden', true);
+            VIDEO_CONTROLS_SUB_OPTIONS.forEach(key => {
+                handleToggleChange(key, true);
+            });
+        } else {
+            VIDEO_CONTROLS_SUB_OPTIONS.forEach(key => {
+                handleToggleChange(key, false);
+            });
+            handleToggleChange('videoControlsHidden', false);
+        }
+
+        chrome.storage.local.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+            UIModule.updateStatusUI(result);
+        });
+    });
+}
+
+function handleVideoControlsSubOptionToggle(key, enabled) {
+    if (!enabled) {
+        const updates = {
+            [key]: false,
+            videoControlsHidden: false
+        };
+
+        chrome.storage.local.set(updates, () => {
+            const masterSwitch = document.getElementById('videoControlsSwitch');
+            if (masterSwitch) {
+                masterSwitch.checked = false;
+            }
+
+            handleToggleChange(key, false);
+            handleToggleChange('videoControlsHidden', false);
+
+            chrome.storage.local.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                UIModule.updateStatusUI(result);
+            });
+        });
+    } else {
+        const storageObj = { [key]: true };
+        chrome.storage.local.set(storageObj, () => {
+            handleToggleChange(key, true);
+
+            // Check if all sub-options are now enabled => auto-enable master toggle
+            chrome.storage.local.get(VIDEO_CONTROLS_SUB_OPTIONS, (result) => {
+                const allEnabled = VIDEO_CONTROLS_SUB_OPTIONS.every(k => result[k] === true);
+                if (allEnabled) {
+                    chrome.storage.local.set({ videoControlsHidden: true }, () => {
+                        const masterSwitch = document.getElementById('videoControlsSwitch');
+                        if (masterSwitch) {
+                            masterSwitch.checked = true;
+                        }
+                        handleToggleChange('videoControlsHidden', true);
+
+                        chrome.storage.local.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                            UIModule.updateStatusUI(result);
+                        });
+                    });
+                } else {
+                    chrome.storage.local.get(SWITCH_CONFIG.map(c => c.key), (result) => {
+                        UIModule.updateStatusUI(result);
+                    });
+                }
+            });
+        });
+    }
+}
+
+function updateVideoControlsSubSwitchesUI(settings) {
+    const switches = {
+        progressBarHidden: document.getElementById('progressSwitch'),
+        durationHidden: document.getElementById('durationSwitch')
+    };
+
+    Object.entries(switches).forEach(([key, element]) => {
+        if (element && settings.hasOwnProperty(key)) {
+            element.checked = settings[key];
+        }
+    });
+}
+
 export function setupEventListeners() {
     SWITCH_CONFIG.forEach(config => {
         const switchEl = AppState.switches.get(config.key) || document.getElementById(config.id);
@@ -157,6 +253,16 @@ export function setupEventListeners() {
 
             if (VIDEO_SIDEBAR_SUB_OPTIONS.includes(config.key)) {
                 handleSubOptionToggle(config.key, newState);
+                return;
+            }
+
+            if (config.key === 'videoControlsHidden') {
+                handleVideoControlsMasterToggle(newState);
+                return;
+            }
+
+            if (VIDEO_CONTROLS_SUB_OPTIONS.includes(config.key)) {
+                handleVideoControlsSubOptionToggle(config.key, newState);
                 return;
             }
 

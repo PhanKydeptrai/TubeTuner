@@ -12,13 +12,11 @@ export function showNotification(message, type = 'info') {
     notification.className = `ext-notification ext-notification-${type}`;
     notification.textContent = message;
 
-    const container = document.querySelector('.ext-container');
-    if (container) {
-        container.appendChild(notification);
-        setTimeout(() => {
-            if (notification.parentNode) notification.remove();
-        }, 3000);
-    }
+    const container = document.querySelector('.ext-container') || document.body;
+    container.appendChild(notification);
+    setTimeout(() => {
+        if (notification.parentNode) notification.remove();
+    }, 3000);
 }
 
 export function showConfirmDialog(message, onConfirm, onCancel) {

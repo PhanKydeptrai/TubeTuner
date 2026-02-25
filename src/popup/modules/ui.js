@@ -3,6 +3,7 @@ import { I18nModule } from './i18n.js';
 
 export const SWITCH_CONFIG = [
     { id: 'extensionEnabledSwitch', key: 'extensionEnabled', default: true },
+    { id: 'videoControlsSwitch', key: 'videoControlsHidden', default: false },
     { id: 'progressSwitch', key: 'progressBarHidden', default: false },
     { id: 'durationSwitch', key: 'durationHidden', default: false },
     { id: 'shortsSwitch', key: 'shortsHidden', default: false },

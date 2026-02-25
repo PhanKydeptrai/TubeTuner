@@ -210,20 +210,20 @@
                         </div>
 
                         <div class="ext-control-item">
-                             <span class="ext-control-label">Ẩn phần bình luận</span>
-                             <div class="ext-switch">
-                                 <input type="checkbox" id="commentsSwitch" class="ext-switch-input">
-                                 <label for="commentsSwitch" class="ext-switch-label"></label>
-                             </div>
-                         </div>
+                            <span class="ext-control-label">Ẩn phần bình luận</span>
+                            <div class="ext-switch">
+                                <input type="checkbox" id="commentsSwitch" class="ext-switch-input">
+                                <label for="commentsSwitch" class="ext-switch-label"></label>
+                            </div>
+                        </div>
 
-                         <div class="ext-control-item">
-                             <span class="ext-control-label">Ẩn Shorts</span>
-                             <div class="ext-switch">
-                                 <input type="checkbox" id="shortsSwitch" class="ext-switch-input">
-                                 <label for="shortsSwitch" class="ext-switch-label"></label>
-                             </div>
-                         </div>
+                        <div class="ext-control-item">
+                            <span class="ext-control-label">Ẩn Shorts</span>
+                            <div class="ext-switch">
+                                <input type="checkbox" id="shortsSwitch" class="ext-switch-input">
+                                <label for="shortsSwitch" class="ext-switch-label"></label>
+                            </div>
+                        </div>
 
                         <div class="ext-control-item">
                             <span class="ext-control-label">Ẩn kênh</span>
@@ -337,18 +337,31 @@
                         </div>
                     </div>
                     <div class="ext-section-content">
-                        <div class="ext-control-item">
-                            <span class="ext-control-label">Ẩn thanh tiến trình</span>
+                        <!-- Master Control: Hide Video Controls -->
+                        <div class="ext-control-item ext-master-control">
+                            <span class="ext-control-label">Ẩn điều khiển video</span>
                             <div class="ext-switch">
-                                <input type="checkbox" id="progressSwitch" class="ext-switch-input">
-                                <label for="progressSwitch" class="ext-switch-label"></label>
+                                <input type="checkbox" id="videoControlsSwitch" class="ext-switch-input">
+                                <label for="videoControlsSwitch" class="ext-switch-label"></label>
                             </div>
                         </div>
-                        <div class="ext-control-item">
-                            <span class="ext-control-label">Ẩn thời lượng video</span>
-                            <div class="ext-switch">
-                                <input type="checkbox" id="durationSwitch" class="ext-switch-input">
-                                <label for="durationSwitch" class="ext-switch-label"></label>
+
+                        <!-- Sub-Options Container -->
+                        <div class="ext-sub-options" id="videoControlsSubOptions">
+                            <div class="ext-control-item ext-sub-control">
+                                <span class="ext-control-label ext-sub-label">Ẩn thanh tiến trình</span>
+                                <div class="ext-switch">
+                                    <input type="checkbox" id="progressSwitch" class="ext-switch-input">
+                                    <label for="progressSwitch" class="ext-switch-label"></label>
+                                </div>
+                            </div>
+
+                            <div class="ext-control-item ext-sub-control">
+                                <span class="ext-control-label ext-sub-label">Ẩn thời lượng video</span>
+                                <div class="ext-switch">
+                                    <input type="checkbox" id="durationSwitch" class="ext-switch-input">
+                                    <label for="durationSwitch" class="ext-switch-label"></label>
+                                </div>
                             </div>
                         </div>
                         <div class="ext-control-item">
@@ -386,17 +399,17 @@
     </div>
     <!-- End ext-sections-container -->
 
-        <!-- Donate Footer -->
-        <footer class="ext-donate-footer">
-            <a href="#" id="donateLink" class="ext-donate-link" target="_blank" rel="noopener noreferrer">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
-                    stroke="none">
-                    <path
-                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                </svg>
-                <span id="donateText">Ủng hộ phát triển TubeTuner</span>
-            </a>
-        </footer>
+    <!-- Donate Footer -->
+    <footer class="ext-donate-footer" style="display: none;">
+        <a href="#" id="donateLink" class="ext-donate-link" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+                stroke="none">
+                <path
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+            <span id="donateText">Ủng hộ phát triển TubeTuner</span>
+        </a>
+    </footer>
 
     <script type="module" src="popup/modules/main.js"></script>
 </body>
