@@ -196,7 +196,7 @@ If you have a suggestion, please fork the repository and create a pull request. 
 
 ## License
 
-Distributed under the GNU General Public License v3. See `LICENSE` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -222,7 +222,7 @@ Project Link: [https://github.com/PhanKydeptrai/TubeTuner](https://github.com/Ph
 [issues-shield]: https://img.shields.io/github/issues/PhanKydeptrai/TubeTuner.svg?style=for-the-badge
 [issues-url]: https://github.com/PhanKydeptrai/TubeTuner/issues
 [license-shield]: https://img.shields.io/github/license/PhanKydeptrai/TubeTuner.svg?style=for-the-badge
-[license-url]: https://github.com/PhanKydeptrai/TubeTuner/blob/master/LICENSE
+[license-url]: https://github.com/PhanKydeptrai/TubeTuner/blob/main/LICENSE
 [JavaScript-shield]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
 [JavaScript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
 [HTML5-shield]: https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white

@@ -196,7 +196,7 @@ Nếu bạn có một đề xuất nào, vui lòng fork repository và tạo m�
 
 ## Giấy Phép
 
-Phân phối dưới Giấy phép GNU General Public License v3. Xem chi tiết trong file `LICENSE`.
+Phân phối theo Giấy phép MIT. Xem chi tiết trong file `LICENSE`.
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 
@@ -222,7 +222,7 @@ Liên kết Dự án: [https://github.com/PhanKydeptrai/TubeTuner](https://githu
 [issues-shield]: https://img.shields.io/github/issues/PhanKydeptrai/TubeTuner.svg?style=for-the-badge
 [issues-url]: https://github.com/PhanKydeptrai/TubeTuner/issues
 [license-shield]: https://img.shields.io/github/license/PhanKydeptrai/TubeTuner.svg?style=for-the-badge
-[license-url]: https://github.com/PhanKydeptrai/TubeTuner/blob/master/LICENSE
+[license-url]: https://github.com/PhanKydeptrai/TubeTuner/blob/main/LICENSE
 [JavaScript-shield]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
 [JavaScript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
 [HTML5-shield]: https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
