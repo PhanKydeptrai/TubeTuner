@@ -1,3 +1,4 @@
+export { toggleAiSummary } from './aiSummary.js';
 export { toggleButtonsBar } from './buttonsBar.js';
 export { toggleComments } from './comments.js';
 export { toggleDuration } from './duration.js';

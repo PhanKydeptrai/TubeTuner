@@ -26,6 +26,7 @@ export const TRANSLATIONS = {
         hideDuration: 'Ẩn thời lượng video',
         hideEndScreenCards: 'Ẩn thẻ cuối video',
         hideDescription: 'Ẩn mô tả video',
+        hideAiSummary: 'Ẩn tóm tắt AI',
         // General
         active: 'Đang hoạt động',
         inactive: 'Đã tắt',
@@ -145,6 +146,7 @@ export const TRANSLATIONS = {
         hideDuration: 'Hide video duration',
         hideEndScreenCards: 'Hide End Screen Cards/Annotations',
         hideDescription: 'Hide Video Description',
+        hideAiSummary: 'Hide AI Summary',
         // General
         active: 'Active',
         inactive: 'Inactive',
@@ -351,6 +353,7 @@ export const I18nModule = {
             { id: 'playlistSwitch', text: this.t('hidePlaylist') },
             { id: 'livechatSwitch', text: this.t('hideLivechat') },
             { id: 'recommendationSwitch', text: this.t('hideRecommendation') },
+            { id: 'aiSummarySwitch', text: this.t('hideAiSummary') },
             { id: 'extensionEnabledSwitch', text: this.t('extensionEnabled') }
         ];
 

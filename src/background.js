@@ -85,7 +85,8 @@
                 'notificationsBellHidden', 'topHeaderHidden', 'exploreSectionHidden',
                 'endScreenCardsHidden', 'moreFromYouTubeHidden', 'hideChannelHidden',
                 'buttonsBarHidden', 'hideDescriptionHidden', 'grayscaleEnabled',
-                'shopHidden', 'playlistHidden', 'livechatHidden', 'recommendationHidden'
+                'shopHidden', 'playlistHidden', 'livechatHidden', 'recommendationHidden',
+                'aiSummaryHidden'
             ], (settings) => {
                 const syncMessage = {
                     action: 'syncSettings',
