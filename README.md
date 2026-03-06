@@ -32,11 +32,11 @@
 
 ## Table of Contents
 
-1. [About The Project](#about-the-project)
+1. [Get This Extension](#get-this-extension)
+2. [About The Project](#about-the-project)
    - [Built With](#built-with)
-2. [Getting Started](#getting-started)
+3. [Getting Started](#getting-started)
    - [Installation](#installation)
-3. [Get This Extension](#get-this-extension)
 4. [Usage](#usage)
 5. [Contributing](#contributing)
 6. [License](#license)
@@ -44,15 +44,22 @@
 
 ---
 
+## Get This Extension
+
+[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/tubetuner/ekllndjjhcpljlfhfblfcagbdjnjkbco)
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox_Add_ons-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/vi/firefox/addon/tubetuner/)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
 ## About The Project
 
-TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube interface to match your preferences. Hide distracting elements and focus on video content with 19 different hide/show options, plus utility features like presets and export/import for backups.
+TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube interface to match your preferences. Hide distracting elements and focus on video content with 20 different hide/show options, plus utility features like presets and export/import for backups.
 
-### What's New in v1.2.8
-- **Storage Migration** — Enhanced capacity and performance by migrating extension storage from `sync` to `local`.
-- **Environment Variables Support** — Improved developer experience with `.env` configuration for API endpoints.
-- **Unified Sidebar Management** — "Hide Video Sidebar" now acts as a primary control that automatically manages Live Chat, Video Suggestions, and Playlist visibility together.
-- **Enhanced Visual Hierarchy** — Improved UI with visual grouping and indentation to clearly display the relationship between sidebar controls and their component elements.
+### What's New in v1.3.0
+- **Hide AI Summary Feature** — Added a new option to hide the AI-generated summary on YouTube video pages.
+- **Grayscale Improvements** — Fixed grayscale application issues on Shorts and hover states.
 
 ### Features
 
@@ -64,6 +71,7 @@ TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube int
   - Hide Playlist — Control playlist panel visibility independently
 - Hide Comments — Hide the video comments section
 - Hide Shorts — Completely hide Shorts videos and the Shorts section
+- Hide AI Summary — Hide the AI-generated summary on video pages
 - Hide Channel — Hide channel information below the video
 
 **Interface Elements**
@@ -149,23 +157,12 @@ Follow these steps to set up a local copy of the extension.
 
 ---
 
-## Get This Extension
-
-| Browser | Link |
-|---------|------|
-| Chrome  | [Chrome Web Store](https://chromewebstore.google.com/detail/tubetuner/ekllndjjhcpljlfhfblfcagbdjnjkbco) |
-| Firefox | [Firefox Add-ons](https://addons.mozilla.org/vi/firefox/addon/tubetuner/) |
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
-
 ## Usage
 
 1. **Open YouTube** and play any video.
 2. **Click the extension icon** in the browser toolbar.
 3. **Explore the 3 main sections:**
-   - **Content & Feed Controls** — Hide/show Home Feed, Video Sidebar (with grouped controls for Live Chat, Video Suggestions, Playlist), Comments, Shorts, Channel
+   - **Content & Feed Controls** — Hide/show Home Feed, Video Sidebar (with grouped controls for Live Chat, Video Suggestions, Playlist), Comments, Shorts, AI Summary, Channel
    - **Interface Elements** — Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Shop
    - **Video Controls** — Hide/show Progress Bar, Duration, End Screen Cards, Description
 4. **Use toggle switches** to enable or disable each feature individually.

@@ -32,11 +32,11 @@
 
 ## Mục lục
 
-1. [Về dự án](#về-dự-án)
+1. [Tải Tiện Ích Này](#tải-tiện-ích-này)
+2. [Về dự án](#về-dự-án)
    - [Xây dựng với](#xây-dựng-với)
-2. [Bắt đầu](#bắt-đầu)
+3. [Bắt đầu](#bắt-đầu)
    - [Cài đặt](#cài-đặt)
-3. [Tải Tiện Ích Này](#tải-tiện-ích-này)
 4. [Sử dụng](#sử-dụng)
 5. [Đóng góp](#đóng-góp)
 6. [Giấy phép](#giấy-phép)
@@ -44,15 +44,22 @@
 
 ---
 
+## Tải Tiện Ích Này
+
+[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/tubetuner/ekllndjjhcpljlfhfblfcagbdjnjkbco)
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox_Add_ons-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/vi/firefox/addon/tubetuner/)
+
+<p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
+
+---
+
 ## Về dự án
 
-TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn tùy chỉnh giao diện YouTube theo sở thích của mình. Ẩn các yếu tố gây xao nhãng và tập trung vào nội dung video với 19 tùy chọn ẩn/hiện khác nhau, cộng với các tính năng tiện ích như danh sách thiết lập sẵn (presets) và xuất/nhập (export/import) để sao lưu.
+TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn tùy chỉnh giao diện YouTube theo sở thích của mình. Ẩn các yếu tố gây xao nhãng và tập trung vào nội dung video với 20 tùy chọn ẩn/hiện khác nhau, cộng với các tính năng tiện ích như danh sách thiết lập sẵn (presets) và xuất/nhập (export/import) để sao lưu.
 
-### Có gì mới trong v1.2.8
-- **Thay Đổi Cơ Chế Lưu Trữ** — Tăng cường dung lượng và hiệu suất bằng cách chuyển đổi lưu trữ của tiện ích từ `sync` sang `local`.
-- **Hỗ Trợ Biến Môi Trường** — Cải thiện trải nghiệm của nhà phát triển với việc thêm cấu hình `.env` cho các API endpoints.
-- **Quản Lý Thanh Bên Thống Nhất** — "Ẩn Thanh Bên Video" giờ đây hoạt động như một điều khiển chính, tự động quản lý sự hiển thị của Trò Chuyện Trực Tiếp (Live Chat), Đề Xuất Video, và Danh Sách Phát.
-- **Phân Cấp Trực Quan Rõ Ràng** — Cải thiện giao diện (UI) với việc nhóm các tính năng và thụt lề để hiển thị rõ mối quan hệ giữa tùy chọn thanh bên và các thành phần bên trong nó.
+### Có gì mới trong v1.3.0
+- **Ẩn Tính Năng Tóm Tắt AI (Hide AI Summary)** — Thêm tùy chọn mới để ẩn phần tóm tắt do AI tạo ra trên các trang video YouTube.
+- **Cải Thiện Bộ Lọc Xám (Grayscale)** — Sửa lỗi bộ lọc xám không áp dụng chính xác cho các trạng thái di chuột (hover) trên Shorts và các thành phần video, đảm bảo tính nhất quán trên diện rộng.
 
 ### Tính Năng
 
@@ -64,6 +71,7 @@ TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn t
   - Ẩn Danh Sách Phát (Playlist) — Điều khiển riêng biệt hiển thị bảng danh sách phát
 - Ẩn Bình Luận (Comments) — Ẩn phần bình luận của video
 - Ẩn Shorts — Ẩn hoàn toàn các video Shorts và mục Shorts
+- Ẩn Tóm Tắt AI (AI Summary) — Ẩn phần tóm tắt AI trên trang video
 - Ẩn Channel — Ẩn thông tin kênh dưới video
 
 **Yếu Tố Giao Diện**
@@ -149,23 +157,12 @@ Làm theo các bước sau để thiết lập một bản sao cục bộ của 
 
 ---
 
-## Tải Tiện Ích Này
-
-| Trình Duyệt | Liên Kết |
-|---------|------|
-| Chrome  | [Chrome Web Store](https://chromewebstore.google.com/detail/tubetuner/ekllndjjhcpljlfhfblfcagbdjnjkbco) |
-| Firefox | [Firefox Add-ons](https://addons.mozilla.org/vi/firefox/addon/tubetuner/) |
-
-<p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
-
----
-
 ## Sử Dụng
 
 1. **Mở YouTube** và bật một video bất kỳ.
 2. **Nhấp vào biểu tượng tiện ích** trong thanh công cụ của trình duyệt.
 3. **Khám phá 3 phần chính:**
-   - **Điều Khiển Nội Dung & Bảng Tin** — Ẩn/hiện Bảng Tin Trang Chủ, Thanh Bên Video (với các nhóm dành cho Trò chuyện trực tiếp, Gợi ý video, Danh sách phát), Bình Luận, Shorts, Channel
+   - **Điều Khiển Nội Dung & Bảng Tin** — Ẩn/hiện Bảng Tin Trang Chủ, Thanh Bên Video (với các nhóm dành cho Trò chuyện trực tiếp, Gợi ý video, Danh sách phát), Bình Luận, Shorts, Tóm Tắt AI, Channel
    - **Yếu Tố Giao Diện** — Ẩn/hiện Tiêu Đề Trên Cùng, Chuông Thông Báo, Khám Phá & Thịnh Hành, Thêm Từ YouTube, Thanh Nút, Cửa Hàng
    - **Điều Khiển Video** — Ẩn/hiện Thanh Tiến Trình, Thời Lượng, Thẻ Màn Hình Cuối, Mô Tả
 4. **Sử dụng các công tắc** để kích hoạt hay vô hiệu hóa từng tính năng riêng biệt.
