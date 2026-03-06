@@ -21,7 +21,8 @@ const featureRegistry = [
     { action: 'toggleShop', key: 'shopHidden', func: features.toggleShop },
     { action: 'togglePlaylist', key: 'playlistHidden', func: features.togglePlaylist },
     { action: 'toggleLivechat', key: 'livechatHidden', func: features.toggleLivechat },
-    { action: 'toggleRecommendation', key: 'recommendationHidden', func: features.toggleRecommendation }
+    { action: 'toggleRecommendation', key: 'recommendationHidden', func: features.toggleRecommendation },
+    { action: 'toggleAiSummary', key: 'aiSummaryHidden', func: features.toggleAiSummary }
 ];
 
 const actionMap = {};

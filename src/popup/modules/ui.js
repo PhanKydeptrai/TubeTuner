@@ -22,7 +22,8 @@ export const SWITCH_CONFIG = [
     { id: 'shopSwitch', key: 'shopHidden', default: false },
     { id: 'playlistSwitch', key: 'playlistHidden', default: false },
     { id: 'livechatSwitch', key: 'livechatHidden', default: false },
-    { id: 'recommendationSwitch', key: 'recommendationHidden', default: false }
+    { id: 'recommendationSwitch', key: 'recommendationHidden', default: false },
+    { id: 'aiSummarySwitch', key: 'aiSummaryHidden', default: false }
 ];
 
 export const UIModule = {

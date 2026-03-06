@@ -904,3 +904,10 @@ html.youtube-shop-hidden .shopping-shelf {
 html.youtube-livechat-hidden [livechat-hidden="true"] {
   display: none !important;
 }
+
+/* ===== HIDE AI SUMMARY ELEMENTS ===== */
+
+/* Hide AI-generated summary section */
+html.youtube-ai-summary-hidden ytd-expandable-metadata-renderer {
+  display: none !important;
+}
