@@ -13,7 +13,6 @@ export function toggleGrayscale(enabled) {
             const style = document.createElement('style');
             style.id = styleId;
             style.textContent = `
-                   hover video previews, Shorts inline player, and dynamically injected content */
                 html {
                     -webkit-filter: grayscale(100%) !important;
                     filter: grayscale(100%) !important;
