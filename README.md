@@ -71,27 +71,28 @@ TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube int
   - Hide Playlist — Control playlist panel visibility independently
 - Hide Comments — Hide the video comments section
 - Hide Shorts — Completely hide Shorts videos and the Shorts section
-- Hide AI Summary — Hide the AI-generated summary on video pages
 - Hide Channel — Hide channel information below the video
+- Hide Shop — Hide the YouTube Shop section
 
 **Interface Elements**
 - Hide Top Header — Hide the top navigation bar
 - Hide Notifications Bell — Hide the notification bell icon
 - Hide Explore & Trending — Hide Explore and Trending tabs from the sidebar
 - Hide More from YouTube — Hide the "More from YouTube" section
-- Hide Shop — Hide the YouTube Shop section
 - Hide Buttons Bar — Hide the action buttons bar below the video
+- Grayscale — Apply a grayscale filter to the entire YouTube UI
 
 **Video Controls**
-- Hide Progress Bar — Remove the progress bar when watching videos
-- Hide Duration — Hide current time and total duration information
+- Hide Video Controls — Hide the video player controls (includes progress bar and duration)
+  - Hide Progress Bar — Remove the progress bar when watching videos
+  - Hide Duration — Hide current time and total duration information
 - Hide End Screen Cards — Hide end screen cards that appear at the end of videos
 - Hide Description — Hide the video description section
+- Hide AI Summary — Hide the AI-generated summary on video pages
 
 **Other Features**
 - Export/Import Settings — Export settings to a file for backups and import to restore or share configurations
 - Presets — Apply built-in presets (None, Balanced, Focus) or create and save custom presets
-- Grayscale — Apply a grayscale filter to the entire YouTube UI
 - Dark Mode — Automatically follows your system theme
 - Multi-language — Supports Vietnamese and English
 - Enable/Disable Extension — Quickly toggle the extension on or off from the popup
@@ -162,9 +163,9 @@ Follow these steps to set up a local copy of the extension.
 1. **Open YouTube** and play any video.
 2. **Click the extension icon** in the browser toolbar.
 3. **Explore the 3 main sections:**
-   - **Content & Feed Controls** — Hide/show Home Feed, Video Sidebar (with grouped controls for Live Chat, Video Suggestions, Playlist), Comments, Shorts, AI Summary, Channel
-   - **Interface Elements** — Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Shop
-   - **Video Controls** — Hide/show Progress Bar, Duration, End Screen Cards, Description
+   - **Content & Feed Controls** — Hide/show Home Feed, Video Sidebar (with grouped controls for Live Chat, Video Suggestions, Playlist), Comments, Shorts, Channel, Shop
+   - **Interface Elements** — Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Grayscale
+   - **Video Controls** — Hide/show Video Controls (with grouped controls for Progress Bar, Duration), End Screen Cards, Description, AI Summary
 4. **Use toggle switches** to enable or disable each feature individually.
 5. **Switch theme** — Click the sun/moon button at the top to toggle Light/Dark mode.
 6. **Export/Import Settings** — Use the buttons in the settings section to backup or restore configurations.

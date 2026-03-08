@@ -71,27 +71,28 @@ TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn t
   - Ẩn Danh Sách Phát (Playlist) — Điều khiển riêng biệt hiển thị bảng danh sách phát
 - Ẩn Bình Luận (Comments) — Ẩn phần bình luận của video
 - Ẩn Shorts — Ẩn hoàn toàn các video Shorts và mục Shorts
-- Ẩn Tóm Tắt AI (AI Summary) — Ẩn phần tóm tắt AI trên trang video
 - Ẩn Channel — Ẩn thông tin kênh dưới video
+- Ẩn Cửa Hàng (Shop) — Ẩn phần Cửa hàng (Shop) của YouTube
 
 **Yếu Tố Giao Diện**
 - Ẩn Tiêu Đề Trên Cùng (Top Header) — Ẩn thanh điều hướng trên cùng
 - Ẩn Chuông Thông Báo (Notifications Bell) — Ẩn biểu tượng chuông thông báo
 - Ẩn Khám Phá & Thịnh Hành (Explore & Trending) — Ẩn tab Khám phá và Thịnh hành trên thanh bên
 - Ẩn Thêm Từ YouTube (More from YouTube) — Ẩn phần "Thêm từ YouTube"
-- Ẩn Cửa Hàng (Shop) — Ẩn phần Cửa hàng (Shop) của YouTube
 - Ẩn Thanh Nút (Buttons Bar) — Ẩn thanh nút tác vụ dưới video
+- Thang Độ Xám (Grayscale) — Áp dụng bộ lọc xám cho toàn bộ giao diện YouTube
 
 **Điều Khiển Video**
-- Ẩn Thanh Tiến Trình (Progress Bar) — Xóa thanh tiến trình khi xem video
-- Ẩn Thời Lượng (Duration) — Ẩn thông tin thời gian hiện tại và tổng thời lượng
+- Ẩn Điều Khiển Video — Ẩn bảng điều khiển của trình phát video (bao gồm thanh tiến trình và thời lượng)
+  - Ẩn Thanh Tiến Trình (Progress Bar) — Xóa thanh tiến trình khi xem video
+  - Ẩn Thời Lượng (Duration) — Ẩn thông tin thời gian hiện tại và tổng thời lượng
 - Ẩn Thẻ Màn Hình Cuối (End Screen Cards) — Ẩn các thẻ màn hình xuất hiện ở cuối video
 - Ẩn Mô Tả (Description) — Ẩn phần mô tả video
+- Ẩn Tóm Tắt AI (AI Summary) — Ẩn phần tóm tắt AI trên trang video
 
 **Các Tính Năng Khác**
 - Xuất/Nhập Cài Đặt (Export/Import Settings) — Xuất cài đặt ra một file để sao lưu và nhập lại để khôi phục hoặc chia sẻ cấu hình
 - Cài Đặt Sẵn (Presets) — Áp dụng các cài đặt có sẵn (Không, Cân Bằng, Tập Trung) hoặc tạo và lưu cài đặt tùy chỉnh
-- Thang Độ Xám (Grayscale) — Áp dụng bộ lọc xám cho toàn bộ giao diện YouTube
 - Chế Độ Tối (Dark Mode) — Tự động theo giao diện hệ thống của bạn
 - Đa Ngôn Ngữ — Hỗ trợ tiếng Việt và tiếng Anh
 - Bật/Tắt Tiện Ích — Bật/tắt nhanh tình trạng bật của tiện ích trực tiếp trên popup
@@ -162,9 +163,9 @@ Làm theo các bước sau để thiết lập một bản sao cục bộ của 
 1. **Mở YouTube** và bật một video bất kỳ.
 2. **Nhấp vào biểu tượng tiện ích** trong thanh công cụ của trình duyệt.
 3. **Khám phá 3 phần chính:**
-   - **Điều Khiển Nội Dung & Bảng Tin** — Ẩn/hiện Bảng Tin Trang Chủ, Thanh Bên Video (với các nhóm dành cho Trò chuyện trực tiếp, Gợi ý video, Danh sách phát), Bình Luận, Shorts, Tóm Tắt AI, Channel
-   - **Yếu Tố Giao Diện** — Ẩn/hiện Tiêu Đề Trên Cùng, Chuông Thông Báo, Khám Phá & Thịnh Hành, Thêm Từ YouTube, Thanh Nút, Cửa Hàng
-   - **Điều Khiển Video** — Ẩn/hiện Thanh Tiến Trình, Thời Lượng, Thẻ Màn Hình Cuối, Mô Tả
+   - **Điều Khiển Nội Dung & Bảng Tin** — Ẩn/hiện Bảng Tin Trang Chủ, Thanh Bên Video (với các nhóm dành cho Trò chuyện trực tiếp, Gợi ý video, Danh sách phát), Bình Luận, Shorts, Channel, Cửa Hàng
+   - **Yếu Tố Giao Diện** — Ẩn/hiện Tiêu Đề Trên Cùng, Chuông Thông Báo, Khám Phá & Thịnh Hành, Thêm Từ YouTube, Thanh Nút, Thang Độ Xám
+   - **Điều Khiển Video** — Ẩn/hiện Điều Khiển Video (với các nhóm dành cho Thanh Tiến Trình, Thời Lượng), Thẻ Màn Hình Cuối, Mô Tả, Tóm Tắt AI
 4. **Sử dụng các công tắc** để kích hoạt hay vô hiệu hóa từng tính năng riêng biệt.
 5. **Chuyển Đổi Giao Diện** — Nhấp vào nút mặt trời/mặt trăng trên cùng để chuyển giữa chế độ Sáng/Tối.
 6. **Xuất/Nhập Cài Đặt** — Sử dụng các nút trong phần cài đặt để sao lưu/khôi phục lại cấu hình.
