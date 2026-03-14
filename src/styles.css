@@ -302,6 +302,8 @@ html.youtube-duration-hidden .yt-thumbnail-overlay-badge-view-model.yt-thumbnail
   display: none !important;
 }
 
+html.youtube-duration-hidden badge-shape,
+html.youtube-duration-hidden .badge-shape,
 html.youtube-duration-hidden .yt-badge-shape.yt-badge-shape--thumbnail-default.yt-badge-shape--thumbnail-badge {
   display: none !important;
 }
