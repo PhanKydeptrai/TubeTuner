@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "TubeTuner: Custom YouTube Interface & Focus Mode",
+  "name": "TubeTuner: Hide YouTube Shorts & Distractions",
   "version": "1.3.3",
   "description": "Customize YouTube interface with 19 hide/show options: progress bar, duration, Shorts, home feed, comments, and more",
   "icons": {
