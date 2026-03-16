@@ -362,7 +362,8 @@ html.youtube-shorts-hidden yt-tab-shape[aria-label*="Shorts"] {
 /* 12. MOBILE AND RESPONSIVE */
 html.youtube-shorts-hidden ytm-shorts-lockup-view-model,
 html.youtube-shorts-hidden ytm-reel-item-renderer,
-html.youtube-shorts-hidden ytm-shorts-shelf-renderer {
+html.youtube-shorts-hidden ytm-shorts-shelf-renderer,
+html.youtube-shorts-hidden ytm-pivot-bar-item-renderer[shorts-tab="true"] {
   display: none !important;
 }
 
@@ -384,6 +385,11 @@ html.youtube-shorts-hidden [id*="shorts-"]:not([id*="shortcut"]):not([id*="short
 
 /* Hide only the main content area on home page - simple and effective */
 html.youtube-home-feed-hidden ytd-browse[page-subtype="home"] #primary {
+  display: none !important;
+}
+
+/* Hide home feed in mobile layout */
+html.youtube-home-feed-hidden ytm-browse[page-subtype="home"] ytm-rich-grid-renderer {
   display: none !important;
 }
 
@@ -621,6 +627,12 @@ html.youtube-comments-hidden ytd-live-chat-frame[src*="live_chat"] {
 
 /* Hide Explore section renderer */
 html.youtube-explore-section-hidden ytd-guide-section-renderer[hidden="true"] {
+  display: none !important;
+}
+
+/* Hide Explore tab in mobile layout */
+html.youtube-explore-section-hidden ytm-pivot-bar-item-renderer:has(div.pivot-bar-item-title:contains("Explore")),
+html.youtube-explore-section-hidden ytm-pivot-bar-item-renderer:nth-child(2) {
   display: none !important;
 }
 

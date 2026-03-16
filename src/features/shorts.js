@@ -120,9 +120,10 @@ function applyShortsFixes(isHidden) {
         });
 
         // 5. CHANNEL TABS - Mark Shorts tabs (let CSS handle hiding)
-        document.querySelectorAll('tp-yt-paper-tab[tab-id="shorts"], yt-tab-shape').forEach(tab => {
+        document.querySelectorAll('tp-yt-paper-tab[tab-id="shorts"], yt-tab-shape, ytm-pivot-bar-item-renderer').forEach(tab => {
             const tabTitle = tab.getAttribute('tab-title') || tab.textContent || '';
-            if (tabTitle.toLowerCase().includes('shorts') || tabTitle.toLowerCase().includes('short')) {
+            const pivotId = tab.getAttribute('data-pivot-identifier') || '';
+            if (tabTitle.toLowerCase().includes('shorts') || tabTitle.toLowerCase().includes('short') || pivotId.toLowerCase().includes('shorts')) {
                 tab.setAttribute('shorts-tab', 'true');
                 hiddenCount++;
             }

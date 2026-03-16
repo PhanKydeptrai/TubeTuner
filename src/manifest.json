@@ -17,13 +17,15 @@
     "type": "module"
   },
   "host_permissions": [
-    "*://*.youtube.com/*"
+    "*://*.youtube.com/*",
+    "*://m.youtube.com/*"
   ],
   "content_scripts": [
     {
       "matches": [
         "*://www.youtube.com/*",
-        "*://youtube.com/*"
+        "*://youtube.com/*",
+        "*://m.youtube.com/*"
       ],
       "js": [
         "content.js"
