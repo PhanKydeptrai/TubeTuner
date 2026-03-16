@@ -57,7 +57,7 @@
 
 TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube interface to match your preferences. Hide distracting elements and focus on video content with 20 different hide/show options, plus utility features like presets and export/import for backups.
 
-### What's New in v1.3.3
+### What's New in v1.3.4
 - **Hide AI Summary Feature** — Added a new option to hide the AI-generated summary on YouTube video pages.
 - **Mobile Support** — Added compatibility and support for using the extension on mobile browsers.
 - **Grayscale Improvements** — Fixed grayscale application issues on Shorts and hover states.
