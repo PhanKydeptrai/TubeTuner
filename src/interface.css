@@ -631,6 +631,14 @@ body {
   }
 }
 
+/* prevent zoomed-out view */
+@media (max-width: 480px) and (pointer: coarse) {
+  body {
+    width: 100%;
+    max-width: var(--container-max-width);
+  }
+}
+
 /* Focus States for Accessibility */
 button:focus,
 .switch-input:focus+.switch-label {
