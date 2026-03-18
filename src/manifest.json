@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "TubeTuner: Hide YouTube Shorts & Distractions",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "description": "Customize YouTube interface with 20+ hide/show options: progress bar, duration, Shorts, home feed, comments, and more",
   "icons": {
     "16": "images/icons/icon16.png",
