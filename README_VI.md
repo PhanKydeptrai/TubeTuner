@@ -57,9 +57,9 @@
 
 TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn tùy chỉnh giao diện YouTube theo sở thích của mình. Ẩn các yếu tố gây xao nhãng và tập trung vào nội dung video với 20 tùy chọn ẩn/hiện khác nhau, cộng với các tính năng tiện ích như danh sách thiết lập sẵn (presets) và xuất/nhập (export/import) để sao lưu.
 
-### Có gì mới trong v1.3.4
+### Có gì mới trong v1.3.8
+- **Tối Ưu Hóa Di Động (Mobile Optimization)** — Tối ưu hóa cho trải nghiệm trên di động.
 - **Ẩn Tính Năng Tóm Tắt AI (Hide AI Summary)** — Thêm tùy chọn mới để ẩn phần tóm tắt do AI tạo ra trên các trang video YouTube.
-- **Hỗ Trợ Di Động (Mobile Support)** — Thêm khả năng tương thích và hỗ trợ sử dụng tiện ích trên các trình duyệt di động.
 - **Cải Thiện Bộ Lọc Xám (Grayscale)** — Sửa lỗi áp dụng bộ lọc xám trên Shorts và các trạng thái di chuột (hover).
 - **Ẩn Thời Lượng Video (Hide Video Duration)** — Sửa lỗi thời lượng video không ẩn đúng cách sau bản cập nhật giao diện người dùng gần đây của YouTube.
 
