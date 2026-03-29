@@ -18,3 +18,4 @@ export { toggleShop } from './shop.js';
 export { toggleShorts } from './shorts.js';
 export { toggleTopHeader } from './topHeader.js';
 export { toggleVideoSidebar } from './videoSidebar.js';
+export { toggleHideThumbnail } from './hideThumbnail.js';

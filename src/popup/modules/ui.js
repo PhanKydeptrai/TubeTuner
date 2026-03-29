@@ -23,7 +23,8 @@ export const SWITCH_CONFIG = [
     { id: 'playlistSwitch', key: 'playlistHidden', default: false },
     { id: 'livechatSwitch', key: 'livechatHidden', default: false },
     { id: 'recommendationSwitch', key: 'recommendationHidden', default: false },
-    { id: 'aiSummarySwitch', key: 'aiSummaryHidden', default: false }
+    { id: 'aiSummarySwitch', key: 'aiSummaryHidden', default: false },
+    { id: 'hideThumbnailSwitch', key: 'hideThumbnailHidden', default: false }
 ];
 
 export const UIModule = {
@@ -90,6 +91,7 @@ export const UIModule = {
         if (settings.playlistHidden) enabledFeatures.push(I18nModule.t('playlist'));
         if (settings.livechatHidden) enabledFeatures.push(I18nModule.t('livechat'));
         if (settings.recommendationHidden) enabledFeatures.push(I18nModule.t('recommendation'));
+        if (settings.hideThumbnailHidden) enabledFeatures.push(I18nModule.t('thumbnail'));
 
         const statusBadge = AppState.statusElement.querySelector('ui-badge') || document.createElement('ui-badge');
         statusBadge.setAttribute('variant', enabledFeatures.length > 0 ? 'success' : 'warning');

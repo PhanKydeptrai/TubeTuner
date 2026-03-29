@@ -28,7 +28,8 @@ function applyHideChannelFixes() {
         '#subscribe-button',
         'ytd-button-renderer#subscribe-button',
         'paper-button#subscribe-button',
-        'yt-button-shape#subscribe-button'
+        'yt-button-shape#subscribe-button',
+        '.yt-lockup-metadata-view-model__avatar'
     ];
 
     channelSelectors.forEach(selector => {

@@ -821,7 +821,8 @@ html.youtube-hide-channel-hidden [hide-channel-element="true"] {
 /* Hide channel avatar/profile picture */
 html.youtube-hide-channel-hidden ytd-video-owner-renderer #avatar,
 html.youtube-hide-channel-hidden #owner #avatar,
-html.youtube-hide-channel-hidden ytd-channel-name #avatar {
+html.youtube-hide-channel-hidden ytd-channel-name #avatar,
+html.youtube-hide-channel-hidden .yt-lockup-metadata-view-model__avatar {
   display: none !important;
 }
 
@@ -923,5 +924,14 @@ html.youtube-livechat-hidden [livechat-hidden="true"] {
 
 /* Hide AI-generated summary section */
 html.youtube-ai-summary-hidden ytd-expandable-metadata-renderer {
+  display: none !important;
+}
+
+/* ===== YOUTUBE THUMBNAIL HIDING ===== */
+
+/* Hide thumbnails */
+html.youtube-hide-thumbnail-hidden ytd-thumbnail,
+html.youtube-hide-thumbnail-hidden yt-thumbnail-view-model,
+html.youtube-hide-thumbnail-hidden a.yt-lockup-view-model__content-image {
   display: none !important;
 }

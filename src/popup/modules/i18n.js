@@ -36,7 +36,7 @@ export const TRANSLATIONS = {
         featureDuration: 'Nội dung đề xuất và quảng cáo',
         featureShorts: 'Các tính năng gây xao nhãng',
         homeFeed: 'Trang chủ',
-        infoExtra: 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với 14 tùy chọn ẩn/hiện.',
+        infoExtra: 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với 21 tùy chọn ẩn/hiện.',
         noticeTitle: 'Lưu ý quan trọng',
         noticeDesc: 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.',
         // Grayscale feature translations
@@ -54,6 +54,8 @@ export const TRANSLATIONS = {
         livechat: 'livechat',
         hideLivechat: 'Ẩn livechat',
         hideRecommendation: 'Ẩn gợi ý video',
+        hideThumbnail: 'Ẩn Thumbnail',
+        thumbnail: 'thumbnail',
         // Presets UI
         presetsLabel: 'Cài đặt sẵn',
         applyPreset: 'Áp dụng preset',
@@ -156,7 +158,7 @@ export const TRANSLATIONS = {
         featureDuration: 'Recommended content and ads',
         featureShorts: 'Distracting features',
         homeFeed: 'Home Feed',
-        infoExtra: 'Customize your YouTube experience with 14 hide/show options.',
+        infoExtra: 'Customize your YouTube experience with 21 hide/show options.',
         noticeTitle: 'Important Notice',
         noticeDesc: 'For the best experience, please enable the extension before visiting YouTube.',
         // Grayscale feature translations
@@ -174,6 +176,8 @@ export const TRANSLATIONS = {
         livechat: 'livechat',
         hideLivechat: 'Hide livechat',
         hideRecommendation: 'Hide Video Suggestions',
+        hideThumbnail: 'Hide Thumbnails',
+        thumbnail: 'thumbnails',
         // Presets UI
         presetsLabel: 'Presets',
         applyPreset: 'Apply preset',
@@ -354,6 +358,7 @@ export const I18nModule = {
             { id: 'livechatSwitch', text: this.t('hideLivechat') },
             { id: 'recommendationSwitch', text: this.t('hideRecommendation') },
             { id: 'aiSummarySwitch', text: this.t('hideAiSummary') },
+            { id: 'hideThumbnailSwitch', text: this.t('hideThumbnail') },
             { id: 'extensionEnabledSwitch', text: this.t('extensionEnabled') }
         ];
 
