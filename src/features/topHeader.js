@@ -22,7 +22,10 @@ function applyTopHeaderFixes() {
         'ytd-masthead#masthead',
         '#masthead-container',
         'header#header.ytd-app',
-        'div#masthead'
+        'div#masthead',
+        'div#scroll-container.style-scope.ytd-feed-filter-chip-bar-renderer',
+        'ytd-button-renderer.style-scope.ytd-feed-filter-chip-bar-renderer[button-renderer][button-next]',
+        'div#frosted-glass.with-chipbar.style-scope.ytd-app'
     ];
 
     headerSelectors.forEach(selector => {

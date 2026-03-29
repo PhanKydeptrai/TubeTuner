@@ -676,7 +676,10 @@ html.youtube-notifications-bell-hidden ytm-notification-topbar-button-renderer {
 html.youtube-top-header-hidden ytd-masthead#masthead,
 html.youtube-top-header-hidden #masthead-container,
 html.youtube-top-header-hidden header#header.ytd-app,
-html.youtube-top-header-hidden div#masthead {
+html.youtube-top-header-hidden div#masthead,
+html.youtube-top-header-hidden div#scroll-container.style-scope.ytd-feed-filter-chip-bar-renderer,
+html.youtube-top-header-hidden ytd-button-renderer.style-scope.ytd-feed-filter-chip-bar-renderer[button-renderer][button-next],
+html.youtube-top-header-hidden div#frosted-glass.with-chipbar.style-scope.ytd-app {
   display: none !important;
 }
 
