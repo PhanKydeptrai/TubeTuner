@@ -55,13 +55,11 @@
 
 ## Về dự án
 
-TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn tùy chỉnh giao diện YouTube theo sở thích của mình. Ẩn các yếu tố gây xao nhãng và tập trung vào nội dung video với 20 tùy chọn ẩn/hiện khác nhau, cộng với các tính năng tiện ích như danh sách thiết lập sẵn (presets) và xuất/nhập (export/import) để sao lưu.
+TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn tùy chỉnh giao diện YouTube theo sở thích của mình. Ẩn các yếu tố gây xao nhãng và tập trung vào nội dung video với 21 tùy chọn ẩn/hiện khác nhau, cộng với các tính năng tiện ích như danh sách thiết lập sẵn (presets) và xuất/nhập (export/import) để sao lưu.
 
-### Có gì mới trong v1.3.8
-- **Tối Ưu Hóa Di Động (Mobile Optimization)** — Tối ưu hóa cho trải nghiệm trên di động.
-- **Ẩn Tính Năng Tóm Tắt AI (Hide AI Summary)** — Thêm tùy chọn mới để ẩn phần tóm tắt do AI tạo ra trên các trang video YouTube.
-- **Cải Thiện Bộ Lọc Xám (Grayscale)** — Sửa lỗi áp dụng bộ lọc xám trên Shorts và các trạng thái di chuột (hover).
-- **Ẩn Thời Lượng Video (Hide Video Duration)** — Sửa lỗi thời lượng video không ẩn đúng cách sau bản cập nhật giao diện người dùng gần đây của YouTube.
+### Có gì mới trong v1.3.9
+- **Ẩn Thumbnail (Hide Thumbnails)** — Thêm tùy chọn mới để ẩn thumbnail trên các khu vực hiển thị video của YouTube.
+- **Cải Thiện Ẩn Kênh (Hide Channel Improvements)** — Cải thiện khả năng ẩn cụm thông tin kênh bên dưới video, bao gồm tên kênh, avatar và nút đăng ký.
 
 ### Tính Năng
 
@@ -73,7 +71,8 @@ TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn t
   - Ẩn Danh Sách Phát (Playlist) — Điều khiển riêng biệt hiển thị bảng danh sách phát
 - Ẩn Bình Luận (Comments) — Ẩn phần bình luận của video
 - Ẩn Shorts — Ẩn hoàn toàn các video Shorts và mục Shorts
-- Ẩn Channel — Ẩn thông tin kênh dưới video
+- Ẩn Thumbnail — Ẩn thumbnail trên các danh sách video và khu vực gợi ý
+- Ẩn Channel — Ẩn cụm thông tin kênh dưới video, bao gồm tên kênh, avatar và nút đăng ký
 - Ẩn Cửa Hàng (Shop) — Ẩn phần Cửa hàng (Shop) của YouTube
 
 **Yếu Tố Giao Diện**
@@ -165,7 +164,7 @@ Làm theo các bước sau để thiết lập một bản sao cục bộ của 
 1. **Mở YouTube** và bật một video bất kỳ.
 2. **Nhấp vào biểu tượng tiện ích** trong thanh công cụ của trình duyệt.
 3. **Khám phá 3 phần chính:**
-   - **Điều Khiển Nội Dung & Bảng Tin** — Ẩn/hiện Bảng Tin Trang Chủ, Thanh Bên Video (với các nhóm dành cho Trò chuyện trực tiếp, Gợi ý video, Danh sách phát), Bình Luận, Shorts, Channel, Cửa Hàng
+   - **Điều Khiển Nội Dung & Bảng Tin** — Ẩn/hiện Bảng Tin Trang Chủ, Thanh Bên Video (với các nhóm dành cho Trò chuyện trực tiếp, Gợi ý video, Danh sách phát), Bình Luận, Shorts, Thumbnail, Channel, Cửa Hàng
    - **Yếu Tố Giao Diện** — Ẩn/hiện Tiêu Đề Trên Cùng, Chuông Thông Báo, Khám Phá & Thịnh Hành, Thêm Từ YouTube, Thanh Nút, Thang Độ Xám
    - **Điều Khiển Video** — Ẩn/hiện Điều Khiển Video (với các nhóm dành cho Thanh Tiến Trình, Thời Lượng), Thẻ Màn Hình Cuối, Mô Tả, Tóm Tắt AI
 4. **Sử dụng các công tắc** để kích hoạt hay vô hiệu hóa từng tính năng riêng biệt.

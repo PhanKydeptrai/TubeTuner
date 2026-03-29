@@ -17,7 +17,7 @@
             };
 
             for (const [key, change] of Object.entries(changes)) {
-                if (['language', 'theme', 'sectionStates'].includes(key)) {
+                if (['language', 'theme', 'sectionStates', 'welcomeShown', 'initialRefreshNoticePending'].includes(key)) {
                     continue;
                 }
                 syncMessage.changes[key] = change.newValue;
@@ -44,6 +44,7 @@
         if (details?.reason === 'install') {
             try {
                 const { welcomeShown } = await chrome.storage.local.get('welcomeShown');
+                await chrome.storage.local.set({ initialRefreshNoticePending: true });
                 if (!welcomeShown) {
                     await chrome.tabs.create({ url: WELCOME_URL });
                     await chrome.storage.local.set({ welcomeShown: true });

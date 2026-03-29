@@ -54,6 +54,24 @@
         </header>
 
         <div class="ext-content-area">
+            <!-- First Install Refresh Notice -->
+            <div class="ext-notice-card ext-onboarding-notice" id="initialRefreshNotice" style="display: none;">
+                <div class="ext-notice-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 8v4"></path>
+                        <path d="M12 16h.01"></path>
+                    </svg>
+                </div>
+                <div class="ext-notice-content">
+                    <h3 id="initialRefreshNoticeTitle" class="ext-notice-title">Lưu ý lần đầu cài đặt</h3>
+                    <p id="initialRefreshNoticeDesc" class="ext-notice-description">Nếu YouTube đã được mở trước khi
+                        cài TubeTuner, hãy refresh tab YouTube một lần để mọi tính năng hoạt động bình thường.</p>
+                    <button type="button" class="ext-notice-action" id="initialRefreshNoticeDismiss">Đã hiểu</button>
+                </div>
+            </div>
+
             <!-- Extension Enable/Disable Toggle -->
             <div class="ext-control-item ext-master-toggle">
                 <span class="ext-control-label">Bật/Tắt Extension</span>

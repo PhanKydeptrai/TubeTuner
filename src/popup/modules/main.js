@@ -218,6 +218,18 @@ function updateVideoControlsSubSwitchesUI(settings) {
 }
 
 export function setupEventListeners() {
+    const initialRefreshNotice = document.getElementById('initialRefreshNotice');
+    const initialRefreshNoticeDismiss = document.getElementById('initialRefreshNoticeDismiss');
+
+    if (initialRefreshNoticeDismiss) {
+        initialRefreshNoticeDismiss.addEventListener('click', () => {
+            if (initialRefreshNotice) {
+                initialRefreshNotice.style.display = 'none';
+            }
+            chrome.storage.local.set({ initialRefreshNoticePending: false });
+        });
+    }
+
     SWITCH_CONFIG.forEach(config => {
         const switchEl = AppState.switches.get(config.key) || document.getElementById(config.id);
         if (!switchEl) return;
@@ -311,7 +323,8 @@ export function initializeApp() {
         'sectionStates',
         'theme',
         'language',
-        'extensionEnabled'
+        'extensionEnabled',
+        'initialRefreshNoticePending'
     ];
 
     chrome.storage.local.get(allKeys, (result) => {
@@ -331,6 +344,11 @@ export function initializeApp() {
         });
 
         UIModule.updateUI(result);
+
+        const initialRefreshNotice = document.getElementById('initialRefreshNotice');
+        if (initialRefreshNotice) {
+            initialRefreshNotice.style.display = result.initialRefreshNoticePending ? 'flex' : 'none';
+        }
 
         setupEventListeners();
         setupOptionsLink();

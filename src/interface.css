@@ -780,6 +780,35 @@ button:focus,
   line-height: 1.5;
 }
 
+.ext-onboarding-notice {
+  background-color: rgba(26, 115, 232, 0.08);
+  border-color: rgba(26, 115, 232, 0.24);
+}
+
+.ext-onboarding-notice .ext-notice-icon,
+.ext-onboarding-notice .ext-notice-title {
+  color: var(--primary-blue);
+}
+
+.ext-notice-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 6px 12px;
+  border: 1px solid rgba(26, 115, 232, 0.24);
+  border-radius: 999px;
+  background-color: rgba(26, 115, 232, 0.12);
+  color: var(--primary-blue);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ext-notice-action:hover {
+  background-color: rgba(26, 115, 232, 0.18);
+}
+
 /* Collapsible section */
 .ext-collapsible-section {
   border: 1px solid var(--border);
@@ -1033,8 +1062,28 @@ button:focus,
   border-color: rgba(229, 115, 115, 0.7);
 }
 
+.dark .ext-onboarding-notice {
+  background-color: rgba(66, 133, 244, 0.12);
+  border-color: rgba(66, 133, 244, 0.28);
+}
+
 .dark .ext-notice-title {
   color: #e57373;
+}
+
+.dark .ext-onboarding-notice .ext-notice-icon,
+.dark .ext-onboarding-notice .ext-notice-title,
+.dark .ext-notice-action {
+  color: #8ab4f8;
+}
+
+.dark .ext-notice-action {
+  background-color: rgba(66, 133, 244, 0.14);
+  border-color: rgba(66, 133, 244, 0.28);
+}
+
+.dark .ext-notice-action:hover {
+  background-color: rgba(66, 133, 244, 0.2);
 }
 
 /* Settings Export/Import Section */

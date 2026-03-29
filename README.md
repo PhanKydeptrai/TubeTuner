@@ -55,13 +55,11 @@
 
 ## About The Project
 
-TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube interface to match your preferences. Hide distracting elements and focus on video content with 20 different hide/show options, plus utility features like presets and export/import for backups.
+TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube interface to match your preferences. Hide distracting elements and focus on video content with 21 different hide/show options, plus utility features like presets and export/import for backups.
 
-### What's New in v1.3.8
-- **Mobile Optimization** — Optimized for mobile experience.
-- **Hide AI Summary Feature** — Added a new option to hide the AI-generated summary on YouTube video pages.
-- **Grayscale Improvements** — Fixed grayscale application issues on Shorts and hover states.
-- **Hide Video Duration** — Fixed an issue where the video duration was not hiding properly after a recent YouTube UI update.
+### What's New in v1.3.9
+- **Hide Thumbnails Feature** — Added a new option to hide thumbnails across YouTube surfaces.
+- **Hide Channel Improvements** — Improved hiding for the channel block below videos, including channel name, avatar, and subscribe controls.
 
 
 ### Features
@@ -74,7 +72,8 @@ TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube int
   - Hide Playlist — Control playlist panel visibility independently
 - Hide Comments — Hide the video comments section
 - Hide Shorts — Completely hide Shorts videos and the Shorts section
-- Hide Channel — Hide channel information below the video
+- Hide Thumbnails — Hide thumbnails across video lists and recommendation surfaces
+- Hide Channel — Hide the channel block below the video, including the channel name, avatar, and subscribe controls
 - Hide Shop — Hide the YouTube Shop section
 
 **Interface Elements**
@@ -166,7 +165,7 @@ Follow these steps to set up a local copy of the extension.
 1. **Open YouTube** and play any video.
 2. **Click the extension icon** in the browser toolbar.
 3. **Explore the 3 main sections:**
-   - **Content & Feed Controls** — Hide/show Home Feed, Video Sidebar (with grouped controls for Live Chat, Video Suggestions, Playlist), Comments, Shorts, Channel, Shop
+   - **Content & Feed Controls** — Hide/show Home Feed, Video Sidebar (with grouped controls for Live Chat, Video Suggestions, Playlist), Comments, Shorts, Thumbnails, Channel, Shop
    - **Interface Elements** — Hide/show Top Header, Notifications Bell, Explore & Trending, More from YouTube, Buttons Bar, Grayscale
    - **Video Controls** — Hide/show Video Controls (with grouped controls for Progress Bar, Duration), End Screen Cards, Description, AI Summary
 4. **Use toggle switches** to enable or disable each feature individually.

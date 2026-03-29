@@ -39,6 +39,9 @@ export const TRANSLATIONS = {
         infoExtra: 'Tùy chỉnh trải nghiệm YouTube theo ý muốn của bạn với 21 tùy chọn ẩn/hiện.',
         noticeTitle: 'Lưu ý quan trọng',
         noticeDesc: 'Để có trải nghiệm tốt nhất, hãy bật extension trước khi vào trang YouTube.',
+        initialRefreshNoticeTitle: 'Lưu ý lần đầu cài đặt',
+        initialRefreshNoticeDesc: 'Nếu YouTube đã được mở trước khi cài TubeTuner, hãy refresh tab YouTube một lần để mọi tính năng hoạt động bình thường.',
+        initialRefreshNoticeDismiss: 'Đã hiểu',
         // Grayscale feature translations
         grayscale: 'Giao diện đen trắng',
         enableGrayscale: 'Bật giao diện đen trắng',
@@ -161,6 +164,9 @@ export const TRANSLATIONS = {
         infoExtra: 'Customize your YouTube experience with 21 hide/show options.',
         noticeTitle: 'Important Notice',
         noticeDesc: 'For the best experience, please enable the extension before visiting YouTube.',
+        initialRefreshNoticeTitle: 'First-time setup note',
+        initialRefreshNoticeDesc: 'If YouTube was already open before installing TubeTuner, refresh the YouTube tab once so all features work correctly.',
+        initialRefreshNoticeDismiss: 'Got it',
         // Grayscale feature translations
         grayscale: 'Grayscale interface',
         enableGrayscale: 'Enable grayscale interface',
@@ -322,8 +328,14 @@ export const I18nModule = {
         if (aboutGithubLinkText) aboutGithubLinkText.textContent = this.t('aboutGithubLink');
 
         // Update extension disabled notice
+        const initialRefreshNoticeTitle = document.getElementById('initialRefreshNoticeTitle');
+        const initialRefreshNoticeDesc = document.getElementById('initialRefreshNoticeDesc');
+        const initialRefreshNoticeDismiss = document.getElementById('initialRefreshNoticeDismiss');
         const extensionDisabledTitle = document.getElementById('extensionDisabledTitle');
         const extensionDisabledDesc = document.getElementById('extensionDisabledDesc');
+        if (initialRefreshNoticeTitle) initialRefreshNoticeTitle.textContent = this.t('initialRefreshNoticeTitle');
+        if (initialRefreshNoticeDesc) initialRefreshNoticeDesc.textContent = this.t('initialRefreshNoticeDesc');
+        if (initialRefreshNoticeDismiss) initialRefreshNoticeDismiss.textContent = this.t('initialRefreshNoticeDismiss');
         if (extensionDisabledTitle) extensionDisabledTitle.textContent = this.t('extensionDisabledTitle');
         if (extensionDisabledDesc) extensionDisabledDesc.textContent = this.t('extensionDisabledDesc');
 
