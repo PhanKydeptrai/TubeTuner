@@ -1199,6 +1199,25 @@ button:focus,
   flex-wrap: wrap;
 }
 
+.ext-presets-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.ext-presets-row-spaced {
+  margin-bottom: 10px;
+}
+
+.ext-presets-row .ext-input {
+  flex: 1 1 220px;
+}
+
+.ext-presets-row .ext-btn {
+  flex: 1 1 140px;
+}
+
 .ext-presets-management .ext-input {
   padding: 6px 8px;
   min-height: 34px;

@@ -5,6 +5,14 @@ import { PresetsModule, PRESET_DEFINITIONS } from './popup/modules/presets.js';
 import { UIModule, SWITCH_CONFIG } from './popup/modules/ui.js';
 import { showNotification, showConfirmDialog } from './popup/modules/utils.js';
 
+const CUSTOM_PRESET_PREFIX = 'custom:';
+
+function getCustomPresetNameFromId(presetId) {
+    return presetId && presetId.startsWith(CUSTOM_PRESET_PREFIX)
+        ? presetId.slice(CUSTOM_PRESET_PREFIX.length)
+        : null;
+}
+
 function setupSettingsEventListeners() {
     const exportBtn = document.getElementById('exportSettingsBtn');
     const importBtn = document.getElementById('importSettingsBtn');
@@ -45,11 +53,25 @@ function setupPresetEventListeners() {
     const presetSelect = document.getElementById('presetSelect');
     const applyPresetBtn = document.getElementById('applyPresetBtn');
     const savePresetBtn = document.getElementById('savePresetBtn');
+    const renamePresetBtn = document.getElementById('renamePresetBtn');
     const deletePresetBtn = document.getElementById('deletePresetBtn');
     const importPresetsBtn = document.getElementById('importPresetsBtn');
     const importPresetsFileInput = document.getElementById('importPresetsFileInput');
     const exportPresetsBtn = document.getElementById('exportPresetsBtn');
     const presetNameInput = document.getElementById('presetNameInput');
+
+    if (presetSelect) {
+        presetSelect.addEventListener('change', () => {
+            syncPresetNameInputWithSelection();
+            checkAndSetUpdateMode();
+        });
+    }
+
+    if (presetNameInput) {
+        presetNameInput.addEventListener('input', () => {
+            updateRenamePresetButtonState();
+        });
+    }
 
     if (presetSelect) PresetsModule.loadPresetOptions();
 
@@ -75,10 +97,9 @@ function setupPresetEventListeners() {
         savePresetBtn.addEventListener('click', function () {
             // If in "update" mode, update the currently selected custom preset directly
             if (savePresetBtn.dataset.updateMode === 'true') {
-                const selected = presetSelect?.value;
-                if (!selected || !selected.startsWith('custom:')) return;
+                const presetName = getCustomPresetNameFromId(presetSelect?.value);
+                if (!presetName) return;
 
-                const presetName = selected.split(':')[1];
                 const settingKeys = SWITCH_CONFIG.map(c => c.key);
                 chrome.storage.local.get(settingKeys, (result) => {
                     const preset = {};
@@ -123,28 +144,65 @@ function setupPresetEventListeners() {
                     if (customs[name]) {
                         showConfirmDialog(I18nModule.t('confirmOverwritePreset').replace('%s', name), () => {
                             PresetsModule.savePreset(name, preset);
-                            presetNameInput.value = '';
                         });
                     } else {
                         PresetsModule.savePreset(name, preset);
-                        presetNameInput.value = '';
                     }
                 });
             });
         });
     }
 
+    if (renamePresetBtn) {
+        renamePresetBtn.addEventListener('click', function () {
+            const currentName = getCustomPresetNameFromId(presetSelect?.value);
+            if (!currentName) {
+                showNotification(I18nModule.t('selectPresetToRename'), 'error');
+                return;
+            }
+
+            const newName = presetNameInput?.value?.trim();
+            if (!newName) {
+                showNotification(I18nModule.t('presetNameRequired'), 'error');
+                return;
+            }
+
+            if (PRESET_DEFINITIONS && PRESET_DEFINITIONS[newName]) {
+                showNotification(I18nModule.t('presetNameReserved'), 'error');
+                return;
+            }
+
+            if (newName === currentName) {
+                updateRenamePresetButtonState();
+                return;
+            }
+
+            chrome.storage.local.get(['customPresets'], (result) => {
+                const customs = result.customPresets || {};
+                const renamePreset = () => {
+                    PresetsModule.renamePreset(currentName, newName);
+                };
+
+                if (Object.prototype.hasOwnProperty.call(customs, newName)) {
+                    showConfirmDialog(I18nModule.t('confirmOverwritePreset').replace('%s', newName), renamePreset);
+                    return;
+                }
+
+                renamePreset();
+            });
+        });
+    }
+
     if (deletePresetBtn) {
         deletePresetBtn.addEventListener('click', function () {
-            const selected = presetSelect.value;
-            if (!selected || !selected.startsWith('custom:')) {
+            const name = getCustomPresetNameFromId(presetSelect?.value);
+            if (!name) {
                 showNotification(I18nModule.t('selectPresetToDelete'), 'error');
                 return;
             }
 
             const selectedOption = presetSelect.options[presetSelect.selectedIndex];
             const displayText = selectedOption.text;
-            const name = selected.split(':')[1];
             const confirmMessage = `${I18nModule.t('confirmDeletePreset')} "${displayText}"?`;
 
             showConfirmDialog(confirmMessage, () => {
@@ -185,13 +243,6 @@ function setupPresetEventListeners() {
         exportPresetsBtn.addEventListener('click', () => PresetsModule.exportPresets());
     }
 
-    // When user manually changes the preset select, reset update mode
-    if (presetSelect) {
-        presetSelect.addEventListener('change', () => {
-            setUpdatePresetMode(false);
-        });
-    }
-
     // Watch for any storage changes: if a custom preset is selected and settings differ, enter update mode
     chrome.storage.onChanged.addListener((changes, area) => {
         if (area !== 'local') return;
@@ -213,13 +264,12 @@ function checkAndSetUpdateMode() {
     const presetSelect = document.getElementById('presetSelect');
     if (!presetSelect) return;
 
-    const selected = presetSelect.value;
-    if (!selected || !selected.startsWith('custom:')) {
+    const presetName = getCustomPresetNameFromId(presetSelect.value);
+    if (!presetName) {
         setUpdatePresetMode(false);
         return;
     }
 
-    const presetName = selected.split(':')[1];
     const settingKeys = SWITCH_CONFIG.map(c => c.key);
 
     chrome.storage.local.get(['customPresets', ...settingKeys], (result) => {
@@ -257,6 +307,27 @@ function setUpdatePresetMode(active) {
         savePresetBtn.textContent = I18nModule.t('savePreset');
         savePresetBtn.classList.remove('ext-btn-update');
     }
+}
+
+function syncPresetNameInputWithSelection() {
+    const presetSelect = document.getElementById('presetSelect');
+    const presetNameInput = document.getElementById('presetNameInput');
+    if (!presetSelect || !presetNameInput) return;
+
+    const selectedPresetName = getCustomPresetNameFromId(presetSelect.value);
+    presetNameInput.value = selectedPresetName || '';
+    updateRenamePresetButtonState();
+}
+
+function updateRenamePresetButtonState() {
+    const presetSelect = document.getElementById('presetSelect');
+    const presetNameInput = document.getElementById('presetNameInput');
+    const renamePresetBtn = document.getElementById('renamePresetBtn');
+    if (!presetSelect || !presetNameInput || !renamePresetBtn) return;
+
+    const selectedPresetName = getCustomPresetNameFromId(presetSelect.value);
+    const nextPresetName = presetNameInput.value.trim();
+    renamePresetBtn.disabled = !selectedPresetName || !nextPresetName || nextPresetName === selectedPresetName;
 }
 
 function setupThemeEventListeners() {

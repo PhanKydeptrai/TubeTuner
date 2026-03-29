@@ -131,11 +131,12 @@
                         <button id="applyPresetBtn" class="ext-btn ext-btn-apply">Áp dụng</button>
                     </div>
                     <div class="ext-presets-management">
-                        <div style="margin-bottom: 10px; display: flex; gap: 8px;">
-                            <input type="text" id="presetNameInput" placeholder="Preset name" class="ext-input" maxlength="30" style="flex: 1;" />
+                        <div class="ext-presets-row ext-presets-row-spaced">
+                            <input type="text" id="presetNameInput" placeholder="Preset name" class="ext-input" maxlength="30" />
                             <button id="savePresetBtn" class="ext-btn">Lưu hiện tại</button>
+                            <button id="renamePresetBtn" class="ext-btn" disabled>Đổi tên</button>
                         </div>
-                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <div class="ext-presets-row">
                             <button id="deletePresetBtn" class="ext-btn">Xóa preset</button>
                             <button id="importPresetsBtn" class="ext-btn">Nhập preset (.json)</button>
                             <button id="exportPresetsBtn" class="ext-btn">Xuất preset</button>

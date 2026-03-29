@@ -17,6 +17,10 @@ function createPreset(overrides = {}) {
     return Object.assign({}, PRESET_DEFAULTS, overrides);
 }
 
+function getPresetKeyFromId(presetId, prefix) {
+    return presetId.startsWith(prefix) ? presetId.slice(prefix.length) : null;
+}
+
 export const PRESET_DEFINITIONS = {
     none: createPreset(),
     balanced: createPreset({
@@ -88,7 +92,7 @@ export const PresetsModule = {
         });
     },
 
-    loadPresetOptions() {
+    loadPresetOptions(selectedPresetId = null) {
         const presetSelect = document.getElementById('presetSelect');
         if (!presetSelect) return;
 
@@ -138,16 +142,31 @@ export const PresetsModule = {
                 presetSelect.appendChild(optgroupCustom);
             }
 
+            const applySelection = (presetId) => {
+                const hasPresetOption = presetId && Array.from(presetSelect.options).some(option => option.value === presetId);
+
+                if (hasPresetOption) {
+                    presetSelect.value = presetId;
+                }
+
+                presetSelect.dispatchEvent(new Event('change'));
+
+                try {
+                    I18nModule.updateLanguageUI();
+                } catch (e) { }
+            };
+
+            if (selectedPresetId) {
+                applySelection(selectedPresetId);
+                return;
+            }
+
             // Set the current preset
             this.getCurrentPreset().then(currentPreset => {
-                if (currentPreset) {
-                    presetSelect.value = currentPreset;
-                }
-            }).catch(() => { });
-
-            try {
-                I18nModule.updateLanguageUI();
-            } catch (e) { }
+                applySelection(currentPreset);
+            }).catch(() => {
+                applySelection(null);
+            });
         });
     },
 
@@ -155,12 +174,12 @@ export const PresetsModule = {
         let settings = null;
 
         if (presetId.startsWith('builtin:')) {
-            const key = presetId.split(':')[1];
+            const key = getPresetKeyFromId(presetId, 'builtin:');
             if (PRESET_DEFINITIONS[key]) {
                 settings = Object.assign({}, PRESET_DEFINITIONS[key], { extensionEnabled: true });
             }
         } else if (presetId.startsWith('custom:')) {
-            const name = presetId.split(':')[1];
+            const name = getPresetKeyFromId(presetId, 'custom:');
             chrome.storage.local.get(['customPresets'], (result) => {
                 const customs = result.customPresets || {};
                 if (customs[name]) {
@@ -194,7 +213,28 @@ export const PresetsModule = {
             customs[name] = preset;
             chrome.storage.local.set({ customPresets: customs }, () => {
                 showNotification(I18nModule.t('presetSaved'), 'success');
-                this.loadPresetOptions();
+                this.loadPresetOptions(`custom:${name}`);
+            });
+        });
+    },
+
+    renamePreset(oldName, newName) {
+        if (oldName === newName) {
+            this.loadPresetOptions(`custom:${newName}`);
+            return;
+        }
+
+        chrome.storage.local.get(['customPresets'], (result) => {
+            const customs = result.customPresets || {};
+            const preset = customs[oldName];
+            if (!preset) return;
+
+            delete customs[oldName];
+            customs[newName] = preset;
+
+            chrome.storage.local.set({ customPresets: customs }, () => {
+                showNotification(I18nModule.t('presetRenamed'), 'success');
+                this.loadPresetOptions(`custom:${newName}`);
             });
         });
     },

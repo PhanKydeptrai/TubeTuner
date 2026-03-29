@@ -75,13 +75,16 @@ export const TRANSLATIONS = {
         presetNamePlaceholder: 'Tên preset',
         savePreset: 'Lưu preset',
         updatePreset: 'Cập nhật preset',
+        renamePreset: 'Đổi tên',
         deletePreset: 'Xóa preset',
         importPresets: 'Nhập preset',
         exportPresets: 'Xuất preset',
         presetSaved: 'Đã lưu preset',
+        presetRenamed: 'Đã đổi tên preset',
         presetDeleted: 'Đã xóa preset',
         presetsImported: 'Đã nhập preset',
         presetNameRequired: 'Vui lòng nhập tên cho preset',
+        selectPresetToRename: 'Vui lòng chọn một preset tùy chỉnh để đổi tên',
         selectPresetToDelete: 'Vui lòng chọn một preset tùy chỉnh để xóa',
         confirmOverwritePreset: 'Preset "%s" đã tồn tại. Bạn có muốn ghi đè?',
         presetNameReserved: 'Tên này được dành riêng cho hệ thống',
@@ -200,13 +203,16 @@ export const TRANSLATIONS = {
         presetNamePlaceholder: 'Preset name',
         savePreset: 'Save preset',
         updatePreset: 'Update preset',
+        renamePreset: 'Rename',
         deletePreset: 'Delete preset',
         importPresets: 'Import presets',
         exportPresets: 'Export presets',
         presetSaved: 'Preset saved',
+        presetRenamed: 'Preset renamed',
         presetDeleted: 'Preset deleted',
         presetsImported: 'Presets imported',
         presetNameRequired: 'Please enter a name for the preset',
+        selectPresetToRename: 'Please select a custom preset to rename',
         selectPresetToDelete: 'Please select a custom preset to delete',
         confirmOverwritePreset: 'Preset "%s" already exists. Overwrite?',
         presetNameReserved: 'This name is reserved by the system',
@@ -397,11 +403,13 @@ export const I18nModule = {
         if (applyPresetBtn) applyPresetBtn.textContent = this.t('applyPreset');
 
         const savePresetBtn = document.getElementById('savePresetBtn');
+        const renamePresetBtn = document.getElementById('renamePresetBtn');
         const deletePresetBtn = document.getElementById('deletePresetBtn');
         const importPresetsBtn = document.getElementById('importPresetsBtn');
         const exportPresetsBtn = document.getElementById('exportPresetsBtn');
         // Only reset savePresetBtn text if it's not in "update" mode
         if (savePresetBtn && !savePresetBtn.dataset.updateMode) savePresetBtn.textContent = this.t('savePreset');
+        if (renamePresetBtn) renamePresetBtn.textContent = this.t('renamePreset');
         if (deletePresetBtn) deletePresetBtn.textContent = this.t('deletePreset');
         if (importPresetsBtn) importPresetsBtn.textContent = this.t('importPresets');
         if (exportPresetsBtn) exportPresetsBtn.textContent = this.t('exportPresets');
