@@ -3,50 +3,28 @@
 
 import { I18nModule } from './i18n.js';
 import { showNotification } from './utils.js';
-import { UIModule } from './ui.js';
+import { UIModule, SWITCH_CONFIG } from './ui.js';
+
+const PRESET_DEFAULTS = SWITCH_CONFIG.reduce((defaults, { key, default: defaultValue }) => {
+    if (key !== 'extensionEnabled') {
+        defaults[key] = defaultValue;
+    }
+
+    return defaults;
+}, {});
+
+function createPreset(overrides = {}) {
+    return Object.assign({}, PRESET_DEFAULTS, overrides);
+}
 
 export const PRESET_DEFINITIONS = {
-    none: {
-        progressBarHidden: false,
-        durationHidden: false,
-        shortsHidden: false,
-        homeFeedHidden: false,
-        videoSidebarHidden: false,
-        commentsHidden: false,
-        notificationsBellHidden: false,
-        topHeaderHidden: false,
-        exploreSectionHidden: false,
-        endScreenCardsHidden: false,
-        moreFromYouTubeHidden: false,
-        hideChannelHidden: false,
-        buttonsBarHidden: false,
-        hideDescriptionHidden: false,
-        grayscaleEnabled: false,
-        shopHidden: false,
-        playlistHidden: false,
-        livechatHidden: false
-    },
-    balanced: {
-        progressBarHidden: false,
-        durationHidden: false,
+    none: createPreset(),
+    balanced: createPreset({
         shortsHidden: true,
-        homeFeedHidden: false,
-        videoSidebarHidden: false,
-        commentsHidden: false,
-        notificationsBellHidden: false,
-        topHeaderHidden: false,
-        exploreSectionHidden: false,
-        endScreenCardsHidden: false,
-        moreFromYouTubeHidden: false,
-        hideChannelHidden: false,
-        buttonsBarHidden: false,
-        hideDescriptionHidden: false,
-        grayscaleEnabled: false,
-        shopHidden: true,
-        playlistHidden: false,
-        livechatHidden: false
-    },
-    focus: {
+        shopHidden: true
+    }),
+    focus: createPreset({
+        videoControlsHidden: true,
         progressBarHidden: true,
         durationHidden: true,
         shortsHidden: true,
@@ -64,8 +42,11 @@ export const PRESET_DEFINITIONS = {
         grayscaleEnabled: true,
         shopHidden: true,
         playlistHidden: true,
-        livechatHidden: true
-    }
+        livechatHidden: true,
+        recommendationHidden: true,
+        aiSummaryHidden: true,
+        hideThumbnailHidden: true
+    })
 };
 
 export const PresetsModule = {
