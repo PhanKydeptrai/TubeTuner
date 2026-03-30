@@ -60,6 +60,7 @@ TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn t
 ### Có gì mới trong v1.3.9
 - **Ẩn Thumbnail (Hide Thumbnails)** — Thêm tùy chọn mới để ẩn thumbnail trên các khu vực hiển thị video của YouTube.
 - **Cải Thiện Ẩn Kênh (Hide Channel Improvements)** — Cải thiện khả năng ẩn cụm thông tin kênh bên dưới video, bao gồm tên kênh, avatar và nút đăng ký.
+- **Cải Thiện Preset** — Cải thiện quản lý preset tùy chỉnh với khả năng cập nhật preset đã lưu, đổi tên preset và giữ khả năng tương thích với các cài đặt mới được thêm vào.
 
 ### Tính Năng
 
@@ -93,7 +94,7 @@ TubeTuner là một tiện ích mở rộng cho Chrome/Firefox cho phép bạn t
 
 **Các Tính Năng Khác**
 - Xuất/Nhập Cài Đặt (Export/Import Settings) — Xuất cài đặt ra một file để sao lưu và nhập lại để khôi phục hoặc chia sẻ cấu hình
-- Cài Đặt Sẵn (Presets) — Áp dụng các cài đặt có sẵn (Không, Cân Bằng, Tập Trung) hoặc tạo và lưu cài đặt tùy chỉnh
+- Cài Đặt Sẵn (Presets) — Áp dụng các cài đặt có sẵn (Không, Cân Bằng, Tập Trung), tạo hoặc cập nhật preset tùy chỉnh, đổi tên và xuất/nhập để sao lưu
 - Chế Độ Tối (Dark Mode) — Tự động theo giao diện hệ thống của bạn
 - Đa Ngôn Ngữ — Hỗ trợ tiếng Việt và tiếng Anh
 - Bật/Tắt Tiện Ích — Bật/tắt nhanh tình trạng bật của tiện ích trực tiếp trên popup
@@ -171,7 +172,7 @@ Làm theo các bước sau để thiết lập một bản sao cục bộ của 
 5. **Chuyển Đổi Giao Diện** — Nhấp vào nút mặt trời/mặt trăng trên cùng để chuyển giữa chế độ Sáng/Tối.
 6. **Xuất/Nhập Cài Đặt** — Sử dụng các nút trong phần cài đặt để sao lưu/khôi phục lại cấu hình.
 7. **Cài Đặt Sẵn (Presets)** — Chọn một cấu hình có sẵn (Không, Cân Bằng, Tập Trung) để áp dụng nhiều cài đặt cùng lúc.
-8. **Cài Đặt Sẵn Tùy Chỉnh** — Cấu hình các công tắc của bạn và nhấp vào "Lưu preset" để tạo một thiết lập có tên riêng. Sử dụng "Nhập preset (.json)" để tải file gốc, hoặc "Xuất preset" để tải nó xuống máy. Nếu bạn muốn xóa, hãy chọn preset đó và nhấp "Xóa preset".
+8. **Cài Đặt Sẵn Tùy Chỉnh** — Cấu hình các công tắc của bạn và nhấp vào "Lưu preset" để tạo một thiết lập có tên riêng. Sau khi thay đổi cài đặt, bạn có thể cập nhật lại preset đang chọn, đổi tên preset, nhập preset từ file `.json`, xuất preset để sao lưu hoặc xóa preset tùy chỉnh đã chọn.
 
 <p align="right">(<a href="#readme-top">quay lại đầu trang</a>)</p>
 

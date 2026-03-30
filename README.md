@@ -60,6 +60,7 @@ TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube int
 ### What's New in v1.3.9
 - **Hide Thumbnails Feature** — Added a new option to hide thumbnails across YouTube surfaces.
 - **Hide Channel Improvements** — Improved hiding for the channel block below videos, including channel name, avatar, and subscribe controls.
+- **Preset Improvements** — Improved custom preset management with support for updating saved presets, renaming them, and keeping older presets compatible with newly added settings.
 
 
 ### Features
@@ -94,7 +95,7 @@ TubeTuner is a Chrome/Firefox extension that lets you customize your YouTube int
 
 **Other Features**
 - Export/Import Settings — Export settings to a file for backups and import to restore or share configurations
-- Presets — Apply built-in presets (None, Balanced, Focus) or create and save custom presets
+- Presets — Apply built-in presets (None, Balanced, Focus), create or update custom presets, rename them, and export/import them for backup
 - Dark Mode — Automatically follows your system theme
 - Multi-language — Supports Vietnamese and English
 - Enable/Disable Extension — Quickly toggle the extension on or off from the popup
@@ -172,7 +173,7 @@ Follow these steps to set up a local copy of the extension.
 5. **Switch theme** — Click the sun/moon button at the top to toggle Light/Dark mode.
 6. **Export/Import Settings** — Use the buttons in the settings section to backup or restore configurations.
 7. **Presets** — Choose a built-in preset (None, Balanced, Focus) to apply multiple settings at once.
-8. **Custom Presets** — Configure your toggles and click "Save preset" to create a named preset. Use "Import preset (.json)" to load presets from a file, or "Export preset" to download them. Select a custom preset and click "Delete preset" to remove it.
+8. **Custom Presets** — Configure your toggles and click "Save preset" to create a named preset. You can update an existing custom preset after changing settings, rename it, import presets from a `.json` file, export them for backup, or delete a selected custom preset.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
